@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <title>salas privadas</title>
+</head>
+<body>
+    <div class="booking-card">
+  
+  <div class="form-group"> <label class="group-title">Seleccionaste Partida Privada</label>
+  <div class="toggle-container">
+  </div>
+</div>
+
+  <div class="form-group">
+    <label class="group-title">Modalidad</label>
+    <div class="select-wrapper">
+      <select id="modalidad">
+        <option value="" disabled selected hidden></option>
+        <option value="1">Captura la banderas</option>
+        <option value="2">Competitivo</option>
+        <option value="3">Todos contra todos</option>
+        <option value="4">Dominación</option>
+        <option value="5">Competitivo</option>
+
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="group-title">Campo de juego</label>
+    <div class="select-wrapper">
+      <select id="campo">
+        <option value="" disabled selected hidden></option>
+        <option value="campo1">Campo Nuketown</option>
+        <option value="campo2">Campo Mirage</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="group-title">Pack de equipamiento</label>
+    <div class="select-wrapper">
+      <select id="pack">
+        <option value="" disabled selected hidden></option>
+        <option value="basico">Básico</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+  <label for="fecha" class="group-title">Fechas disponibles</label>
+  <input type="date" id="fecha" class="datepicker-input">
+</div>
+
+  <div class="total-section">
+    <span>Total:</span>
+    <span class="price">$15000.00</span>
+  </div>
+
+</div>
+<div class="reservar">
+<a href="#">RESERVAR</a>
+</div>
+</body>
+</html>

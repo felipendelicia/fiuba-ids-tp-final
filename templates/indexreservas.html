@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reservas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+    <div class="nav-izq">
+        <span>NOMBRE DEL SITIO</span>
+    </div>
+
+    <div class="nav-centro">
+        <a href="{{ url_for('reseñas') }}" class="nav-button">ver reseñas</a>
+        <a href="#">inicio</a>
+        <a href="#">servicios</a>
+        <a href="#">campos de juego</a>
+        <a href="#">alquiler de equipamiento</a>
+        <a href="#">contacto</a>
+        <a href="{{ url_for('admin_reservas') }}" class="nav-button">ver reservas</a>
+    </div>
+
+    <div class="nav-der">
+        <a href="#">inicia sesion</a>
+        <a href="#">registrate</a>
+    </div></nav>
+    <hr class="linea-separadora">
+    <h1>RESERVAS DE CAMPO</h1>
+    <div class="publica">
+      <a href="#">PUBLICA</a>
+    </div>
+    <div class="privado">
+      <a href="{{ url_for('sala_privada') }}" class="nav-button">PRIVADA</a>
+    </div>
+</body>
+</html>

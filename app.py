@@ -18,5 +18,22 @@ def admin_reservas():
 @app.route("/sala-privada")
 def sala_privada():
     return render_template('salaprivada.html')
+
+@app.route("/login")
+def login():
+    return render_template('login.html')
+
+@app.route('/register')
+def register():
+  return render_template('register.html')
+
+@app.route('/password')
+def password():
+  return render_template('password.html')
+
+@app.route('/dashboard')
+def dasboard():
+  return render_template('dashboard.html')
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

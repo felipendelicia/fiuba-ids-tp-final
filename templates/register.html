@@ -1,0 +1,42 @@
+{% extends "base.html"%}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css')}}">
+    <title>Register</title>
+{% endblock %}
+
+{% block content %}
+<section id="sectionRegister">
+        <div class="box-form">
+            <h2>Regitrarse</h2>
+            <form class="style-form" action="/url-direccion-de-envio" method="post">
+
+                <label for="name">Nombre Completo</label><br>
+                <input type="text" required name="" id=""><br>
+
+                <label for="dni">DNI</label><br>
+                <input type="number" required name="" id=""><br>
+
+                <label for="username">Nombre de Usuario</label><br>
+                <input type="text" required name="" id=""><br>
+
+                <label for="email">Email</label><br>
+                <input type="email" required name="" id=""><br>
+
+                <label for="gender">Género</label><br>
+                <input type="tel" required name="" id=""><br>
+
+                <label for="phone">Número de Celular</label><br>
+                <input type="number" required name="" id=""><br>
+
+                <label for="password">Contraseña</label><br>
+                <input type="password" required name="" id=""><br>
+
+                <div class="box-center">
+                    <button class="btn-form" type="submit" >CREAR USUARIO</button>
+                    <button class="btn-form-back" type="button"><a href="{{url_for('login')}}">Volver</a></button>
+                </div>
+            </form>     
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html"%}
+
+{% block head%}
+<title>Login</title>
+<link rel="stylesheet" href="{{url_for('static', filename='styles/login.css')}}">
+{% endblock %}
+
+{% block content %}
+    <Section id="sectionLogin">
+        <div class="box-form">
+            <h2>INICIAR SESION</h2>
+            <form class="style-form" action="/url_a_donde_enviar" method="post">
+                <label for="email">Email</label><br>
+                <input type="email" required><br>
+
+                <label for="password">Contraseña</label><br>
+                <input type="password" required><br>
+
+                <div class="box-check">
+                    <input type="checkbox" name="" id="">
+                    <label for="">Recuerdame</label><br>
+                </div>
+
+                <div class="box-center">
+                    <button class="btn-form" type="submit" >INICIAR SESION</button>
+                </div>
+                
+            </form>
+            <a href="{{ url_for('password')}}">¿Olvidaste tu contraseña?</a>
+        </div>
+        <div class="box-register">
+            <p>¿No tienes una cuenta?</p>
+            <a href="{{url_for('register')}}">Registrate</a>
+        </div>
+    </Section>
+{% endblock %}

@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from flask import Flask
+from flask_jwt_extended import JWTManager
 
 
 from routes.account_routes import account_bp
@@ -18,6 +19,8 @@ from routes.equipmentkit_routes import equipmentkit_bp
 load_dotenv()
 
 app = Flask(__name__)
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+jwt = JWTManager(app)
 
 app.register_blueprint(account_bp)
 app.register_blueprint(authentication_bp)

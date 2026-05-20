@@ -4,3 +4,4 @@ from errors import ERRORS
 
 
 def listar_mapas():
+    pass

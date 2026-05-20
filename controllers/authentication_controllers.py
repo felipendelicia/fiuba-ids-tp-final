@@ -4,6 +4,8 @@ from errors import ERRORS
 
 
 def login_usuario():
+    pass
 
 
 def registrar_usuario():
+    pass

@@ -1,0 +1,141 @@
+/* ==========================================================================
+   1. GRID DE LA PÁGINA PRINCIPAL (INDEX)
+   ========================================================================== */
+.grid-principal {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3fr 1.5fr 0.5fr 2fr 1.5fr;
+  grid-template-areas:
+    "reservar"
+    "servicios"
+    "titulocampos" 
+    "campos"
+    "footer";
+  min-height: 100vh;
+  width: 100%;
+  padding-top: 60px;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   CONFIGURACIÓN DE CADA ÁREA (INDEX)
+   ========================================================================== */
+.reserva-principal {
+  grid-area: reservar; 
+  background-color: #f1f3f5; 
+  min-height: 300px; 
+  display: flex;                             
+  justify-content: center;                   
+  align-items: center;
+}
+
+.servicios {
+  grid-area: servicios;
+  background-color: #e9ecef;
+  width: 100%;
+}
+
+
+.titulocampos-index {
+  grid-area: titulocampos; 
+  background-color: #dee2e6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titulocampos-index h2 {
+  border: 1px solid #ced4da;
+  padding: 0.5rem;            
+  background-color: #ffffff;
+  margin: 0;                  
+}
+
+.campos {
+  grid-area: campos; 
+  background-color: #5aabfc;
+  width: 100%;
+}
+
+.campos .row img {
+  max-width: 100%;
+  height: auto;
+  width: 100%;
+  display: block; 
+}
+
+.footer {
+  grid-area: footer; 
+  background-color: #212529;
+  color: white;
+  width: 100%;
+  padding: 3rem;
+}
+
+/* ==========================================================================
+   2. GRID (CAMPOS.HTML)
+   ========================================================================== */
+.grid-campos {  
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.8fr 2fr 2fr 2fr 2fr 1fr; 
+  grid-template-areas:
+    "titulocampos-campos"
+    "mapa1"
+    "mapa2"
+    "mapa3"
+    "mapa4"
+    "footer-campos";
+  min-height: 100vh;
+  width: 100%;
+  padding-top: 60px;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+  (CAMPOS)
+   ========================================================================== */
+.titulocampos-campos {
+  grid-area: titulocampos-campos;
+  background-color: #dee2e6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titulocampos-campos h2 {
+  border: 1px solid #ced4da;
+  padding: 0.5rem;            
+  background-color: #ffffff;
+  margin: 0; 
+}
+
+
+.mapa1, .mapa2, .mapa3, .mapa4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.mapa1 { grid-area: mapa1; background-color: #f8f9fa; }
+.mapa2 { grid-area: mapa2; background-color: #ffffff; }
+.mapa3 { grid-area: mapa3; background-color: #f8f9fa; }
+.mapa4 { grid-area: mapa4; background-color: #ffffff; }
+
+
+.grid-campos .card {
+  width: 100%;
+  max-width: 750px; 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+}
+
+
+.footer-de-campos {
+  grid-area: footer-campos;
+  background-color: #212529;
+  color: white;
+  width: 100%;
+  padding: 3rem;
+}

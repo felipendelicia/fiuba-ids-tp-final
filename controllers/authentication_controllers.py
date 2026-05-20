@@ -6,4 +6,4 @@ from errors import ERRORS
 def login_usuario():
 
 
-def registar_usuario():
+def registrar_usuario():

@@ -19,6 +19,15 @@ load_dotenv()
 
 app = Flask(__name__)
 
+app.register_blueprint(account_bp)
+app.register_blueprint(authentication_bp)
+app.register_blueprint(gamemodes_bp)
+app.register_blueprint(reviews_bp)
+app.register_blueprint(reservations_bp)
+app.register_blueprint(dashboard_bp)
+app.register_blueprint(maps_bp)
+app.register_blueprint(equipmentkit_bp)
+
 # Para modificar en el desarrollo:
 if __name__ == '__main__':
     if os.getenv('ENV') == 'dev':

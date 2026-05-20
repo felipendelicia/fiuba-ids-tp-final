@@ -1,0 +1,31 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Nuestros Servicios - Airsoft Arena{% endblock %}
+
+{% block content %}
+<section class="services-section">
+    <h1 class="section-title">Nuestros Servicios</h1>
+    <p class="section-subtitle">Elegí la modalidad de juego que más se adapte a tu escuadrón táctico.</p>
+
+    <div class="services-grid">
+        {% for mode in gamemodes %}
+        <div class="service-card">
+            <div class="card-body">
+                <h3 class="card-title">{{ mode.name | upper }}</h3>
+                <p class="card-description">{{ mode.description }}</p>
+
+                <div class="card-meta">
+                    <span class="meta-item">⏱️ <strong>Duración:</strong> {{ mode.duration }} min</span>
+                    <span class="meta-item">👥 <strong>Máx. Jugadores:</strong> {{ mode.number_players }}</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="card-price">${{ mode.price }} <small>/ operador</small></span>
+                <a href="/reservations?mode_id={{ mode.id }}" class="btn-action">Reservar Partida</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

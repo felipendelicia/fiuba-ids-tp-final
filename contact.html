@@ -1,0 +1,32 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Contacto - Airsoft Arena{% endblock %}
+
+{% block content %}
+<div class="contact-container">
+    <div class="contact-box">
+        <h2>CONTACTANOS</h2>
+        <p>¿Tenés dudas sobre las réplicas, las reglas del campo o eventos corporativos? Escribinos.</p>
+
+        <form action="/contact" method="POST" class="contact-form">
+            <div class="form-group">
+                <label for="name">Nombre Completo</label>
+                <input type="text" id="name" name="name" placeholder="Ej: Pepe Ramirez" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" placeholder="operador@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Mensaje Táctico</label>
+                <textarea id="message" name="message" rows="5" placeholder="Escribí tu consulta acá..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Enviar Mensaje</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

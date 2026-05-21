@@ -44,6 +44,13 @@ def password():
 def dasboard():
   return render_template('dashboard.html')
 
+@app.route("/lobby-publicas")
+def lobby_publicas():
+    return render_template('lobbypublicas.html')
+
+@app.route("/sala-publica")
+def sala_publica():
+    return render_template('salaspublicas.html')
 
 
 if __name__ == "__main__":

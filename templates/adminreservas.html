@@ -13,16 +13,16 @@
     </div>
 
     <div class="nav-centro">
-        <a href="#">inicio</a>
+        <a href="{{ url_for('index') }}" class="nav-button">inicio</a>
         <a href="#">servicios</a>
-        <a href="#">campos de juego</a>
+        <a href="{{ url_for('campos') }}" class="nav-button">campos de juego</a>
         <a href="#">alquiler de equipamiento</a>
         <a href="#">contacto</a>
     </div>
 
     <div class="nav-der">
-        <a href="#">inicia sesion</a>
-        <a href="#">registrate</a>
+       <a href="{{ url_for('login') }}" class="nav-button">inicia sesion</a>
+      <a href="{{ url_for('register') }}" class="nav-button">registrate</a>
     </div></nav>
 <hr class="linea-separadora">
 

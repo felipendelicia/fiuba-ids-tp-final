@@ -28,9 +28,9 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item"><a class="nav-link active" href="{{url_for('index')}}">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Servicios</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('servicios')}}">Servicios</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{url_for('campos')}}">Campos de juego</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('contacto')}}">Contacto</a></li>
                     </ul>
                 </div>
             </div>
@@ -40,7 +40,7 @@
     <div class="grid-principal">
         
         <div class="d-flex flex-column align-items-center gap-3">
-            <a href="{{ url_for('indexreservas') }}" class="btn btn-primary btn-lg px-5 py-3 text-white text-decoration-none">
+            <a href="{{ url_for('reservas') }}" class="btn btn-primary btn-lg px-5 py-3 text-white text-decoration-none">
     RESERVAR
 </a>
         </div>

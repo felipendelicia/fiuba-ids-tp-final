@@ -1,11 +1,13 @@
 {% extends "base.html" %}
-{% block head %}
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='styles/dashboard.css')}}">
+
+{% block title %}Airsoft - Dashboard{% endblock %} 
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/dashboard.css')}}">
 {% endblock %}
 
 {% block content %}
-<section class="section-dashboard">
+<section id="sectionDashboard">
     <div class="container-dashboard">
         <div id="box-title">
             <div>
@@ -22,90 +24,114 @@
             <div>D</div>
         </div>
         <div class="container-time">
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
-            <div>5</div>
-            <div>6</div>
-            <div>7</div>
-            <div>8</div>
-            <div>9</div>
-            <div>10</div>
-            <div>11</div>
-            <div>12</div>
-            <div>13</div>
-            <div>14</div>
-            <div>15</div>
-            <div>16</div>
-            <div>17</div>
-            <div>18</div>
-            <div>19</div>
-            <div>20</div>
-            <div>21</div>
-            <div>22</div>
-            <div>23</div>
-            <div>24</div>
-            <div>25</div>
-            <div>26</div>
-            <div>27</div>
-            <div>28</div>
-            <div>29</div>
-            <div>30</div>
-            <div>31</div>
+            <div class="dia"></div>
+            <div class="dia"></div>
+            <div class="dia"></div>
+            <div class="dia"></div>
+            <div class="dia"></div> 
+            <div class="dia">1</div>
+            <div class="dia">2</div>
+            <div class="dia">3</div>
+            <div class="dia">4</div>
+            <div class="dia">5</div>
+            <div class="dia">6</div>
+            <div class="dia">7</div>
+            <div class="dia">8</div>
+            <div class="dia">9</div>
+            <div class="dia">10</div>
+            <div class="dia">11</div>
+            <div class="dia">12</div>
+            <div class="dia">13</div>
+            <div class="dia">14</div>
+            <div class="dia">15</div>
+            <div class="dia">16</div>
+            <div class="dia">17</div>
+            <div class="dia">18</div>
+            <div class="dia">19</div>
+            <div class="dia">20</div>
+            <div class="dia">21</div>
+            <div class="dia">22</div>
+            <div class="dia">23</div>
+            <div class="dia">24</div>
+            <div class="dia">25</div>
+            <div class="dia">26</div>
+            <div class="dia">27</div>
+            <div class="dia">28</div>
+            <div class="dia">29</div>
+            <div class="dia">30</div>
+            <div class="dia">31</div>
         </div>
 
     </div>
-    <div class="container-hide">
-        <div class="box-reservations">
-            <div>Id</div>
-            <div>Usuario</div>
-            <div>DNI</div>
-            <div>Usuario</div>
-            <div>Precio</div>
-            <div>Horario</div>
-        </div>
-        <div class=" box-reservations">
-            <div>1</div>
-            <div>Ronny Mamani Torrez</div>
-            <div>1141232</div>
-            <div>RONNY</div>
-            <div>17457 ars</div>
-            <div>partida de 45 minutos, kit completo</div>
-        </div>
-        <div class=" box-reservations">
-            <div>2</div>
-            <div>Ronny Mamani Torrez</div>
-            <div>1141232</div>
-            <div>RONNY</div>
-            <div>17457 ars</div>
-            <div>partida de 45 minutos, kit completo</div>
-        </div>
-        <div class=" box-reservations">
-            <div>3</div>
-            <div>Ronny Mamani Torrez</div>
-            <div>1141232</div>
-            <div>RONNY</div>
-            <div>17457 ars</div>
-            <div>partida de 45 minutos, kit completo</div>
-        </div>
-        <div class=" box-reservations">
-            <div>4</div>
-            <div>Ronny Mamani Torrez</div>
-            <div>1141232</div>
-            <div>RONNY</div>
-            <div>17457 ars</div>
-            <div>partida de 45 minutos, kit completo</div>
-        </div>
-    </div>
-    <div id="container-pie">
-        <div class="pie-chart">
-            <div class="circule">
+    <div id="container-hide">
 
+        <div id="container-tables">
+            <div class="box-reservations">
+                <div>Id</div>
+                <div>Usuario</div>
+                <div>DNI</div>
+                <div>Usuario</div>
+                <div>Precio</div>
+                <div>Horario</div>
             </div>
+            <div class=" box-reservations">
+                <div>1</div>
+                <div class="name_user_r">Ronny Mamani T.</div>
+                <div>1141232</div>
+                <div>ronny123</div>
+                <div>17457</div>
+                <div>08:00 - 09:00</div>
+            </div>
+            <div class=" box-reservations">
+                <div>2</div>
+                <div class="name_user_r">Manolo R. Sanchez</div>
+                <div>1141232</div>
+                <div>Manolito-crack</div>
+                <div>174571</div>
+                <div>10:30 - 10:00</div>
+            </div>
+            <div class=" box-reservations">
+                <div>3</div>
+                <div class="name_user_r">-</div>
+                <div>-</div>
+                <div>-</div>
+                <div>-</div>
+                <div>-</div>
+            </div>
+            <div class=" box-reservations">
+                <div>4</div>
+                <div class="name_user_r">Lorem, ipsum dolor.</div>
+                <div>1141232</div>
+                <div>Nando wey</div>
+                <div>17457 ars</div>
+                <div>12:00 - 14:00</div>
+            </div>
+
+            <div class=" box-reservations">
+                <div>5</div>
+                <div class="name_user_r">-</div>
+                <div>-</div>
+                <div>-</div>
+                <div>-</div>
+                <div>-</div>
+            </div>
+
         </div>
+        <div id="container-pie">
+            <div id="pie-chart">
+                <div class="circule">
+                    <h2>
+                        Ocupado<br>
+                        <span id="pieDate"><br>100%</span>
+                    </h2>
+                </div>
+            </div>
 
-
+    </div>
     </div>
 </section>
+
+{% block js_extra %}
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock%}
 {% endblock %}

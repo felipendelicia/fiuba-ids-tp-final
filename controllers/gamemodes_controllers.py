@@ -11,7 +11,7 @@ from services.gamemodes_services import (
 def listar_game_modes():
     gamemodes = service_listar_game_modes()
     if gamemodes is None:
-        return ERRORS['UNKNOWN_ERROR']
+        return ERRORS['UNKNOWN_ERROR']("Error al listar los gamemodes")
     return jsonify({'gamemodes': gamemodes}), 200
 
 

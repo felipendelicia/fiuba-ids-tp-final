@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
 from errors import ERRORS
 from helpers import build_links
 from services.reviews_services import (
@@ -49,6 +49,9 @@ def crear_map_review():
 
 @jwt_required()
 def actualizar_review(id):
+    if not get_jwt().get('is_admin'):
+        return ERRORS['FORBIDDEN']('Solo administradores pueden aprobar o rechazar reseñas')
+
     data = request.get_json()
     approved = data.get('approved')
 

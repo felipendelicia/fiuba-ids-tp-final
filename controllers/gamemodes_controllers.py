@@ -35,7 +35,25 @@ def crear_game_mode():
 
 
 def reemplazar_game_mode(id):
-    pass
+    data = request.get_json()
+    if data is None:
+        return ERRORS['INVALID_FORMAT']("No se encontro JSON valido")
+    if 'name' not in data or 'duration' not in data or 'players' not in data:
+        return ERRORS['MISSING_REQUIRED_FIELDS']("Faltan campos obligatorios: name, duration, players")
+
+    name = data['name']
+    duration = data['duration']
+    players = data['players']
+
+    if name is None or duration is None or players is None:
+        return ERRORS['MISSING_REQUIRED_FIELDS']("Faltan campos obligatorios: name, duration, players")
+
+    result = service_reemplazar_game_mode(id, name, duration, players)
+    if result is None:
+        return ERRORS['NOT_FOUND']("Gamemode no encontrado")
+    if result is False:
+        return ERRORS['UNKNOWN_ERROR']("Error al reemplazar el game mode")
+    return jsonify({'message': 'Game mode reemplazado exitosamente'}), 200
 
 
 def eliminar_game_mode(id):

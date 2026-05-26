@@ -4,7 +4,18 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: rgb(255, 245, 232);
+    background-color: rgb(255, 245, 232, 0);
+}
+
+.video-backg{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: -1;
 }
 
 .box-form{
@@ -15,12 +26,16 @@
     align-items: center;
     width: 500px;
     height: auto;
-    background-color: rgba(0, 114, 162, 0.367);
+    background-color: rgba(1, 85, 121, 0.95);
     border-radius: 20px;
     font-family: 'Courier New', Courier, monospace;
 }
 .box-form a{
     text-decoration: none;  
+    color: rgba(255, 255, 255, 0.5);
+}
+.box-form a:hover{
+    color: white;
 }
 .box-form p{
     width: 350px;
@@ -70,7 +85,7 @@
     }
     .btn-form a, .btn-form-back a{
         text-decoration: none;  
-        color: inherit;
+        color: rgb(0, 0, 0);
     }
 
     .btn-form:hover{
@@ -89,6 +104,9 @@
         background-color: rgb(255, 255, 255);
         border-color:  rgb(215, 213, 210);
     }
+    .btn-form-back a:hover{
+        color:black
+    }
 
 .box-register{
     width: 300px;
@@ -96,13 +114,17 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    background-color: rgba(0, 114, 162, 0.367);
+    background-color: rgba(0, 114, 162, 0.9);
     border-radius: 15px;
     margin-top: 30px;
     padding: 10px 10px;
 }
 .box-register a{
     text-decoration: none;  
+    color: rgba(255, 255, 255, 0.5);
+}
+.box-register a:hover{
+    color: white
 }
 .box-register p{
     margin: 0;

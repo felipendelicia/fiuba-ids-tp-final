@@ -7,9 +7,12 @@
 {% endblock %}
 
 {% block content %}
-<section id="sectionRegister">
+    <section id="sectionRegister">
+        <video autoplay muted loop class="video-backg">
+            <source src="{{url_for('static', filename='video/video-login.mp4')}}" type="video/mp4">
+        </video>
         <div class="box-form">
-            <h2>Regitrarse</h2>
+            <h2>Registrate</h2>
             <form class="style-form" action="/url-direccion-de-envio" method="post">
 
                 <label for="name">Nombre Completo</label><br>

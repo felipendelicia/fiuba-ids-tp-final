@@ -9,6 +9,7 @@ from services.reviews_services import (
 )
 
 
+@jwt_required()
 def listar_reviews():
     try:
         offset = int(request.args.get('_offset', 0))

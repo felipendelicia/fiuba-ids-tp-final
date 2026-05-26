@@ -4,7 +4,7 @@ from db import execute
 def listar_game_modes():
     gamemodes = execute("SELECT * FROM GameModes")
     if gamemodes is False:
-        return None
+        return False
     return gamemodes
 
 
@@ -14,7 +14,7 @@ def crear_game_mode(name, duration, players):
         f"VALUES ('{name}', '{duration}', {players}, CURDATE())",
     )
     if result is False:
-        return None
+        return False
     return result
 
 def reemplazar_game_mode(id, name, duration, players):

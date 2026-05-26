@@ -10,7 +10,7 @@ from services.gamemodes_services import (
 
 def listar_game_modes():
     gamemodes = service_listar_game_modes()
-    if gamemodes is None:
+    if gamemodes is False:
         return ERRORS['UNKNOWN_ERROR']("Error al listar los gamemodes")
     return jsonify({'gamemodes': gamemodes}), 200
 
@@ -30,7 +30,7 @@ def crear_game_mode():
         return ERRORS['MISSING_REQUIRED_FIELDS']("Faltan campos obligatorios: name, duration, players")
 
     result = service_crear_game_mode(name, duration, players)
-    if result is None:
+    if result is False:
         return ERRORS['UNKNOWN_ERROR']("Error al crear el game mode")
     return jsonify({'message': 'Game mode creado exitosamente'}), 201
 

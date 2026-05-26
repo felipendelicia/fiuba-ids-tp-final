@@ -30,4 +30,10 @@ def reemplazar_game_mode(id, name, duration, players):
 
 
 def eliminar_game_mode(id):
-    pass
+    gamemode = execute(f"SELECT * FROM GameModes WHERE id = {id}")
+    if gamemode is False or not gamemode:
+        return None
+    result = execute(f"DELETE FROM GameModes WHERE id = {id}")
+    if result is False:
+        return None
+    return result

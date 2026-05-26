@@ -35,5 +35,5 @@ def eliminar_game_mode(id):
         return None
     result = execute(f"DELETE FROM GameModes WHERE id = {id}")
     if result is False:
-        return None
+        return False
     return result

@@ -8,9 +8,14 @@ def listar_game_modes():
     return gamemodes
 
 
-def crear_game_mode(id):
-    pass
-
+def crear_game_mode(name, duration, players):
+    result = execute(
+        "INSERT INTO GameModes (name, duration, players, updated_at) VALUES (%s, %s, %s, CURDATE())",
+        (name, duration, players)
+    )
+    if result is False:
+        return None
+    return result
 
 def reemplazar_game_mode(id):
     pass

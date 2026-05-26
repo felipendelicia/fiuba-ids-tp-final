@@ -17,8 +17,16 @@ def crear_game_mode(name, duration, players):
         return None
     return result
 
-def reemplazar_game_mode(id):
-    pass
+def reemplazar_game_mode(id, name, duration, players):
+    gamemode = execute(f"SELECT * FROM GameModes WHERE id = {id}")
+    if gamemode is False or not gamemode:
+        return None
+    result = execute(
+        f"UPDATE GameModes SET name = '{name}', duration = '{duration}', players = {players}, updated_at = CURDATE() WHERE id = {id}",
+    )
+    if result is False:
+        return None
+    return result
 
 
 def eliminar_game_mode(id):

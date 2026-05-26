@@ -2,7 +2,10 @@ from db import execute
 
 
 def listar_game_modes():
-    pass
+    gamemodes = execute("SELECT * FROM GameModes")
+    if gamemodes is False:
+        return None
+    return gamemodes
 
 
 def crear_game_mode(id):

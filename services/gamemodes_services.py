@@ -10,8 +10,8 @@ def listar_game_modes():
 
 def crear_game_mode(name, duration, players):
     result = execute(
-        "INSERT INTO GameModes (name, duration, players, updated_at) VALUES (%s, %s, %s, CURDATE())",
-        (name, duration, players)
+        f"INSERT INTO GameModes (name, duration, players, updated_at) "
+        f"VALUES ('{name}', '{duration}', {players}, CURDATE())",
     )
     if result is False:
         return None

@@ -25,7 +25,7 @@ def reemplazar_game_mode(id, name, duration, players):
         f"UPDATE GameModes SET name = '{name}', duration = '{duration}', players = {players}, updated_at = CURDATE() WHERE id = {id}",
     )
     if result is False:
-        return None
+        return False
     return result
 
 

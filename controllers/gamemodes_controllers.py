@@ -5,6 +5,7 @@ from services.gamemodes_services import (
     listar_game_modes as service_listar_game_modes,
     crear_game_mode as service_crear_game_mode,
     reemplazar_game_mode as service_reemplazar_game_mode,
+    eliminar_game_mode as service_eliminar_game_mode,
 )
 
 def listar_game_modes():

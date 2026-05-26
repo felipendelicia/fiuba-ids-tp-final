@@ -58,4 +58,9 @@ def reemplazar_game_mode(id):
 
 
 def eliminar_game_mode(id):
-    pass
+    result = service_eliminar_game_mode(id)
+    if result is None:
+        return ERRORS['NOT_FOUND']("Gamemode no encontrado")
+    if result is False:
+        return ERRORS['UNKNOWN_ERROR']("Error al eliminar el gamemode")
+    return jsonify({'message': 'Gamemode eliminado exitosamente'}), 200

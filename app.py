@@ -22,14 +22,14 @@ app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 jwt = JWTManager(app)
 
-app.register_blueprint(account_bp)
-app.register_blueprint(authentication_bp)
-app.register_blueprint(gamemodes_bp)
-app.register_blueprint(reviews_bp)
-app.register_blueprint(reservations_bp)
-app.register_blueprint(dashboard_bp)
-app.register_blueprint(maps_bp)
-app.register_blueprint(equipmentkit_bp)
+app.register_blueprint(account_bp, url_prefix='/account')
+app.register_blueprint(authentication_bp, url_prefix='/authentication')
+app.register_blueprint(gamemodes_bp, url_prefix='/gamemodes')
+app.register_blueprint(reviews_bp, url_prefix='/reviews')
+app.register_blueprint(reservations_bp, url_prefix='/reservations')
+app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
+app.register_blueprint(maps_bp, url_prefix='/maps')
+app.register_blueprint(equipmentkit_bp, url_prefix='/equipmentkit')
 
 # Para modificar en el desarrollo:
 if __name__ == '__main__':

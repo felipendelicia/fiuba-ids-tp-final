@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS Accounts (
 	updated_at DATETIME NOT NULL,
 	last_reservation DATE,
 	is_active BOOLEAN DEFAULT TRUE,
+	is_admin BOOLEAN DEFAULT FALSE,
 	elo INT
 );
 

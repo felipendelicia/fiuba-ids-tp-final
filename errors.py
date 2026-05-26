@@ -61,6 +61,21 @@ ERRORS = {
         ),
         500,
     ),
+    "FORBIDDEN": lambda message: (
+        jsonify(
+            {
+                "errors": [
+                    {
+                        "code": 403,
+                        "message": message,
+                        "level": "error",
+                        "description": "No tenés permiso para hacer esto, capo.",
+                    }
+                ]
+            }
+        ),
+        403,
+    ),
     "NOT_FOUND": lambda message: (
         jsonify(
             {

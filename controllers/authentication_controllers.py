@@ -17,7 +17,7 @@ def login_usuario():
     if not user:
         return ERRORS['NOT_FOUND']('Credenciales invalidas')
 
-    token = create_access_token(identity=str(user['id']))
+    token = create_access_token(identity=str(user['id']), additional_claims={'is_admin': user.get('is_admin', False)})
     return jsonify({'token': token, 'user_id': user['id']}), 200
 
 

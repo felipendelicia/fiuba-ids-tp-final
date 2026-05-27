@@ -1,141 +1,247 @@
 /* ==========================================================================
-   1. GRID DE LA PÁGINA PRINCIPAL (INDEX)
+   PAGE  | INDEX.HTML
    ========================================================================== */
-.grid-principal {
+.page__grid {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 3fr 1.5fr 0.5fr 2fr 1.5fr;
+  grid-template-rows: auto auto auto auto;
   grid-template-areas:
-    "reservar"
-    "servicios"
-    "titulocampos" 
-    "campos"
-    "footer";
+    "hero"
+    "services"
+    "fields-title"
+    "fields-gallery";
   min-height: 100vh;
   width: 100%;
-  padding-top: 60px;
+  padding-top: 56px;
   box-sizing: border-box;
 }
 
 /* ==========================================================================
-   CONFIGURACIÓN DE CADA ÁREA (INDEX)
+   HERO| INDEX.HTML
    ========================================================================== */
-.reserva-principal {
-  grid-area: reservar; 
-  background-color: #f1f3f5; 
-  min-height: 300px; 
-  display: flex;                             
-  justify-content: center;                   
-  align-items: center;
-}
-
-.servicios {
-  grid-area: servicios;
-  background-color: #e9ecef;
-  width: 100%;
-}
-
-
-.titulocampos-index {
-  grid-area: titulocampos; 
-  background-color: #dee2e6;
+.hero {
+  grid-area: hero;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
+  position: relative;
+  background-image: url("../img/tactic.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 700px;
 }
 
-.titulocampos-index h2 {
-  border: 1px solid #ced4da;
-  padding: 0.5rem;            
-  background-color: #ffffff;
-  margin: 0;                  
-}
-
-.campos {
-  grid-area: campos; 
-  background-color: #5aabfc;
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
 }
 
-.campos .row img {
-  max-width: 100%;
-  height: auto;
-  width: 100%;
-  display: block; 
+.hero__button {
+  position: relative;
+  z-index: 5;
+  display: inline-block;
+  background-color: rgb(212, 103, 1);
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-size: 1.25rem;
+  padding: 1rem 3rem;
+  border-radius: 0.3rem;
+  transition: background-color 0.15s ease-in-out;
 }
 
-.footer {
-  grid-area: footer; 
-  background-color: #212529;
-  color: white;
-  width: 100%;
-  padding: 3rem;
+.hero__button:hover {
+  background-color: #d7a10b;
+  color: #ffffff;
 }
 
 /* ==========================================================================
-   2. GRID (CAMPOS.HTML)
+   SERVICES| INDEX.HTML
    ========================================================================== */
-.grid-campos {  
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 0.8fr 2fr 2fr 2fr 2fr 1fr; 
-  grid-template-areas:
-    "titulocampos-campos"
-    "mapa1"
-    "mapa2"
-    "mapa3"
-    "mapa4"
-    "footer-campos";
-  min-height: 100vh;
+.services {
+  grid-area: services;
+  background-color: #212529;
   width: 100%;
-  padding-top: 60px;
+  padding: 2rem 1rem;
   box-sizing: border-box;
 }
 
+.services__grid {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.services__card {
+  background-color: rgb(212, 103, 1);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.services__card:hover {
+  transform: translateY(-5px);
+  background-color: #d7a10b;
+  box-shadow: 0 8px 15px rgba(255, 255, 255, 0.993);
+}
+
+.services__link {
+  display: block;
+  padding: 1.5rem;
+  text-decoration: none;
+  text-align: center;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.services__link h5 {
+  color: #000000;
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.services__link p {
+  color: #000000;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
 /* ==========================================================================
-  (CAMPOS)
+   FIELDS (INDEX)
    ========================================================================== */
-.titulocampos-campos {
-  grid-area: titulocampos-campos;
-  background-color: #dee2e6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.titulocampos-campos h2 {
-  border: 1px solid #ced4da;
-  padding: 0.5rem;            
-  background-color: #ffffff;
-  margin: 0; 
-}
-
-
-.mapa1, .mapa2, .mapa3, .mapa4 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  width: 100%;
-}
-
-.mapa1 { grid-area: mapa1; background-color: #f8f9fa; }
-.mapa2 { grid-area: mapa2; background-color: #ffffff; }
-.mapa3 { grid-area: mapa3; background-color: #f8f9fa; }
-.mapa4 { grid-area: mapa4; background-color: #ffffff; }
-
-
-.grid-campos .card {
-  width: 100%;
-  max-width: 750px; 
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
-}
-
-
-.footer-de-campos {
-  grid-area: footer-campos;
+.fields__title {
+  grid-area: fields-title;
   background-color: #212529;
-  color: white;
-  width: 100%;
-  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
 }
+
+.fields__title h2 {
+  color: #ffffff;
+  padding: 0.5rem;
+  margin: 0;
+}
+
+.fields__gallery {
+  grid-area: fields-gallery;
+  width: 100%;
+  background-color: #212529;
+}
+
+.fields__grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  gap: 0;
+  margin: 0 auto;
+}
+
+.fields__grid img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border-radius: 8px;
+}
+
+.fields__grid img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* ==========================================================================
+   MAPS (CAMPOS.HTML)
+   ========================================================================== */
+.maps {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 56px;
+  background-color: #dee2e6;
+}
+
+.maps__title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 0 1.5rem 0;
+}
+
+.maps__title h2 {
+  border: 1px solid #ced4da;
+  padding: 0.5rem 1.5rem;
+  background-color: #ffffff;
+  margin: 0;
+  font-weight: 600;
+}
+
+.maps__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem 4rem 1rem;
+  box-sizing: border-box;
+}
+
+.maps__card {
+  display: flex;
+  flex-direction: row;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  min-height: 160px;
+}
+
+.maps__card img {
+  width: 35%;
+  object-fit: cover;
+  display: block;
+}
+
+.maps__info {
+  width: 65%;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.maps__info h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+  color: #212529;
+}
+
+.maps__description {
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+  color: #6c757d;
+  line-height: 1.4;
+}
+

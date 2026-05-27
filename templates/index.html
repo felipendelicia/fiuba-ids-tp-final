@@ -2,46 +2,68 @@
 
 {% block title %}Airsoft - Inicio{% endblock %}
 
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="grid-principal">
-    
-    <div class="d-flex flex-column align-items-center gap-3">
-        <a href="{{ url_for('reservas') }}" class="btn btn-primary btn-lg px-5 py-3 text-white text-decoration-none">
-RESERVAR
-</a>
+<div class="page__grid">
+
+    <div class="hero">
+        <a href="{{ url_for('reservas') }}" class="hero__button">
+            RESERVAR
+        </a>
     </div>
 
-    <div class="servicios">
-        <div class="container"> <div class="row text-center g-3 pt-4">
-                <div class="col-md-3">
-                    <div class="card h-100 p-3"><h5>Partida pública</h5><p>Emparejamiento aleatorio.</p></div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 p-3"><h5>Partida privada</h5><p>Reserva para tus amigos.</p></div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 p-3"><h5>Competitivo</h5><p>Torneos por dinero y ranking.</p></div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 p-3"><h5>Todos contra todos</h5><p>El que más elimina, gana.</p></div>
-                </div>
+    <div class="services">
+        <div class="services__grid">
+
+            <div class="services__card">
+                <a href="{{ url_for('reservas') }}" class="services__link">
+                    <h5>Partida pública</h5>
+                    <p>Emparejamiento aleatorio.</p>
+                </a>
             </div>
+
+            <div class="services__card">
+                <a href="{{ url_for('reservas') }}" class="services__link">
+                    <h5>Partida privada</h5>
+                    <p>Reserva para tus amigos.</p>
+                </a>
+            </div>
+
+            <div class="services__card">
+                <a href="{{ url_for('reservas') }}" class="services__link">
+                    <h5>Competitivo</h5>
+                    <p>Torneos por dinero y ranking.</p>
+                </a>
+            </div>
+
+            <div class="services__card">
+                <a href="{{ url_for('reservas') }}" class="services__link">
+                    <h5>Todos contra todos</h5>
+                    <p>El que más elimina, gana.</p>
+                </a>
+            </div>
+
         </div>
     </div>
 
-    <div class="titulocampos">
+    <div class="fields__title">
         <h2>Campos de juego</h2>
     </div>
 
-    <div class="campos">
-        <div class="container-fluid px-0">
-            <div class="row g-0">
-                <div class="col-3"><img src="https://via.placeholder.com/400x200" class="img-fluid w-100" alt="Mapa 1"></div>
-                <div class="col-3"><img src="https://via.placeholder.com/400x200" class="img-fluid w-100" alt="Mapa 2"></div>
-                <div class="col-3"><img src="https://via.placeholder.com/400x200" class="img-fluid w-100" alt="Mapa 3"></div>
-                <div class="col-3"><img src="https://via.placeholder.com/400x200" class="img-fluid w-100" alt="Mapa 4"></div>
-            </div>
-        </div>
+    <div class="fields__gallery">
+    <div class="fields__grid">
+        <a href="{{ url_for('reservas') }}">
+        <img src="../static/img/nuketown.jpg" alt="Mapa 1"></a>
+        <a href="{{ url_for('reservas') }}">
+        <img src="../static/img/mirage.jpg" alt="Mapa 2"></a>
+        <a href="{{ url_for('reservas') }}">
+        <img src="../static/img/hijacked.jpg" alt="Mapa 3"></a>
+        <a href="{{ url_for('reservas') }}">
+        <img src="../static/img/terminal.jpg" alt="Mapa 4"></a>
     </div>
+</div>
 </div>
 {% endblock %}

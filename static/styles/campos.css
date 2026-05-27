@@ -1,0 +1,75 @@
+/* ==========================================================================
+   MAPS (CAMPOS.HTML)
+   ========================================================================== */
+.maps {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 56px;
+}
+
+.maps__title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 0 1.5rem 0;
+}
+
+.maps__title h2 {
+  padding: 0.5rem 1.5rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.maps__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 0 1rem 4rem 1rem;
+  box-sizing: border-box;
+}
+
+.maps__card {
+  display: flex;
+  flex-direction: row;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  min-height: 160px;
+}
+
+.maps__card img {
+  width: 35%;
+  object-fit: cover;
+  display: block;
+}
+
+.maps__info {
+  width: 65%;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.maps__info h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+  color: #212529;
+}
+
+.maps__description {
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+  color: #6c757d;
+  line-height: 1.4;
+}
+

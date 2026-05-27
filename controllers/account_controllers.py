@@ -2,28 +2,12 @@ from flask import request, jsonify
 from db import execute
 from errors import ERRORS
 from helpers import build_links
-from services.account_services import crear_cuenta as crear_cuenta_service
 from services.account_services import listar_usuarios as listar_usuarios_service
 from services.account_services import obtener_cuenta as obtener_cuenta_service
 from services.account_services import actualizar_usuario as actualizar_usuario_service
 from services.account_services import actualizar_estado_usuario as actualizar_estado_usuario_service
 from services.account_services import actualizar_genero_usuario as actualizar_genero_usuario_service
 from services.account_services import actualizar_password_usuario as actualizar_password_usuario_service
-
-def crear_cuenta():
-    body = request.get_json()
-    name = body['name']
-    username = body['username']
-    email = body['email']
-    password = body['password']
-    dni = body['dni']
-    updated_at = body['updated_at']
-    if (not name ) or (not username) or (not email) or (not password) or (not dni) or (not updated_at):
-        return ERRORS["MISSING_REQUIRED_FIELDS"]("Los campos obligatorios son: name, username, email, password, dni, updated_at")
-    estado = crear_cuenta_service(name, username, email, password, dni, updated_at)
-    if estado == False:
-        return ERRORS["UNKNOWN_ERROR"]("Error al crear la cuenta")
-    return '', 201
 
 def listar_usuarios():
     usuarios = listar_usuarios_service()
@@ -55,7 +39,6 @@ def actualizar_usuario(id):
     return '', 204
 
 def listar_reservas(id):
-    #Paginación
     pass
 
 def actualizar_estado_usuario(id):

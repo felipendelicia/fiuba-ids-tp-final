@@ -2,7 +2,7 @@ from db import execute
 
 
 def listar_usuarios():
-    usuarios_db = execute(f"SELECT * FROM Accounts") 
+    usuarios_db = execute("SELECT * FROM Accounts") 
     if not usuarios_db:
         return None
     return usuarios_db
@@ -13,7 +13,6 @@ def obtener_cuenta(id):
     if not cuenta_id:
         return None
     return cuenta_id
-
 
 def actualizar_usuario(id):
     pass

@@ -7,30 +7,16 @@ from services.account_services import obtener_cuenta as obtener_cuenta_service
 
 
 def listar_usuarios():
-    #Paginación
     usuarios = listar_usuarios_service()
-
-    #Manejo de errores
     if not usuarios:
-        return ERRORS['NOT_FOUND']('No se encontro usuarios')
-
-    return jsonify({'Listado de Usuarios': usuarios})
+        return ERRORS['NOT_FOUND']('No se encontraron usuarios')
+    return jsonify({'Listado de Usuarios': usuarios}), 200
 
 def obtener_cuenta(id):
-
     usuario_id = obtener_cuenta_service(id)
-    #Manejo de erores;
-    
-    # if type(id) != int:
-    #     return ERRORS['INVALID_FORMAT']('El id debe ser un entero')
-        
     if not usuario_id:
-        return ERRORS['NOT_FOUND']('Usuario no encontrado')
-    
-    
-    #    return ERRORS['UNKNOWN_ERROR']('comunicate con nosotros'), 500
-    
-    return jsonify({'id': usuario_id}), 200
+        return ERRORS['NOT_FOUND']('Usuario con el id no encontrado')
+    return jsonify({'Cuenta': usuario_id}), 200
 
 def actualizar_usuario(id):
     pass

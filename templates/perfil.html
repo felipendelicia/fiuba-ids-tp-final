@@ -3,11 +3,96 @@
 {% block title %}Airsoft - Inicio{% endblock %}
 
 {% block style_extra %}
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/perfil.css') }}">
 {% endblock %}
 
 {% block content %}
-<div>
+<div class="contenedor-perfil">
 
+    <div class="perfil-header">
+        <div class="avatar-wrapper">
+            <img src="../static/img/ejercitos.jpg" alt="Foto de Perfil" class="avatar-foto">
+        </div>
+        <h1 class="usuario-nombre">Dante 'Ghostface' Ghisi</h1>
+    </div>
+
+    <div class="perfil-estadisticas">
+        <div class="stat-box">
+            <i class="fas fa-shield-alt icon-miembro"></i>
+            <span class="stat-label">Miembro Desde</span>
+            <span class="stat-value">May 2024</span>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-crosshairs icon-partidas"></i>
+            <span class="stat-label">Partidas Jugadas</span>
+            <span class="stat-value">157</span>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-trophy icon-ganadas"></i>
+            <span class="stat-label">Partidas Ganadas</span>
+            <span class="stat-value">92</span>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-chart-line icon-kdr"></i>
+            <span class="stat-label">Ratio Bajas/Muerte</span>
+            <span class="stat-value">1.85</span>
+        </div>
+    </div>
+
+    <div class="perfil-tabs">
+        <button class="tab-btn active" data-target="#mapas">Mis Mapas Favoritos</button>
+        <button class="tab-btn" data-target="#config">Configuración de Cuenta</button>
+        <button class="tab-btn" data-target="#historial">Historial de Partidas</button>
+    </div>
+
+    <div class="tab-contenido-wrapper">
+
+        <div id="mapas" class="tab-seccion active">
+            <div class="grid-mapas-favoritos">
+                <div class="mini-tarjeta-mapa">
+                    <img src="../static/img/nuketown.jpg" alt="Nuketown">
+                    <span>Nuketown</span>
+                </div>
+                <div class="mini-tarjeta-mapa">
+                    <img src="../static/img/hijacked.jpg" alt="Hijacked">
+                    <span>Hijacked</span>
+                </div>
+                <div class="mini-tarjeta-mapa">
+                    <img src="../static/img/mirage.jpg" alt="Mirage">
+                    <span>Mirage</span>
+                </div>
+                <div class="mini-tarjeta-mapa">
+                    <img src="../static/img/terminal.jpg" alt="Terminal">
+                    <span>Terminal</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="config" class="tab-seccion">
+            <h3>Configuración de la Cuenta</h3>
+            <p>Formularios para modificar tus datos de perfil, contraseña y preferencias.</p>
+        </div>
+
+        <div id="historial" class="tab-seccion">
+            <h3>Historial de Partidas</h3>
+            <p>Lista cronológica de tus últimos combates, puntajes y estadísticas de juego.</p>
+        </div>
+
+    </div>
 </div>
+
+<script>
+    const botones = document.querySelectorAll('.tab-btn');
+    const secciones = document.querySelectorAll('.tab-seccion');
+
+    botones.forEach(boton => {
+        boton.addEventListener('click', () => {
+            botones.forEach(b => b.classList.remove('active'));
+            secciones.forEach(s => s.classList.remove('active'));
+
+            boton.classList.add('active');
+            document.querySelector(boton.dataset.target).classList.add('active');
+        });
+    });
+</script>
 {% endblock %}

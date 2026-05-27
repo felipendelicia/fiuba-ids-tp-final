@@ -27,6 +27,10 @@ def password():
 def campos():
     return render_template('campos.html')
 
+@app.route('/perfil')
+def perfil(): 
+    return render_template('perfil.html') 
+
 # 6. Ruta para la página Reservas de Campos
 @app.route("/reservas")
 def reservas():

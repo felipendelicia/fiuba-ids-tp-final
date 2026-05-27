@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS Reservations (
 	equipment_kit_id INT NOT NULL,
 	price INT NOT NULL,
 	reservation_date DATE NOT NULL,
-	start_time DATE,
-	end_time DATE,
+	start_time TIME,
+	end_time TIME,
 	is_public BOOLEAN,
 	canceled BOOLEAN DEFAULT FALSE,
 	cancelation_reason VARCHAR(500)

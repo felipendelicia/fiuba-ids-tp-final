@@ -1,8 +1,11 @@
 from db import execute
 
+def crear_cuenta(name, username, email, password, dni, updated_at):
+    nuevo_usuario = execute(f"INSERT INTO Accounts (name, username, email, password, dni, updated_at) VALUE ('{name}', '{username}', '{email}', '{password}', '{dni}', '{updated_at}')") 
+    return nuevo_usuario
 
 def listar_usuarios():
-    usuarios_db = execute("SELECT * FROM Accounts") 
+    usuarios_db = execute("SELECT * FROM Accounts")
     if not usuarios_db:
         return None
     return usuarios_db

@@ -5,7 +5,8 @@ from helpers import build_links
 from services.account_services import listar_usuarios as listar_usuarios_service
 from services.account_services import obtener_cuenta as obtener_cuenta_service
 from services.account_services import actualizar_usuario as actualizar_usuario_service
-
+from services.account_services import actualizar_estado_usuario as actualizar_estado_usuario_service
+#from services.account_services import actualizar_password_usuario as actualizar_password_usuario_service
 
 
 def listar_usuarios():
@@ -32,9 +33,9 @@ def actualizar_usuario(id):
     is_active = data['is_active']
     estado = actualizar_usuario_service(id, username, email, password, phone, elo, is_active)
     if estado is None:
-        return ERRORS['NOT_FOUND']("Usuario con el id no encontrado"), 404
+        return ERRORS['NOT_FOUND']("Usuario con el id no encontrado")
     if estado == False:
-        return ERRORS['UNKNOWN_ERROR']("Error al actualizar usuario"), 500
+        return ERRORS['UNKNOWN_ERROR']("Error al actualizar usuario")
     return '', 204
 
 def listar_reservas(id):
@@ -42,10 +43,19 @@ def listar_reservas(id):
     pass
 
 def actualizar_estado_usuario(id):
-    pass
+    data = request.get_json()
+    if ('is_active' not in data):
+        return ERRORS['MISSING_REQUIRED_FIELDS']('Los campos posibles son: is_active, gender, password')
+    is_active = data['is_active']
+    estado = actualizar_estado_usuario_service(id, is_active)
+    if estado is None:
+        return ERRORS['NOT_FOUND']("Usuario con el id no encontrado")
+    if estado == False:
+        return ERRORS['UNKNOWN_ERROR']("Error al actualizar usuario")
+    return 204
 
 def actualizar_genero_usuario(id):
     pass
 
 def actualizar_password_usuario(id):
-    pass
+    pass    

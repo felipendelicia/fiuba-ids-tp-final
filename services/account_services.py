@@ -18,18 +18,23 @@ def actualizar_usuario(id, username, email, password, phone, elo, is_active):
     cuenta_id = execute(f'SELECT * FROM Accounts WHERE id = {id}')
     if not cuenta_id:
         return None
-    cuenta_actualizada = execute(f"UPDATE Accounts SET username = '{username}', email = '{email}', password = '{password}', phone = '{phone}', elo = '{elo}', is_active = {is_active} WHERE id = '{id}'")
-    if cuenta_actualizada == False:
+    result = execute(f"UPDATE Accounts SET username = '{username}', email = '{email}', password = '{password}', phone = '{phone}', elo = '{elo}', is_active = {is_active} WHERE id = '{id}'")
+    if result == False:
         return False
-    return cuenta_actualizada
+    return result
 
 def listar_reservas(id):
     pass
 
 
-def actualizar_estado_usuario(id):
-    pass
-
+def actualizar_estado_usuario(id, is_active):
+    cuenta_id = execute(f"SELECT * FROM Accounts WHERE id = {id}")
+    if not cuenta_id:
+        return None
+    cambio_estado = execute(f"UPDATE Accounts SET is_active = {is_active} WHERE id = '{id}'")
+    if result == False:
+        return False
+    return result
 
 def actualizar_genero_usuario(id):
     pass

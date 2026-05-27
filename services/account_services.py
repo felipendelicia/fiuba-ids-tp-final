@@ -2,11 +2,17 @@ from db import execute
 
 
 def listar_usuarios():
-    pass
+    usuarios_db = execute(f"SELECT * FROM Accounts") 
+    if not usuarios_db:
+        return None
+    return usuarios_db
 
 
 def obtener_cuenta(id):
-    pass
+    cuenta_id = execute(f'SELECT * FROM Accounts WHERE id = {id}')
+    if not cuenta_id:
+        return None
+    return cuenta_id
 
 
 def actualizar_usuario(id):

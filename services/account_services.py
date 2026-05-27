@@ -36,7 +36,7 @@ def actualizar_estado_usuario(id, is_active):
         return False
     return result
 
-def actualizar_genero_usuario(id):
+def actualizar_genero_usuario(id, gender):
     cuenta_id = execute(f"SELECT * FROM Accounts WHERE id = {id}")
     if not cuenta_id:
         return None
@@ -45,5 +45,11 @@ def actualizar_genero_usuario(id):
         return False
     return result
 
-def actualizar_password_usuario(id):
-    pass
+def actualizar_password_usuario(id, password):
+    cuenta_id = execute(f"SELECT * FROM Accounts WHERE id = {id}")
+    if not cuenta_id:
+        return None
+    result = execute(f"UPDATE Accounts SET password = '{password}' WHERE id = '{id}'")
+    if result == False:
+        return False
+    return result

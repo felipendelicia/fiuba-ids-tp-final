@@ -180,6 +180,59 @@
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
+
+/* ==========================================================================
+   ESTILOS PESTAÑAS HISTORIAL DE PARTIDAS 
+   ========================================================================== */
+
+#containerhistorial {
+    display: flex;
+    width: 20%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#historial h3 {
+    display: flex;
+    justify-content: center;
+}
+
+.list-group-item-action {
+    background-color: #212529 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    border-left: 4px solid transparent !important;
+    transition: all 0.2s ease-in-out;
+}
+
+.list-group-item-action:hover {
+    background-color: #2c3034 !important;
+    color: rgb(212, 103, 1) !important;
+    border-left-color: rgb(212, 103, 1) !important;
+    padding-left: 1.75rem;
+}
+
+
+.list-group-item-action.active {
+    background-color: rgb(212, 103, 1) !important;
+    color: #000000 !important;
+    border-left-color: #212529 !important;
+}
+
+.tab-content {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    min-height: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    color: #212529;
+}
+
+
+
 /* Responsive para pantallas chicas */
 @media (max-width: 600px) {
     .grid-mapas-favoritos {

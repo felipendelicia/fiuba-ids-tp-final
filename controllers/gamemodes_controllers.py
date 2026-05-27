@@ -1,5 +1,4 @@
 from flask import request, jsonify
-from db import execute
 from errors import ERRORS
 from services.gamemodes_services import (
     listar_game_modes as service_listar_game_modes,

@@ -101,6 +101,10 @@ def admin_servicios():
     return render_template('adminservicios.html', servicios=servicios_db)
 
 # 16. Ruta para la página de Equipamientos
+@app.route('/equipamientoinfo')
+def equipamiento_info():
+    return render_template('equipamientoinfo.html')
+
 @app.route('/equipamiento', methods=['GET', 'POST'])
 def equipamiento():
     equipamiento_db = [
@@ -114,6 +118,5 @@ def equipamiento():
         equipamiento_db.append({"id": nuevo_id, "tipo": tipo, "cantidad": cantidad})
         return render_template('equipamiento.html', equipamiento=equipamiento_db)
     return render_template('equipamiento.html', equipamiento=equipamiento_db)
-
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

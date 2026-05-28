@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Alquiler de Equipamiento{% endblock %}
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/equipamiento.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="equipamiento-section">
+    <div class="container text-center">
+        
+        <h1 class="equipamiento-title">EQUIPAMIENTO</h1>
+        
+        <p class="equipamiento-description mx-auto">
+            Sistema modular y cascos de protección profesional para garantizar tu máxima seguridad y rendimiento en cada partida.
+        </p>
+
+        <div class="equipamiento-galeria">
+            
+            <a href="#" class="equipamiento-item">
+                <img src="{{ url_for('static', filename='img/arma.png') }}" alt="Armas Usadas">
+            </a>
+
+            <a href="#" class="equipamiento-item">
+                <img src="{{ url_for('static', filename='img/casco.png') }}" alt="Cascos y Accesorios">
+            </a>
+
+            <a href="#" class="equipamiento-item">
+                <img src="{{ url_for('static', filename='img/chaleco.png') }}" alt="Protección Personal">
+            </a>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

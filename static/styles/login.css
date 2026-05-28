@@ -60,6 +60,7 @@
 }
     .style-form input{
         margin-top: 8px;
+        margin-left: 5px;
         width: 320px;
         margin-bottom: 8px;
         background-color: rgba(249, 233, 214, 0.569);
@@ -81,10 +82,10 @@
     }
     .box-check input{
         border-radius: 5px;
-        margin-right: 10px;
+        margin-right: 2px;
         width: 20px;
         height: 20px;
-        padding-left: 30px;
+        transform: translateY(3%) translateX(-34%);
     }
    
     .box-center{
@@ -94,16 +95,12 @@
     }
 
     .btn-form{
-        border-radius: 4px;
+        border-radius: 8px;
         padding: 10px;
         margin: 15px;
         border: solid 1px rgb(255, 255, 255);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         cursor: pointer;
-    }
-    .btn-form a, .btn-form-back a{
-        text-decoration: none;  
-        color: rgb(0, 0, 0);
     }
 
     .btn-form:hover{
@@ -112,21 +109,11 @@
         transform: scale(1.03);
     }
 
-    .btn-form-back{
-        background-color: rgba(255, 255, 255, 0.573);
-        border-radius: 4px;
-        padding: 10px;
-        margin: 15px;
-        cursor: pointer;
+    .btn-form a{
+        text-decoration: none;  
+        color: rgb(0, 0, 0);
     }
-    .btn-form-back:hover {
-        background-color: rgb(255, 255, 255);
-        border-color:  rgb(215, 213, 210);
-    }
-    .btn-form-back a:hover{
-        color:black
-    }
-
+ 
 .box-register{
     width: 300px;
     display: flex;

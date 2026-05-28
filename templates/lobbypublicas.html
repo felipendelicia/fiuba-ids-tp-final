@@ -1,70 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-    <title>lobby publicas</title>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-izq">
-            <span>NOMBRE DEL SITIO</span>
-        </div>
+{% extends 'default.html' %}
 
-        <div class="nav-centro">
-            <a href="{{ url_for('index') }}" class="nav-button">inicio</a>
-            <a href="{{ url_for('servicios')}}">servicios</a>
-            <a href="{{ url_for('campos') }}" class="nav-button">campos de juego</a>
-            <a href="{{ url_for('equipamiento')}}">alquiler de equipamiento</a>
-            <a href="{{ url_for('contacto')}}">contacto</a>
-        </div>
+{% block title %}Kinetix - Lobby Salas Públicas{% endblock %}
 
-        <div class="nav-der">
-       <a href="{{ url_for('login') }}" class="nav-button">inicia sesion</a>
-        <a href="{{ url_for('register') }}" class="nav-button">registrate</a>
-        </div>
-    </nav>
+{% block style_extra %}
+<style>
+    /* Estilo de sección con la cuadrícula táctica de Kinetix */
+    .lobby-section {
+        background-color: #0b0d0f;
+        background-image: 
+            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 20px 20px;
+        padding: 60px 0;
+        width: 100%;
+        min-height: calc(100vh - 80px);
+    }
 
-    <hr class="linea-separadora">
-    
-    <h1>LOBBY SALAS PUBLICAS</h1>
-    
-    <table>
-      <thead>
-        <tr>
-          <th>ID Reserva</th>
-          <th>Fecha</th>
-          <th>Modalidad</th>
-          <th>Campo</th>
-          <th>Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>#021</td>
-          <td>25/05/2026</td>
-          <td>Captura bandera</td>
-          <td>Mirage</td>
-          <td class="text-orange">Lleno</td>
-        </tr>
+    /* Título principal con el degradé cian/azul del sitio */
+    .lobby-title {
+        font-family: 'Orbitron', 'Arial Black', sans-serif;
+        font-size: 38px;
+        font-weight: bold;
+        letter-spacing: 3px;
+        margin-bottom: 40px;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Contenedor de la tabla con fondo semi-transparente y bordes sutiles */
+    .table-responsive-custom {
+        background-color: rgba(18, 22, 26, 0.6);
+        border: 1px solid rgba(79, 172, 254, 0.2);
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 1100px;
+        margin: 0 auto;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Modificaciones de la tabla de Bootstrap para adaptarla al modo oscuro */
+    .custom-table {
+        color: #ffffff !important;
+        margin-bottom: 0;
+    }
+
+    .custom-table thead th {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 16px;
+        letter-spacing: 1px;
+        color: #00f2fe !important;
+        border-bottom: 2px solid rgba(0, 242, 254, 0.3) !important;
+        text-transform: uppercase;
+        padding: 15px;
+    }
+
+    .custom-table tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: background-color 0.2s ease;
+    }
+
+    .custom-table tbody tr:hover {
+        background-color: rgba(0, 242, 254, 0.05);
+    }
+
+    .custom-table tbody td {
+        padding: 15px;
+        vertical-align: middle;
+        font-size: 15px;
+        color: #e2e8f0;
+    }
+
+    /* Estados destacados */
+    .status-full {
+        color: #ff9f43;
+        font-weight: bold;
+    }
+
+    .status-join {
+        color: #00f2fe;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    .status-join:hover {
+        color: #4facfe;
+        text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="lobby-section">
+    <div class="container text-center">
         
-        <tr>
-          <td>#012</td>
-          <td>28/05/2026</td>
-          <td>Captura bandera</td>
-          <td>Mirage</td>
-          <td class="text-orange">Lleno</td>
-        </tr>
+        <h1 class="lobby-title">Lobby Salas Públicas</h1>
         
-        <tr>
-          <td>#006</td>
-          <td>20/05/2026</td>
-          <td>Captura bandera</td>
-          <td>Nuketown</td>
-          <td><a href="{{ url_for('sala_publica') }}" class="nav-button">Unirse 9/10</a></td>
-        </tr>
-      </tbody>
-    </table>
-</body>
-</html>
+        <div class="table-responsive-custom">
+            <table class="table custom-table table-dark table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">ID Reserva</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Modalidad</th>
+                        <th scope="col">Campo</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#021</td>
+                        <td>25/05/2026</td>
+                        <td>Captura bandera</td>
+                        <td>Mirage</td>
+                        <td><span class="status-full">Lleno</span></td>
+                    </tr>
+                    <tr>
+                        <td>#012</td>
+                        <td>28/05/2026</td>
+                        <td>Captura bandera</td>
+                        <td>Mirage</td>
+                        <td><span class="status-full">Lleno</span></td>
+                    </tr>
+                    <tr>
+                        <td>#006</td>
+                        <td>20/05/2026</td>
+                        <td>Captura bandera</td>
+                        <td>Nuketown</td>
+                        <td><a href="#" class="status-join">Unirse 9/10</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

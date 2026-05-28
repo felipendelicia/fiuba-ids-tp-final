@@ -18,7 +18,7 @@
     z-index: -1;
 }
 #boxIcono{
-    background-color: rgb(188, 188, 188);
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
     border-radius: 50%;
     width: 9rem;
     height: 9rem;
@@ -31,6 +31,7 @@
 }
 
 .box-form{
+    background-color: rgba(18, 22, 26, 0.95);
     display: flex;
     padding-top: 10px;
     padding-bottom: 20px;
@@ -38,39 +39,48 @@
     align-items: center;
     width: 500px;
     height: auto;
-    background-color: rgb(212, 103, 1);
-    border-radius: 2rem;
+    border: 1px solid rgba(79, 172, 254, 0.25);
+    border-radius: 16px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: white;
 }
 .box-form a{
     text-decoration: none;  
-    color: rgba(255, 255, 255, 0.5);
+    color: #00f1fec6;
 }
 .box-form a:hover{
-    color: white;
+    color: #00f2fe;
 }
 .box-form p{
     width: 350px;
     margin: 15px;
+
 }
 .box-form h2{
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     padding: 10px;
     font-weight: bold;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
     .style-form input{
+        background-color: #00f1fe00;
         margin-top: 8px;
         margin-left: 5px;
-        width: 320px;
         margin-bottom: 8px;
-        background-color: rgba(249, 233, 214, 0.569);
-        border-block-color: white;
+        padding: 6px;
+        font-size: 15px;
+        width: 320px;
+        border-block-color: #00f1fe66;
         border-radius: 4px;
-        font-size: medium;
+        color: white;
     }
     .style-form input:focus {
-        outline: 3.5px solid rgb(212, 103, 1);
-}
+        color: #000000;
+        border: 1.5px solid rgb(255, 255, 255) ;
+        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);    
+    }
 
 
     .box-check{
@@ -79,6 +89,8 @@
         flex-direction: row;
         align-items: center;
         justify-content: left;
+        color: #00f1fed7;
+
     }
     .box-check input{
         border-radius: 5px;
@@ -95,18 +107,19 @@
     }
 
     .btn-form{
+        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
         border-radius: 8px;
         padding: 10px;
         margin: 15px;
-        border: solid 1px rgb(255, 255, 255);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         cursor: pointer;
     }
 
     .btn-form:hover{
-        background-color: rgb(212, 103, 1);
-        border-color: rgb(152, 131, 108);
-        transform: scale(1.03);
+        box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+        background-color: #00f2fe;
+        transform: translateY(-2px);
+        color: #0b0d0f;
     }
 
     .btn-form a{
@@ -115,33 +128,33 @@
     }
  
 .box-register{
+    background-color: rgba(18, 22, 26, 0.95);
     width: 300px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    background-color: rgb(212, 103, 1);
     border-radius: 15px;
     margin-top: 30px;
     padding: 10px 10px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(79, 172, 254, 0.25);
+}
 
+.box-register a, .box-register p{
+    text-decoration: none;  
+    color: #00f1fec6;
+    margin: 0;
 }
 .box-form:hover, .box-register:hover{
-    box-shadow: 2px 0px 14px rgb(255, 255, 255);
-    transform: scale(1.03);
-    background-color: #d7a10b;
-    color: #000000;
-}
-.box-register a{
-    text-decoration: none;  
-    color: rgba(255, 255, 255, 0.5);
-}
-.box-register a:hover{
+    box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+    transform: translateY(-2px);
+    background-color: rgba(18, 22, 26, 1);
     color: white;
 }
-.box-register p{
-    margin: 0;
+.box-register a:hover{
+    color: #00f1fe;
+
 }
 
 

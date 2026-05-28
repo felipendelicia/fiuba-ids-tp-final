@@ -26,11 +26,6 @@
                 </a>
             </div>
 
-            <div class="d-flex align-items-center gap-2 ms-auto me-2">
-                <a href="{{ url_for('login') }}" class="btn btn-outline-info btn-sm">Inicia Sesión</a>
-                <a href="{{ url_for('register') }}" class="btn btn-info btn-sm text-dark fw-bold">Regístrate</a>
-            </div>
-
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -49,7 +44,7 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('servicios') }}">Servicios</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('campos') }}">Campos de juego</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('equipamiento_info') }}">Equipamiento</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Perfil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('perfil') }}">Perfil</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a></li>
                     </ul>
                 </div>

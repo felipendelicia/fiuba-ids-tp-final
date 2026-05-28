@@ -36,6 +36,10 @@ def perfil():
 def reservas():
     return render_template('reservas.html')
 
+@app.route("/reservaslogged")
+def reservaslogged():
+    return render_template('reservaslogged.html')
+
 # 7. Ruta para la página de Reseñas
 @app.route("/reseñas")
 def reseñas():
@@ -60,11 +64,6 @@ def dasboard():
 @app.route("/lobby-publicas")
 def lobby_publicas():
     return render_template('lobbypublicas.html')
-
-# 12. Ruta para la página de Reserva de Sala Pública
-@app.route("/sala-publica")
-def sala_publica():
-    return render_template('salaspublicas.html')
 
 # 13. Ruta para la página de Servicios
 @app.route('/servicios')

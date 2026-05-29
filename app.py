@@ -148,9 +148,15 @@ def equipamiento():
 @app.route("/notloggedequipamientoinfo/notloggedchaleco")
 def notloggedchaleco():
     return render_template('notloggedchaleco.html')
+@app.route("/notloggedequipamientoinfo/notloggedcasco")
+def notloggedcasco():
+    return render_template('notloggedcasco.html')
 @app.route('/perfil/equipamientoinfo/chaleco')
 def chaleco():
     return render_template('chaleco.html')
+@app.route('/perfil/equipamientoinfo/casco')
+def casco():
+  return render_template('casco.html')
 # Error de pagina
 @app.errorhandler(404)
 def page_not_found(e):

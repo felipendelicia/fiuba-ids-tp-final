@@ -1,0 +1,87 @@
+{% extends 'default.html' %}
+
+{% block title %}Kinetix - Armadura y Vestimenta Táctica{% endblock %}
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/equipamiento.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/chaleco.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="equipamiento-section">
+    <div class="vestimenta-container">
+        
+        <div class="text-center mb-5">
+            <h1 class="equipamiento-title">INDUMENTARIA DE COMBATE</h1>
+            <p class="equipamiento-description mx-auto">
+                Sistemas de blindaje corporal y vestimenta ergonómica optimizada para operaciones de alta intensidad. Selecciona tu configuración de protección.
+            </p>
+        </div>
+
+        <div class="equipamiento-card">
+            
+            <div class="vestimenta-media-box">
+                <img src="{{ url_for('static', filename='img/ejemplo.png') }}" alt="Chaleco Táctico Pro">
+            </div>
+            
+            <div class="vestimenta-info">
+                <span class="vestimenta-tag">Protección Superior</span>
+                <h2 class="vestimenta-name">CHALECO PORTAPLACAS DEFLEX V-1</h2>
+                
+                <p class="vestimenta-text">
+                    El chaleco Deflex V-1 representa la cumbre de la protección modular deportiva. Fabricado en Cordura de 1000 deniers de grado militar, cuenta con un sistema de liberación rápida mediante cables de acero trenzado. Su interior está equipado con una malla tridimensional termosellada que genera canales de ventilación continuos, reduciendo drásticamente la fatiga térmica del operador durante partidas prolongadas en climas exigentes. Permite la integración de placas de absorción de impacto estándar en los compartimentos delantero, trasero y laterales.
+                </p>
+
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Material Exterior</span>
+                        <span class="spec-value">Cordura 1000D de alta torsión</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Sistema de Anclaje</span>
+                        <span class="spec-value">MOLLE Láser Cut Completo</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Ajuste de Talla</span>
+                        <span class="spec-value">Fajas laterales elásticas (Cummerbund)</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="equipamiento-card">
+            
+            <div class="vestimenta-media-box">
+                <img src="{{ url_for('static', filename='img/ejemplo.png') }}" alt="Indumentaria Apex">
+            </div>
+            
+            <div class="vestimenta-info">
+                <span class="vestimenta-tag">Ergonomía & Movilidad</span>
+                <h2 class="vestimenta-name">CAMISOLA TÁCTICA APEX COMBAT</h2>
+                
+                <p class="vestimenta-text">
+                    Diseñada específicamente para ser utilizada debajo de chalecos portaplacas pesados. Las mangas están construidas con una lona Ripstop anti-desgarro que resiste la fricción de ramas, muros y suelos rugosos, incorporando además bolsillos de perfil bajo con paneles de velcro para parches de identificación. El torso está confeccionado con un tejido técnico ultra-transpirable de rápida evaporación que absorbe la humedad corporal y la expulsa hacia el exterior, manteniendo la piel seca y evitando rozaduras molestas por el movimiento del equipamiento rígido.
+                </p>
+
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Tejido del Torso</span>
+                        <span class="spec-value">Polímero Dry-Fit Hipoalergénico</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Tejido de Mangas</span>
+                        <span class="spec-value">Algodón y Poliéster Ripstop</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Protección Extra</span>
+                        <span class="spec-value">Compartimento para coderas internas</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock %}

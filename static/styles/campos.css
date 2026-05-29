@@ -1,11 +1,19 @@
 /* ==========================================================================
-   MAPS (CAMPOS.HTML)
+   MAPS (CAMPOS.HTML) - ESTILO TÁCTICO OSCURO
    ========================================================================== */
+
 .maps {
   display: flex;
   flex-direction: column;
   width: 100%;
   padding-top: 56px;
+  /* Agregamos el fondo oscuro con grilla Kinetix al contenedor principal */
+  background-color: #0b0d0f;
+  background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  min-height: calc(100vh - 56px);
 }
 
 .maps__title {
@@ -13,20 +21,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1.5rem 0 1.5rem 0;
+  padding: 1.5rem 0 3rem 0;
 }
 
 .maps__title h2 {
-  padding: 0.5rem 1.5rem;
   margin: 0;
-  font-weight: 600;
+  /* Título Neón Cyan como en Servicios */
+  font-family: 'Orbitron', 'Arial Black', sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .maps__container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 2.5rem;
   width: 100%;
   max-width: 80%;
   margin: 0 auto;
@@ -37,23 +52,40 @@
 .maps__card {
   display: flex;
   flex-direction: row;
-  background-color: #ffffff;
-  border-radius: 0.5rem;
+  /* Convertimos la tarjeta blanca de Dante a tu estilo oscuro */
+  background-color: rgba(18, 22, 26, 0.8);
+  border: 1px solid rgba(79, 172, 254, 0.2);
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   width: 100%;
-  min-height: 160px;
+  min-height: 180px;
+  /* Preparamos las animaciones */
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* EFECTO HOVER: Iluminación y sombra cyan al apuntar con el mouse */
+.maps__card:hover {
+  transform: translateY(-8px);
+  border-color: #00f2fe;
+  box-shadow: 0 10px 30px rgba(0, 242, 254, 0.3);
 }
 
 .maps__card img {
   width: 35%;
   object-fit: cover;
   display: block;
+  /* Agregamos la transición para que el zoom sea suave */
+  transition: transform 0.5s ease;
+}
+
+/* Zoom de la imagen al hacer hover en la tarjeta */
+.maps__card:hover img {
+  transform: scale(1.08);
 }
 
 .maps__info {
   width: 65%;
-  padding: 1.5rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -61,15 +93,18 @@
 }
 
 .maps__info h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.3rem;
-  color: #212529;
+  margin: 0 0 1rem 0;
+  /* Texto claro y tipografía gamer para el título del mapa */
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px;
+  color: #ffffff;
+  text-transform: uppercase;
 }
 
 .maps__description {
-  margin: 0 0 1rem 0;
-  font-size: 0.95rem;
-  color: #6c757d;
-  line-height: 1.4;
+  margin: 0;
+  /* Texto gris claro para que se lea perfecto sobre fondo oscuro */
+  color: #a0aec0;
+  font-size: 15px;
+  line-height: 1.6;
 }
-

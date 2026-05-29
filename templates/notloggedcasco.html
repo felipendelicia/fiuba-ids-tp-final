@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Protección de Rostro{% endblock %}
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/equipamiento.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/rostro.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="equipamiento-section">
+    <div class="rostro-container">
+        
+        <div class="text-center mb-5">
+            <h1 class="equipamiento-title">PROTECCIÓN FACIAL Y CRANEAL</h1>
+            <p class="equipamiento-description mx-auto">
+                Sistemas de seguridad balística y aislamiento certificado. Equipamiento obligatorio homologado para el ingreso a las zonas de juego recreativo.
+            </p>
+        </div>
+
+        <div class="rostro-card">
+            <div class="rostro-media">
+                <img src="{{ url_for('static', filename='img/ejemplo.png') }}" alt="Casco Táctico">
+            </div>
+            
+            <div class="rostro-info">
+                <span class="rostro-tag">Blindaje Craneal</span>
+                <h2 class="rostro-name">CASCO INTEGRAL SATORI FAST</h2>
+                
+                <p class="rostro-text">
+                    El casco Satori FAST ofrece una estructura rígida de polímero ABS de alto impacto capaz de disipar la energía de impactos directos a corta distancia. Su diseño incluye rieles laterales ARC para el acople de linternas o sistemas de comunicación por radio, y una montura frontal tipo NVG para dispositivos de grabación. El sistema de suspensión interno tipo OCC-Dial permite un ajuste milimétrico al contorno de la cabeza mediante una perilla trasera, evitando cualquier tipo de balanceo molesto durante desplazamientos tácticos veloces o saltos.
+                </p>
+
+                <div class="status-bar-container">
+                    <div class="status-label">Absorción de Impacto <span>95%</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 95%;"></div></div>
+                    
+                    <div class="status-label">Ligereza y Confort <span>80%</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 80%;"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rostro-card">
+            <div class="rostro-media">
+                <img src="{{ url_for('static', filename='img/ejemplo.png') }}" alt="Gafas de Protección">
+            </div>
+            
+            <div class="rostro-info">
+                <span class="rostro-tag">Protección Ocular Obligatoria</span>
+                <h2 class="rostro-name">ANTIPARRAS ALPHA SPECTER - ANTIEMPAÑANTE</h2>
+                
+                <p class="rostro-text">
+                    La seguridad ocular es la prioridad absoluta en el campo de juego. Las antiparras Alpha Specter están equipadas con lentes de policarbonato de alta densidad con certificación balística EN166. Su marco de goma estanca sella por completo el contorno de los ojos impidiendo el ingreso de proyectiles desde ángulos ciegos. Cuenta con tecnología micro-estriada de ventilación perimetral y un recubrimiento químico interno anti-fog (antiempañante) de larga duración que garantiza una visibilidad nítida en condiciones de humedad extrema o alta transpiración.
+                </p>
+
+                <div class="status-bar-container">
+                    <div class="status-label">Resistencia Balística <span>100%</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 100%;"></div></div>
+                    
+                    <div class="status-label">Flujo de Ventilación / Anti-Empañe <span>90%</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 90%;"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rostro-card">
+            <div class="rostro-media">
+                <img src="{{ url_for('static', filename='img/ejemplo.png') }}" alt="Pasamontañas Táctico">
+            </div>
+            
+            <div class="rostro-info">
+                <span class="rostro-tag">Protección de Piel y Rostro</span>
+                <h2 class="rostro-name">PASAMONTAÑAS BALACLAVA SHIELD DRY</h2>
+                
+                <p class="rostro-text">
+                    Diseñado como una capa de protección ligera para el cuello, las orejas y la mandíbula inferior. Confeccionado en un tejido híbrido de poliéster y spandex, se adapta ergonómicamente a las facciones sin presionar las vías respiratorias. Su función principal es mitigar el impacto directo de los balines en zonas sensibles de la piel y actuar como una barrera higiénica absorbente antes de colocarse el casco rígido. Su material microperforado en la zona de la boca facilita la exhalación de aire, reduciendo la acumulación de calor hacia las gafas.
+                </p>
+
+                <div class="status-bar-container">
+                    <div class="status-label">Transpirabilidad <span>95%</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 95%;"></div></div>
+                    
+                    <div class="status-label">Atenuación de Impacto <span>60%</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 60%;"></div></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

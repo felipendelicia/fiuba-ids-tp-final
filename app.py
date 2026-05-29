@@ -8,19 +8,62 @@ def index():
     return render_template('index.html')
 
 # 2. Ruta para la página de Iniciar Sesion
-@app.route("/login")
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    # usuario que fue enviado de la api
+    usuario = {
+        "email": "piter@gmail.com",
+        "password": "piter123"
+    }
+    if (request.method == 'POST'):
+        email = request.form.get("email")
+        password = request.form.get("password")
+        recuerdame = request.form.get("recuerdame")
+
+        if(password == usuario["password"] and email == usuario["email"]):
+            # falta implementar el recuerdame ....
+          return render_template('perfil.html')
+        else:
+            print('Necesitas iniciar sesion primero')
+
     return render_template('login.html')
 
 # 3. Ruta para la página de Registrar Nuevo Usuario
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-  return render_template('register.html')
+    # nuevo usuario para enviar a la api
+    nuevo_usuario = {}
+    if (request.method == 'POST'):
+        name = request.form.get('name')
+        dni = request.form.get('dni')
+        user_name = request.form.get('user_name')
+        email = request.form.get('email')
+        gender = request.form.get('gender')
+        phone = request.form.get('phone')
+        password = request.form.get('password')
+
+        nuevo_usuario['name'] = name
+        nuevo_usuario['dni'] = dni
+        nuevo_usuario['user_name'] = user_name
+        nuevo_usuario['email'] = email
+        nuevo_usuario['gender'] = gender
+        nuevo_usuario['phone'] = phone
+        nuevo_usuario['password'] = password
+        print(nuevo_usuario)
+        return render_template('perfil.html', usuario = nuevo_usuario)
+    return render_template('register.html')
 
 # 4. Ruta para la pagína de Recuperación Contraseña de Usuario
-@app.route('/password')
+@app.route('/password', methods=['GET', 'POST'])
 def password():
-  return render_template('password.html')
+    #email que del usuario para enviarle instruccuiones de cambiar contraseña
+    email_user = "piter@gmail.com"
+    if (request.method == 'POST'):
+        email = request.form.get('email')
+        if (email == email_user):
+            print("se envio instrucciones para recueperar la contraseña")
+            return render_template('index.html')
+    return render_template('password.html')
 
 # 5. Ruta para la página de Campos de Juegos
 @app.route("/notloggedcampos")

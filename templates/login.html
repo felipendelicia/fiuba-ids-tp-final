@@ -17,16 +17,16 @@
                 <i class="fa fa-user"></i>
             </div>
             <h2>LOGIN</h2>
-            <form class="style-form" action="/url_a_donde_enviar" method="post">
+            <form class="style-form" action="{{ url_for('login')}}" method="POST">
                 <i class="fa fa-envelope"></i>
-                <input type="email" placeholder="Ingresá tu email" required><br>
+                <input type="email" name="email" placeholder="Ingresá tu email" required><br>
 
                 <i class="fa fa-lock"></i>
-                <input type="password" placeholder="Ingresá tu contraseña" required><br>
+                <input type="password" name="password" placeholder="Ingresá tu contraseña" required><br>
 
                 <div class="box-check">
-                    <input type="checkbox" name="" id="">
-                    <label for="">Recuerdame</label><br>
+                    <input type="checkbox" name="recuerdame" value="true" id="recuerdame">
+                    <label for="recuerdame">Recuerdame</label><br>
                 </div>
 
                 <div class="box-center">

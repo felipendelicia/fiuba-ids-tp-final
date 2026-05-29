@@ -39,7 +39,7 @@ def perfil():
 def reservas():
     return render_template('reservas.html')
 
-@app.route("/reservaslogged")
+@app.route("/perfil/reservaslogged")
 def reservaslogged():
     return render_template('reservaslogged.html')
 
@@ -121,9 +121,16 @@ def admin_servicios():
 @app.route('/notloggedequipamientoinfo')
 def notloggedequipamiento_info():
     return render_template('notloggedequipamientoinfo.html')
+@app.route('/notloggedequipamientoinfo/notloggedarmasinfo')
+def notloggedarmasinfo():
+    return render_template('notloggedarmasinfo.html')
+
 @app.route('/perfil/equipamientoinfo')
 def equipamiento_info():
     return render_template('equipamientoinfo.html')
+@app.route('/perfil/equipamientoinfo/armasinfo')
+def armasinfo():
+    return render_template('armasinfo.html')
 
 @app.route('/equipamiento', methods=['GET', 'POST'])
 def equipamiento():
@@ -138,5 +145,6 @@ def equipamiento():
         equipamiento_db.append({"id": nuevo_id, "tipo": tipo, "cantidad": cantidad})
         return render_template('equipamiento.html', equipamiento=equipamiento_db)
     return render_template('equipamiento.html', equipamiento=equipamiento_db)
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

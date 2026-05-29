@@ -13,7 +13,7 @@ function caracteristicas_pie(_){
     }
     por_ocupado = ((nombres.length - disponibles)/nombres.length)*100;
     pie_date.innerText = `${por_ocupado}%`;
-    pie_grafic.style.background = `conic-gradient(orange 0% ${por_ocupado}%, white ${por_ocupado}% 100%)`;
+    pie_grafic.style.background = `conic-gradient( #00f2fe 0% ${por_ocupado}%, rgba(0,0,0,0) ${por_ocupado}% 100%)`;
 }
 
 function desplegar_tablero() {

@@ -1,21 +1,28 @@
 #sectionDashboard{
+    background-color: #0b0d0f;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    display: block;
+    padding: 80px 0;
     margin-top: 0rem;
     padding-top: 4rem;
-    background-color: rgba(122, 122, 122, 0.972);
-    display: block;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: auto;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Orbitron', sans-serif;
 }
 
 #titleContent{
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: orange;
     font-size: 38px;
     font-weight: bold;
 }
@@ -27,7 +34,7 @@
     justify-content: space-around;
 }
 #parametros div{
-    background-color: orange;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -36,11 +43,13 @@
     margin: 2px;
     width: auto;
     height: 5rem;
+    border: 1px solid rgba(79, 172, 254, 0.2);
     border-radius: 0.5rem;
 }
     .ingresos{
         font-size: 2rem;
         font-weight: bold;
+
     }
 #barrasCalendario{
     display: flex;
@@ -52,19 +61,19 @@
     display: block;
     padding: 1rem;
 }
-#barras{
+#barras{  
     display: flex;
     align-items: flex-end; 
+    justify-content: center;
     padding: 25px;
     gap: 10px;
     height: auto; 
     width: 50%;
-    border-left: 2px solid #333;
-    border-bottom: 2px solid #333;
+    border: 2px solid rgba(79, 172, 254, 0.2);
     border-radius: 1rem;
 }
 #barras div{
-    background-color: rgba(255, 166, 0, 0.505);
+    background: linear-gradient(135deg, #00f1fe94 0%, #4facfeac 100%);
     width: 5rem;
     height: auto;
     text-align: center;
@@ -81,18 +90,22 @@
 }
 
 #barras div:hover{
-    background-color: orange;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
     font-weight: bold;
 }
 
 .container-dashboard{
     display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
     height: auto;
     padding: 1rem;
     width: 50%;
-    flex-direction: column;
+    border-radius: 8px;
+    border: 2px solid rgba(79, 172, 254, 0.2);
 }
 #box-title{
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -105,22 +118,24 @@
 }
 
 .box-dias{
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     display: grid;
     text-align: center;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     padding: 0px;
-    border-radius: 8px 8px 0px 0px;
-    border-right: 2px solid #333;
-
 }
 .container-time{
+    background: linear-gradient(135deg, #00f1fe94 0%, #4facfeac 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     display: grid;
     text-align: center;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     padding: 0rem 0rem 1rem 0rem;
     border-radius: 0px 0px 8px 8px; 
-    border-bottom: 2px solid #333;
-    border-right: 2px solid #333;
+
 }
 .box-dias div{
     font-size: x-large;
@@ -132,8 +147,11 @@
     border-radius: 5px;
 }
 .container-time div:hover{
-    background-color: orange;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     cursor: pointer;
+    font-weight: bold;
 }
 
 #container-hide{
@@ -141,10 +159,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    border: 1px solid rgba(79, 172, 254, 0.2);
 }
 
 #container-tables{
-    background-color: orange;
+    background-color: rgba(18, 22, 26, 0.6);
     display: flex;
     margin: 30px;
     padding: 10px;
@@ -152,24 +171,27 @@
     height: 100%;
     flex-direction: column;
     border-radius: 8px;
-    border: 2px solid black;
+    border: 1px solid #374151; 
 }
     .box-reservations{
         display: grid;
         grid-template-columns: 10% 18% 18% 20% 17% 16%;
     }
     .box-reservations div{
+        background-color: #212529; 
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
-        background-color: #ffffffc2;
-        border: 1px solid orange;
+        border: 1px solid rgba(79, 172, 254, 0.2);
         padding: 10px;
+        color: #ffffff;            
     }
     .subtitulo-reservas{
+        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         font-weight: bold;
-        color: orange;
     }
 
 #container-pie{
@@ -191,35 +213,42 @@
         box-shadow: 5px 2px 15px rgb(255, 255, 255);
         background: conic-gradient(
             #9dbd9e 0% 40%,
-            #f4b136 40% 100%  
+            #00f2fe 40% 100%  
         );
     }
     #pie-chart div {
+        background-color: #0b0d0f;
+        background-image:
+            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 20px 20px;
         display: flex;
         justify-content: center;
         align-items: center;
         text-align: center;
-        box-shadow: 5px 2px 15px orange;
-        background-color: rgb(136, 136, 136);
+        box-shadow: 5px 2px 15px rgb(255, 255, 255);
         border-radius: 50%;
         width: 70%;
         height: 70%;
     }
     .circule h2{
         margin: 0;
-        color: orange;
+        color: #00f2fe;
     }   
 
     #pieDate{
         font-size: 5pc;
-        color: orange;
+        color: #00f2fe;
     }
 
 /* Pantallas chicas (móvil) */
-@media (max-width: 600px) {
-
+@media (max-width :1200px) {
+    #parametros div{
+        padding: 0px;
+        width: 8rem;
+    }
     #sectionDashboard{
-        padding-top: 20%;
+        padding-top: 25%;
         margin-top: 0rem;
     }
     .container-dashboard{

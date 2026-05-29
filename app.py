@@ -39,7 +39,7 @@ def perfil():
 def reservas():
     return render_template('reservas.html')
 
-@app.route("/reservaslogged")
+@app.route("/perfil/reservaslogged")
 def reservaslogged():
     return render_template('reservaslogged.html')
 

@@ -1,3 +1,4 @@
+/* Login Register Password*/
 #sectionLogin, #sectionRegister, #sectionPassword{
     display: flex;
     flex-direction: column;
@@ -6,7 +7,6 @@
     height: 100vh;
     background-color: rgb(255, 245, 232, 0);
 }
-
 .video-backg{
     position: fixed;
     top: 50%;
@@ -29,7 +29,6 @@
     font-size: 7rem;
     transform: translateY(9%) translateX(24%);
 }
-
 .box-form{
     background-color: rgba(18, 22, 26, 0.95);
     display: flex;
@@ -54,7 +53,6 @@
 .box-form p{
     width: 350px;
     margin: 15px;
-
 }
 .box-form h2{
     font-size: 2.5rem;
@@ -81,8 +79,6 @@
         border: 1.5px solid rgb(255, 255, 255) ;
         background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);    
     }
-
-
     .box-check{
         font-size: medium;
         display: flex;
@@ -115,14 +111,20 @@
         cursor: pointer;
     }
 
-    .btn-form:hover{
+    .btn-form:hover, .btn-error:hover{
         box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
         background-color: #00f2fe;
         transform: translateY(-2px);
         color: #0b0d0f;
     }
 
-    .btn-form a{
+    .btn-form a, .btn-error a{
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+        padding: 10px;
         text-decoration: none;  
         color: rgb(0, 0, 0);
     }
@@ -154,7 +156,121 @@
 }
 .box-register a:hover{
     color: #00f1fe;
-
 }
 
+@media (max-width:600px) {
+    #sectionLogin, #sectionRegister, #sectionPassword{
+        margin: 12rem 0rem 7rem 0rem;
+    }
+    .box-form{
+        width: 90%;
+    }
+    .style-form i{
+        display: flex;
+        justify-content: center;
+    }
+    .style-form input{
+        width: 100%;
+    }
+    .box-form p {
+        width: 100%;
+        margin: 15px;
+        padding: 0px 20px;
+    }
+}
+
+
+/* Error 404 */
+#section404{
+    background-color: #0b0d0f;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0rem;
+    align-items: center;
+    justify-content: center;
+    height: 93vh;
+    font-family: 'Orbitron', sans-serif;
+}
+.container-404{
+    /* background-color: rgba(18, 22, 26, 0.95); */
+    background-image: url("/static/img/fondo404.png");
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+    width: 85%;
+    height: auto;
+    border: 1px solid rgba(79, 172, 254, 0.25);
+    border-radius: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: white;
+}
+#title404{
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17rem;
+    font-weight: bold;
+}
+#mensajePrincipal{
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-size: 2rem;
+    font-weight: bold;
+}
+#mensaje{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 1rem 0rem;
+    color: #00f2fe;
+    font-size: 1.5rem;
+}
+
+.btn-error {
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    border-radius: 8px;
+    width: 90%;
+    padding: 0px;
+    margin: 0px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.box-404{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    margin: 1rem;
+}
+/* Pantallas chicas (error404) */
+@media (max-width :1200px) {
+    #section404{
+        margin-top: 2rem;
+        height: 90vh;
+    }
+    .container-404{
+        background-position: 50%;
+    }
+    #title404{
+        font-size: 7rem;
+    }
+    #mensajePrincipal{
+        font-size: 1.5rem;
+    }
+    #mensaje{
+        font-size: 1rem;
+    }
+}
 

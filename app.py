@@ -145,6 +145,10 @@ def equipamiento():
         equipamiento_db.append({"id": nuevo_id, "tipo": tipo, "cantidad": cantidad})
         return render_template('equipamiento.html', equipamiento=equipamiento_db)
     return render_template('equipamiento.html', equipamiento=equipamiento_db)
+# Error de pagina
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

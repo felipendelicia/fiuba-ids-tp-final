@@ -1,6 +1,4 @@
-{% extends 'default.html' %}
-
-{% block title %}Airsoft - Contacto Operativo{% endblock %}
+{% extends 'base.html' %} {% block title %}Airsoft - Contacto Operativo{% endblock %}
 
 {% block style_extra %}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/contacto.css') }}">
@@ -12,7 +10,7 @@
     <p class="contacto-subtitle">¿Dudas sobre reservas o torneos? Envíanos un reporte.</p>
 
     <div class="contacto-card">
-        <form action="/contacto" method="POST">
+        <form action="/notloggedcontacto" method="POST">
 
             <div class="form-group">
                 <label for="nombre">Nombre / Callsign</label>

@@ -23,7 +23,10 @@ def password():
   return render_template('password.html')
 
 # 5. Ruta para la página de Campos de Juegos
-@app.route("/campos")
+@app.route("/notloggedcampos")
+def notloggedcampos():
+    return render_template('notloggedcampos.html')
+@app.route("/perfil/campos")
 def campos():
     return render_template('campos.html')
 
@@ -41,9 +44,9 @@ def reservaslogged():
     return render_template('reservaslogged.html')
 
 # 7. Ruta para la página de Reseñas
-@app.route("/reseñas")
+@app.route("/perfil/reseñas")
 def reseñas():
-    return render_template('adminresenas.html')
+    return render_template('reseñas.html')
 
 # 8. Ruta para la página de administración de reservas
 @app.route("/admin-reservas")
@@ -66,16 +69,31 @@ def lobby_publicas():
     return render_template('lobbypublicas.html')
 
 # 13. Ruta para la página de Servicios
-@app.route('/servicios')
+@app.route('/notloggedservicios')
+def notloggedservicios():
+    servicios_db = [
+        {"id": 1, "nombre": "Bufet / Bar", "descripcion": "Venta de bebidas y comidas post-partido."},
+        {"id": 2, "nombre": "Estacionamiento", "descripcion": "Predio cerrado con seguridad para autos y motos."}
+    ]
+    return render_template('notloggedservicios.html', servicios=servicios_db)
+@app.route('/perfil/servicios')
 def servicios():
     servicios_db = [
         {"id": 1, "nombre": "Bufet / Bar", "descripcion": "Venta de bebidas y comidas post-partido."},
         {"id": 2, "nombre": "Estacionamiento", "descripcion": "Predio cerrado con seguridad para autos y motos."}
     ]
     return render_template('servicios.html', servicios=servicios_db)
-
 # 14. Ruta para la página de Contacto
-@app.route('/contacto', methods=['GET', 'POST'])
+@app.route('/notloggedcontacto', methods=['GET', 'POST'])
+def notloggedcontacto():
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        email = request.form.get('email')
+        mensaje = request.form.get('mensaje')
+        return redirect(url_for('contacto'))
+    return render_template('notloggedcontacto.html')
+
+@app.route('/perfil/contacto', methods=['GET', 'POST'])
 def contacto():
     if request.method == 'POST':
         nombre = request.form.get('nombre')
@@ -100,7 +118,10 @@ def admin_servicios():
     return render_template('adminservicios.html', servicios=servicios_db)
 
 # 16. Ruta para la página de Equipamientos
-@app.route('/equipamientoinfo')
+@app.route('/notloggedequipamientoinfo')
+def notloggedequipamiento_info():
+    return render_template('notloggedequipamientoinfo.html')
+@app.route('/perfil/equipamientoinfo')
 def equipamiento_info():
     return render_template('equipamientoinfo.html')
 

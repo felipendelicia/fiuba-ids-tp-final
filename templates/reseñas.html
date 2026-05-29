@@ -1,0 +1,54 @@
+{% extends 'default.html' %}
+
+{% block title %}Kinetix - Administrador de Reseñas{% endblock %}
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/reseñas.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="review-section">
+    <h1 class="review-title">¡Dejanos tu reseña!</h1>
+
+    <div class="review-form-container">
+        <form action="#" class="review-grid">
+            
+            <div class="form-group">
+                <label class="form-label">Nombre de usuario</label>
+                <input type="text" class="form-input" placeholder="Tu usuario...">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Mapa</label>
+                <select class="form-input">
+                    <option value="" disabled selected hidden>Seleccionar...</option>
+                    <option value="nuketown">Nuketown</option>
+                    <option value="mirage">Mirage</option>
+                    <option value="dust2">Dust 2</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Puntuación</label>
+                <select class="form-input">
+                    <option value="5">5 - Excelente</option>
+                    <option value="4">4 - Muy Bueno</option>
+                    <option value="3">3 - Bueno</option>
+                    <option value="2">2 - Regular</option>
+                    <option value="1">1 - Mala</option>
+                </select>
+            </div>
+
+            <div class="form-group group-comentarios">
+                <label class="form-label">Comentarios</label>
+                <textarea class="form-input" rows="1" placeholder="Escribir opinión acerca de la experiencia..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn-enviar-resena">Publicar</button>
+            </div>
+
+        </form>
+    </div>
+</section>
+{% endblock %}

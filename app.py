@@ -145,6 +145,12 @@ def equipamiento():
         equipamiento_db.append({"id": nuevo_id, "tipo": tipo, "cantidad": cantidad})
         return render_template('equipamiento.html', equipamiento=equipamiento_db)
     return render_template('equipamiento.html', equipamiento=equipamiento_db)
+@app.route("/notloggedequipamientoinfo/notloggedchaleco")
+def notloggedchaleco():
+    return render_template('notloggedchaleco.html')
+@app.route('/perfil/equipamientoinfo/chaleco')
+def chaleco():
+    return render_template('chaleco.html')
 # Error de pagina
 @app.errorhandler(404)
 def page_not_found(e):

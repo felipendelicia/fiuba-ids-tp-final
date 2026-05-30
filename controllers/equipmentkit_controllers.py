@@ -4,4 +4,4 @@ from errors import ERRORS
 
 
 def listar_kit_equipamientos():
-    pass
+

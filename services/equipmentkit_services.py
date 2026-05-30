@@ -1,5 +1,4 @@
 from flask import jsonify, request
-# Importamos las funciones de la base de datos
 from controllers.equipmentkit_controllers import *
 
 

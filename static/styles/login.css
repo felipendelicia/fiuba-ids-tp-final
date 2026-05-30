@@ -61,6 +61,7 @@
     background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
     .style-form input{
         background-color: #00f1fe00;
@@ -181,7 +182,7 @@
 
 
 /* Error 404 */
-#section404, #sectionPerfilAdmin{
+#section404, #sectionPerfilAdmin, #sectionServiciosAdmin{
     background-color: #0b0d0f;
     background-image:
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -212,16 +213,30 @@
     background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 17rem;
     font-weight: bold;
 }
+#titleContent, #titleContent h1{
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    font-weight: bold;
+}
 #mensajePrincipal{
     background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     display: flex;
     align-items: center;
     justify-content: start;
@@ -294,6 +309,7 @@
     background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -354,4 +370,44 @@
     flex-direction: column;
     justify-content: end;
     align-items: end;
+}
+
+/* Administración de servicios */
+.box-agregarservicio{
+    padding: 1rem;
+    width: 100%;
+    height: auto;
+}
+.box-agregarservicio input{
+        background-color: #00f1fe00;
+        margin-top: 8px;
+        margin-left: 5px;
+        margin-bottom: 8px;
+        padding: 6px;
+        font-size: 15px;
+        width: 320px;
+        border-block-color: #00f1fe66;
+        border-radius: 4px;
+        color: white;
+    }
+.tabla-adminServicios{
+    border: 1px solid rgba(79, 172, 254, 0.5);
+    border-radius: 16px;
+    width: 100%;
+    margin: 20px 0px;
+}
+.tabla-adminServicios tbody, .tabla-adminServicios tr{
+    border-width: 1px;
+}
+.tabla-adminServicios td, .tabla-adminServicios th {
+    display: table-cell;
+    border-color: inherit;
+    border-style: solid;
+    border-width: 1px;
+    padding: 12px;
+    text-align: left;
+}
+.titulo-tablaAdminServicio{
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    color: black;
 }

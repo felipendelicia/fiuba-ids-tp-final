@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Kenetix - Página del perfil del Admin{% endblock %}
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/login.css')}}">
+{% endblock %}
+
+
+{% block content %}
+<Section id="sectionPerfilAdmin">
+    <div class="container-perfilAdmin">
+        <div class="box-perfilAdmin">
+
+            <span id="datosUser">Bienvenido User</span>
+            <div class="box-panel">
+                <span id="mensaje">AJUSTAR SISTEMA</span>
+                
+                <div class="box-btns">
+                    <div class="box-center">
+                        <button class="btn-error"><a class="btna" href="{{ url_for('index')}}">R</a></button>
+                        RESERVAS
+                    </div>
+                    <div class="box-center">
+                        <button class="btn-error"><a class="btna" href="{{ url_for('index')}}">X</a></button>
+                        RESEÑAS
+                    </div>
+                    <div class="box-center">
+                        <button class="btn-error"><a class="btna" href="{{ url_for('index')}}">D</a></button>
+                        DASHBOARD
+                    </div>
+                    <div class="box-center">
+                        <button class="btn-error"><a class="btna" href="{{ url_for('index')}}">A</a></button>
+                        AJUSTES
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-perfilAdmin">
+
+            <div class="box-btnsright">
+                <div class="box-center">
+                    <button class="btn-error"><a class="btna" href="{{ url_for('index')}}">R</a></button>
+                </div>
+                <div class="box-center">
+                    <button class="btn-error"><a class="btna" href="{{ url_for('index')}}">X</a></button>
+                </div>
+                <div class="box-center">
+                    <button class="btn-error"><a class="btna" href="{{ url_for('index')}}">D</a></button>
+                </div>
+                <div class="box-center">
+                    <button class="btn-error"><a class="btna" href="{{ url_for('index')}}">A</a></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</Section>
+{% endblock %}
+

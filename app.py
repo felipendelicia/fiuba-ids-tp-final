@@ -12,17 +12,25 @@ def index():
 def login():
     # usuario que fue enviado de la api
     usuario = {
-        "email": "piter@gmail.com",
-        "password": "piter123"
+        "email": "Bruno@gmail.com",
+        "password": "123456",
+    }
+
+    usuarioAdmin = {
+        "email": "Milhouse@gmail.com",
+        "password": "Bart",
+        "es_admin": "true" 
     }
     if (request.method == 'POST'):
         email = request.form.get("email")
         password = request.form.get("password")
         recuerdame = request.form.get("recuerdame")
 
-        if(password == usuario["password"] and email == usuario["email"]):
+        if(email == usuario["email"] and password == usuario["password"]):
             # falta implementar el recuerdame ....
           return render_template('perfil.html')
+        elif (email == usuarioAdmin['email'] and password == usuarioAdmin['password']):
+            return render_template('adminperfil.html')
         else:
             print('Necesitas iniciar sesion primero')
 

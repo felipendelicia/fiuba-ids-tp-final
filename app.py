@@ -99,6 +99,10 @@ def reservaslogged():
 def reseñas():
     return render_template('reseñas.html')
 
+@app.route("/admin-resenas")
+def admin_resenas():
+    return render_template('adminresenas.html')
+
 # 8. Ruta para la página de administración de reservas
 @app.route("/admin-reservas")
 def admin_reservas():
@@ -111,7 +115,7 @@ def sala_privada():
 
 # 10. Ruta para la página de Dashboard
 @app.route('/dashboard')
-def dasboard():
+def dashboard():
   return render_template('dashboard.html')
 
 # 11. Ruta para la página de Lobby para Salas Públicas

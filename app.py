@@ -93,6 +93,12 @@ def reservas():
 @app.route("/perfil/reservaslogged")
 def reservaslogged():
     return render_template('reservaslogged.html')
+@app.route("/perfil/reservasadmin")
+def reservasadmin():
+    return render_template('reservasadmin.html')
+@app.route("/perfil/reservasadmin/crearsala")
+def crearsala():
+    return render_template('creacionsalapublica.html')
 
 # 7. Ruta para la página de Reseñas
 @app.route("/perfil/reseñas")

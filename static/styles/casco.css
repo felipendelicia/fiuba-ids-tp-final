@@ -1,126 +1,151 @@
 /* ==========================================================================
-   SECCIÓN PROTECCIÓN DE ROSTRO - KINETIX (ESTILO ATRIBUTOS DE JUEGO)
+   REDISERÑO DE ROSTRO - ALTA VISIBILIDAD KINETIX
    ========================================================================== */
 
 .rostro-container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 20px 15px;
+    padding: 40px 20px;
 }
 
-/* Contenedor tipo tarjeta táctica */
-.rostro-card {
-    background: linear-gradient(135deg, rgba(16, 20, 24, 0.8) 0%, rgba(10, 12, 15, 0.9) 100%);
-    border: 1px solid rgba(0, 242, 254, 0.25);
-    border-radius: 16px;
-    padding: 40px;
-    margin-bottom: 50px;
-    position: relative;
+/* Forzar títulos principales de la sección */
+.equipamiento-title {
+    color: #00f2fe !important;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.equipamiento-description {
+    color: #ffffff !important;
+    opacity: 0.9;
+}
+
+/* Tarjeta contenedora con fondo sólido e independiente */
+.rostro-grid-card {
+    display: flex;
+    flex-direction: row;
+    background-color: #161b22 !important; /* Gris oscuro militar sólido */
+    border: 2px solid #00f2fe !important;  /* Borde celeste Kinetix */
+    border-radius: 8px !important;
+    margin-bottom: 40px;
+    overflow: hidden;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
 }
 
-/* Esquina decorativa futurista */
-.rostro-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20px;
-    height: 20px;
-    border-top: 3px solid #4facfe;
-    border-right: 3px solid #4facfe;
+/* Caja contenedora de la foto (Fondo más oscuro) */
+.rostro-pic-box {
+    background-color: #0d1117 !important;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 250px;
+    max-width: 250px;
+    border-right: 1px solid #21262d;
 }
 
-/* Imagen del producto */
-.rostro-media {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.rostro-media img {
+.rostro-pic-box img {
     max-width: 100%;
     height: auto;
-    max-height: 350px;
+    max-height: 180px;
     object-fit: contain;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    background-color: rgba(255, 255, 255, 0.02);
-    padding: 20px;
-    transition: all 0.3s ease;
 }
 
-.rostro-card:hover .rostro-media img {
-    border-color: #00f2fe;
-    box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
+/* Caja de textos y estadísticas (Fuerza color de tipografía) */
+.rostro-content-box {
+    padding: 30px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #161b22 !important;
 }
 
-/* Textos e Info */
-.rostro-info {
-    text-align: left;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 25px;
-}
-
-.rostro-tag {
-    display: inline-block;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 11px;
-    color: #4facfe;
-    background-color: rgba(79, 172, 254, 0.1);
-    padding: 4px 10px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-}
-
-.rostro-name {
-    font-family: 'Orbitron', sans-serif;
-    color: #ffffff;
-    font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    letter-spacing: 1px;
-}
-
-.rostro-text {
-    font-family: 'Arial', sans-serif;
-    font-size: 15px;
-    color: #a0aec0;
-    line-height: 1.8;
-    margin-bottom: 25px;
-}
-
-/* Indicadores de Atributos Técnicos */
-.status-bar-container {
-    margin-top: 20px;
-}
-
-.status-label {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 11px;
-    color: #ffffff;
+/* Metadatos superiores */
+.rostro-header-meta {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
-    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.rostro-sku {
+    font-size: 11px;
+    font-weight: bold;
+    color: #8b949e !important; /* Gris claro */
     letter-spacing: 1px;
 }
 
-.status-label span {
-    color: #00f2fe;
+.rostro-status-online {
+    font-size: 11px;
+    font-weight: bold;
+    color: #00f2fe !important; /* Celeste brillante */
 }
 
-.bar-bg {
-    background-color: rgba(255, 255, 255, 0.1);
-    height: 6px;
-    border-radius: 3px;
+/* Título del producto en Blanco Puro */
+.rostro-main-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff !important; /* Blanco forzado */
+    margin: 0 0 12px 0 !important;
+}
+
+/* Párrafo descriptivo legible */
+.rostro-body-text {
+    font-size: 14px;
+    color: #e2e8f0 !important; /* Gris ultraclaro para lectura cómoda */
+    line-height: 1.6;
+    margin: 0 0 20px 0 !important;
+}
+
+/* Bloque e indicadores de las barras de progreso */
+.rostro-stats-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid #30363d;
+    padding-top: 15px;
+}
+
+.rostro-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rostro-stat-row label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff !important; /* Etiquetas en blanco */
+    margin: 0;
+}
+
+/* Contenedores visuales de las barras */
+.rostro-progress {
+    width: 60%;
+    background-color: #21262d !important; /* Fondo de barra vacío */
+    height: 10px;
+    border-radius: 5px;
     overflow: hidden;
-    margin-bottom: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.bar-fill {
+.rostro-fill {
     height: 100%;
-    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-    border-radius: 3px;
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%) !important; /* Degradado celeste */
+    border-radius: 5px;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 768px) {
+    .rostro-grid-card {
+        flex-direction: column;
+    }
+    .rostro-pic-box {
+        max-width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #21262d;
+    }
+    .rostro-progress {
+        width: 50%;
+    }
 }

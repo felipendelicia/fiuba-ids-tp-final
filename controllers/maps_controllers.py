@@ -1,42 +1,20 @@
-from flask import request, jsonify
-from db import execute
-from errors import ERRORS
+from flask import request, g, jsonify
 from helpers import build_links
+from dtos.errors import validate_dto, abort
+from dtos.map_dto import validate_list_maps, build_map_response
+from services.maps_services import listar_mapas as listar_mapas_service
 
 
+@validate_dto(validate_list_maps)
 def listar_mapas():
-    # Paginación
-    try:
-        limit = int(request.args.get('_limit', 10))
-        offset = int(request.args.get('_offset', 0))
-        if limit <= 0 or offset < 0:
-            raise ValueError
-    except ValueError:
-        return ERRORS["INVALID_FORMAT"]("Los parámetros _limit y _offset deben ser enteros positivos.")
-
-    # Contar el total de mapas para los links HATEOAS
-    resultado_total = execute("SELECT COUNT(*) as total FROM Maps")
-    if resultado_total is False:
-        return ERRORS["UNKNOWN_ERROR"]("Error al consultar los mapas.")
-
-    total = resultado_total[0]['total']
+    params = g.dto
+    mapas, total = listar_mapas_service(params['limit'], params['offset'])
 
     if total == 0:
         return '', 204
 
-    # Traer la página solicitada
-    mapas = execute(f"""
-        SELECT id, name, image_url, description
-        FROM Maps
-        LIMIT {limit} OFFSET {offset}
-    """)
-
-    if mapas is False:
-        return ERRORS["UNKNOWN_ERROR"]("Error al consultar los mapas.")
-
-    links = build_links(total, offset, limit)
-
+    links = build_links(total, params['offset'], params['limit'])
     return jsonify({
-        "Maps": mapas,
-        "_links": links
+        'Maps': [build_map_response(m) for m in mapas],
+        '_links': links,
     }), 200

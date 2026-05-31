@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, flash, render_template, request, redirect, url_for
 from  datetime import datetime
 
 app = Flask(__name__)
+app.secret_key = "mi_clave_super_secreta_123"
 
 # 1. Ruta para la página de Inicio
 @app.route("/")
@@ -13,13 +14,24 @@ def index():
 def login():
     # usuario que fue enviado de la api
     usuario = {
-        "email": "Bruno@gmail.com",
-        "password": "123456",
+        "name" : "Martin",
+        "dni" :"13451325",
+        "user_name" : "El indestructible",
+        "email" : "martin@gmial.com",
+        "gender" : "-",
+        "phone" : "135454754",
+        "password" : "matin123456",
+        "es_admin" : "false"
     }
 
-    usuarioAdmin = {
+    usuario_admin = {
+        "name" : "Milhouse",
+        "dni" : "13451325",
+        "user_name" : "Dominador",
         "email": "Milhouse@gmail.com",
+        "phone" : "135454754",
         "password": "Bart",
+        "gender" : "-",
         "es_admin": "true" 
     }
     if (request.method == 'POST'):
@@ -28,12 +40,11 @@ def login():
         recuerdame = request.form.get("recuerdame")
 
         if(email == usuario["email"] and password == usuario["password"]):
-            # falta implementar el recuerdame ....
-            return render_template('perfil.html')
-        elif (email == usuarioAdmin['email'] and password == usuarioAdmin['password']):
-            return render_template('adminperfil.html')
+            return render_template('perfil.html', usuario=usuario)
+        elif (email == usuario_admin['email'] and password == usuario_admin['password']):
+            return render_template('adminperfil.html', usuario=usuario_admin)
         else:
-            print('Necesitas iniciar sesion primero')
+            flash("Error al iniciar sesión. Verifica tú email y contraseña.", "warning")
 
     return render_template('login.html')
 
@@ -58,19 +69,20 @@ def register():
         nuevo_usuario['gender'] = gender
         nuevo_usuario['phone'] = phone
         nuevo_usuario['password'] = password
-        print(nuevo_usuario)
-        return render_template('perfil.html', usuario = nuevo_usuario)
+
+        flash("La cuenta ha sido creada exitosamente", "succes")
+        return render_template('perfil.html', usuario=nuevo_usuario)
     return render_template('register.html')
 
 # 4. Ruta para la pagína de Recuperación Contraseña de Usuario
 @app.route('/password', methods=['GET', 'POST'])
 def password():
     #email que del usuario para enviarle instruccuiones de cambiar contraseña
-    email_user = "piter@gmail.com"
+    email_user = "Bruno@gmail.com"
     if (request.method == 'POST'):
         email = request.form.get('email')
         if (email == email_user):
-            print("se envio instrucciones para recueperar la contraseña")
+            flash("Hemos enviado un correo con instrucciones de recuperación. Revisa tu bandeja de entrada y la carpeta de spam", "succes")
             return render_template('index.html')
     return render_template('password.html')
 

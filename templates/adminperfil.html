@@ -14,11 +14,11 @@
         <div class="box-perfilAdmin">
             <span id="mensajePrincipal"> BIENVENIDO AL PANEL ADMINISTRADOR</span>
             <div class="box-panel">
-                <span id="datosUser">NOMBRE: Milhouse</span>
-                <span id="datosUser">DNI: 96134587</span>
-                <span id="datosUser">Gmail: Milhouse@gmail.com</span>
-                <span id="datosUser">Genero: Masculino</span>
-                <span id="datosUser">Telefono: +54 12435784</span>
+                <span id="datosUser">NOMBRE: {{usuario.name}}</span>
+                <span id="datosUser">DNI: {{usuario.dni}}</span>
+                <span id="datosUser">Gmail: {{usuario.email}}</span>
+                <span id="datosUser">Genero: {{usuario.gender}}</span>
+                <span id="datosUser">Telefono: +54 {{usuario.phone}}</span>
             </div>
         </div>
         <div class="box-perfilAdmin">
@@ -26,34 +26,32 @@
                 <div class="box-panel-right">                
                     <div class="box-center">
                         <button class="btn-error"><a class="btna" href="{{ url_for('adminreseñas')}}"><i class="fa fa-list"></i></a></button>
-                        RESEÑAS
+                        <p>RESEÑAS</p>
                     </div>
                     <div class="box-center">
                         <button class="btn-error"><a class="btna" href="{{ url_for('dashboard')}}"><i class="fa fa-bar-chart"></i></a></button>
-                        DASHBOARD
+                        <p>DASHBOARD</p>
                     </div>
                     <div class="box-center">
                         <button class="btn-error"><a class="btna" href="{{ url_for('admin_servicios')}}"><i class="fa fa-book"></i></a></button>
-                        SERVICIOS
+                        <p>SERVICIOS</p>
                     </div>
                     <div class="box-center">
                         <button class="btn-error"><a class="btna" href="{{ url_for('reservasadmin')}}"><i class="fa fa-wrench"></i></a></button>
-                        NUEVA RESERVA
+                        <p>NUEVA RESERVA</p>
                     </div>
                     <div class="box-center">
                         <button class="btn-error"><a class="btna" href="{{ url_for('equipamiento')}}"><i class="fa fa-binoculars"></i></a></button>
-                        EQUIPAMIENTOS
+                        <p>EQUIPAMIENTOS</p>
                     </div>
                     <div class="box-center">
                         <button class="btn-error"><a class="btna" href="{{ url_for('index')}}"><i class="fa fa-sign-out"></i></a></button>
-                        SALIR
+                        <p>SALIR</p>
                     </div>
                 </div>
             </div>
         </div>
-        
     </div>
-
 </Section>
 {% endblock %}
 

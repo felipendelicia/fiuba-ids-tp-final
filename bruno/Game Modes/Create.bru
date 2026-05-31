@@ -1,0 +1,23 @@
+meta {
+  name: Create Game Mode
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/gamemodes/
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "todos vs todos",
+    "duration": "45",
+    "players": 16
+  }
+}

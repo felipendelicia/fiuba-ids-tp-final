@@ -1,0 +1,16 @@
+meta {
+  name: List Reviews
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/reviews/?_limit=10&_offset=0
+  body: none
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{jwt_token}}
+}

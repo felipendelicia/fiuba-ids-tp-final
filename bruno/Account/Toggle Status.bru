@@ -1,0 +1,21 @@
+meta {
+  name: Toggle Status
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{base_url}}/account/1/toggle_status
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "is_active": false
+  }
+}

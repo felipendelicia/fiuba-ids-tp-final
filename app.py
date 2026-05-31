@@ -1,8 +1,9 @@
 import os
 
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
+from werkzeug.exceptions import HTTPException
 
 
 from routes.account_routes import account_bp
@@ -30,6 +31,16 @@ app.register_blueprint(reservations_bp, url_prefix='/reservations')
 app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
 app.register_blueprint(maps_bp, url_prefix='/maps')
 app.register_blueprint(equipmentkit_bp, url_prefix='/equipmentkit')
+
+
+@app.errorhandler(HTTPException)
+def handle_http_exception(error):
+    return jsonify({'errors': [{
+        'code': error.code,
+        'message': error.description,
+        'level': 'error',
+    }]}), error.code
+
 
 # Para modificar en el desarrollo:
 if __name__ == '__main__':

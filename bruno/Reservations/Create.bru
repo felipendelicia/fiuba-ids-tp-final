@@ -1,0 +1,27 @@
+meta {
+  name: Create Reservation
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/reservations/1
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "account_id": 1,
+    "map_id": 1,
+    "equipment_kit_id": 1,
+    "price": 30000,
+    "reservation_date": "2025-06-15",
+    "start_time": "10:00:00",
+    "end_time": "12:00:00"
+  }
+}

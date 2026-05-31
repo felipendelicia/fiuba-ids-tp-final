@@ -1,40 +1,23 @@
-from flask import request, jsonify
+from flask import g, jsonify
 from flask_jwt_extended import create_access_token
-from errors import ERRORS
+from dtos.errors import validate_dto
+from dtos.auth_dto import validate_login, validate_register
 from services.authentication_services import login_usuario as login_service
 from services.authentication_services import registrar_usuario as registrar_service
 
 
+@validate_dto(validate_login)
 def login_usuario():
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-
-    if not email or not password:
-        return ERRORS['MISSING_REQUIRED_FIELDS']('email y password son requeridos')
-
-    user = login_service(email, password)
-    if not user:
-        return ERRORS['NOT_FOUND']('Credenciales invalidas')
-
-    token = create_access_token(identity=str(user['id']), additional_claims={'is_admin': user.get('is_admin', False)})
+    dto = g.dto
+    user = login_service(dto['email'], dto['password'])
+    token = create_access_token(
+        identity=str(user['id']),
+        additional_claims={'is_admin': user.get('is_admin', False)}
+    )
     return jsonify({'token': token, 'user_id': user['id']}), 200
 
 
+@validate_dto(validate_register)
 def registrar_usuario():
-    data = request.get_json()
-    name = data.get('name')
-    username = data.get('username')
-    email = data.get('email')
-    password = data.get('password')
-    dni = data.get('dni')
-    phone = data.get('phone')
-
-    if not all([name, username, email, password, dni]):
-        return ERRORS['MISSING_REQUIRED_FIELDS']('name, username, email, password y dni son requeridos')
-
-    success, error = registrar_service(name, username, email, password, dni, phone)
-    if error == 'conflict':
-        return ERRORS['CONFLICT']('email, username o dni ya registrado')
-
+    registrar_service(**g.dto)
     return jsonify({'message': 'Usuario registrado exitosamente'}), 201

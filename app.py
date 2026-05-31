@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+from  datetime import datetime
 
 app = Flask(__name__)
 
@@ -166,7 +167,105 @@ def sala_privada():
 # 10. Ruta para la página de Dashboard
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    #fecha del dia actual se utilizara por defecto
+    fecha_actual = datetime.today()
+    dia_actual = fecha_actual.day
+    
+    #el mes es --mayo-- entonces los dia del calendario iniciando de lunes a domingo son:,
+    dias_mes_actual = [27,28,29,30,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+    
+    #respuesta de listar reservas ocupadas de la api
+    response = {"Dashboard": 
+        [
+            {
+                "id_reserva": 1,
+                "user_name": "Pepe Ramirez",
+                "dni_usuario": "11534484",
+                "price": 30000,
+                "start_time": "2025-05-12 10:30:00",
+                "end_time": "2025-05-12 12:30:00"
+            },
+            {
+                "id_reserva": 2,
+                "user_name": "Juan Luis",
+                "dni_usuario": "11534484",
+                "price": 1200,
+                "start_time": "2025-05-12 13:30:00",
+                "end_time": "2025-05-12 14:30:00"
+            },
+            {
+                "id_reserva": 3,
+                "user_name": "Alfredo",
+                "dni_usuario": "11534484",
+                "price": 450000,
+                "start_time": "2025-05-12 16:30:00",
+                "end_time": "2025-05-12 17:30:00"
+            } ,
+            {
+                "id_reserva": 4,
+                "user_name": "Javier",
+                "dni_usuario": "11534484",
+                "price": 450000,
+                "start_time": "2025-05-12 16:30:00",
+                "end_time": "2025-05-12 17:30:00"
+            } ,
+            {
+                "id_reserva": 5,
+                "user_name": "Alvares",
+                "dni_usuario": "11534484",
+                "price": 450000,
+                "start_time": "2025-05-12 16:30:00",
+                "end_time": "2025-05-12 17:30:00"
+            } ,
+            {
+                "id_reserva": 6,
+                "user_name": "Toreto",
+                "dni_usuario": "11534484",
+                "price": 450000,
+                "start_time": "2025-05-12 07:00:00",
+                "end_time": "2025-05-12 12:30:00"
+            } 
+        ]
+    }
+
+    #para rellenar los campos disponibles en la tabla de reservas
+    lista_reservas_ocu = response["Dashboard"]
+
+    #calculo y agrego la cantidad restante de reservas disponibles
+    max_reservas = 15
+    cant_disponible = max_reservas - len(response["Dashboard"])
+    reservas_dis = {"Dashboard_dispo": []}
+    for i in range(cant_disponible):
+        reservas_dis["Dashboard_dispo"].append({ "id_reserva": "-", "user_name": "-","dni_usuario": "-","price": "-","start_time": "-", "end_time": "-"})
+    
+    #frecuencia de horas de la reserva por dia
+    horas_reservadas = {"cs":0 ,"so":0 ,"nd":0 ,"od":0 ,"tc":0 ,"qs":0 ,"do":0,"dv":0}
+    for reserva in response["Dashboard"]:
+        dt = datetime.strptime(reserva["start_time"], "%Y-%m-%d %H:%M:%S")
+        hora = dt.hour
+
+        if 5 <= hora < 7:  
+            horas_reservadas["cs"] += 1
+        elif 7 <= hora < 9: 
+            horas_reservadas["so"] += 1
+        elif 9 <= hora < 11: 
+            horas_reservadas["nd"] += 1
+        elif 11 <= hora < 13: 
+            horas_reservadas["od"] += 1
+        elif 13 <= hora < 15: 
+            horas_reservadas["tc"] += 1
+        elif 15 <= hora < 17:
+            horas_reservadas["qs"] += 1
+        elif 17 <= hora < 19:
+            horas_reservadas["do"] += 1
+        elif 19 <= hora < 21:
+            horas_reservadas["dv"] += 1
+    
+    #COSAS POR VER.....
+    #deberia existir datos para las reservas por dias, semana, mes, año(lo que va desde el inicio hasta el final del año)
+    cant_reserva = {"dia": 12, "semana": 80,"mes":320, "año":2800}
+    
+    return render_template('dashboard.html', cantidad=cant_reserva, mes_actual=dias_mes_actual, dia_actual=dia_actual, data_ocu=lista_reservas_ocu, data_dis=reservas_dis["Dashboard_dispo"], frec_reservas=horas_reservadas)
 
 # 13. Ruta para la página de Servicios
 @app.route('/notloggedservicios')

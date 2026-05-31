@@ -127,19 +127,21 @@
     padding: 0px;
 }
 .container-time{
-    background: linear-gradient(135deg, #00f1fe94 0%, #4facfeac 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     display: grid;
     text-align: center;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     padding: 0rem 0rem 1rem 0rem;
     border-radius: 0px 0px 8px 8px; 
+    color: #00f1fed5;
 
 }
-.box-dias div{
-    font-size: x-large;
+.dia-actual{
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
     font-weight: bold;
+    color: black;
+}
+.dia-normal{
+    font-size: x-large;
 }
 .container-time div {
     padding: 0%;
@@ -148,9 +150,8 @@
 }
 .container-time div:hover{
     background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     cursor: pointer;
+    color: black;
     font-weight: bold;
 }
 

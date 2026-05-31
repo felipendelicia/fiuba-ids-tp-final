@@ -14,30 +14,35 @@
     <div id="parametros">
         <div>
             Total del dia
-            <span class="ingresos">15 R.</span>
+            <span class="ingresos">{{cantidad.dia}} R.</span>
+        </div>
+        <div>
+            Total del semana
+            <span class="ingresos">{{cantidad.semana}} R.</span>
         </div>
         <div>
             Total del mes
-            <span class="ingresos">50 R.</span>
+            <span class="ingresos">{{cantidad.mes}} R.</span>
         </div>
         <div>
             Total del año
-            <span class="ingresos">250 R.</span>
+            <span class="ingresos">{{cantidad.año}} R.</span>
         </div>
     </div>
     <div id="diagramaBarras">
         <div>
-            <span id="titleContent">Análisis de Reservas</span>
+            <span id="titleContent">Análisis de Reservas por Dia</span>
         </div>
         <div id="barrasCalendario">
             <div id="barras">
-                <div style="height: 1rem;"><span class="barra-dias">L</span></div>
-                <div style="height: 2rem;"><span class="barra-dias">M</span></div>
-                <div style="height: 1rem;"><span class="barra-dias">X</span></div>
-                <div style="height: 4rem;"><span class="barra-dias">J</span></div>
-                <div style="height: 5rem;"><span class="barra-dias">V</span></div>
-                <div style="height: 6rem;"><span class="barra-dias">S</span></div>
-                <div style="height: 7rem;"><span class="barra-dias">D</span></div>
+                <div style="height: {{ frec_reservas.cs }}rem;"><span class="barra-dias">5-6<br>({{ frec_reservas.cs }})</span></div>
+                <div style="height: {{ frec_reservas.so }}rem;"><span class="barra-dias">7-8<br>({{ frec_reservas.so }})</span></div>
+                <div style="height: {{ frec_reservas.nd }}rem;"><span class="barra-dias">9-1<br>({{ frec_reservas.nd }})</span></div>
+                <div style="height: {{ frec_reservas.od }}rem;"><span class="barra-dias">11-12<br>({{ frec_reservas.od }})</span></div>
+                <div style="height: {{ frec_reservas.tc }}rem;"><span class="barra-dias">13-14<br>({{ frec_reservas.tc }})</span></div>
+                <div style="height: {{ frec_reservas.qs }}rem;"><span class="barra-dias">15-16<br>({{ frec_reservas.qs }})</span></div>
+                <div style="height: {{ frec_reservas.do }}rem;"><span class="barra-dias">17-18<br>({{ frec_reservas.do }})</span></div>
+                <div style="height: {{ frec_reservas.dv }}rem;"><span class="barra-dias">19-20<br>({{ frec_reservas.dv }})</span></div>
             </div>
             <div class="container-dashboard">
                 <div id="box-title">
@@ -55,42 +60,13 @@
                     <div>D</div>
                 </div>
                 <div class="container-time">
-                    <div class="dia"></div>
-                    <div class="dia"></div>
-                    <div class="dia"></div>
-                    <div class="dia"></div>
-                    <div class="dia"></div> 
-                    <div class="dia">1</div>
-                    <div class="dia">2</div>
-                    <div class="dia">3</div>
-                    <div class="dia">4</div>
-                    <div class="dia">5</div>
-                    <div class="dia">6</div>
-                    <div class="dia">7</div>
-                    <div class="dia">8</div>
-                    <div class="dia">9</div>
-                    <div class="dia">10</div>
-                    <div class="dia">11</div>
-                    <div class="dia">12</div>
-                    <div class="dia">13</div>
-                    <div class="dia">14</div>
-                    <div class="dia">15</div>
-                    <div class="dia">16</div>
-                    <div class="dia">17</div>
-                    <div class="dia">18</div>
-                    <div class="dia">19</div>
-                    <div class="dia">20</div>
-                    <div class="dia">21</div>
-                    <div class="dia">22</div>
-                    <div class="dia">23</div>
-                    <div class="dia">24</div>
-                    <div class="dia">25</div>
-                    <div class="dia">26</div>
-                    <div class="dia">27</div>
-                    <div class="dia">28</div>
-                    <div class="dia">29</div>
-                    <div class="dia">30</div>
-                    <div class="dia">31</div>
+                    {% for dia in mes_actual %}
+                        {% if dia == dia_actual %}
+                        <div class="dia-actual">{{dia}}</div>
+                        {% else %}
+                        <div class="dia-normal">{{dia}}</div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
 
             </div>
@@ -111,48 +87,26 @@
                 <div class="subtitulo-reservas">PRECIO</div>
                 <div class="subtitulo-reservas">HORARIO</div>
             </div>
+            {% for reserva in data_ocu %}
             <div class=" box-reservations">
-                <div>1</div>
-                <div class="name_user_r">Ronny Mamani T.</div>
-                <div>1141232</div>
-                <div>ronny123</div>
-                <div>17.457</div>
-                <div>08:00 - 09:00</div>
+                <div>{{ reserva.id_reserva}}</div>
+                <div class="name_user_r">{{ reserva.user_name}}</div>
+                <div>{{ reserva.dni_usuario}}</div>
+                <div>{{ reserva.user_name}}</div>
+                <div>{{ reserva.price}}</div>
+                <div>{{ reserva.start_time}}- {{ reserva.end_time}}</div>
             </div>
+            {% endfor %}
+            {% for reserva in data_dis %}
             <div class=" box-reservations">
-                <div>2</div>
-                <div class="name_user_r">Manolo R. Sanchez</div>
-                <div>1141232</div>
-                <div>Manolito-crack</div>
-                <div>174.571</div>
-                <div>10:30 - 10:00</div>
+                <div>{{ reserva.id_reserva}}</div>
+                <div class="name_user_r">{{ reserva.user_name}}</div>
+                <div>{{ reserva.dni_usuario}}</div>
+                <div>{{ reserva.user_name}}</div>
+                <div>{{ reserva.price}}</div>
+                <div>{{ reserva.start_time}}- {{ reserva.end_time}}</div>
             </div>
-            <div class=" box-reservations">
-                <div>3</div>
-                <div class="name_user_r">-</div>
-                <div>-</div>
-                <div>-</div>
-                <div>-</div>
-                <div>-</div>
-            </div>
-            <div class=" box-reservations">
-                <div>4</div>
-                <div class="name_user_r">Lorem, ipsum dolor.</div>
-                <div>1141232</div>
-                <div>Nando wey</div>
-                <div>174.571</div>
-                <div>12:00 - 14:00</div>
-            </div>
-
-            <div class=" box-reservations">
-                <div>5</div>
-                <div class="name_user_r">-</div>
-                <div>-</div>
-                <div>-</div>
-                <div>-</div>
-                <div>-</div>
-            </div>
-
+            {% endfor %}
         </div>
         <div id="container-pie">
             <div id="pie-chart">

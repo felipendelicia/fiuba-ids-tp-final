@@ -1,0 +1,15 @@
+meta {
+  name: List Reservations by User
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/reservations/1?_limit=10&_offset=0
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}

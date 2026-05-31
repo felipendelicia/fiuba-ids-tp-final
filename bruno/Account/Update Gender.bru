@@ -1,0 +1,21 @@
+meta {
+  name: Update Gender
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{base_url}}/account/1/gender
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "gender": "Masculino"
+  }
+}

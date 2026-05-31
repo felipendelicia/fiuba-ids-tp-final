@@ -1,0 +1,26 @@
+meta {
+  name: Update User
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{base_url}}/account/1
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "username": "NuevoNombre",
+    "email": "nuevo@email.com",
+    "password": "nuevaPass123",
+    "phone": "11457544",
+    "elo": 2500,
+    "is_active": true
+  }
+}

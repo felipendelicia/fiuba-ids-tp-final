@@ -1,0 +1,22 @@
+meta {
+  name: Update Review (Admin)
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{base_url}}/reviews/auth/1
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{jwt_token}}
+}
+
+body:json {
+  {
+    "approved": true
+  }
+}

@@ -1,53 +1,49 @@
 from db import execute
+from dtos.errors import abort
+
 
 def listar_usuarios():
-    usuarios_db = execute("SELECT * FROM Accounts")
-    if not usuarios_db:
-        return None
-    return usuarios_db
+    return execute("SELECT * FROM Accounts")
+
 
 def obtener_cuenta(id):
-    cuenta_id = execute(f"SELECT * FROM Accounts WHERE id = {id}")
-    if not cuenta_id:
-        return None
-    return cuenta_id
+    cuenta = execute(f"SELECT * FROM Accounts WHERE id = {id}")
+    if not cuenta:
+        abort(404, 'Usuario no encontrado')
+    return cuenta[0]
+
 
 def actualizar_usuario(id, username, email, password, phone, elo, is_active):
-    cuenta_id = execute(f"SELECT * FROM Accounts WHERE id = {id}")
-    if not cuenta_id:
-        return None
-    result = execute(f"UPDATE Accounts SET username = '{username}', email = '{email}', password = '{password}', phone = '{phone}', elo = '{elo}', is_active = {is_active} WHERE id = '{id}'")
-    if result == False:
-        return False
-    return result
+    cuenta = execute(f"SELECT id FROM Accounts WHERE id = {id}")
+    if not cuenta:
+        abort(404, 'Usuario no encontrado')
+    execute(
+        f"UPDATE Accounts SET username = '{username}', email = '{email}', "
+        f"password = '{password}', phone = '{phone}', elo = '{elo}', "
+        f"is_active = {is_active} WHERE id = '{id}'"
+    )
+
 
 def listar_reservas(id):
     pass
 
 
 def actualizar_estado_usuario(id, is_active):
-    cuenta_id = execute(f"SELECT * FROM Accounts WHERE id = {id}")
-    if not cuenta_id:
-        return None
-    result = execute(f"UPDATE Accounts SET is_active = {is_active} WHERE id = '{id}'")
-    if result == False:
-        return False
-    return result
+    cuenta = execute(f"SELECT id FROM Accounts WHERE id = {id}")
+    if not cuenta:
+        abort(404, 'Usuario no encontrado')
+    execute(f"UPDATE Accounts SET is_active = {is_active} WHERE id = '{id}'")
+
 
 def actualizar_genero_usuario(id, gender):
-    cuenta_id = execute(f"SELECT * FROM Accounts WHERE id = {id}")
-    if not cuenta_id:
-        return None
-    result = execute(f"UPDATE Accounts SET gender = {gender} WHERE id = '{id}'")
-    if result == False:
-        return False
-    return result
+    cuenta = execute(f"SELECT id FROM Accounts WHERE id = {id}")
+    if not cuenta:
+        abort(404, 'Usuario no encontrado')
+    execute(f"UPDATE Accounts SET gender = '{gender}' WHERE id = '{id}'")
+
 
 def actualizar_password_usuario(id, password):
-    cuenta_id = execute(f"SELECT * FROM Accounts WHERE id = {id}")
-    if not cuenta_id:
-        return None
-    result = execute(f"UPDATE Accounts SET password = '{password}' WHERE id = '{id}'")
-    if result == False:
-        return False
-    return result
+    cuenta = execute(f"SELECT id FROM Accounts WHERE id = {id}")
+    if not cuenta:
+        abort(404, 'Usuario no encontrado')
+    execute(f"UPDATE Accounts SET password = '{password}' WHERE id = '{id}'")

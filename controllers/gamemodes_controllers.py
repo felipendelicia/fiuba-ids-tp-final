@@ -1,5 +1,10 @@
-from flask import request, jsonify
-from errors import ERRORS
+from flask import g, jsonify
+from dtos.errors import validate_dto
+from dtos.gamemode_dto import (
+    validate_create_gamemode,
+    build_gamemode_response,
+)
+from dtos.response import build_created_response, build_updated_response
 from services.gamemodes_services import (
     listar_game_modes as service_listar_game_modes,
     crear_game_mode as service_crear_game_mode,
@@ -9,57 +14,21 @@ from services.gamemodes_services import (
 
 def listar_game_modes():
     gamemodes = service_listar_game_modes()
-    if gamemodes is False:
-        return ERRORS['UNKNOWN_ERROR']("Error al listar los gamemodes")
-    return jsonify({'gamemodes': gamemodes}), 200
+    return jsonify({'gamemodes': [build_gamemode_response(g) for g in gamemodes]}), 200
 
 
+@validate_dto(validate_create_gamemode)
 def crear_game_mode():
-    data = request.get_json()
-    if data is None:
-        return ERRORS['INVALID_FORMAT']("No se encontro JSON validoha")
-    if 'name' not in data or 'duration' not in data or 'players' not in data:
-        return ERRORS['MISSING_REQUIRED_FIELDS']("Faltan campos obligatorios: name, duration, players")
-
-    name = data['name']
-    duration = data['duration']
-    players = data['players']
-
-    if name is None or duration is None or players is None:
-        return ERRORS['MISSING_REQUIRED_FIELDS']("Faltan campos obligatorios: name, duration, players")
-
-    result = service_crear_game_mode(name, duration, players)
-    if result is False:
-        return ERRORS['UNKNOWN_ERROR']("Error al crear el game mode")
-    return jsonify({'message': 'Game mode creado exitosamente'}), 201
+    service_crear_game_mode(**g.dto)
+    return build_created_response('Gamemode creado exitosamente')
 
 
+@validate_dto(validate_create_gamemode)
 def reemplazar_game_mode(id):
-    data = request.get_json()
-    if data is None:
-        return ERRORS['INVALID_FORMAT']("No se encontro JSON valido")
-    if 'name' not in data or 'duration' not in data or 'players' not in data:
-        return ERRORS['MISSING_REQUIRED_FIELDS']("Faltan campos obligatorios: name, duration, players")
-
-    name = data['name']
-    duration = data['duration']
-    players = data['players']
-
-    if name is None or duration is None or players is None:
-        return ERRORS['MISSING_REQUIRED_FIELDS']("Faltan campos obligatorios: name, duration, players")
-
-    result = service_reemplazar_game_mode(id, name, duration, players)
-    if result is None:
-        return ERRORS['NOT_FOUND']("Gamemode no encontrado")
-    if result is False:
-        return ERRORS['UNKNOWN_ERROR']("Error al reemplazar el game mode")
-    return jsonify({'message': 'Game mode reemplazado exitosamente'}), 200
+    service_reemplazar_game_mode(id, **g.dto)
+    return build_updated_response('Gamemode reemplazado exitosamente')
 
 
 def eliminar_game_mode(id):
-    result = service_eliminar_game_mode(id)
-    if result is None:
-        return ERRORS['NOT_FOUND']("Gamemode no encontrado")
-    if result is False:
-        return ERRORS['UNKNOWN_ERROR']("Error al eliminar el gamemode")
+    service_eliminar_game_mode(id)
     return jsonify({'message': 'Gamemode eliminado exitosamente'}), 200

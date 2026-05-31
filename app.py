@@ -105,9 +105,9 @@ def crearsala():
 def reseñas():
     return render_template('reseñas.html')
 
-@app.route("/admin-resenas")
-def admin_resenas():
-    return render_template('adminresenas.html')
+@app.route("/adminreseñas")
+def adminreseñas():
+    return render_template('adminreseñas.html')
 
 # 8. Ruta para la página de administración de reservas
 @app.route("/admin-reservas")

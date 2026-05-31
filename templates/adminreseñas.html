@@ -1,0 +1,110 @@
+{% extends 'default.html' %}
+
+{% block title %}Kinetix - Gestión de Reseñas (Admin){% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold" style="font-family: 'Orbitron', 'Arial Black', sans-serif; color: #00d2ff; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0, 210, 255, 0.3);">
+            PANEL DE GESTIÓN: RESEÑAS
+        </h1>
+        <p class="text-white-50">Monitoreá las críticas globales, mapas específicos y respondé con asistencia del sistema.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            
+            <div class="card mb-5 border-0 rounded-3 shadow-lg" style="background-color: rgba(20, 22, 25, 0.95); border-left: 4px solid #00d2ff !important;">
+                <div class="card-body p-4">
+                    
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h5 class="text-white fw-bold mb-1" style="letter-spacing: 0.5px;">Bruno Díaz</h5>
+                            <span class="badge bg-dark border border-info text-info small">MAPA: Búnker Subterráneo Alpha</span>
+                        </div>
+                        <div class="text-end">
+                            <div class="mb-1" style="color: #ffb300; font-size: 1.1rem;">★★★★★</div>
+                            <small class="text-white-50">Hace 2 horas</small>
+                        </div>
+                    </div>
+
+                    <h4 class="fw-bold mb-2" style="color: #00d2ff; font-family: 'Orbitron', sans-serif; font-size: 1.2rem;">
+                        ¡Excelente infraestructura y jugabilidad!
+                    </h4>
+
+                    <p class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4" style="font-size: 0.95rem; line-height: 1.6;">
+                        "Las réplicas andan bárbaro y los chalecos tácticos marcan perfecto los impactos en tiempo real. Estaría bueno que sumen más variedad de snacks en el entretiempo."
+                    </p>
+
+                    <div class="comments-section mb-4">
+                        <h6 class="text-white-50 small fw-bold mb-2" style="letter-spacing: 1px;"><i class="bi bi-chat-left-text me-2"></i>COMENTARIOS E HISTORIAL</h6>
+                        
+                        <div class="p-3 rounded-3 mb-2" style="background-color: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.15);">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-bold small" style="color: #00d2ff;">Soporte Kinetix (Admin)</span>
+                                <small class="text-white-50">Hace 1 hora</small>
+                            </div>
+                            <p class="text-white-50 mb-0 small">¡Muchas gracias por el feedback, Bruno! Ya pasamos el pedido al sector de buffet para el próximo finde.</p>
+                        </div>
+                    </div>
+
+                    <form action="#" method="POST" class="pt-3 border-top border-secondary border-opacity-25">
+                        <div class="input-group">
+                            <textarea class="form-control bg-dark text-white border-secondary py-2" rows="1" placeholder="Agregar otro comentario de ayuda..." style="border-radius: 6px 0 0 6px;" required></textarea>
+                            <button type="submit" class="btn fw-bold px-4 text-dark" style="background: linear-gradient(135deg, #00d2ff 0%, #00a2ff 100%); border: none; border-radius: 0 6px 6px 0;">
+                                ENVIAR
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+            <div class="card mb-5 border-0 rounded-3 shadow-lg" style="background-color: rgba(20, 22, 25, 0.95); border-left: 4px solid #ff5252 !important;">
+                <div class="card-body p-4">
+                    
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h5 class="text-white fw-bold mb-1" style="letter-spacing: 0.5px;">Milhouse V.</h5>
+                            <span class="badge bg-dark border border-danger text-danger small">MAPA: Hangar Abandonado</span>
+                        </div>
+                        <div class="text-end">
+                            <div class="mb-1" style="color: #ff5252; font-size: 1.1rem;">★★☆☆☆</div>
+                            <small class="text-white-50">Ayer</small>
+                        </div>
+                    </div>
+
+                    <h4 class="fw-bold mb-2" style="color: #ff5252; font-family: 'Orbitron', sans-serif; font-size: 1.2rem;">
+                        Problema grave con el sistema de carga
+                    </h4>
+
+                    <p class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4" style="font-size: 0.95rem; line-height: 1.6;">
+                        "Tuve un problema con el sistema de carga de la reserva web en este mapa, me tiró error al procesar pero el saldo se me descontó de la tarjeta. Necesito una solución urgente."
+                    </p>
+
+                    <div class="comments-section mb-4">
+                        <h6 class="text-white-50 small fw-bold mb-2" style="letter-spacing: 1px;"><i class="bi bi-chat-left-text me-2"></i>COMENTARIOS E HISTORIAL</h6>
+                        
+                        <div class="p-3 rounded-3 bg-dark text-center text-muted border border-secondary border-opacity-10">
+                            <small>No hay respuestas registradas para este incidente crítico.</small>
+                        </div>
+                    </div>
+
+                    <form action="#" method="POST" class="pt-3 border-top border-secondary border-opacity-25">
+                        <label class="form-label fw-bold small mb-2" style="color: #ff5252; letter-spacing: 1px;">SOPORTE DE EMERGENCIA REQUERIDO</label>
+                        <div class="input-group">
+                            <textarea class="form-control bg-dark text-white border-danger py-2" rows="2" placeholder="Escribí una solución o comentario de soporte técnico..." style="border-radius: 6px 0 0 6px; border-color: rgba(255,82,82,0.4) !important;" required></textarea>
+                            <button type="submit" class="btn fw-bold px-4 text-white" style="background: linear-gradient(135deg, #ff5252 0%, #c62828 100%); border: none; border-radius: 0 6px 6px 0;">
+                                ASISTIR
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

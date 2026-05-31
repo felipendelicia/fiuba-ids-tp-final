@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-#1. Ruta para la página de Inicio
+# 1. Ruta para la página de Inicio
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -28,7 +28,7 @@ def login():
 
         if(email == usuario["email"] and password == usuario["password"]):
             # falta implementar el recuerdame ....
-          return render_template('perfil.html')
+            return render_template('perfil.html')
         elif (email == usuarioAdmin['email'] and password == usuarioAdmin['password']):
             return render_template('adminperfil.html')
         else:
@@ -77,6 +77,7 @@ def password():
 @app.route("/notloggedcampos")
 def notloggedcampos():
     return render_template('notloggedcampos.html')
+
 @app.route("/perfil/campos")
 def campos():
     return render_template('campos.html')
@@ -93,12 +94,55 @@ def reservas():
 @app.route("/perfil/reservaslogged")
 def reservaslogged():
     return render_template('reservaslogged.html')
+
 @app.route("/perfil/reservasadmin")
 def reservasadmin():
     return render_template('reservasadmin.html')
-@app.route("/perfil/reservasadmin/crearsala")
+
+# --- SISTEMA DE GESTIÓN DE SALAS PÚBLICAS ---
+salas_publicas = []
+mis_salas_unidas = []  # Almacena los IDs de las salas a las que ya se unió el usuario
+
+@app.route("/perfil/reservasadmin/crearsala", methods=['GET', 'POST'])
 def crearsala():
+    if request.method == 'POST':
+        nueva_partida = {
+            "id": request.form.get('id_reserva'),
+            "modalidad": request.form.get('modalidad'),
+            "escenario": request.form.get('escenario'),
+            "fecha": request.form.get('fecha'),
+            "hora": request.form.get('hora'),
+            "actuales": 0,          
+            "maximos": 10,          
+            "estado": "[ RESERVA DE ADMIN ]"
+        }
+        salas_publicas.append(nueva_partida)
+        return redirect(url_for('lobby_admin'))
+        
     return render_template('creacionsalapublica.html')
+
+@app.route("/perfil/reservasadmin/eliminar/<id_partida>", methods=['POST'])
+def eliminar_sala(id_partida):
+    global salas_publicas
+    salas_publicas = [sala for sala in salas_publicas if sala['id'] != id_partida]
+    if id_partida in mis_salas_unidas:
+        mis_salas_unidas.remove(id_partida)
+    return redirect(url_for('lobby_admin'))
+
+@app.route("/lobby/unirse/<id_partida>", methods=['POST'])
+def unirse_sala(id_partida):
+    if id_partida not in mis_salas_unidas:
+        for sala in salas_publicas:
+            if sala['id'] == id_partida and sala['actuales'] < sala['maximos']:
+                sala['actuales'] += 1
+                mis_salas_unidas.append(id_partida)
+                break
+    return redirect(url_for('lobby_admin'))
+
+@app.route("/lobby-publico")
+def lobby_admin():
+    return render_template('lobbypublicas.html', salas=salas_publicas, unidas=mis_salas_unidas)
+# ---------------------------------------------
 
 # 7. Ruta para la página de Reseñas
 @app.route("/perfil/reseñas")
@@ -122,12 +166,7 @@ def sala_privada():
 # 10. Ruta para la página de Dashboard
 @app.route('/dashboard')
 def dashboard():
-  return render_template('dashboard.html')
-
-# 11. Ruta para la página de Lobby para Salas Públicas
-@app.route("/lobby-publicas")
-def lobby_publicas():
-    return render_template('lobbypublicas.html')
+    return render_template('dashboard.html')
 
 # 13. Ruta para la página de Servicios
 @app.route('/notloggedservicios')
@@ -137,6 +176,7 @@ def notloggedservicios():
         {"id": 2, "nombre": "Estacionamiento", "descripcion": "Predio cerrado con seguridad para autos y motos."}
     ]
     return render_template('notloggedservicios.html', servicios=servicios_db)
+
 @app.route('/perfil/servicios')
 def servicios():
     servicios_db = [
@@ -144,6 +184,7 @@ def servicios():
         {"id": 2, "nombre": "Estacionamiento", "descripcion": "Predio cerrado con seguridad para autos y motos."}
     ]
     return render_template('servicios.html', servicios=servicios_db)
+
 # 14. Ruta para la página de Contacto
 @app.route('/notloggedcontacto', methods=['GET', 'POST'])
 def notloggedcontacto():
@@ -182,6 +223,7 @@ def admin_servicios():
 @app.route('/notloggedequipamientoinfo')
 def notloggedequipamiento_info():
     return render_template('notloggedequipamientoinfo.html')
+
 @app.route('/notloggedequipamientoinfo/notloggedarmasinfo')
 def notloggedarmasinfo():
     return render_template('notloggedarmasinfo.html')
@@ -189,6 +231,7 @@ def notloggedarmasinfo():
 @app.route('/perfil/equipamientoinfo')
 def equipamiento_info():
     return render_template('equipamientoinfo.html')
+
 @app.route('/perfil/equipamientoinfo/armasinfo')
 def armasinfo():
     return render_template('armasinfo.html')
@@ -206,18 +249,23 @@ def equipamiento():
         equipamiento_db.append({"id": nuevo_id, "tipo": tipo, "cantidad": cantidad})
         return render_template('equipamiento.html', equipamiento=equipamiento_db)
     return render_template('equipamiento.html', equipamiento=equipamiento_db)
+
 @app.route("/notloggedequipamientoinfo/notloggedchaleco")
 def notloggedchaleco():
     return render_template('notloggedchaleco.html')
+
 @app.route("/notloggedequipamientoinfo/notloggedcasco")
 def notloggedcasco():
     return render_template('notloggedcasco.html')
+
 @app.route('/perfil/equipamientoinfo/chaleco')
 def chaleco():
     return render_template('chaleco.html')
+
 @app.route('/perfil/equipamientoinfo/casco')
 def casco():
-  return render_template('casco.html')
+    return render_template('casco.html')
+
 # Error de pagina
 @app.errorhandler(404)
 def page_not_found(e):

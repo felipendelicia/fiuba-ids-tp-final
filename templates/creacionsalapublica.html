@@ -11,41 +11,41 @@
     <div class="row justify-content-center">
         <div class="col-md-6 text-start p-4 rounded-3" style="background-color: rgba(20, 22, 25, 0.95); border: 2px solid #ffb300; box-shadow: 0 0 30px rgba(255, 179, 0, 0.15);">
             
-            <form action="#" method="POST">
+            <form action="{{ url_for('crearsala') }}" method="POST">
                 
                 <div class="mb-4">
                     <label class="form-label fw-bold small" style="color: #ffe082; letter-spacing: 1px;">ID DE RESERVA</label>
-                    <input type="text" class="form-control bg-dark text-white border-secondary py-2" placeholder="Ej: RES-9942" style="border-radius: 6px;" required>
+                    <input type="text" name="id_reserva" class="form-control bg-dark text-white border-secondary py-2" placeholder="Ej: RES-9942" style="border-radius: 6px;" required>
                 </div>
 
                 <div class="mb-4">
                     <label class="form-label fw-bold small" style="color: #ffe082; letter-spacing: 1px;">MODALIDAD OFICIAL</label>
-                    <select class="form-select bg-dark text-white border-secondary py-2" style="border-radius: 6px;">
-                        <option selected disabled>Selecciona una modalidad global</option>
-                        <option value="1">Todos contra Todos (Deathmatch)</option>
-                        <option value="2">Captura la Bandera (CTF)</option>
-                        <option value="3">Operación Táctica (Por Equipos)</option>
+                    <select name="modalidad" class="form-select bg-dark text-white border-secondary py-2" style="border-radius: 6px;" required>
+                        <option selected disabled value="">Selecciona una modalidad global</option>
+                        <option value="Todos contra Todos (Deathmatch)">Todos contra Todos (Deathmatch)</option>
+                        <option value="Captura la Bandera (CTF)">Captura la Bandera (CTF)</option>
+                        <option value="Operación Táctica (Por Equipos)">Operación Táctica (Por Equipos)</option>
                     </select>
                 </div>
 
                 <div class="mb-4">
                     <label class="form-label fw-bold small" style="color: #ffe082; letter-spacing: 1px;">ZONA / ESCENARIO</label>
-                    <select class="form-select bg-dark text-white border-secondary py-2" style="border-radius: 6px;">
-                        <option selected disabled>Selecciona un escenario oficial</option>
-                        <option value="1">Búnker Subterráneo Alpha</option>
-                        <option value="2">Hangar de Carga Abandonado</option>
-                        <option value="3">Bosque de Operaciones Tácticas</option>
+                    <select name="escenario" class="form-select bg-dark text-white border-secondary py-2" style="border-radius: 6px;" required>
+                        <option selected disabled value="">Selecciona un escenario oficial</option>
+                        <option value="Búnker Subterráneo Alpha">Búnker Subterráneo Alpha</option>
+                        <option value="Hangar de Carga Abandonado">Hangar de Carga Abandonado</option>
+                        <option value="Bosque de Operaciones Tácticas">Bosque de Operaciones Tácticas</option>
                     </select>
                 </div>
 
                 <div class="mb-4">
                     <label class="form-label fw-bold small" style="color: #ffe082; letter-spacing: 1px;">FECHA DE APERTURA</label>
-                    <input type="date" class="form-control bg-dark text-white border-secondary py-2" style="border-radius: 6px;">
+                    <input type="date" name="fecha" class="form-control bg-dark text-white border-secondary py-2" style="border-radius: 6px;" required>
                 </div>
 
                 <div class="mb-4">
                     <label class="form-label fw-bold small" style="color: #ffe082; letter-spacing: 1px;">HORA DE ENTRADA</label>
-                    <input type="time" class="form-control bg-dark text-white border-secondary py-2" style="border-radius: 6px;">
+                    <input type="time" name="hora" class="form-control bg-dark text-white border-secondary py-2" style="border-radius: 6px;" required>
                 </div>
 
                 <hr style="border-color: rgba(255, 224, 130, 0.2); margin: 25px 0;">

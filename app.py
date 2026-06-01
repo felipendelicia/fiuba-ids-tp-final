@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from  datetime import datetime
-
 app = Flask(__name__)
+app.secret_key = 'kinetix_clave_super_secreta_para_las_sesiones' # <--- AGREGÁ ESTA LÍNEA
 
 # 1. Ruta para la página de Inicio
 @app.route("/")
@@ -132,6 +132,8 @@ def eliminar_sala(id_partida):
 
 @app.route("/lobby/unirse/<id_partida>", methods=['POST'])
 def unirse_sala(id_partida):
+    if 'unidas' not in session:
+        session['unidas'] = []
     if id_partida not in mis_salas_unidas:
         for sala in salas_publicas:
             if sala['id'] == id_partida and sala['actuales'] < sala['maximos']:
@@ -143,6 +145,9 @@ def unirse_sala(id_partida):
 @app.route("/lobby-publico")
 def lobby_admin():
     return render_template('lobbypublicas.html', salas=salas_publicas, unidas=mis_salas_unidas)
+@app.route("/lobby-publicouser")
+def lobby_user():
+    return render_template('lobbypublicasuser.html', salas=salas_publicas, unidas=mis_salas_unidas)
 # ---------------------------------------------
 
 # 7. Ruta para la página de Reseñas
@@ -369,6 +374,9 @@ def casco():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
-
+@app.route('/logout')
+def logout():
+    session.clear() # Limpia la memoria del navegador para separar los usuarios
+    return render_template('logout.html')
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

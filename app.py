@@ -6,7 +6,7 @@ app.secret_key = 'kinetix_clave_super_secreta_para_las_sesiones'
 app.permanent_session_lifetime = timedelta(days=7)  
 
 usuario_admin = {"id": 1, "name" : "Milhouse", "dni" : "13451325", "user_name" : "Dominador", "email": "Milhouse@gmail.com", "phone" : "135454754", "password": "Bart", "gender" : "Masculino", "is_admin" : True}
-usuario_existente = { "id": 2, "name" : "Martin", "dni" :"13451325", "user_name" : "El indestructible", "email" : "martin@gmail.com", "gender" : "-", "phone" : "135454754", "password" : "matin", "is_admin" : False}
+usuario_existente = { "id": 2, "name" : "Martin", "dni" :"13451325", "user_name" : "El indestructible", "email" : "martin@gmail.com", "gender" : "-", "phone" : "135454754", "password" : "martin", "is_admin" : False}
 usuario_nuevo = {"id":3 , "name" : "", "dni" :"", "user_name" : "", "email" : "", "gender" : "", "phone" : "", "password" : "", "is_admin" : "False"}
 
 # 1. Ruta para la página principal
@@ -237,7 +237,7 @@ def reseñas():
 
 @app.route("/perfil/reseñas/ver-reseñas")
 def ver_reseñas():
-    
+
     return render_template("ver_reseñas.html", reseñas=reseñas_globales, usuario=session.get("usuario"), nombre_usuario=session.get("user_name")    )
 
 @app.route("/admin_panel")
@@ -347,9 +347,6 @@ def admin_dashboard():
     cant_reserva = {"dia": 12, "semana": 80,"mes":320, "año":2800}
     return render_template('admin_dashboard.html', cantidad=cant_reserva, mes_actual=dias_mes_actual, dia_actual=dia_actual, data_ocu=lista_reservas_ocu, data_dis=reservas_dis["Dashboard_dispo"], frec_reservas=horas_reservadas, usuario=session.get('usuario'))
 
-# ---------------------------------------------------
-#  RESERVA PRIVADA, SERVICIOS, INFORMACION
-# ---------------------------------------------------
 # 13. Ruta para la página de Sala Privada
 @app.route("/lobby-privada")
 def lobby_privada():
@@ -419,7 +416,6 @@ def page_not_found(e):
 def logout():
     session.clear()
     return render_template("logout.html")
-
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

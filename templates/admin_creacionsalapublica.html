@@ -1,4 +1,4 @@
-{% extends 'defaultadmin.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Kinetix - Panel de Administración de Salas{% endblock %}
 
@@ -11,7 +11,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6 text-start p-4 rounded-3" style="background-color: rgba(20, 22, 25, 0.95); border: 2px solid #ffb300; box-shadow: 0 0 30px rgba(255, 179, 0, 0.15);">
             
-            <form action="{{ url_for('crearsala') }}" method="POST">
+            <form action="{{ url_for('admin_crearsala') }}" method="POST">
                 
                 <div class="mb-4">
                     <label class="form-label fw-bold small" style="color: #ffe082; letter-spacing: 1px;">ID DE RESERVA</label>

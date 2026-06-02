@@ -1,53 +1,36 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<div class="container my-5">
-    <h2 class="mb-4">Panel de Administración: Equipamiento e Inventario</h2>
-    
-    <div class="card p-3 mb-4 shadow-sm">
-        <h5>Registrar Nuevo Equipamiento</h5>
-        <form action="/equipamiento" method="POST" class="row g-3">
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="tipo" placeholder="Ej: Pelotas, Chalecos, Conos" required>
-            </div>
-            <div class="col-md-4">
-                <input type="number" class="form-control" name="cantidad" placeholder="Cantidad en stock" min="1" required>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">Registrar</button>
-            </div>
-        </form>
-    </div>
+{% block title %}Kinetix - Alquiler de Equipamiento{% endblock %}
 
-    <table class="table table-bordered align-middle shadow-sm">
-        <thead class="table-secondary">
-            <tr>
-                <th>ID</th>
-                <th>Descripción del Ítem</th>
-                <th>Cantidad Disponible</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in equipamiento %}
-            <tr>
-                <td>{{ item.id }}</td>
-                <td>{{ item.tipo }}</td>
-                <td><span class="badge bg-info text-dark fs-6">{{ item.cantidad }} u.</span></td>
-                <td>
-                    {% if item.cantidad > 5 %}
-                    <span class="text-success fw-bold">Stock Ok</span>
-                    {% else %}
-                    <span class="text-danger fw-bold">Reponer pronto</span>
-                    {% endif %}
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-outline-secondary">Modificar Stock</button>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/equipamiento.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="equipamiento-section">
+    <div class="container text-center">
+        
+        <h1 class="equipamiento-title">EQUIPAMIENTO</h1>
+        
+        <p class="equipamiento-description mx-auto">
+            Sistema modular y cascos de protección profesional para garantizar tu máxima seguridad y rendimiento en cada partida.
+        </p>
+
+        <div class="equipamiento-galeria">
+            
+            <a href="{{ url_for('equipamiento_armas') }}" class="equipamiento-item">
+                <img src="{{ url_for('static', filename='img/arma.png') }}" alt="Armas Usadas">
+            </a>
+
+            <a href="{{ url_for('equipamiento_casco') }}" class="equipamiento-item">
+                <img src="{{ url_for('static', filename='img/casco.png') }}" alt="Cascos y Accesorios">
+            </a>
+
+            <a href="{{ url_for('equipamiento_chaleco') }}" class="equipamiento-item">
+                <img src="{{ url_for('static', filename='img/chaleco.png') }}" alt="Protección Personal">
+            </a>
+
+        </div>
+    </div>
+</section>
 {% endblock %}

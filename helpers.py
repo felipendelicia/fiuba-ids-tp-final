@@ -1,4 +1,16 @@
 from flask import request
+import os
+from dotenv import load_dotenv
+from db import execute
+
+from email.message import EmailMessage
+import ssl
+import smtplib
+
+import qrcode
+import io
+
+load_dotenv()
 
 
 
@@ -28,44 +40,57 @@ def build_links(total, offset, limit):
 
 
 def send_reservation_mail(email_reciver, body):
-    # API de RESEND "pública"
-    API_KEY= "re_NKV5ciJX_6BFuMQ7VAHHJmiadxY3vVjKR"                
-
-    subject = f"Reserva de airsoft: {body.get('reservation_date')}"
-    
-    
-    email_html = f"""
-    <h3>¡Tu reserva de Airsoft está confirmada!</h3>
-    <p><b>ID Usuario:</b> {body.get('account_id')}</p>
-    <p><b>Mapa seleccionado:</b> {body.get('map_id')}</p>
-    <p><b>Horario:</b> {body.get('start_time')} a {body.get('end_time')}</p>
-    <br>
-    <p><i>Gracias por reservar!</i></p>
-    """
-
-    url = "https://api.resend.com/emails"
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json"
-    }
-    
-    payload = {
-        "from": "Airsoft Sistema <onboarding@resend.dev>",
-        "to": email_reciver,
-        "subject": subject,
-        "html": email_html
-    }
-
     try:
-        response = requests.post(url, json=payload, headers=headers)
-        if response.status_code == 200 or response.status_code == 201:
-            return True
-        
-        else:
-            print(f"\n ERROR DE RESEND (Status {response.status_code}):")
-            print(f"Respuesta de la API: {response.text}\n")
-            return False
+        email_sender= os.getenv("EMAIL")
+        password= os.getenv("EMAIL_PASSWORD")
 
+        subject = f"Reserva de airsoft: {body.get('reservation_date')}"
+        
+        map_result= execute(f"SELECT name FROM Maps WHERE id = {body.get('map_id')}")
+        map_name= map_result[0]['name'] if map_result else "Desconocido (consultar con personal)" #Acá sino se puede optar por no mandar el mail si no encuentra el mapa
+        
+        
+        email_body = f"""¡Tu reserva de Airsoft está confirmada!
+        **ID Usuario: {body.get('account_id')} **
+        **Mapa seleccionado: {map_name} **
+        **Horario: {body.get('start_time')} a {body.get('end_time')} **
+        Gracias por reservar!"""
+
+        QR_code= qr_generator(body)
+        
+        em= EmailMessage()
+        em["From"]= email_sender
+        em["To"]= email_reciver
+        em["Subject"]= subject
+        em.set_content(email_body)
+        em.add_attachment(QR_code, maintype='image', subtype='png', filename='qr.png')
+        
+        context= ssl.create_default_context()
+
+        with smtplib.SMTP_SSL("smtp.gmail.com",465,context = context) as smtp:
+            smtp.login(email_sender, password)
+            smtp.sendmail(email_sender, email_reciver, em.as_string())
+
+        return True
     
-    except Exception as e:
+    except:
         return False
+
+
+def qr_generator(body):
+    public = "Si" if body.get('is_public') else "No"
+    qr_input= f"ID Usuario: {body.get('account_id')}, Reserva: {body.get('reservation_date')}, Pública: {public}"
+
+    qr = qrcode.QRCode(version= 1, box_size= 10, border= 5)
+    qr.add_data(qr_input)
+    qr.make(fit=True)
+
+    QR_img= qr.make_image(fill='black', back_color='white')
+    #QR en memoria de bytes para no guardar QRS
+    img_byte_arr= io.BytesIO()
+    QR_img.save(img_byte_arr, format='PNG')
+
+    return img_byte_arr.getvalue()
+
+
+

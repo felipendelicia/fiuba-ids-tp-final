@@ -1,4 +1,7 @@
-/* Login Register Password*/
+
+/* ==========================================================================
+    ESTILOS PARA LOGIN, REGISTRO Y RECUPERACION DE CONTRASEÑA
+   ========================================================================== *//* Login Register Password*/
 #sectionLogin, #sectionRegister, #sectionPassword{
     display: flex;
     flex-direction: column;

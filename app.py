@@ -208,7 +208,7 @@ def guardar_reseña():
         }
         reseñas_globales.append(nueva_reseña)
 
-    return render_template("mensaje_envia_resenia.html")
+    return render_template("mensaje_envia_resenia.html", usuario=session.get ('usuario'))
 
 
 # SOLUCIONADO: Se eliminó la eñe de la URL dinámica para prevenir el ValueError de Werkzeug
@@ -354,7 +354,7 @@ def lobby_privada():
 
 @app.route('/mensaje_crea_sala_privada')
 def mensaje_crea_sala_privada():
-    return render_template('mensaje_crea_sala_privada.html')
+    return render_template('mensaje_crea_sala_privada.html', usuario=session.get('usuario'))
 
 
 # 14. Ruta para la página de Servicios

@@ -281,8 +281,8 @@ def admin_dashboard():
     dia_actual = fecha_actual.day
 
     dias_mes_actual = [
-        27, 28, 29, 30, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-        17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+        31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+        17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
     ]
 
     response = {
@@ -344,7 +344,7 @@ def admin_dashboard():
             horas_reservadas["do"] += 1
         elif 19 <= hora < 21:
             horas_reservadas["dv"] += 1
-    cant_reserva = {"dia": 12, "semana": 80,"mes":320, "año":2800}
+    cant_reserva = {"dia": 12, "semana": 80,"mes":320}
     return render_template('admin_dashboard.html', cantidad=cant_reserva, mes_actual=dias_mes_actual, dia_actual=dia_actual, data_ocu=lista_reservas_ocu, data_dis=reservas_dis["Dashboard_dispo"], frec_reservas=horas_reservadas, usuario=session.get('usuario'))
 
 # 13. Ruta para la página de Sala Privada

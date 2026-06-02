@@ -52,6 +52,15 @@ def crear_reserva(params):
     start_time = params['start_time']
     end_time = params['end_time']
 
+    SLOT_STARTS = ['05:00:00','07:00:00','09:00:00','11:00:00',
+                   '13:00:00','15:00:00','17:00:00','19:00:00']
+    if start_time not in SLOT_STARTS:
+        abort(400, f'Horario inválido. Debe ser uno de: {", ".join(SLOT_STARTS)}')
+    hora = int(start_time[:2])
+    expected_end = f'{hora + 2:02d}:00:00'
+    if end_time != expected_end:
+        abort(400, 'La reserva debe ser de exactamente 2 horas')
+
     game_mode = execute(f"SELECT * FROM GameModes WHERE id = {game_mode_id}")
     if not game_mode:
         abort(404, 'Modo de juego no encontrado')
@@ -67,6 +76,14 @@ def crear_reserva(params):
                         AND '{start_time}' < end_time AND '{end_time}' > start_time""")
     if duplicado:
         abort(409, 'Ya tenés una reserva activa en este mismo rango horario')
+
+    mapa_ocupado = execute(f"""SELECT id FROM Reservations
+                          WHERE map_id = {map_id}
+                          AND reservation_date = '{reservation_date}'
+                          AND '{start_time}' < end_time AND '{end_time}' > start_time
+                          AND canceled = FALSE""")
+    if mapa_ocupado:
+        abort(409, 'Este mapa ya está reservado en ese horario')
 
     execute(f"""INSERT INTO Reservations
             (account_id, game_mode_id, map_id, created_at, equipment_kit_id, price, reservation_date, start_time, end_time, is_public)
@@ -100,9 +117,34 @@ def actualizar_reserva(id, data):
     if not updates:
         abort(400, 'No hay campos válidos para actualizar')
 
-    check = execute(f"SELECT id FROM Reservations WHERE id = {id}")
+    check = execute(f"SELECT * FROM Reservations WHERE id = {id}")
     if not check:
         abort(404, f'Reserva con ID {id} no encontrada')
+
+    current = check[0]
+    upd_start = data.get('start_time', str(current['start_time']))
+    upd_end = data.get('end_time', str(current['end_time']))
+
+    SLOT_STARTS = ['05:00:00','07:00:00','09:00:00','11:00:00',
+                   '13:00:00','15:00:00','17:00:00','19:00:00']
+    if upd_start not in SLOT_STARTS:
+        abort(400, f'Horario inválido. Debe ser uno de: {", ".join(SLOT_STARTS)}')
+    hora = int(upd_start[:2])
+    expected_end = f'{hora + 2:02d}:00:00'
+    if upd_end != expected_end:
+        abort(400, 'La reserva debe ser de exactamente 2 horas')
+
+    upd_map_id = data.get('map_id', current['map_id'])
+    upd_date = data.get('reservation_date', str(current['reservation_date']))
+
+    mapa_ocupado = execute(f"""SELECT id FROM Reservations
+                          WHERE map_id = {upd_map_id}
+                          AND reservation_date = '{upd_date}'
+                          AND '{upd_start}' < end_time AND '{upd_end}' > start_time
+                          AND canceled = FALSE
+                          AND id != {id}""")
+    if mapa_ocupado:
+        abort(409, 'Este mapa ya está reservado en ese horario')
 
     set_clause = ", ".join(updates)
     execute(f"UPDATE Reservations SET {set_clause} WHERE id = {id}")

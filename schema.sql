@@ -34,7 +34,14 @@ CREATE TABLE IF NOT EXISTS Reservations (
 	end_time TIME,
 	is_public BOOLEAN,
 	canceled BOOLEAN DEFAULT FALSE,
-	cancelation_reason VARCHAR(500)
+	cancelation_reason VARCHAR(500),
+	UNIQUE KEY uq_map_slot (map_id, reservation_date, start_time),
+	CHECK (
+		canceled = TRUE OR (
+			HOUR(start_time) IN (5,7,9,11,13,15,17,19)
+			AND end_time = ADDTIME(start_time, '02:00:00')
+		)
+	)
 );
 
 
@@ -57,9 +64,18 @@ CREATE TABLE IF NOT EXISTS EquipmentKit (
 CREATE TABLE IF NOT EXISTS Maps (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	image_url VARCHAR(100),
-	name VARCHAR(100),
+	name VARCHAR(100) UNIQUE,
 	description VARCHAR(900)
 );
+
+INSERT IGNORE INTO Maps (name, description) VALUES
+('Nuketown', 'Mapa clásico de combate urbano'),
+('Mirage', 'Mapa táctico con zonas desérticas'),
+('Hijacked', 'Mapa ambientado en un yate de lujo'),
+('Terminal', 'Mapa ambientado en un aeropuerto');
+
+INSERT IGNORE INTO Accounts (id, name, username, email, password, dni, phone, about_me, created_at, updated_at, is_active, is_admin)
+VALUES (1, 'Juan Perez', 'juanperez', 'juanperez@email.com', '123456', '12345678', '123456789', 'Jugador de airsoft', NOW(), NOW(), TRUE, FALSE);
 
 
 CREATE TABLE IF NOT EXISTS Review (

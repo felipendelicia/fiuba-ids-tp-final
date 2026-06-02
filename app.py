@@ -14,6 +14,7 @@ def index():
 def login():
     # usuario que fue enviado de la api
     usuario = {
+        "id": 1,
         "name" : "Martin",
         "dni" :"13451325",
         "user_name" : "El indestructible",
@@ -25,6 +26,7 @@ def login():
     }
 
     usuario_admin = {
+        "id": 2,
         "name" : "Milhouse",
         "dni" : "13451325",
         "user_name" : "Dominador",
@@ -70,9 +72,11 @@ def register():
         nuevo_usuario['phone'] = phone
         nuevo_usuario['password'] = password
 
-        flash("La cuenta ha sido creada exitosamente", "succes")
         return render_template('perfil.html', usuario=nuevo_usuario)
+    else:
+        return render_template('register.html')
     return render_template('register.html')
+
 
 # 4. Ruta para la pagína de Recuperación Contraseña de Usuario
 @app.route('/password', methods=['GET', 'POST'])
@@ -84,6 +88,9 @@ def password():
         if (email == email_user):
             flash("Hemos enviado un correo con instrucciones de recuperación. Revisa tu bandeja de entrada y la carpeta de spam", "succes")
             return render_template('index.html')
+        else:
+            flash("El correo ingresado no coincide con ningún usuario registrado. Verifica tu email e intenta nuevamente.", "warning")
+            return render_template('password.html')
     return render_template('password.html')
 
 # 5. Ruta para la página de Campos de Juegos

@@ -144,3 +144,43 @@
     transform: scale(1.02);
     border-color: rgba(0, 242, 254, 0.5);
 }
+
+/* ========================================================
+   CORRECCIÓN DE ESTILOS DE BOOTSTRAP (FONDO OSCURO TÁCTICO)
+   ======================================================== */
+
+/* 1. Quitar el fondo blanco/gris por defecto del Breadcrumb */
+.breadcrumb {
+    background-color: transparent !important; /* Hace que se fusione con tu contenedor oscuro */
+    padding: 0.5rem 0 !important;
+    margin-bottom: 1.5rem !important;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+}
+
+/* Color neón para los links del camino de navegación */
+.breadcrumb-item a {
+    color: #00f2fe !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+    color: #4facfe !important;
+    text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
+}
+
+/* Color gris sutil para el texto de la página en la que estás parado */
+.breadcrumb-item.active {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Cambiar el color de las barritas separadoras (/) a azul táctico */
+.breadcrumb-item + .breadcrumb-item::before {
+    color: rgba(0, 242, 254, 0.3) !important;
+}
+
+/* 2. Asegurar que el fondo general del body sea el oscuro de Kinetix si queda luz en los bordes */
+body {
+    background-color: #0a0c0f !important; /* Tu color oscuro base */
+}

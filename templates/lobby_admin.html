@@ -20,7 +20,9 @@
                         <th scope="col" class="border-secondary py-3">HORA</th>
                         <th scope="col" class="border-secondary py-3 text-center">CUPO / ACCIÓN</th>
                         <th scope="col" class="border-secondary py-3 text-end">ESTADO</th>
-                        <th scope="col" class="border-secondary py-3 text-center">ACCIONES ADMIN</th>
+                        {% if usuario and usuario.is_admin %}
+                            <th scope="col" class="border-secondary py-3 text-center">ACCIONES ADMIN</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>

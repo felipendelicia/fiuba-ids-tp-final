@@ -1,12 +1,10 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, session
 from  datetime import datetime, timedelta
+
 app = Flask(__name__)
 app.secret_key = 'kinetix_clave_super_secreta_para_las_sesiones'
 app.permanent_session_lifetime = timedelta(days=7)  
 
-# ---------------------------------------------------
-# USUARIOS DE PRUEBA PARA INICIO DE SESIÓN Y REGISTRO
-# ---------------------------------------------------
 usuario_admin = {"id": 1, "name" : "Milhouse", "dni" : "13451325", "user_name" : "Dominador", "email": "Milhouse@gmail.com", "phone" : "135454754", "password": "Bart", "gender" : "Masculino", "is_admin" : True}
 usuario_existente = { "id": 2, "name" : "Martin", "dni" :"13451325", "user_name" : "El indestructible", "email" : "martin@gmail.com", "gender" : "-", "phone" : "135454754", "password" : "matin", "is_admin" : False}
 usuario_nuevo = {"id":3 , "name" : "", "dni" :"", "user_name" : "", "email" : "", "gender" : "", "phone" : "", "password" : "", "is_admin" : "False"}
@@ -71,19 +69,19 @@ def login_registro():
 @app.route('/login/contrasenia', methods=['GET', 'POST'])
 def login_contrasenia():
     email_user = "Bruno@gmail.com"
-    if (request.method == 'POST'):
-        email = request.form.get('email')
-        if (email == email_user):
-            flash("Hemos enviado un correo con instrucciones de recuperación. Revisa tu bandeja de entrada y la carpeta de spam", "succes")
-            return render_template('index.html')
+    if request.method == "POST":
+        email = request.form.get("email")
+        if email == email_user:
+            flash(
+                "Hemos enviado un correo con instrucciones de recuperación. Revisa tu bandeja de entrada y la carpeta de spam",
+                "succes",
+            )
+            return render_template("index.html")
         else:
             flash("El correo ingresado no coincide con ningún usuario registrado. Verifica tu email e intenta nuevamente.", "warning")
             return render_template('login_contrasenia.html')
     return render_template('login_contrasenia.html')
 
-# ----------------------------------------------------------
-# MENU DE NAVEGACION
-# ----------------------------------------------------------
 # 5. Ruta para la página de Campos de Juegos
 @app.route("/campos")
 def campos():
@@ -102,7 +100,127 @@ def perfil():
 def reservas():
     return render_template('reservas.html', usuario =session.get('usuario'))
 
-# 8. Ruta para la página de Reseñas
+# --- SISTEMA DE GESTIÓN DE SALAS PÚBLICAS ---
+salas_publicas = []
+
+@app.route("/perfil/reservasadmin/crearsala", methods=['GET', 'POST'])
+def admin_crearsala():
+    if request.method == 'POST':
+        nueva_partida = {
+            "id": request.form.get("id_reserva"),
+            "modalidad": request.form.get("modalidad"),
+            "escenario": request.form.get("escenario"),
+            "fecha": request.form.get("fecha"),
+            "hora": request.form.get("hora"),
+            "actuales": 0,
+            "maximos": 10,
+            "estado": "[ RESERVA DE ADMIN ]",
+        }
+        salas_publicas.append(nueva_partida)
+        return redirect(url_for('lobby_admin')) 
+    return render_template('admin_creacionsalapublica.html')
+
+@app.route("/perfil/reservasadmin/eliminar/<string:id_partida>", methods=["POST"])
+def eliminar_sala(id_partida):
+    global salas_publicas
+    salas_publicas = [
+        sala for sala in salas_publicas if sala["id"] != id_partida
+    ]
+
+    if "unidas" in session and id_partida in session["unidas"]:
+        session["unidas"].remove(id_partida)
+        session.modified = True
+    return redirect(url_for("lobby_admin"))
+
+
+@app.route("/lobby/unirse/<string:id_partida>", methods=["POST"])
+def unirse_sala(id_partida):
+    if "unidas" not in session:
+        session["unidas"] = []
+
+    if id_partida not in session["unidas"]:
+        for sala in salas_publicas:
+            if sala["id"] == id_partida and sala["actuales"] < sala["maximos"]:
+                sala["actuales"] += 1
+                session["unidas"].append(id_partida)
+                session.modified = True
+                break
+    return redirect(url_for("lobby_admin"))
+
+@app.route("/lobby-admin")
+def lobby_admin():
+    usuario = session.get('usuario')
+    mis_unidas = session.get("unidas", [])
+    if  not usuario:
+        flash("Debes iniciar sesión para acceder a las salas públicas.", "warning")
+        return redirect(url_for('login_sesion'))
+    return render_template('lobby_admin.html', salas=salas_publicas, unidas=mis_unidas, usuario=session.get('usuario'))
+
+@app.route("/lobby_user")
+def lobby_user():
+    usuario = session.get('usuario')
+    mis_unidas = session.get("unidas", [])
+    if not usuario:
+        flash("Debes iniciar sesión para acceder a las salas públicas.", "warning")
+        return redirect(url_for('login_sesion'))
+    return render_template('lobby_user.html', salas=salas_publicas, unidas=mis_unidas, usuario=usuario)
+# ---------------------------------------------------
+
+
+# --- SISTEMA DE RESEÑAS CON ESTRELLAS DINÁMICAS Y RESPUESTAS DEL ADMIN ---
+reseñas_globales = [
+    {
+        "id": 1,
+        "usuario": "Martin",
+        "titulo": "¡Excelente servicio y jugabilidad!",
+        "mapa": "bunker subterráneo alpha",
+        "comentario": "Las réplicas andan bárbaro y los chalecos tácticos marcan perfecto los impactos en tiempo real. Estaría bueno que sumen más variedad de snacks en el entretiempo.",
+        "puntuacion": 5,
+        "respuestas": [],
+    }
+]
+
+@app.route("/guardar-reseña", methods=["POST"])
+def guardar_reseña():
+    usuario_actual = session.get("usuario", "Usuario Anónimo")
+    titulo = request.form.get("titulo")
+    mapa = request.form.get("mapa")
+    comentario = request.form.get("comentario")
+    puntuacion = request.form.get("puntuacion")
+
+    if comentario and puntuacion:
+        nueva_reseña = {
+            "id": len(reseñas_globales) + 1,
+            "usuario": usuario_actual,
+            "titulo": titulo if titulo else "Reseña General",
+            "mapa": mapa if mapa else "General",
+            "comentario": comentario,
+            "puntuacion": int(puntuacion),
+            "respuestas": [],
+        }
+        reseñas_globales.append(nueva_reseña)
+
+    return render_template("envia_reseña.html")
+
+
+# SOLUCIONADO: Se eliminó la eñe de la URL dinámica para prevenir el ValueError de Werkzeug
+@app.route("/adminreseñas/responder/<int:resena_id>", methods=["POST"])
+def responder_reseña(resena_id):
+    texto_respuesta = request.form.get("respuesta_admin")
+
+    if texto_respuesta:
+        for r in reseñas_globales:
+            if r["id"] == resena_id:
+                nueva_respuesta = {
+                    "autor": "Soporte Kinetix (Admin)",
+                    "texto": texto_respuesta,
+                }
+                r["respuestas"].append(nueva_respuesta)
+                break
+
+    return redirect(url_for("admin_reseñas"))
+
+
 @app.route("/perfil/reseñas")
 def reseñas():
     usuario = session.get('usuario')
@@ -110,80 +228,18 @@ def reseñas():
         return redirect(url_for('login_sesion'))
     return render_template('reseñas.html', usuario=usuario)
 
-# ---------------------------------------------------
-# --- SISTEMA DE GESTIÓN DE SALAS PÚBLICAS ---
-# ---------------------------------------------------
-salas_publicas = []
-mis_salas_unidas = []  # Almacena los IDs de las salas a las que ya se unió el usuario
 
-@app.route("/perfil/reservasadmin/crearsala", methods=['GET', 'POST'])
-def admin_crearsala():
-    if request.method == 'POST':
-        nueva_partida = {
-            "id": request.form.get('id_reserva'),
-            "modalidad": request.form.get('modalidad'),
-            "escenario": request.form.get('escenario'),
-            "fecha": request.form.get('fecha'),
-            "hora": request.form.get('hora'),
-            "actuales": 0,          
-            "maximos": 10,          
-            "estado": "[ RESERVA DE ADMIN ]"
-        }
-        salas_publicas.append(nueva_partida)
-        return redirect(url_for('lobby_admin')) 
-    return render_template('admin_creacionsalapublica.html')
+@app.route("/perfil/reseñas/ver-reseñas")
+def ver_reseñas():
+    return render_template("ver_reseñas.html", reseñas=reseñas_globales)
 
-@app.route("/perfil/reservasadmin/eliminar/<id_partida>", methods=['POST'])
-def eliminar_sala(id_partida):
-    global salas_publicas
-    salas_publicas = [sala for sala in salas_publicas if sala['id'] != id_partida]
-    if id_partida in mis_salas_unidas:
-        mis_salas_unidas.remove(id_partida)
-    return redirect(url_for('lobby_admin'))
-
-@app.route("/lobby/unirse/<id_partida>", methods=['POST'])
-def unirse_sala(id_partida):
-    if 'unidas' not in session:
-        session['unidas'] = []
-    if id_partida not in mis_salas_unidas:
-        for sala in salas_publicas:
-            if sala['id'] == id_partida and sala['actuales'] < sala['maximos']:
-                sala['actuales'] += 1
-                mis_salas_unidas.append(id_partida)
-                break
-    return redirect(url_for('lobby_admin'))
-
-@app.route("/lobby-admin")
-def lobby_admin():
-    usuario = session.get('usuario')
-    if  not usuario:
-        flash("Debes iniciar sesión para acceder a las salas públicas.", "warning")
-        return redirect(url_for('login_sesion'))
-    return render_template('lobby_admin.html', salas=salas_publicas, unidas=mis_salas_unidas, usuario=session.get('usuario'))
-
-@app.route("/lobby_user")
-def lobby_user():
-    usuario = session.get('usuario')
-    if not usuario:
-        flash("Debes iniciar sesión para acceder a las salas públicas.", "warning")
-        return redirect(url_for('login_sesion'))
-    return render_template('lobby_user.html', salas=salas_publicas, unidas=mis_salas_unidas, usuario=usuario)
-# ---------------------------------------------------
-
-
-# ---------------------------------------------------
-# SECCION DE USUARIO ADMINISTRADOR
-# ---------------------------------------------------
-# 8. Ruta para la página de panel de administrador
 @app.route("/admin_panel")
 def admin_panel():
-    usuario = session.get('usuario') 
-    return render_template('admin_panel.html', usuario=usuario)
+    return render_template("admin_panel.html", usuario=session.get("usuario"))
 
-# 9. Ruta para la página de administración de reseñas
 @app.route("/admin_reseñas")
 def admin_reseñas():
-    return render_template('admin_reseñas.html', usuario=session.get('usuario'))
+    return render_template("admin_reseñas.html", reseñas=reseñas_globales, usuario=session.get("usuario"))
 
 # 10. Ruta para la página de administración de reservas
 @app.route("/admin_reservas")
@@ -205,21 +261,32 @@ def admin_servicios():
         return render_template('admin_servicios.html', servicios=servicios_db, usuario=session.get('usuario'))
     return render_template('admin_servicios.html', servicios=servicios_db, usuario=session.get('usuario'))
 
-# 12. Ruta para la página de Dashboard
+# 9. Ruta para la página de Sala Privada
+@app.route("/sala-privada")
+def sala_privada():
+    return render_template("salaprivada.html")
+
+
+# 10. Ruta para la página de Dashboard
 @app.route('/admin_dashboard')
 def admin_dashboard():
     fecha_actual = datetime.today()
     dia_actual = fecha_actual.day
-    dias_mes_actual = [27,28,29,30,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
-    response = {"Dashboard": 
-        [
+
+    dias_mes_actual = [
+        27, 28, 29, 30, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+        17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+    ]
+
+    response = {
+        "Dashboard": [
             {
                 "id_reserva": 1,
                 "user_name": "Pepe Ramirez",
                 "dni_usuario": "11534484",
                 "price": 30000,
                 "start_time": "2025-05-12 10:30:00",
-                "end_time": "2025-05-12 12:30:00"
+                "end_time": "2025-05-12 12:30:00",
             },
             {
                 "id_reserva": 2,
@@ -227,40 +294,8 @@ def admin_dashboard():
                 "dni_usuario": "11534484",
                 "price": 1200,
                 "start_time": "2025-05-12 13:30:00",
-                "end_time": "2025-05-12 14:30:00"
-            },
-            {
-                "id_reserva": 3,
-                "user_name": "Alfredo",
-                "dni_usuario": "11534484",
-                "price": 450000,
-                "start_time": "2025-05-12 16:30:00",
-                "end_time": "2025-05-12 17:30:00"
-            } ,
-            {
-                "id_reserva": 4,
-                "user_name": "Javier",
-                "dni_usuario": "11534484",
-                "price": 450000,
-                "start_time": "2025-05-12 16:30:00",
-                "end_time": "2025-05-12 17:30:00"
-            } ,
-            {
-                "id_reserva": 5,
-                "user_name": "Alvares",
-                "dni_usuario": "11534484",
-                "price": 450000,
-                "start_time": "2025-05-12 16:30:00",
-                "end_time": "2025-05-12 17:30:00"
-            } ,
-            {
-                "id_reserva": 6,
-                "user_name": "Toreto",
-                "dni_usuario": "11534484",
-                "price": 450000,
-                "start_time": "2025-05-12 07:00:00",
-                "end_time": "2025-05-12 12:30:00"
-            } 
+                "end_time": "2025-05-12 14:30:00",
+            }
         ]
     }
     lista_reservas_ocu = response["Dashboard"]
@@ -268,21 +303,33 @@ def admin_dashboard():
     cant_disponible = max_reservas - len(response["Dashboard"])
     reservas_dis = {"Dashboard_dispo": []}
     for i in range(cant_disponible):
-        reservas_dis["Dashboard_dispo"].append({ "id_reserva": "-", "user_name": "-","dni_usuario": "-","price": "-","start_time": "-", "end_time": "-"})
-    horas_reservadas = {"cs":0 ,"so":0 ,"nd":0 ,"od":0 ,"tc":0 ,"qs":0 ,"do":0,"dv":0}
+        reservas_dis["Dashboard_dispo"].append(
+            {
+                "id_reserva": "-",
+                "user_name": "-",
+                "dni_usuario": "-",
+                "price": "-",
+                "start_time": "-",
+                "end_time": "-",
+            }
+        )
+
+    horas_reservadas = {
+        "cs": 0, "so": 0, "nd": 0, "od": 0, "tc": 0, "qs": 0, "do": 0, "dv": 0
+    }
     for reserva in response["Dashboard"]:
         dt = datetime.strptime(reserva["start_time"], "%Y-%m-%d %H:%M:%S")
         hora = dt.hour
 
-        if 5 <= hora < 7:  
+        if 5 <= hora < 7:
             horas_reservadas["cs"] += 1
-        elif 7 <= hora < 9: 
+        elif 7 <= hora < 9:
             horas_reservadas["so"] += 1
-        elif 9 <= hora < 11: 
+        elif 9 <= hora < 11:
             horas_reservadas["nd"] += 1
-        elif 11 <= hora < 13: 
+        elif 11 <= hora < 13:
             horas_reservadas["od"] += 1
-        elif 13 <= hora < 15: 
+        elif 13 <= hora < 15:
             horas_reservadas["tc"] += 1
         elif 15 <= hora < 17:
             horas_reservadas["qs"] += 1
@@ -339,11 +386,11 @@ def equipamiento_armas():
 def admin_equipamiento():
     equipamiento_db = [
         {"id": 1, "tipo": "Pelota de Fútbol 5", "cantidad": 10},
-        {"id": 2, "tipo": "Pecheras (Set x 5)", "cantidad": 8}
+        {"id": 2, "tipo": "Pecheras (Set x 5)", "cantidad": 8},
     ]
-    if request.method == 'POST':
-        tipo = request.form.get('tipo')
-        cantidad = int(request.form.get('cantidad'))
+    if request.method == "POST":
+        tipo = request.form.get("tipo")
+        cantidad = int(request.form.get("cantidad"))
         nuevo_id = len(equipamiento_db) + 1
         equipamiento_db.append({"id": nuevo_id, "tipo": tipo, "cantidad": cantidad})
         return render_template('admin_equipamiento.html', equipamiento=equipamiento_db)
@@ -357,15 +404,15 @@ def equipamiento_chaleco():
 def equipamiento_casco():
     return render_template('equipamiento_casco.html', usuario=session.get('usuario'))
 
-# Error de pagina
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
-# Ruta para cerrar sesión
-@app.route('/logout')
+    return render_template("404.html"), 404
+
+@app.route("/logout")
 def logout():
-    session.clear() # Limpia la memoria del navegador para separar los usuarios
-    return render_template('logout.html')
+    session.clear()
+    return render_template("logout.html")
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

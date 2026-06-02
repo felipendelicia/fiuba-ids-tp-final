@@ -182,7 +182,12 @@ reseñas_globales = [
 
 @app.route("/guardar-reseña", methods=["POST"])
 def guardar_reseña():
-    usuario_actual = session.get("usuario", "Usuario Anónimo")
+    usuario = session.get('usuario')
+    if not usuario:
+        flash("Debes iniciar sesión para enviar una reseña.", "warning")
+        return redirect(url_for('login_sesion'))
+    
+    nombre_usuario = usuario.get("user_name", "Usuario Anónimo")
     titulo = request.form.get("titulo")
     mapa = request.form.get("mapa")
     comentario = request.form.get("comentario")
@@ -191,7 +196,7 @@ def guardar_reseña():
     if comentario and puntuacion:
         nueva_reseña = {
             "id": len(reseñas_globales) + 1,
-            "usuario": usuario_actual,
+            "usuario": nombre_usuario,
             "titulo": titulo if titulo else "Reseña General",
             "mapa": mapa if mapa else "General",
             "comentario": comentario,
@@ -224,14 +229,16 @@ def responder_reseña(resena_id):
 @app.route("/perfil/reseñas")
 def reseñas():
     usuario = session.get('usuario')
+    nombre_usuario = usuario["user_name"]
     if not usuario:
         return redirect(url_for('login_sesion'))
-    return render_template('reseñas.html', usuario=usuario)
+    return render_template('reseñas.html', usuario=usuario, nombre_usuario=nombre_usuario)
 
 
 @app.route("/perfil/reseñas/ver-reseñas")
 def ver_reseñas():
-    return render_template("ver_reseñas.html", reseñas=reseñas_globales)
+    
+    return render_template("ver_reseñas.html", reseñas=reseñas_globales, usuario=session.get("usuario"), nombre_usuario=session.get("user_name")    )
 
 @app.route("/admin_panel")
 def admin_panel():

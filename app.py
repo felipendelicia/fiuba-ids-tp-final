@@ -237,7 +237,6 @@ def reseñas():
 
 @app.route("/perfil/reseñas/ver-reseñas")
 def ver_reseñas():
-
     return render_template("ver_reseñas.html", reseñas=reseñas_globales, usuario=session.get("usuario"), nombre_usuario=session.get("user_name")    )
 
 @app.route("/admin_panel")
@@ -267,12 +266,6 @@ def admin_servicios():
         servicios_db.append({"id": nuevo_id, "nombre": nuevo_nombre, "descripcion": nueva_desc})
         return render_template('admin_servicios.html', servicios=servicios_db, usuario=session.get('usuario'))
     return render_template('admin_servicios.html', servicios=servicios_db, usuario=session.get('usuario'))
-
-# 9. Ruta para la página de Sala Privada
-@app.route("/sala-privada")
-def sala_privada():
-    return render_template("salaprivada.html")
-
 
 # 10. Ruta para la página de Dashboard
 @app.route('/admin_dashboard')
@@ -355,6 +348,11 @@ def lobby_privada():
         flash("Debes iniciar sesión para acceder a la sala privada.", "warning")
         return redirect(url_for('login_sesion'))
     return render_template('lobby_privada.html', usuario=session.get('usuario'))
+
+@app.route('/confirma_sala_privada')
+def confirma_sala_privada():
+    return render_template('confirma_sala_privada.html')
+
 
 # 14. Ruta para la página de Servicios
 @app.route('/servicios')

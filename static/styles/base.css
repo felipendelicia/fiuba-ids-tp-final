@@ -1,4 +1,26 @@
 /* ==========================================================================
+   MENSAJES FLASH
+   ========================================================================== */
+.flash-overlay {
+  position: fixed;       
+  top: 0rem;             
+  z-index: 1050;         
+  width: 100%;
+}
+.flash-custom {
+  background: linear-gradient(135deg, #ffca28 0%, #ff9800 100%);
+  display: flex;
+  border: none;
+  border-radius: 1rem;
+  padding: 1rem;
+  font-weight: bold;
+  color: black;
+  width: auto;
+  justify-content: center;
+  margin: 5rem 3rem;
+}
+
+/* ==========================================================================
    FOOTER
    ========================================================================== */
 .footer {

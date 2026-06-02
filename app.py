@@ -418,5 +418,18 @@ def mensaje_logout():
     session.clear()
     return render_template("mensaje_logout.html")
 
+# Rutas para ver el detalle de cada servicio en particular
+@app.route('/servicios/buffet')
+def servicio_buffet():
+    return render_template('servicio_buffet.html')
+
+@app.route('/servicios/estacionamiento')
+def servicio_estacionamiento():
+    return render_template('servicio_estacionamiento.html')
+
+@app.route('/servicios/almacenamiento')
+def servicio_almacenamiento():
+    return render_template('servicio_almacenamiento.html')
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

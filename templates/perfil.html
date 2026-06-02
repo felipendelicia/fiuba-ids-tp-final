@@ -1,4 +1,4 @@
-{% extends "default.html" %}
+{% extends "base.html" %}
 
 {% block title %}Airsoft - Inicio{% endblock %}
 
@@ -13,7 +13,7 @@
         <div class="avatar-wrapper">
             <img src="../static/img/ejercitos.jpg" alt="Foto de Perfil" class="avatar-foto">
         </div>
-        <h1 class="usuario-nombre">Dante 'Ghostface' Ghisi</h1>
+        <h1 class="usuario-nombre">{{ usuario.name }} '{{ usuario.user_name }}'</h1>
     </div>
 
     <div class="perfil-estadisticas">

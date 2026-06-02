@@ -12,6 +12,7 @@
     background-size: 20px 20px;
     min-height: calc(100vh - 56px);
     color: #ffffff; /* Texto por defecto en blanco */
+    user-select: none
 }
 
 /* --- Cabecera (Avatar y Nombre) --- */
@@ -50,7 +51,6 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: 2px;
-    text-transform: uppercase;
 }
 
 /* --- Bloque de Estadísticas (Grid) --- */

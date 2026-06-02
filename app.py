@@ -1,59 +1,53 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, session
-from  datetime import datetime
+from  datetime import datetime, timedelta
 app = Flask(__name__)
-app.secret_key = 'kinetix_clave_super_secreta_para_las_sesiones' # <--- AGREGÁ ESTA LÍNEA
+app.secret_key = 'kinetix_clave_super_secreta_para_las_sesiones'
+app.permanent_session_lifetime = timedelta(days=7)  
+
+
+# ------------------------------------
+# Gestion de usuarios 
+# ------------------------------------
+usuario_admin = {"id": 1, "name" : "Milhouse", "dni" : "13451325", "user_name" : "Dominador", "email": "Milhouse@gmail.com", "phone" : "135454754", "password": "Bart", "gender" : "Masculino", "is_admin" : "true"}
+usuario_existente = { "id": 2, "name" : "Martin", "dni" :"13451325", "user_name" : "El indestructible", "email" : "martin@gmail.com", "gender" : "-", "phone" : "135454754", "password" : "matin", "is_admin" : "false"}
+usuario_nuevo = {"id":3 , "name" : "", "dni" :"", "user_name" : "", "email" : "", "gender" : "", "phone" : "", "password" : "", "is_admin" : "false"}
 
 # 1. Ruta para la página de Inicio
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html', usuario=session.get('usuario'))  # Pasamos el usuario a la plantilla para mostrar su nombre en el menú
 
 # 2. Ruta para la página de Iniciar Sesion
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # usuario que fue enviado de la api
-    usuario = {
-        "id": 1,
-        "name" : "Martin",
-        "dni" :"13451325",
-        "user_name" : "El indestructible",
-        "email" : "martin@gmial.com",
-        "gender" : "-",
-        "phone" : "135454754",
-        "password" : "matin123456",
-        "es_admin" : "false"
-    }
-
-    usuario_admin = {
-        "id": 2,
-        "name" : "Milhouse",
-        "dni" : "13451325",
-        "user_name" : "Dominador",
-        "email": "Milhouse@gmail.com",
-        "phone" : "135454754",
-        "password": "Bart",
-        "gender" : "-",
-        "es_admin": "true" 
-    }
+    next_page = request.args.get('next') 
     if (request.method == 'POST'):
         email = request.form.get("email")
         password = request.form.get("password")
         recuerdame = request.form.get("recuerdame")
-
-        if(email == usuario["email"] and password == usuario["password"]):
-            return render_template('perfil.html', usuario=usuario)
-        elif (email == usuario_admin['email'] and password == usuario_admin['password']):
-            return render_template('adminperfil.html', usuario=usuario_admin)
+        if(email == usuario_existente["email"] and password == usuario_existente["password"]):
+            if recuerdame:
+                session.permanent = True
+            session['usuario'] = usuario_existente 
+            return redirect(url_for(next_page)) if next_page else redirect(url_for('perfil'))
+        elif(email == usuario_nuevo["email"] and password == usuario_nuevo["password"]):
+            if recuerdame:
+                session.permanent = True
+            session['usuario'] = usuario_nuevo
+            return redirect(url_for(next_page)) if next_page else redirect(url_for('perfil'))
+        elif(email == usuario_admin["email"] and password == usuario_admin["password"]):
+            if recuerdame:
+                session.permanent = True
+            session['usuario'] = usuario_admin
+            return redirect(url_for(next_page)) if next_page else redirect(url_for('perfil'))
         else:
-            flash("Error al iniciar sesión. Verifica tú email y contraseña.", "warning")
-
+            flash("Usuario o contraseña inválidos.", "warning")
     return render_template('login.html')
 
 # 3. Ruta para la página de Registrar Nuevo Usuario
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    # nuevo usuario para enviar a la api
-    nuevo_usuario = {}
     if (request.method == 'POST'):
         name = request.form.get('name')
         dni = request.form.get('dni')
@@ -62,25 +56,19 @@ def register():
         gender = request.form.get('gender')
         phone = request.form.get('phone')
         password = request.form.get('password')
-
-        nuevo_usuario['name'] = name
-        nuevo_usuario['dni'] = dni
-        nuevo_usuario['user_name'] = user_name
-        nuevo_usuario['email'] = email
-        nuevo_usuario['gender'] = gender
-        nuevo_usuario['phone'] = phone
-        nuevo_usuario['password'] = password
-
-        return render_template('perfil.html', usuario=nuevo_usuario)
-    else:
-        return render_template('register.html')
+        usuario_nuevo['name'] = name
+        usuario_nuevo['dni'] = dni
+        usuario_nuevo['user_name'] = user_name
+        usuario_nuevo['email'] = email
+        usuario_nuevo['gender'] = gender
+        usuario_nuevo['phone'] = phone
+        usuario_nuevo['password'] = password
+        return redirect(url_for('login'))
     return render_template('register.html')
-
 
 # 4. Ruta para la pagína de Recuperación Contraseña de Usuario
 @app.route('/password', methods=['GET', 'POST'])
 def password():
-    #email que del usuario para enviarle instruccuiones de cambiar contraseña
     email_user = "Bruno@gmail.com"
     if (request.method == 'POST'):
         email = request.form.get('email')
@@ -92,31 +80,36 @@ def password():
             return render_template('password.html')
     return render_template('password.html')
 
+
+# ----------------------------------------------------------
+# Menu de Navegación
+# ----------------------------------------------------------
 # 5. Ruta para la página de Campos de Juegos
-@app.route("/notloggedcampos")
-def notloggedcampos():
-    return render_template('notloggedcampos.html')
-
-@app.route("/perfil/campos")
+@app.route("/campos")
 def campos():
-    return render_template('campos.html')
+    return render_template('campos.html', usuario=session.get('usuario'))
 
+# 6. Ruta para la página de de perfil del usuario
 @app.route('/perfil')
 def perfil(): 
-    return render_template('perfil.html') 
+    usuario = session.get('usuario')
+    if not usuario:
+        return redirect(url_for('login'))
+    return render_template('perfil.html', usuario=usuario) 
 
-# 6. Ruta para la página Reservas de Campos
+# 7. Ruta para la página Reservas de Campos
 @app.route("/reservas")
 def reservas():
-    return render_template('reservas.html')
+    return render_template('reservas.html', usuario =session.get('usuario'))
 
-@app.route("/perfil/reservaslogged")
-def reservaslogged():
-    return render_template('reservaslogged.html')
+# 8. Ruta para la página de Reseñas
+@app.route("/perfil/reseñas")
+def reseñas():
+    usuario = session.get('usuario')
+    if not usuario:
+        return redirect(url_for('login'))
+    return render_template('reseñas.html', usuario=usuario)
 
-@app.route("/perfil/reservasadmin")
-def reservasadmin():
-    return render_template('reservasadmin.html')
 
 # --- SISTEMA DE GESTIÓN DE SALAS PÚBLICAS ---
 salas_publicas = []
@@ -136,8 +129,7 @@ def crearsala():
             "estado": "[ RESERVA DE ADMIN ]"
         }
         salas_publicas.append(nueva_partida)
-        return redirect(url_for('lobby_admin'))
-        
+        return redirect(url_for('lobby_admin')) 
     return render_template('creacionsalapublica.html')
 
 @app.route("/perfil/reservasadmin/eliminar/<id_partida>", methods=['POST'])
@@ -162,42 +154,62 @@ def unirse_sala(id_partida):
 
 @app.route("/lobby-publico")
 def lobby_admin():
-    return render_template('lobbypublicas.html', salas=salas_publicas, unidas=mis_salas_unidas)
+    usuario = session.get('usuario')
+    if  not usuario:
+        flash("Debes iniciar sesión para acceder a las salas públicas.", "warning")
+        return redirect(url_for('login'))
+    return render_template('lobbypublicas.html', salas=salas_publicas, unidas=mis_salas_unidas, usuario=session.get('usuario'))
+
 @app.route("/lobby-publicouser")
 def lobby_user():
-    return render_template('lobbypublicasuser.html', salas=salas_publicas, unidas=mis_salas_unidas)
+    usuario = session.get('usuario')
+    if not usuario:
+        flash("Debes iniciar sesión para acceder a las salas públicas.", "warning")
+        return redirect(url_for('login', next='lobby_user'))
+    return render_template('lobbypublicasuser.html', salas=salas_publicas, unidas=mis_salas_unidas, usuario=usuario)
 # ---------------------------------------------
 
-# 7. Ruta para la página de Reseñas
-@app.route("/perfil/reseñas")
-def reseñas():
-    return render_template('reseñas.html')
 
+# ---------------------------------------------
+# SECCION DE USUARIO ADMINISTRADOR
+#----------------------------------------------
+# 8. Ruta para la página de panel de administrador
+@app.route("/adminpanel")
+def paneladmin():
+    usuario = session.get('usuario') 
+    return render_template('adminperfil.html', usuario=usuario)
+
+# 9. Ruta para la página de administración de reseñas
 @app.route("/adminreseñas")
 def adminreseñas():
-    return render_template('adminreseñas.html')
+    return render_template('adminreseñas.html', usuario=session.get('usuario'))
 
-# 8. Ruta para la página de administración de reservas
+# 10. Ruta para la página de administración de reservas
 @app.route("/admin-reservas")
 def admin_reservas():
-    return render_template('adminreservas.html')
+    return render_template('adminreservas.html', usuario=session.get('usuario'))
 
-# 9. Ruta para la página de Sala Privada
-@app.route("/sala-privada")
-def sala_privada():
-    return render_template('salaprivada.html')
+# 11. Ruta para la página de Administrador de Servicios
+@app.route('/adminservicios', methods=['GET', 'POST'])
+def admin_servicios():
+    servicios_db = [
+        {"id": 1, "nombre": "Bufet / Bar", "descripcion": "Venta de bebidas y comidas post-partido."},
+        {"id": 2, "nombre": "Estacionamiento", "descripcion": "Predio cerrado con seguridad para autos y motos."}
+    ]
+    if request.method == 'POST':
+        nuevo_nombre = request.form.get('nombre')
+        nueva_desc = request.form.get('descripcion')
+        nuevo_id = len(servicios_db) + 1
+        servicios_db.append({"id": nuevo_id, "nombre": nuevo_nombre, "descripcion": nueva_desc})
+        return render_template('adminservicios.html', servicios=servicios_db, usuario=session.get('usuario'))
+    return render_template('adminservicios.html', servicios=servicios_db, usuario=session.get('usuario'))
 
-# 10. Ruta para la página de Dashboard
+# 12. Ruta para la página de Dashboard
 @app.route('/dashboard')
 def dashboard():
-    #fecha del dia actual se utilizara por defecto
     fecha_actual = datetime.today()
     dia_actual = fecha_actual.day
-    
-    #el mes es --mayo-- entonces los dia del calendario iniciando de lunes a domingo son:,
     dias_mes_actual = [27,28,29,30,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
-    
-    #respuesta de listar reservas ocupadas de la api
     response = {"Dashboard": 
         [
             {
@@ -250,18 +262,12 @@ def dashboard():
             } 
         ]
     }
-
-    #para rellenar los campos disponibles en la tabla de reservas
     lista_reservas_ocu = response["Dashboard"]
-
-    #calculo y agrego la cantidad restante de reservas disponibles
     max_reservas = 15
     cant_disponible = max_reservas - len(response["Dashboard"])
     reservas_dis = {"Dashboard_dispo": []}
     for i in range(cant_disponible):
         reservas_dis["Dashboard_dispo"].append({ "id_reserva": "-", "user_name": "-","dni_usuario": "-","price": "-","start_time": "-", "end_time": "-"})
-    
-    #frecuencia de horas de la reserva por dia
     horas_reservadas = {"cs":0 ,"so":0 ,"nd":0 ,"od":0 ,"tc":0 ,"qs":0 ,"do":0,"dv":0}
     for reserva in response["Dashboard"]:
         dt = datetime.strptime(reserva["start_time"], "%Y-%m-%d %H:%M:%S")
@@ -283,31 +289,31 @@ def dashboard():
             horas_reservadas["do"] += 1
         elif 19 <= hora < 21:
             horas_reservadas["dv"] += 1
-    
-    #COSAS POR VER.....
-    #deberia existir datos para las reservas por dias, semana, mes, año(lo que va desde el inicio hasta el final del año)
     cant_reserva = {"dia": 12, "semana": 80,"mes":320, "año":2800}
-    
-    return render_template('dashboard.html', cantidad=cant_reserva, mes_actual=dias_mes_actual, dia_actual=dia_actual, data_ocu=lista_reservas_ocu, data_dis=reservas_dis["Dashboard_dispo"], frec_reservas=horas_reservadas)
+    return render_template('dashboard.html', cantidad=cant_reserva, mes_actual=dias_mes_actual, dia_actual=dia_actual, data_ocu=lista_reservas_ocu, data_dis=reservas_dis["Dashboard_dispo"], frec_reservas=horas_reservadas, usuario=session.get('usuario'))
 
-# 13. Ruta para la página de Servicios
-@app.route('/notloggedservicios')
-def notloggedservicios():
-    servicios_db = [
-        {"id": 1, "nombre": "Bufet / Bar", "descripcion": "Venta de bebidas y comidas post-partido."},
-        {"id": 2, "nombre": "Estacionamiento", "descripcion": "Predio cerrado con seguridad para autos y motos."}
-    ]
-    return render_template('notloggedservicios.html', servicios=servicios_db)
+#--------------------------------
+#  RESERVAS, SERVICIOS, INFORMACION
+#--------------------------------
+# 13. Ruta para la página de Sala Privada
+@app.route("/sala-privada")
+def sala_privada():
+    usuario = session.get('usuario')
+    if not usuario:
+        flash("Debes iniciar sesión para acceder a la sala privada.", "warning")
+        return redirect(url_for('login'))
+    return render_template('salaprivada.html', usuario=session.get('usuario'))
 
-@app.route('/perfil/servicios')
+# 14. Ruta para la página de Servicios
+@app.route('/servicios')
 def servicios():
     servicios_db = [
         {"id": 1, "nombre": "Bufet / Bar", "descripcion": "Venta de bebidas y comidas post-partido."},
         {"id": 2, "nombre": "Estacionamiento", "descripcion": "Predio cerrado con seguridad para autos y motos."}
     ]
-    return render_template('servicios.html', servicios=servicios_db)
+    return render_template('servicios.html', servicios=servicios_db, usuario=session.get('usuario'))
 
-# 14. Ruta para la página de Contacto
+# 15. Ruta para la página de Contacto
 @app.route('/notloggedcontacto', methods=['GET', 'POST'])
 def notloggedcontacto():
     if request.method == 'POST':
@@ -317,6 +323,7 @@ def notloggedcontacto():
         return redirect(url_for('contacto'))
     return render_template('notloggedcontacto.html')
 
+# 16. Ruta para la página de Contacto para usuarios
 @app.route('/perfil/contacto', methods=['GET', 'POST'])
 def contacto():
     if request.method == 'POST':
@@ -324,40 +331,19 @@ def contacto():
         email = request.form.get('email')
         mensaje = request.form.get('mensaje')
         return redirect(url_for('contacto'))
-    return render_template('contacto.html')
+    return render_template('contacto.html', usuario=session. get('usuario'))
 
-# 15. Ruta para la página de Administrador de Servicios
-@app.route('/adminservicios', methods=['GET', 'POST'])
-def admin_servicios():
-    servicios_db = [
-        {"id": 1, "nombre": "Bufet / Bar", "descripcion": "Venta de bebidas y comidas post-partido."},
-        {"id": 2, "nombre": "Estacionamiento", "descripcion": "Predio cerrado con seguridad para autos y motos."}
-    ]
-    if request.method == 'POST':
-        nuevo_nombre = request.form.get('nombre')
-        nueva_desc = request.form.get('descripcion')
-        nuevo_id = len(servicios_db) + 1
-        servicios_db.append({"id": nuevo_id, "nombre": nuevo_nombre, "descripcion": nueva_desc})
-        return render_template('adminservicios.html', servicios=servicios_db)
-    return render_template('adminservicios.html', servicios=servicios_db)
-
-# 16. Ruta para la página de Equipamientos
-@app.route('/notloggedequipamientoinfo')
-def notloggedequipamiento_info():
-    return render_template('notloggedequipamientoinfo.html')
-
-@app.route('/notloggedequipamientoinfo/notloggedarmasinfo')
-def notloggedarmasinfo():
-    return render_template('notloggedarmasinfo.html')
-
+# 17. Ruta para la página de Equipamientos
 @app.route('/perfil/equipamientoinfo')
 def equipamiento_info():
-    return render_template('equipamientoinfo.html')
+    return render_template('equipamientoinfo.html' ,usuario=session.get('usuario'))
 
+# 18. Ruta para la página de Equipamientos - Armas
 @app.route('/perfil/equipamientoinfo/armasinfo')
 def armasinfo():
-    return render_template('armasinfo.html')
+    return render_template('armasinfo.html', usuario=session.get('usuario'))
 
+# 19. Ruta para la página de Equipamientos - Pelotas y Pecheras
 @app.route('/equipamiento', methods=['GET', 'POST'])
 def equipamiento():
     equipamiento_db = [
@@ -371,27 +357,20 @@ def equipamiento():
         equipamiento_db.append({"id": nuevo_id, "tipo": tipo, "cantidad": cantidad})
         return render_template('equipamiento.html', equipamiento=equipamiento_db)
     return render_template('equipamiento.html', equipamiento=equipamiento_db)
-
-@app.route("/notloggedequipamientoinfo/notloggedchaleco")
-def notloggedchaleco():
-    return render_template('notloggedchaleco.html')
-
-@app.route("/notloggedequipamientoinfo/notloggedcasco")
-def notloggedcasco():
-    return render_template('notloggedcasco.html')
-
+# 20. Ruta para la página de Equipamientos - Chalecos
 @app.route('/perfil/equipamientoinfo/chaleco')
 def chaleco():
-    return render_template('chaleco.html')
-
+    return render_template('chaleco.html', usuario=session.get('usuario'))
+# 21. Ruta para la página de Equipamientos - Casco
 @app.route('/perfil/equipamientoinfo/casco')
 def casco():
-    return render_template('casco.html')
+    return render_template('casco.html', usuario=session.get('usuario'))
 
 # Error de pagina
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+# Ruta para cerrar sesión
 @app.route('/logout')
 def logout():
     session.clear() # Limpia la memoria del navegador para separar los usuarios

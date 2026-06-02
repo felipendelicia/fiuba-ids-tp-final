@@ -1,4 +1,4 @@
-{% extends 'default.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Kinetix - Administrador de Reseñas{% endblock %}
 
@@ -15,7 +15,7 @@
             
             <div class="form-group">
                 <label class="form-label">Nombre de usuario</label>
-                <input type="text" class="form-input" placeholder="Tu usuario...">
+                <input type="text" class="form-input" placeholder="Tu usuario..." value="{{ usuario.user_name }}" readonly>
             </div>
 
             <div class="form-group">

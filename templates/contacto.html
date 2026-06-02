@@ -1,4 +1,4 @@
-{% extends 'default.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Airsoft - Contacto Operativo{% endblock %}
 
@@ -16,12 +16,12 @@
 
             <div class="form-group">
                 <label for="nombre">Nombre / Callsign</label>
-                <input type="text" id="nombre" name="nombre" class="form-control-custom" placeholder="Ej: Dante 'Ghostface' Ghisi" required>
+                <input type="text" id="nombre" name="nombre" class="form-control-custom" value="{{ usuario.user_name }}" placeholder="Ej: Dante 'Ghostface' Ghisi" required>
             </div>
 
             <div class="form-group">
                 <label for="email">Correo Electrónico</label>
-                <input type="email" id="email" name="email" class="form-control-custom" placeholder="soldado@ejemplo.com" required>
+                <input type="email" id="email" name="email" class="form-control-custom" value="{{ usuario.email }}" placeholder="example@ejemplo.com" required>
             </div>
 
             <div class="form-group">

@@ -86,6 +86,9 @@ def login_contrasenia():
 @app.route("/campos")
 def campos():
     return render_template('campos.html', usuario=session.get('usuario'))
+@app.route('/campos/informacion')
+def info_mapa():
+    return render_template('vista_mapa.html')
 
 # 6. Ruta para la página de de perfil del usuario
 @app.route('/perfil')

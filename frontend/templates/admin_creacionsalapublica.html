@@ -22,9 +22,9 @@
                     <label class="form-label fw-bold small" style="color: #ffe082; letter-spacing: 1px;">MODALIDAD OFICIAL</label>
                     <select name="modalidad" class="form-select bg-dark text-white border-secondary py-2" style="border-radius: 6px;" required>
                         <option selected disabled value="">Selecciona una modalidad global</option>
-                        <option value="Todos contra Todos (Deathmatch)">Todos contra Todos (Deathmatch)</option>
-                        <option value="Captura la Bandera (CTF)">Captura la Bandera (CTF)</option>
-                        <option value="Operación Táctica (Por Equipos)">Operación Táctica (Por Equipos)</option>
+                        {% for g in modalidades %}
+                        <option value="{{ g.id }}">{{ g.name }}</option>
+                    {% endfor %}
                     </select>
                 </div>
 

@@ -30,10 +30,9 @@
             <div class="select-wrapper">
                 <select id="campo">
                     <option value="" disabled selected hidden>Selecciona un escenario</option>
-                    <option value="campo1">Nuketown</option>
-                    <option value="campo2">Mirage</option>
-                    <option value="campo3">Hijacked</option>
-                    <option value="campo4">Terminal</option>
+                    {% for m in mapas %}
+                        <option value="{{ m.id }}">{{ m.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>

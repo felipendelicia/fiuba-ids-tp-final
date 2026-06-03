@@ -1,0 +1,120 @@
+/* ==========================================================================
+   SECCIÓN VESTIMENTA Y CHALECOS - KINETIX (ESTILO FICHA TÁCTICA)
+   ========================================================================== */
+
+.vestimenta-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px 15px;
+}
+
+.equipamiento-card {
+    background: linear-gradient(135deg, rgba(16, 20, 24, 0.8) 0%, rgba(10, 12, 15, 0.9) 100%);
+    border: 1px solid rgba(79, 172, 254, 0.25);
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 60px;
+    position: relative;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+}
+
+.equipamiento-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-top: 3px solid #00f2fe;
+    border-left: 3px solid #00f2fe;
+}
+
+/* Contenedor de la imagen centrado y destacado */
+.vestimenta-media-box {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.vestimenta-media-box img {
+    max-width: 100%;
+    height: auto;
+    max-height: 380px;
+    object-fit: contain;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.02);
+    padding: 15px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.equipamiento-card:hover .vestimenta-media-box img {
+    border-color: #4facfe;
+    box-shadow: 0 0 25px rgba(79, 172, 254, 0.2);
+}
+
+.vestimenta-info {
+    text-align: left;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 25px;
+}
+
+.vestimenta-tag {
+    display: inline-block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    color: #00f2fe;
+    background-color: rgba(0, 242, 254, 0.1);
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.vestimenta-name {
+    font-family: 'Orbitron', sans-serif;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.vestimenta-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    color: #a0aec0;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.spec-item {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-left: 3px solid #4facfe;
+    padding: 10px 15px;
+    border-radius: 0 6px 6px 0;
+}
+
+.spec-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    color: #4facfe;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.spec-value {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+}

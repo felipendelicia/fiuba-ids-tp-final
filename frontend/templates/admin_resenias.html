@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Gestión de Reseñas (Admin){% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold" style="font-family: 'Orbitron', 'Arial Black', sans-serif; color: #00d2ff; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0, 210, 255, 0.3);">
+            PANEL DE GESTIÓN: RESEÑAS
+        </h1>
+        <p class="text-white-50">Monitoreá las críticas globales, mapas específicos y respondé con asistencia del sistema.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            
+            {% for reseña in resenias %}
+            
+            <div class="card mb-5 border-0 rounded-3 shadow-lg" 
+                 style="background-color: rgba(20, 22, 25, 0.95); 
+                        /* LÓGICA DINÁMICA: Si tiene 1, 2 o 3 estrellas se pone roja; si tiene 4 o 5 se pone cian */
+                        border-left: 4px solid {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %} !important;">
+                
+                <div class="card-body p-4">
+                    
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h5 class="text-white fw-bold mb-1" style="letter-spacing: 0.5px;">{{ reseña.usuario }}</h5>
+                            <span class="badge bg-dark border {% if reseña.puntuacion < 4 %}border-danger text-danger{% else %}border-info text-info{% endif %} small">
+                                MAPA: {{ reseña.mapa | upper }}
+                            </span>
+                        </div>
+                        <div class="text-end">
+                            <div class="mb-1" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#ffb300{% endif %}; font-size: 1.1rem; letter-spacing: 2px;">
+                                {% for i in range(0, reseña.puntuacion) %}
+                                    ★
+                                {% endfor %}
+                                <span style="opacity: 0.15; color: #fff;">
+                                {% for i in range(reseña.puntuacion, 5) %}
+                                    ★
+                                {% endfor %}
+                                </span>
+                            </div>
+                            <small class="text-white-50">Reciente</small>
+                        </div>
+                    </div>
+
+                    <h4 class="fw-bold mb-2" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %}; font-family: 'Orbitron', sans-serif; font-size: 1.2rem;">
+                        {{ reseña.titulo }}
+                    </h4>
+
+                    <p class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4" style="font-size: 0.95rem; line-height: 1.6;">
+                        "{{ reseña.comentario }}"
+                    </p>
+
+                    <div class="comments-section mb-4">
+                        <h6 class="text-white-50 small fw-bold mb-2" style="letter-spacing: 1px;">
+                            <i class="bi bi-chat-left-text me-2"></i>COMENTARIOS E HISTORIAL
+                        </h6>
+                        
+                        {% if reseña.respuestas %}
+                            {% for r in reseña.respuestas %}
+                            <div class="p-3 rounded-3 mb-2 text-start" style="background-color: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.15);">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="fw-bold small" style="color: #00d2ff;">{{ r.autor }}</span>
+                                    <small class="text-white-50" style="font-size: 0.75rem;">Soporte Activo</small>
+                                </div>
+                                <p class="text-white-50 mb-0 small">{{ r.texto }}</p>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="p-3 rounded-3 bg-dark text-center text-muted border border-secondary border-opacity-10">
+                                <small>No hay respuestas registradas para esta opinión de usuario.</small>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <form action="{{ url_for('responder_resenia', resena_id=reseña.id) }}" method="POST" class="pt-3 border-top border-secondary border-opacity-25">
+                        {% if reseña.puntuacion < 4 %}
+                            <label class="form-label fw-bold small mb-2" style="color: #ff5252; letter-spacing: 1px;">SOPORTE DE EMERGENCY REQUERIDO</label>
+                        {% endif %}
+                        <div class="input-group">
+                            <textarea name="respuesta_admin" class="form-control bg-dark text-white {% if reseña.puntuacion < 4 %}border-danger{% else %}border-secondary{% endif %} py-2" rows="1" placeholder="Agregar otro comentario de ayuda..." style="border-radius: 6px 0 0 6px;" required></textarea>
+                            <button type="submit" class="btn fw-bold px-4 {% if reseña.puntuacion < 4 %}text-white{% else %}text-dark{% endif %}" 
+                                    style="background: {% if reseña.puntuacion < 4 %}linear-gradient(135deg, #ff5252 0%, #c62828 100%){% else %}linear-gradient(135deg, #00d2ff 0%, #00a2ff 100%){% endif %}; border: none; border-radius: 0 6px 6px 0;">
+                                {% if reseña.puntuacion < 4 %}ASISTIR{% else %}ENVIAR{% endif %}
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            
+            {% else %}
+            <div class="p-5 text-center text-muted rounded-3" style="background-color: rgba(20, 22, 25, 0.95); border: 1px dashed rgba(255,255,255,0.1);">
+                <p class="mb-0">No hay nuevas reseñas cargadas por los usuarios.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

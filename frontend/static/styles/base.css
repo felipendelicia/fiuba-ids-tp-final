@@ -1,0 +1,43 @@
+/* ==========================================================================
+   FONDO GLOBAL ESTILO KINETIX (grid táctico oscuro)
+   ========================================================================== */
+body {
+  background-color: #0b0d0f;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* ==========================================================================
+   MENSAJES FLASH
+   ========================================================================== */
+.flash-overlay {
+  position: fixed;       
+  top: 0rem;             
+  z-index: 1050;         
+  width: 100%;
+}
+.flash-custom {
+  background: linear-gradient(135deg, #ffca28 0%, #ff9800 100%);
+  display: flex;
+  border: none;
+  border-radius: 1rem;
+  padding: 1rem;
+  font-weight: bold;
+  color: black;
+  width: auto;
+  justify-content: center;
+  margin: 5rem 3rem;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.footer {
+  background-color: #212529;
+  color: white;
+  width: 100%;
+  padding: 3rem;
+  box-sizing: border-box;
+}

@@ -3,10 +3,39 @@ from flask import Flask, flash, render_template, request, redirect, url_for, ses
 from datetime import date, datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'dev'))
-from services.dashboard_services import (
-    get_reservas_dia, contar_reservas_dia, get_ingresos_periodo,
-    get_frecuencia_horaria, get_calendario_mes, MAX_RESERVAS_POR_DIA
-)
+
+# Import dashboard services with fallback if DB is unavailable
+try:
+    from services.dashboard_services import (
+        get_reservas_dia, contar_reservas_dia, get_ingresos_periodo,
+        get_frecuencia_horaria, get_calendario_mes, MAX_RESERVAS_POR_DIA
+    )
+    DB_AVAILABLE = True
+except Exception:
+    DB_AVAILABLE = False
+
+    def get_reservas_dia(fecha=None, limit=10, offset=0):
+        return []
+    def contar_reservas_dia(fecha=None):
+        return 0
+    def get_ingresos_periodo(fecha):
+        return {'dia': 0, 'semana': 0, 'mes': 0, 'año': 0}
+    def get_frecuencia_horaria(fecha=None):
+        return {'cs': 0, 'so': 0, 'nd': 0, 'od': 0, 'tc': 0, 'qs': 0, 'do': 0, 'dv': 0}
+    def get_calendario_mes():
+        from datetime import timedelta
+        import calendar
+        hoy = date.today()
+        primer_dia = date(hoy.year, hoy.month, 1)
+        inicio_calendario = primer_dia - timedelta(days=primer_dia.weekday())
+        dias = []
+        for i in range(35):
+            d = inicio_calendario + timedelta(days=i)
+            dias.append({'num': d.day, 'fecha': d.isoformat(), 'actual': d.month == hoy.month})
+        meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+        return dias, hoy.isoformat(), meses[hoy.month - 1], hoy.year
+    MAX_RESERVAS_POR_DIA = 32
 
 
 app = Flask(__name__)
@@ -287,8 +316,12 @@ def admin_dashboard():
     limit = request.args.get('_limit', 10, type=int)
     offset = request.args.get('_offset', 0, type=int)
 
-    reservas = get_reservas_dia(hoy, limit=100, offset=0)
-    total_ocupadas = contar_reservas_dia(hoy)
+    try:
+        reservas = get_reservas_dia(hoy, limit=100, offset=0)
+        total_ocupadas = contar_reservas_dia(hoy)
+    except Exception:
+        reservas = []
+        total_ocupadas = 0
 
     reservas_dis = []
     for i in range(max(0, MAX_RESERVAS_POR_DIA - total_ocupadas)):
@@ -302,11 +335,32 @@ def admin_dashboard():
             "map_name": "-",
         })
 
-    cantidad = get_ingresos_periodo(hoy)
+    try:
+        cantidad = get_ingresos_periodo(hoy)
+    except Exception:
+        cantidad = {'dia': 0, 'semana': 0, 'mes': 0, 'año': 0}
 
-    frec_reservas = get_frecuencia_horaria(hoy)
+    try:
+        frec_reservas = get_frecuencia_horaria(hoy)
+    except Exception:
+        frec_reservas = {'cs': 0, 'so': 0, 'nd': 0, 'od': 0, 'tc': 0, 'qs': 0, 'do': 0, 'dv': 0}
 
-    mes_actual, hoy_str, mes_nombre, anio = get_calendario_mes()
+    try:
+        mes_actual, hoy_str, mes_nombre, anio = get_calendario_mes()
+    except Exception:
+        from datetime import timedelta
+        import calendar
+        primer_dia = date(hoy.year, hoy.month, 1)
+        inicio_calendario = primer_dia - timedelta(days=primer_dia.weekday())
+        mes_actual = []
+        for i in range(35):
+            d = inicio_calendario + timedelta(days=i)
+            mes_actual.append({'num': d.day, 'fecha': d.isoformat(), 'actual': d.month == hoy.month})
+        hoy_str = hoy.isoformat()
+        meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+        mes_nombre = meses[hoy.month - 1]
+        anio = hoy.year
 
     return render_template(
         "admin_dashboard.html",
@@ -336,14 +390,24 @@ def api_dashboard_data():
     else:
         fecha = date.today()
 
-    reservas = get_reservas_dia(fecha, limit=100, offset=0)
-    total_ocupadas = contar_reservas_dia(fecha)
+    try:
+        reservas = get_reservas_dia(fecha, limit=100, offset=0)
+        total_ocupadas = contar_reservas_dia(fecha)
+    except Exception:
+        reservas = []
+        total_ocupadas = 0
     reservas_dis = [{"id_reserva": "-", "user_name": "-", "dni_usuario": "-",
                      "price": "-", "start_time": "-", "end_time": "-", "map_name": "-"}
                     for _ in range(max(0, MAX_RESERVAS_POR_DIA - total_ocupadas))]
-    cantidad = get_ingresos_periodo(fecha)
-    cantidad_serializable = {k: int(v) for k, v in cantidad.items()}
-    frec = get_frecuencia_horaria(fecha)
+    try:
+        cantidad = get_ingresos_periodo(fecha)
+        cantidad_serializable = {k: int(v) for k, v in cantidad.items()}
+    except Exception:
+        cantidad_serializable = {'dia': 0, 'semana': 0, 'mes': 0, 'año': 0}
+    try:
+        frec = get_frecuencia_horaria(fecha)
+    except Exception:
+        frec = {'cs': 0, 'so': 0, 'nd': 0, 'od': 0, 'tc': 0, 'qs': 0, 'do': 0, 'dv': 0}
 
     return {
         "reservas": reservas,

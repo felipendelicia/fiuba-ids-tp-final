@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Mirage{% endblock %}
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/servicios.css') }}">
+<style>
+    .map-header { border-bottom: 2px solid rgba(0, 242, 254, 0.2); padding-bottom: 1.5rem; margin-bottom: 2rem; }
+    .map-badge { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; font-size: 0.75rem; }
+    .stat-item { background: rgba(0, 242, 254, 0.05); border: 1px solid rgba(0, 242, 254, 0.15); border-radius: 8px; padding: 0.75rem 1rem; transition: border-color 0.3s ease; }
+    .stat-item:hover { border-color: rgba(0, 242, 254, 0.4); }
+    .stat-label { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; letter-spacing: 1px; color: #4facfe; text-transform: uppercase; }
+    .stat-value { color: #ffffff; font-size: 0.95rem; font-weight: 600; }
+    .gallery-img { border: 1px solid rgba(79, 172, 254, 0.2); border-radius: 10px; transition: transform 0.4s ease, box-shadow 0.4s ease; cursor: pointer; width: 100%; height: 280px; object-fit: cover; }
+    .gallery-img:hover { transform: scale(1.03); box-shadow: 0 8px 30px rgba(0, 242, 254, 0.25); }
+    .info-section { background: rgba(18, 22, 26, 0.6); border: 1px solid rgba(79, 172, 254, 0.15); border-radius: 12px; padding: 2rem; }
+    .info-section p { color: #c0c8d4; line-height: 1.8; font-size: 1rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5 text-white">
+    <div class="p-4 p-md-5 rounded-3" style="background-color: rgba(12, 16, 20, 0.92); border: 1px solid rgba(0, 242, 254, 0.15);">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}" class="text-info">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('campos') }}" class="text-info">Campos de Juego</a></li>
+                <li class="breadcrumb-item active text-white-50" aria-current="page">Mirage</li>
+            </ol>
+        </nav>
+        <div class="map-header d-flex flex-wrap align-items-center justify-content-between">
+            <div>
+                <span class="badge bg-dark border border-info text-info px-3 py-2 mb-2 map-badge">BETA-02 — Counter-Strike: Global Offensive</span>
+                <h1 class="display-5 fw-bold" style="font-family: 'Orbitron', 'Arial Black', sans-serif; color: #00d2ff; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0, 210, 255, 0.3);">MIRAGE</h1>
+                <p class="text-white-50 lead">Ciudad del Norte de África - Zona de Operaciones Tácticas</p>
+            </div>
+            <div class="text-end mt-3 mt-md-0">
+                <span class="d-block text-info small fw-bold" style="font-family: 'Orbitron', sans-serif;">CAPACIDAD</span>
+                <span class="d-block text-white fs-5 fw-bold">8 vs 8 jugadores</span>
+            </div>
+        </div>
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <img src="{{ url_for('static', filename='img/mirage.jpg') }}" alt="Mirage" class="gallery-img">
+                <p class="text-white-50 small text-center mt-2">Vista general del campo</p>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ url_for('static', filename='img/plano.png') }}" alt="Plano táctico Mirage" class="gallery-img">
+                <p class="text-white-50 small text-center mt-2">Plano de despliegue táctico</p>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ url_for('static', filename='img/tactic.jpg') }}" alt="Acción táctica" class="gallery-img">
+                <p class="text-white-50 small text-center mt-2">Operaciones en terreno</p>
+            </div>
+        </div>
+        <div class="row g-4 mb-5">
+            <div class="col-lg-8">
+                <div class="info-section h-100">
+                    <h4 class="mb-3" style="font-family: 'Orbitron', sans-serif; color: #4facfe;"><i class="bi bi-info-circle me-2"></i>Información del Campo</h4>
+                    <p>Mirage transporta a los jugadores a una ciudad del norte de África donde el combate táctico y la coordinación de equipo son esenciales. El escenario combina callejones estrechos, plazas abiertas, un mercado central y múltiples rutas de acceso entre sectores clave. Su diseño equilibrado favorece el juego estratégico, el control de posiciones y la comunicación constante entre compañeros. Imprescindible para quienes buscan una experiencia competitiva auténtica con alto valor táctico.</p>
+                    <p class="mt-3"><strong class="text-info">Ubicación:</strong> <span class="text-white-50">Instalaciones Kinetix - Sector Bravo</span></p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="info-section h-100">
+                    <h4 class="mb-3" style="font-family: 'Orbitron', sans-serif; color: #4facfe;"><i class="bi bi-gear me-2"></i>Estadísticas</h4>
+                    <div class="d-flex flex-column gap-2">
+                        <div class="stat-item"><div class="stat-label">Estilo de Juego</div><div class="stat-value">Táctico / Competitivo</div></div>
+                        <div class="stat-item"><div class="stat-label">Terreno</div><div class="stat-value">Urbano / Callejones y plazas</div></div>
+                        <div class="stat-item"><div class="stat-label">Dificultad</div><div class="stat-value">Alta</div></div>
+                        <div class="stat-item"><div class="stat-label">Modos de Juego</div><div class="stat-value" style="font-size: 0.85rem;">Desactivación de Bomba · Team Deathmatch · Buscar y Destruir</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="{{ url_for('campos') }}" class="btn btn-outline-info fw-bold px-4" style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; letter-spacing: 1px;"><i class="bi bi-arrow-left me-2"></i>VOLVER A CAMPOS DE JUEGO</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

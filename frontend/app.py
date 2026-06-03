@@ -237,7 +237,7 @@ def admin_crearsala():
         }
         salas_publicas.append(nueva_partida)
         return redirect(url_for('lobby_admin')) 
-    return render_template('admin_creacionsalapublica.html')
+    return render_template('admin_creacionsalapublica.html', modalidades=_fetch_gamemodes())
 
 @app.route("/perfil/reservasadmin/eliminar/<string:id_partida>", methods=["POST"])
 def eliminar_sala(id_partida):
@@ -589,7 +589,8 @@ def lobby_privada():
                            mes_actual=mes_actual,
                            hoy_str=hoy.isoformat(),
                            mes_nombre=meses[hoy.month - 1],
-                           anio=hoy.year)
+                           anio=hoy.year,
+                           modalidades=_fetch_gamemodes())
 
 @app.route("/api/turnos-disponibles")
 def api_turnos_disponibles():

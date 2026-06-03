@@ -48,7 +48,12 @@ usuario_nuevo = {"id":3 , "name" : "", "dni" :"", "user_name" : "", "email" : ""
 # 1. Ruta para la página principal
 @app.route("/")
 def index():
-    return render_template('index.html', usuario=session.get('usuario'))  
+    return render_template('index.html', usuario=session.get('usuario'))
+
+# Ruta para la página Sobre Nosotros
+@app.route('/nosotros')
+def nosotros():
+    return render_template('nosotros.html', usuario=session.get('usuario'))  
 
 # 2. Ruta para que un usuario pueda Iniciar Sesion
 @app.route('/login/sesion', methods=['GET', 'POST'])

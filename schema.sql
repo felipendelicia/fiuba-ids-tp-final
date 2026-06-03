@@ -100,3 +100,9 @@ CREATE TABLE IF NOT EXISTS GameModes (
 	players INT NOT NULL,
 	updated_at DATE
 );
+
+INSERT IGNORE INTO GameModes (name, duration, players) VALUES
+('Todos vs Todos', '60', 20),
+('Captura la bandera', '90', 20),
+('Duelo por equipos', '60', 10),
+('Rey de la colina', '120', 20);

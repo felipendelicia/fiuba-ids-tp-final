@@ -52,15 +52,7 @@ def crear_reserva(params):
     start_time = params['start_time']
     end_time = params['end_time']
 
-    SLOT_STARTS = ['05:00:00','07:00:00','09:00:00','11:00:00',
-                   '13:00:00','15:00:00','17:00:00','19:00:00']
-    if start_time not in SLOT_STARTS:
-        abort(400, f'Horario inválido. Debe ser uno de: {", ".join(SLOT_STARTS)}')
-    hora = int(start_time[:2])
-    expected_end = f'{hora + 2:02d}:00:00'
-    if end_time != expected_end:
-        abort(400, 'La reserva debe ser de exactamente 2 horas')
-
+   
     game_mode = execute(f"SELECT * FROM GameModes WHERE id = {game_mode_id}")
     if not game_mode:
         abort(404, 'Modo de juego no encontrado')
@@ -124,15 +116,6 @@ def actualizar_reserva(id, data):
     current = check[0]
     upd_start = data.get('start_time', str(current['start_time']))
     upd_end = data.get('end_time', str(current['end_time']))
-
-    SLOT_STARTS = ['05:00:00','07:00:00','09:00:00','11:00:00',
-                   '13:00:00','15:00:00','17:00:00','19:00:00']
-    if upd_start not in SLOT_STARTS:
-        abort(400, f'Horario inválido. Debe ser uno de: {", ".join(SLOT_STARTS)}')
-    hora = int(upd_start[:2])
-    expected_end = f'{hora + 2:02d}:00:00'
-    if upd_end != expected_end:
-        abort(400, 'La reserva debe ser de exactamente 2 horas')
 
     upd_map_id = data.get('map_id', current['map_id'])
     upd_date = data.get('reservation_date', str(current['reservation_date']))

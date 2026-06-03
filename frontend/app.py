@@ -122,10 +122,18 @@ def login_contrasenia():
 @app.route("/campos")
 def campos():
     return render_template('campos.html', usuario=session.get('usuario'))
-@app.route('/campos/informacion')
+@app.route('/campos/informacion/planonuketown')
 def info_mapa_index():
-    return render_template('vista_mapa.html', usuario=session.get('usuario'))
-
+    return render_template('nuketown_plano.html', usuario=session.get('usuario'))
+@app.route('/campos/informacion/planomirage')
+def info_mapa_index2():
+    return render_template('mirage_plano.html', usuario=session.get('usuario'))
+@app.route('/campos/informacion/planohijacked')
+def info_mapa_index3():
+    return render_template('hijacked_plano.html', usuario=session.get('usuario'))
+@app.route('/campos/informacion/planoterminal')
+def info_mapa_index4():
+    return render_template('terminal_plano.html', usuario=session.get('usuario'))
 @app.route('/campos/informacion/<nombre_mapa>')
 def info_mapa(nombre_mapa):
     mapas = {'nuketown': {}, 'mirage': {}, 'hijacked': {}, 'terminal': {}}

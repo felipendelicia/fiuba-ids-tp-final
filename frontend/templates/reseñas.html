@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Administrador de Reseñas{% endblock %}
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/reseñas.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="review-section">
+    <h1 class="review-title">¡Dejanos tu reseña!</h1>
+
+    <div class="review-form-container">
+        <form action="{{ url_for('guardar_reseña') }}" method="POST" class="review-grid">
+            
+            <div class="form-group">
+                <label class="form-label">Nombre de usuario</label>
+                <input type="text" class="form-input" placeholder="Tu usuario..." value="{{ nombre_usuario }}" readonly style="opacity: 0.7; cursor: not-allowed;">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Mapa</label>
+                <select name="mapa" class="form-input">
+                    <option value="" disabled selected hidden>Seleccionar...</option>
+                    <option value="nuketown">Nuketown</option>
+                    <option value="mirage">Mirage</option>
+                    <option value="dust2">Dust 2</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Puntuación</label>
+                <select name="puntuacion" class="form-input" required>
+                    <option value="5">5 - Excelente</option>
+                    <option value="4">4 - Muy Bueno</option>
+                    <option value="3">3 - Bueno</option>
+                    <option value="2">2 - Regular</option>
+                    <option value="1">1 - Mala</option>
+                </select>
+            </div>
+
+            <div class="form-group group-titulo-reseña">
+                <label class="form-label">Título de la reseña</label>
+                <input type="text" name="titulo" class="form-input" placeholder="Ej: ¡Excelente mapa! / Hubo un problema...">
+            </div>
+
+            <div class="form-group group-comentarios">
+                <label class="form-label">Comentarios</label>
+                <textarea name="comentario" class="form-input" rows="4" required placeholder="Escribir opinión acerca de la experiencia..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn-enviar-resena">Publicar</button>
+            </div>
+
+        </form>
+    </div>
+</section>
+{% endblock %}

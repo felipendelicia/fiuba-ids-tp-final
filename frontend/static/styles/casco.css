@@ -1,0 +1,151 @@
+/* ==========================================================================
+   REDISERÑO DE ROSTRO - ALTA VISIBILIDAD KINETIX
+   ========================================================================== */
+
+.rostro-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Forzar títulos principales de la sección */
+.equipamiento-title {
+    color: #00f2fe !important;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.equipamiento-description {
+    color: #ffffff !important;
+    opacity: 0.9;
+}
+
+/* Tarjeta contenedora con fondo sólido e independiente */
+.rostro-grid-card {
+    display: flex;
+    flex-direction: row;
+    background-color: #161b22 !important; /* Gris oscuro militar sólido */
+    border: 2px solid #00f2fe !important;  /* Borde celeste Kinetix */
+    border-radius: 8px !important;
+    margin-bottom: 40px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+}
+
+/* Caja contenedora de la foto (Fondo más oscuro) */
+.rostro-pic-box {
+    background-color: #0d1117 !important;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 250px;
+    max-width: 250px;
+    border-right: 1px solid #21262d;
+}
+
+.rostro-pic-box img {
+    max-width: 100%;
+    height: auto;
+    max-height: 180px;
+    object-fit: contain;
+}
+
+/* Caja de textos y estadísticas (Fuerza color de tipografía) */
+.rostro-content-box {
+    padding: 30px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #161b22 !important;
+}
+
+/* Metadatos superiores */
+.rostro-header-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.rostro-sku {
+    font-size: 11px;
+    font-weight: bold;
+    color: #8b949e !important; /* Gris claro */
+    letter-spacing: 1px;
+}
+
+.rostro-status-online {
+    font-size: 11px;
+    font-weight: bold;
+    color: #00f2fe !important; /* Celeste brillante */
+}
+
+/* Título del producto en Blanco Puro */
+.rostro-main-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff !important; /* Blanco forzado */
+    margin: 0 0 12px 0 !important;
+}
+
+/* Párrafo descriptivo legible */
+.rostro-body-text {
+    font-size: 14px;
+    color: #e2e8f0 !important; /* Gris ultraclaro para lectura cómoda */
+    line-height: 1.6;
+    margin: 0 0 20px 0 !important;
+}
+
+/* Bloque e indicadores de las barras de progreso */
+.rostro-stats-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid #30363d;
+    padding-top: 15px;
+}
+
+.rostro-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rostro-stat-row label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff !important; /* Etiquetas en blanco */
+    margin: 0;
+}
+
+/* Contenedores visuales de las barras */
+.rostro-progress {
+    width: 60%;
+    background-color: #21262d !important; /* Fondo de barra vacío */
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rostro-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%) !important; /* Degradado celeste */
+    border-radius: 5px;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 768px) {
+    .rostro-grid-card {
+        flex-direction: column;
+    }
+    .rostro-pic-box {
+        max-width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #21262d;
+    }
+    .rostro-progress {
+        width: 50%;
+    }
+}

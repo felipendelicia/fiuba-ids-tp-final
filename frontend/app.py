@@ -2,7 +2,7 @@ import sys, os
 from flask import Flask, flash, render_template, request, redirect, url_for, session
 from datetime import date, datetime
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'dev'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'dev'))
 from services.dashboard_services import (
     get_reservas_dia, contar_reservas_dia, get_ingresos_periodo,
     get_frecuencia_horaria, get_calendario_mes, MAX_RESERVAS_POR_DIA

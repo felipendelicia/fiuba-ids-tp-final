@@ -2,10 +2,13 @@ from db import execute
 from dtos.errors import abort
 
 
-def listar_reviews(offset, limit):
-    total_result = execute("SELECT COUNT(*) as total FROM Review")
+def listar_reviews(offset, limit, approved=None):
+    where = ""
+    if approved is not None:
+        where = f"WHERE approved = {'TRUE' if approved else 'FALSE'}"
+    total_result = execute(f"SELECT COUNT(*) as total FROM Review {where}")
     total = total_result[0]['total']
-    reviews = execute(f"SELECT * FROM Review LIMIT {limit} OFFSET {offset}")
+    reviews = execute(f"SELECT * FROM Review {where} LIMIT {limit} OFFSET {offset}")
     return reviews, total
 
 

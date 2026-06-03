@@ -9,7 +9,11 @@ def validate_list_reviews(request):
         abort(400, '_offset y _limit deben ser enteros')
     if offset < 0 or limit < 1:
         abort(400, '_offset >= 0 y _limit >= 1')
-    return {'offset': offset, 'limit': limit}
+    approved = request.args.get('approved')
+    approved_val = None
+    if approved is not None:
+        approved_val = approved.lower() == 'true'
+    return {'offset': offset, 'limit': limit, 'approved': approved_val}
 
 
 def validate_create_review(request):

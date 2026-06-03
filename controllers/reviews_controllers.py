@@ -20,7 +20,7 @@ from services.reviews_services import (
 @validate_dto(validate_list_reviews)
 def listar_reviews():
     params = g.dto
-    reviews, total = listar_reviews_service(params['offset'], params['limit'])
+    reviews, total = listar_reviews_service(params['offset'], params['limit'], params['approved'])
     links = build_links(total, params['offset'], params['limit'])
     return build_paginated_response('reviews', reviews, total, links, item_builder=build_review_response)
 

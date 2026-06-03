@@ -23,10 +23,9 @@
                     <label class="form-label">Mapa <span class="required">*</span></label>
                     <select name="mapa" class="form-input" required>
                         <option value="" disabled selected hidden>Seleccionar...</option>
-                        <option value="nuketown">Nuketown</option>
-                        <option value="mirage">Mirage</option>
-                        <option value="hijacked">Hijacked</option>
-                        <option value="terminal">Terminal</option>
+                        {% for m in mapas %}
+                        <option value="{{ m.id }}">{{ m.name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
 

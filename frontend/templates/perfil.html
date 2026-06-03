@@ -70,7 +70,18 @@
 
         <div id="config" class="tab-seccion">
             <h3>Configuración de la Cuenta</h3>
-            <p>Formularios para modificar tus datos de perfil, contraseña y preferencias.</p>
+            <ul class="list-group mb-4">
+                <li class="list-group-item d-flex justify-content-between"><strong>Email</strong><span>{{ usuario.email }}</span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>DNI</strong><span>{{ usuario.dni }}</span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Teléfono</strong><span>{{ usuario.phone or '—' }}</span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Género</strong><span>{{ usuario.gender or '—' }}</span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>ELO</strong><span>{{ usuario.elo or 0 }}</span></li>
+            </ul>
+            <form method="POST" action="{{ url_for('perfil_password') }}" class="d-flex flex-column gap-2" style="max-width: 320px;">
+                <label class="fw-bold">Cambiar contraseña</label>
+                <input type="password" name="password" class="form-control" placeholder="Nueva contraseña" required>
+                <button type="submit" class="btn btn-info fw-bold">Actualizar contraseña</button>
+            </form>
         </div>
 
         <div id="historial" class="tab-seccion">

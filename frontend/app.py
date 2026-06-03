@@ -1,10 +1,12 @@
-import sys, os
 from flask import Flask, flash, render_template, request, redirect, url_for, session
 from datetime import date, datetime
+import os
+import requests
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'dev'))
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+REVIEWS_PER_PAGE = 2
+EQUIP_PER_PAGE = 2
 
-# Import dashboard services with fallback if DB is unavailable
 try:
     from services.dashboard_services import (
         get_reservas_dia, contar_reservas_dia, get_ingresos_periodo,
@@ -41,9 +43,28 @@ except Exception:
 app = Flask(__name__)
 app.secret_key = 'kinetix_clave_super_secreta_para_las_sesiones'
 
-usuario_admin = {"id": 1, "name" : "Milhouse", "dni" : "13451325", "user_name" : "Dominador", "email": "Milhouse@gmail.com", "phone" : "135454754", "password": "Bart", "gender" : "Masculino", "is_admin" : True}
-usuario_existente = { "id": 2, "name" : "Martin", "dni" :"13451325", "user_name" : "El indestructible", "email" : "martin@gmail.com", "gender" : "-", "phone" : "135454754", "password" : "martin", "is_admin" : False}
-usuario_nuevo = {"id":3 , "name" : "", "dni" :"", "user_name" : "", "email" : "", "gender" : "", "phone" : "", "password" : "", "is_admin" : "False"}
+
+def _fetch_usuario(user_id):
+    try:
+        resp = requests.get(f"{BACKEND_URL}/account/{user_id}", timeout=5)
+    except requests.RequestException:
+        return None
+    if resp.status_code != 200:
+        return None
+    cuenta = resp.json().get("Cuenta", {})
+    cuenta["user_name"] = cuenta.get("username")
+    return cuenta
+
+
+def _fetch_maps():
+    try:
+        resp = requests.get(f"{BACKEND_URL}/maps/disponibility?_limit=100", timeout=5)
+        if resp.status_code == 200:
+            return resp.json().get("Maps", [])
+    except requests.RequestException:
+        pass
+    return []
+
 
 # 1. Ruta para la página principal
 @app.route("/")
@@ -58,23 +79,23 @@ def login_sesion():
         password = request.form.get("password")
         recuerdame = request.form.get("recuerdame")
 
-        if email == usuario_existente["email"] and password == usuario_existente["password"]:
-            if recuerdame:
-                session.permanent = True
-            session['usuario'] = usuario_existente
-            return redirect(url_for('perfil'))
+        try:
+            resp = requests.post(f"{BACKEND_URL}/authentication/login",
+                                 json={"email": email, "password": password}, timeout=5)
+        except requests.RequestException:
+            flash("No se pudo conectar con el servidor.", "warning")
+            return render_template('login_sesion.html')
 
-        elif email == usuario_nuevo["email"] and password == usuario_nuevo["password"]:
-            if recuerdame:
-                session.permanent = True
-            session['usuario'] = usuario_nuevo
-            return redirect(url_for('perfil'))
-
-        elif email == usuario_admin["email"] and password == usuario_admin["password"]:
-            if recuerdame:
-                session.permanent = True
-            session['usuario'] = usuario_admin
-            return redirect(url_for('perfil'))
+        if resp.status_code == 200:
+            data = resp.json()
+            usuario = _fetch_usuario(data["user_id"])
+            if usuario:
+                usuario["token"] = data.get("token")
+                if recuerdame:
+                    session.permanent = True
+                session['usuario'] = usuario
+                return redirect(url_for('perfil'))
+            flash("No se pudo obtener el perfil del usuario.", "warning")
         else:
             flash("Usuario o contraseña inválidos.", "warning")
 
@@ -83,22 +104,32 @@ def login_sesion():
 # 3. Ruta para la página de Registrar Nuevo Usuario
 @app.route('/login/registro', methods=['GET', 'POST'])
 def login_registro():
-    if (request.method == 'POST'):
-        name = request.form.get('name')
-        dni = request.form.get('dni')
-        user_name = request.form.get('user_name')
-        email = request.form.get('email')
-        gender = request.form.get('gender')
-        phone = request.form.get('phone')
-        password = request.form.get('password')
-        usuario_nuevo['name'] = name
-        usuario_nuevo['dni'] = dni
-        usuario_nuevo['user_name'] = user_name
-        usuario_nuevo['email'] = email
-        usuario_nuevo['gender'] = gender
-        usuario_nuevo['phone'] = phone
-        usuario_nuevo['password'] = password
-        return redirect(url_for('login_sesion'))
+    if request.method == 'POST':
+        payload = {
+            "name": request.form.get('name'),
+            "username": request.form.get('user_name'),
+            "email": request.form.get('email'),
+            "password": request.form.get('password'),
+            "dni": request.form.get('dni'),
+            "phone": request.form.get('phone'),
+        }
+        try:
+            resp = requests.post(f"{BACKEND_URL}/authentication/register",
+                                 json=payload, timeout=5)
+        except requests.RequestException:
+            flash("No se pudo conectar con el servidor.", "warning")
+            return render_template('login_registro.html')
+
+        if resp.status_code == 201:
+            flash("Registro exitoso. Iniciá sesión.", "success")
+            return redirect(url_for('login_sesion'))
+
+        msg = "No se pudo completar el registro."
+        try:
+            msg = resp.json()["errors"][0]["message"]
+        except Exception:
+            pass
+        flash(msg, "warning")
     return render_template('login_registro.html')
 
 # 4. Ruta para la pagína de Recuperación Contraseña de Usuario
@@ -150,11 +181,29 @@ def info_mapa_plano(nombre_mapa):
 
 # 6. Ruta para la página de de perfil del usuario
 @app.route('/perfil')
-def perfil(): 
+def perfil():
     usuario = session.get('usuario')
     if not usuario:
         return redirect(url_for('login_sesion'))
-    return render_template('perfil.html', usuario=usuario) 
+    return render_template('perfil.html', usuario=usuario)
+
+@app.route('/perfil/password', methods=['POST'])
+def perfil_password():
+    usuario = session.get('usuario')
+    if not usuario:
+        return redirect(url_for('login_sesion'))
+    password = request.form.get('password')
+    try:
+        resp = requests.patch(f"{BACKEND_URL}/account/{usuario['id']}/password",
+                              json={"password": password}, timeout=5)
+    except requests.RequestException:
+        flash("No se pudo conectar con el servidor.", "warning")
+        return redirect(url_for('perfil'))
+    if resp.status_code == 204:
+        flash("Contraseña actualizada.", "success")
+    else:
+        flash("No se pudo actualizar la contraseña.", "warning")
+    return redirect(url_for('perfil'))
 
 # 7. Ruta para la página Reservas de Campos
 @app.route("/reservas")
@@ -228,62 +277,60 @@ def lobby_user():
 # ---------------------------------------------------
 
 
-# --- SISTEMA DE RESEÑAS CON ESTRELLAS DINÁMICAS Y RESPUESTAS DEL ADMIN ---
-resenias_globales = [
-    {
-        "id": 1,
-        "usuario": "Martin",
-        "titulo": "¡Excelente servicio y jugabilidad!",
-        "mapa": "bunker subterráneo alpha",
-        "comentario": "Las réplicas andan bárbaro y los chalecos tácticos marcan perfecto los impactos en tiempo real. Estaría bueno que sumen más variedad de snacks en el entretiempo.",
-        "puntuacion": 5,
-        "respuestas": [],
-    }
-]
-
 @app.route("/guardar-resenia", methods=["POST"])
 def guardar_resenia():
     usuario = session.get('usuario')
     if not usuario:
         flash("Debes iniciar sesión para enviar una reseña.", "warning")
         return redirect(url_for('login_sesion'))
-    
-    nombre_usuario = usuario.get("user_name", "Usuario Anónimo")
-    titulo = request.form.get("titulo")
-    mapa = request.form.get("mapa")
+
     comentario = request.form.get("comentario")
     puntuacion = request.form.get("puntuacion")
+    mapa = request.form.get("mapa")
+    if not (comentario and puntuacion and mapa):
+        flash("Faltan datos en la reseña.", "warning")
+        return redirect(url_for('resenias'))
 
-    if comentario and puntuacion:
-        nueva_resenia = {
-            "id": len(resenias_globales) + 1,
-            "usuario": nombre_usuario,
-            "titulo": titulo if titulo else "Reseña General",
-            "mapa": mapa if mapa else "General",
-            "comentario": comentario,
-            "puntuacion": int(puntuacion),
-            "respuestas": [],
-        }
-        resenias_globales.append(nueva_resenia)
+    payload = {
+        "stars": int(puntuacion),
+        "map_id": int(mapa),
+        "body_review": comentario,
+    }
+    headers = {"Authorization": f"Bearer {usuario.get('token')}"}
+    try:
+        resp = requests.post(f"{BACKEND_URL}/reviews/", json=payload, headers=headers, timeout=5)
+    except requests.RequestException:
+        flash("No se pudo conectar con el servidor.", "warning")
+        return redirect(url_for('resenias'))
 
-    return render_template("mensaje_envia_resenia.html", usuario=session.get ('usuario'))
+    if resp.status_code == 201:
+        return render_template("mensaje_envia_resenia.html", usuario=usuario)
+    if resp.status_code == 401:
+        flash("Tu sesión expiró. Volvé a iniciar sesión.", "warning")
+        return redirect(url_for('login_sesion'))
+    flash("No se pudo enviar la reseña.", "warning")
+    return redirect(url_for('resenias'))
 
 
-# SOLUCIONADO: Se eliminó la eñe de la URL dinámica para prevenir el ValueError de Werkzeug
-@app.route("/adminresenias/responder/<int:resena_id>", methods=["POST"])
-def responder_resenia(resena_id):
-    texto_respuesta = request.form.get("respuesta_admin")
-
-    if texto_respuesta:
-        for r in resenias_globales:
-            if r["id"] == resena_id:
-                nueva_respuesta = {
-                    "autor": "Soporte Kinetix (Admin)",
-                    "texto": texto_respuesta,
-                }
-                r["respuestas"].append(nueva_respuesta)
-                break
-
+@app.route("/admin_resenias/moderar/<int:resena_id>", methods=["POST"])
+def moderar_resenia(resena_id):
+    usuario = session.get("usuario")
+    if not usuario or not usuario.get("is_admin"):
+        flash("Acceso solo para administradores.", "warning")
+        return redirect(url_for("login_sesion"))
+    approved = request.form.get("approved") == "true"
+    headers = {"Authorization": f"Bearer {usuario.get('token')}"}
+    try:
+        resp = requests.patch(f"{BACKEND_URL}/reviews/auth/{resena_id}",
+                              json={"approved": approved}, headers=headers, timeout=5)
+        if resp.status_code == 200:
+            flash("Reseña aprobada." if approved else "Reseña desaprobada.", "success")
+        elif resp.status_code in (401, 403):
+            flash("No autorizado para moderar reseñas.", "warning")
+        else:
+            flash("No se pudo actualizar la reseña.", "warning")
+    except requests.RequestException:
+        flash("No se pudo conectar con el servidor.", "warning")
     return redirect(url_for("admin_resenias"))
 
 
@@ -297,15 +344,49 @@ def resenias():
     usuario = session.get('usuario')
     if not usuario:
         return redirect(url_for('login_sesion'))
-    nombre_usuario = usuario["user_name"]
-    return render_template('resenias_escribir.html', usuario=usuario, nombre_usuario=nombre_usuario)
+    return render_template('resenias_escribir.html', usuario=usuario,
+                           nombre_usuario=usuario["user_name"], mapas=_fetch_maps())
 
 
 @app.route("/perfil/resenias/ver-resenias")
 def ver_resenias():
     usuario = session.get("usuario")
-    nombre_usuario = usuario["user_name"] if usuario else None
-    return render_template("ver_resenias.html", resenias=resenias_globales, usuario=usuario, nombre_usuario=nombre_usuario)
+    if not usuario:
+        flash("Debes iniciar sesión para ver las reseñas.", "warning")
+        return redirect(url_for('login_sesion'))
+
+    page = max(1, request.args.get('page', 1, type=int))
+    offset = (page - 1) * REVIEWS_PER_PAGE
+    headers = {"Authorization": f"Bearer {usuario.get('token')}"}
+    mapas = {m["id"]: m["name"] for m in _fetch_maps()}
+    resenias = []
+    total = 0
+    try:
+        resp = requests.get(
+            f"{BACKEND_URL}/reviews/?approved=true&_offset={offset}&_limit={REVIEWS_PER_PAGE}",
+            headers=headers, timeout=5)
+        if resp.status_code == 200:
+            data = resp.json()
+            total = data.get("total", 0)
+            for r in data.get("reviews", []):
+                resenias.append({
+                    "id": r["id"],
+                    "usuario": "Jugador",
+                    "mapa": mapas.get(r["map_id"], "Desconocido"),
+                    "puntuacion": r["stars"],
+                    "titulo": "Reseña de la comunidad",
+                    "comentario": r.get("body_review", ""),
+                    "respuestas": [],
+                })
+        elif resp.status_code == 401:
+            flash("Tu sesión expiró. Volvé a iniciar sesión.", "warning")
+            return redirect(url_for('login_sesion'))
+    except requests.RequestException:
+        flash("No se pudo conectar con el servidor.", "warning")
+    total_pages = max(1, (total + REVIEWS_PER_PAGE - 1) // REVIEWS_PER_PAGE)
+    return render_template("ver_resenias.html", resenias=resenias,
+                           usuario=usuario, nombre_usuario=usuario["user_name"],
+                           page=page, total_pages=total_pages)
 
 @app.route("/admin_panel")
 def admin_panel():
@@ -313,7 +394,39 @@ def admin_panel():
 
 @app.route("/admin_resenias")
 def admin_resenias():
-    return render_template("admin_resenias.html", resenias=resenias_globales, usuario=session.get("usuario"))
+    usuario = session.get("usuario")
+    if not usuario or not usuario.get("is_admin"):
+        flash("Acceso solo para administradores.", "warning")
+        return redirect(url_for("login_sesion"))
+    page = max(1, request.args.get('page', 1, type=int))
+    offset = (page - 1) * REVIEWS_PER_PAGE
+    headers = {"Authorization": f"Bearer {usuario.get('token')}"}
+    mapas = {m["id"]: m["name"] for m in _fetch_maps()}
+    resenias = []
+    total = 0
+    try:
+        resp = requests.get(f"{BACKEND_URL}/reviews/?_offset={offset}&_limit={REVIEWS_PER_PAGE}", headers=headers, timeout=5)
+        if resp.status_code == 200:
+            data = resp.json()
+            total = data.get("total", 0)
+            for r in data.get("reviews", []):
+                resenias.append({
+                    "id": r["id"],
+                    "usuario": "Jugador",
+                    "mapa": mapas.get(r["map_id"], "Desconocido"),
+                    "puntuacion": r["stars"],
+                    "titulo": "Reseña de la comunidad",
+                    "comentario": r.get("body_review", ""),
+                    "approved": r.get("approved", False),
+                })
+        elif resp.status_code == 401:
+            flash("Tu sesión expiró. Volvé a iniciar sesión.", "warning")
+            return redirect(url_for("login_sesion"))
+    except requests.RequestException:
+        flash("No se pudo conectar con el servidor.", "warning")
+    total_pages = max(1, (total + REVIEWS_PER_PAGE - 1) // REVIEWS_PER_PAGE)
+    return render_template("admin_resenias.html", resenias=resenias, usuario=usuario,
+                           page=page, total_pages=total_pages)
 
 # 10. Ruta para la página de administración de reservas
 @app.route("/admin_reservas")
@@ -534,17 +647,46 @@ def equipamiento_armas():
 # 19. Ruta para la página de Equipamientos - Pelotas y Pecheras
 @app.route('/admin_equipamiento', methods=['GET', 'POST'])
 def admin_equipamiento():
-    equipamiento_db = [
-        {"id": 1, "tipo": "Pelota de Fútbol 5", "cantidad": 10},
-        {"id": 2, "tipo": "Pecheras (Set x 5)", "cantidad": 8},
-    ]
     if request.method == "POST":
-        tipo = request.form.get("tipo")
-        cantidad = int(request.form.get("cantidad"))
-        nuevo_id = len(equipamiento_db) + 1
-        equipamiento_db.append({"id": nuevo_id, "tipo": tipo, "cantidad": cantidad})
-        return render_template('admin_equipamiento.html', equipamiento=equipamiento_db, usuario=session.get('usuario'))
-    return render_template('admin_equipamiento.html', equipamiento=equipamiento_db, usuario=session.get('usuario'))
+        payload = {
+            "name": request.form.get("name"),
+            "brand": request.form.get("brand"),
+            "price": request.form.get("price"),
+        }
+        try:
+            resp = requests.post(f"{BACKEND_URL}/equipmentkit/", json=payload, timeout=5)
+            if resp.status_code == 201:
+                flash("Equipamiento registrado.", "success")
+            else:
+                flash("No se pudo registrar el equipamiento.", "warning")
+        except requests.RequestException:
+            flash("No se pudo conectar con el servidor.", "warning")
+        return redirect(url_for('admin_equipamiento'))
+
+    page = max(1, request.args.get('page', 1, type=int))
+    offset = (page - 1) * EQUIP_PER_PAGE
+    equipamiento = []
+    total = 0
+    try:
+        resp = requests.get(f"{BACKEND_URL}/equipmentkit/?_offset={offset}&_limit={EQUIP_PER_PAGE}", timeout=5)
+        if resp.status_code == 200:
+            data = resp.json()
+            equipamiento = data.get('equipmentkits', [])
+            total = data.get('total', 0)
+    except requests.RequestException:
+        flash("No se pudo conectar con el servidor.", "warning")
+    total_pages = max(1, (total + EQUIP_PER_PAGE - 1) // EQUIP_PER_PAGE)
+    return render_template('admin_equipamiento.html', equipamiento=equipamiento,
+                           usuario=session.get('usuario'), page=page, total_pages=total_pages)
+
+@app.route('/admin_equipamiento/eliminar/<int:kit_id>', methods=['POST'])
+def eliminar_equipamiento(kit_id):
+    try:
+        requests.delete(f"{BACKEND_URL}/equipmentkit/{kit_id}", timeout=5)
+        flash("Equipamiento eliminado.", "success")
+    except requests.RequestException:
+        flash("No se pudo conectar con el servidor.", "warning")
+    return redirect(url_for('admin_equipamiento'))
 # 20. Ruta para la página de Equipamientos - Chalecos
 @app.route('/equipamientoinfo/chaleco')
 def equipamiento_chaleco():

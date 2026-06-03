@@ -53,40 +53,21 @@
                         "{{ reseña.comentario }}"
                     </p>
 
-                    <div class="comments-section mb-4">
-                        <h6 class="text-white-50 small fw-bold mb-2" style="letter-spacing: 1px;">
-                            <i class="bi bi-chat-left-text me-2"></i>COMENTARIOS E HISTORIAL
-                        </h6>
-                        
-                        {% if reseña.respuestas %}
-                            {% for r in reseña.respuestas %}
-                            <div class="p-3 rounded-3 mb-2 text-start" style="background-color: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.15);">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span class="fw-bold small" style="color: #00d2ff;">{{ r.autor }}</span>
-                                    <small class="text-white-50" style="font-size: 0.75rem;">Soporte Activo</small>
-                                </div>
-                                <p class="text-white-50 mb-0 small">{{ r.texto }}</p>
-                            </div>
-                            {% endfor %}
-                        {% else %}
-                            <div class="p-3 rounded-3 bg-dark text-center text-muted border border-secondary border-opacity-10">
-                                <small>No hay respuestas registradas para esta opinión de usuario.</small>
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <form action="{{ url_for('responder_resenia', resena_id=reseña.id) }}" method="POST" class="pt-3 border-top border-secondary border-opacity-25">
-                        {% if reseña.puntuacion < 4 %}
-                            <label class="form-label fw-bold small mb-2" style="color: #ff5252; letter-spacing: 1px;">SOPORTE DE EMERGENCY REQUERIDO</label>
-                        {% endif %}
-                        <div class="input-group">
-                            <textarea name="respuesta_admin" class="form-control bg-dark text-white {% if reseña.puntuacion < 4 %}border-danger{% else %}border-secondary{% endif %} py-2" rows="1" placeholder="Agregar otro comentario de ayuda..." style="border-radius: 6px 0 0 6px;" required></textarea>
-                            <button type="submit" class="btn fw-bold px-4 {% if reseña.puntuacion < 4 %}text-white{% else %}text-dark{% endif %}" 
-                                    style="background: {% if reseña.puntuacion < 4 %}linear-gradient(135deg, #ff5252 0%, #c62828 100%){% else %}linear-gradient(135deg, #00d2ff 0%, #00a2ff 100%){% endif %}; border: none; border-radius: 0 6px 6px 0;">
-                                {% if reseña.puntuacion < 4 %}ASISTIR{% else %}ENVIAR{% endif %}
-                            </button>
+                    <div class="pt-3 border-top border-secondary border-opacity-25 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <span class="badge fs-6 {% if reseña.approved %}bg-success{% else %}bg-secondary{% endif %}">
+                            {% if reseña.approved %}APROBADA{% else %}PENDIENTE{% endif %}
+                        </span>
+                        <div class="d-flex gap-2">
+                            <form method="POST" action="{{ url_for('moderar_resenia', resena_id=reseña.id) }}">
+                                <input type="hidden" name="approved" value="true">
+                                <button type="submit" class="btn btn-success fw-bold px-4" {% if reseña.approved %}disabled{% endif %}>Aprobar</button>
+                            </form>
+                            <form method="POST" action="{{ url_for('moderar_resenia', resena_id=reseña.id) }}">
+                                <input type="hidden" name="approved" value="false">
+                                <button type="submit" class="btn btn-outline-danger fw-bold px-4" {% if not reseña.approved %}disabled{% endif %}>Desaprobar</button>
+                            </form>
                         </div>
-                    </form>
+                    </div>
 
                 </div>
             </div>
@@ -96,6 +77,14 @@
                 <p class="mb-0">No hay nuevas reseñas cargadas por los usuarios.</p>
             </div>
             {% endfor %}
+
+            {% if total_pages > 1 %}
+            <nav class="d-flex justify-content-center align-items-center gap-3 mt-4">
+                <a class="btn btn-outline-info {% if page <= 1 %}disabled{% endif %}" href="{{ url_for('admin_resenias', page=page-1) }}">&laquo; Anterior</a>
+                <span class="text-white-50">Página {{ page }} de {{ total_pages }}</span>
+                <a class="btn btn-outline-info {% if page >= total_pages %}disabled{% endif %}" href="{{ url_for('admin_resenias', page=page+1) }}">Siguiente &raquo;</a>
+            </nav>
+            {% endif %}
         </div>
     </div>
 </div>

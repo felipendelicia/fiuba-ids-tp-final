@@ -80,6 +80,14 @@
                     <p class="mb-0">Aún no se registraron opiniones. ¡Sé el primero en dejar la tuya!</p>
                 </div>
                 {% endfor %}
+
+                {% if total_pages > 1 %}
+                <nav class="d-flex justify-content-center align-items-center gap-3 mt-4">
+                    <a class="btn btn-outline-info {% if page <= 1 %}disabled{% endif %}" href="{{ url_for('ver_resenias', page=page-1) }}">&laquo; Anterior</a>
+                    <span class="text-white-50">Página {{ page }} de {{ total_pages }}</span>
+                    <a class="btn btn-outline-info {% if page >= total_pages %}disabled{% endif %}" href="{{ url_for('ver_resenias', page=page+1) }}">Siguiente &raquo;</a>
+                </nav>
+                {% endif %}
             </div>
         </div>
     </div>

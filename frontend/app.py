@@ -124,7 +124,7 @@ def campos():
     return render_template('campos.html', usuario=session.get('usuario'))
 @app.route('/campos/informacion/<nombre_mapa>')
 def info_mapa(nombre_mapa):
-    from data.mapas import mapas
+    mapas = {'nuketown': {}, 'mirage': {}, 'hijacked': {}, 'terminal': {}}
     if nombre_mapa not in mapas:
         return render_template('404.html'), 404
     return render_template(f'{nombre_mapa}.html', mapa=mapas[nombre_mapa], usuario=session.get('usuario'))

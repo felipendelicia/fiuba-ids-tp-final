@@ -207,7 +207,7 @@ def lobby_user():
 
 
 # --- SISTEMA DE RESEÑAS CON ESTRELLAS DINÁMICAS Y RESPUESTAS DEL ADMIN ---
-reseñas_globales = [
+resenias_globales = [
     {
         "id": 1,
         "usuario": "Martin",
@@ -219,8 +219,8 @@ reseñas_globales = [
     }
 ]
 
-@app.route("/guardar-reseña", methods=["POST"])
-def guardar_reseña():
+@app.route("/guardar-resenia", methods=["POST"])
+def guardar_resenia():
     usuario = session.get('usuario')
     if not usuario:
         flash("Debes iniciar sesión para enviar una reseña.", "warning")
@@ -233,8 +233,8 @@ def guardar_reseña():
     puntuacion = request.form.get("puntuacion")
 
     if comentario and puntuacion:
-        nueva_reseña = {
-            "id": len(reseñas_globales) + 1,
+        nueva_resenia = {
+            "id": len(resenias_globales) + 1,
             "usuario": nombre_usuario,
             "titulo": titulo if titulo else "Reseña General",
             "mapa": mapa if mapa else "General",
@@ -242,18 +242,18 @@ def guardar_reseña():
             "puntuacion": int(puntuacion),
             "respuestas": [],
         }
-        reseñas_globales.append(nueva_reseña)
+        resenias_globales.append(nueva_resenia)
 
     return render_template("mensaje_envia_resenia.html", usuario=session.get ('usuario'))
 
 
 # SOLUCIONADO: Se eliminó la eñe de la URL dinámica para prevenir el ValueError de Werkzeug
-@app.route("/adminreseñas/responder/<int:resena_id>", methods=["POST"])
-def responder_reseña(resena_id):
+@app.route("/adminresenias/responder/<int:resena_id>", methods=["POST"])
+def responder_resenia(resena_id):
     texto_respuesta = request.form.get("respuesta_admin")
 
     if texto_respuesta:
-        for r in reseñas_globales:
+        for r in resenias_globales:
             if r["id"] == resena_id:
                 nueva_respuesta = {
                     "autor": "Soporte Kinetix (Admin)",
@@ -262,31 +262,36 @@ def responder_reseña(resena_id):
                 r["respuestas"].append(nueva_respuesta)
                 break
 
-    return redirect(url_for("admin_reseñas"))
+    return redirect(url_for("admin_resenias"))
 
 
-@app.route("/perfil/reseñas")
-def reseñas():
+@app.route("/resenias")
+def opciones_resenias():
+    usuario = session.get('usuario')
+    return render_template('resenias_opciones.html', usuario=usuario)
+
+@app.route("/perfil/resenias")
+def resenias():
     usuario = session.get('usuario')
     if not usuario:
         return redirect(url_for('login_sesion'))
     nombre_usuario = usuario["user_name"]
-    return render_template('reseñas.html', usuario=usuario, nombre_usuario=nombre_usuario)
+    return render_template('resenias_escribir.html', usuario=usuario, nombre_usuario=nombre_usuario)
 
 
-@app.route("/perfil/reseñas/ver-reseñas")
-def ver_reseñas():
+@app.route("/perfil/resenias/ver-resenias")
+def ver_resenias():
     usuario = session.get("usuario")
     nombre_usuario = usuario["user_name"] if usuario else None
-    return render_template("ver_reseñas.html", reseñas=reseñas_globales, usuario=usuario, nombre_usuario=nombre_usuario)
+    return render_template("ver_resenias.html", resenias=resenias_globales, usuario=usuario, nombre_usuario=nombre_usuario)
 
 @app.route("/admin_panel")
 def admin_panel():
     return render_template("admin_panel.html", usuario=session.get("usuario"))
 
-@app.route("/admin_reseñas")
-def admin_reseñas():
-    return render_template("admin_reseñas.html", reseñas=reseñas_globales, usuario=session.get("usuario"))
+@app.route("/admin_resenias")
+def admin_resenias():
+    return render_template("admin_resenias.html", resenias=resenias_globales, usuario=session.get("usuario"))
 
 # 10. Ruta para la página de administración de reservas
 @app.route("/admin_reservas")

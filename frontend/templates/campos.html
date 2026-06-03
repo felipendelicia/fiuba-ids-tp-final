@@ -15,7 +15,7 @@
 
     <div class="maps__container">
 
-        <div class="maps__card" onclick="window.location.href='{{ url_for('info_mapa', nombre_mapa='nuketown') }}'" style="cursor: pointer;">
+        <div class="maps__card" onclick="window.location.href='{{ url_for('info_mapa', nombre_mapa='nuketown') }}'">
             <img src="../static/img/nuketown.jpg" alt="Nuketown">
             <div class="maps__info">
                 <h3>Nuketown</h3>
@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <div class="maps__card" onclick="window.location.href='{{ url_for('info_mapa', nombre_mapa='mirage') }}'" style="cursor: pointer;">
+        <div class="maps__card" onclick="window.location.href='{{ url_for('info_mapa', nombre_mapa='mirage') }}'">
             <img src="../static/img/mirage.jpg" alt="Mirage">
             <div class="maps__info">
                 <h3>Mirage</h3>
@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <div class="maps__card" onclick="window.location.href='{{ url_for('info_mapa', nombre_mapa='hijacked') }}'" style="cursor: pointer;">
+        <div class="maps__card" onclick="window.location.href='{{ url_for('info_mapa', nombre_mapa='hijacked') }}'">
             <img src="../static/img/hijacked.jpg" alt="Hijacked">
             <div class="maps__info">
                 <h3>Hijacked</h3>
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <div class="maps__card" onclick="window.location.href='{{ url_for('info_mapa', nombre_mapa='terminal') }}'" style="cursor: pointer;">
+        <div class="maps__card" onclick="window.location.href='{{ url_for('info_mapa', nombre_mapa='terminal') }}'">
             <img src="../static/img/terminal.jpg" alt="Terminal">
             <div class="maps__info">
                 <h3>Terminal</h3>
@@ -78,24 +78,6 @@
     </div>
 </div>
 
-<script>
-document.querySelectorAll('.stars').forEach(function(el) {
-    var links = el.querySelectorAll('a');
-    el.addEventListener('mouseover', function(e) {
-        var target = e.target.closest('a');
-        if (!target) return;
-        var idx = Array.prototype.indexOf.call(links, target);
-        links.forEach(function(a, i) {
-            if (i <= idx) {
-                a.classList.add('active');
-            } else {
-                a.classList.remove('active');
-            }
-        });
-    });
-    el.addEventListener('mouseleave', function() {
-        links.forEach(function(a) { a.classList.remove('active'); });
-    });
-});
-</script>
+{% block js_extra %}
+<script src="{{ url_for('static', filename='js/campos.js') }}"></script>
 {% endblock %}

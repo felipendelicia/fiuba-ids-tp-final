@@ -52,6 +52,7 @@
 .maps__card {
   display: flex;
   flex-direction: row;
+  cursor: pointer;
   /* Convertimos la tarjeta blanca de Dante a tu estilo oscuro */
   background-color: rgba(18, 22, 26, 0.8);
   border: 1px solid rgba(79, 172, 254, 0.2);

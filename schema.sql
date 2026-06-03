@@ -60,6 +60,11 @@ CREATE TABLE IF NOT EXISTS EquipmentKit (
 	price FLOAT
 );
 
+INSERT IGNORE INTO EquipmentKit (id, name, brand, price) VALUES
+(1, 'Kit Básico', 'Valken', 2000),
+(2, 'Kit Intermedio', 'Lancer Tactical', 3500),
+(3, 'Kit Profesional', 'G&G Armament', 5000);
+
 
 CREATE TABLE IF NOT EXISTS Maps (
 	id INT AUTO_INCREMENT PRIMARY KEY,

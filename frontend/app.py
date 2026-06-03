@@ -65,6 +65,15 @@ def _fetch_maps():
         pass
     return []
 
+def _fetch_gamemodes():
+    try:
+        resp = requests.get(f"{BACKEND_URL}/gamemodes/", timeout=5)
+        if resp.status_code == 200:
+            return resp.json().get("gamemodes", [])
+    except requests.RequestException:
+        pass
+    return []
+
 
 # 1. Ruta para la página principal
 @app.route("/")

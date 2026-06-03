@@ -18,9 +18,9 @@
             <div class="select-wrapper">
                 <select id="modalidad">
                     <option value="" disabled selected hidden>Selecciona una modalidad</option>
-                    <option value="1">Captura la bandera</option>
-                    <option value="3">Todos contra todos</option>
-                    <option value="4">Dominación</option>
+                    {% for g in modalidades %}
+                        <option value="{{ g.id }}">{{ g.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>

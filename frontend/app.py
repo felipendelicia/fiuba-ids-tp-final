@@ -424,7 +424,51 @@ def lobby_privada():
     if not usuario:
         flash("Debes iniciar sesión para acceder a la sala privada.", "warning")
         return redirect(url_for('login_sesion'))
-    return render_template('lobby_privada.html', usuario=session.get('usuario'))
+    from datetime import timedelta
+    import calendar as calmod
+    hoy = date.today()
+    primer_dia = date(hoy.year, hoy.month, 1)
+    inicio_calendario = primer_dia - timedelta(days=primer_dia.weekday())
+    mes_actual = []
+    for i in range(35):
+        d = inicio_calendario + timedelta(days=i)
+        mes_actual.append({'num': d.day, 'fecha': d.isoformat(), 'actual': d.month == hoy.month})
+    meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+             'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+    return render_template('lobby_privada.html',
+                           usuario=session.get('usuario'),
+                           mes_actual=mes_actual,
+                           hoy_str=hoy.isoformat(),
+                           mes_nombre=meses[hoy.month - 1],
+                           anio=hoy.year)
+
+@app.route("/api/turnos-disponibles")
+def api_turnos_disponibles():
+    fecha_param = request.args.get('date')
+    if fecha_param:
+        try:
+            fecha = date.fromisoformat(fecha_param)
+        except ValueError:
+            return {"error": "Formato de fecha inválido"}, 400
+    else:
+        fecha = date.today()
+    try:
+        frec = get_frecuencia_horaria(fecha)
+    except Exception:
+        frec = {'cs': 0, 'so': 0, 'nd': 0, 'od': 0, 'tc': 0, 'qs': 0, 'do': 0, 'dv': 0}
+    slots = [
+        {"id": "cs", "label": "5 - 7", "ocupados": frec.get("cs", 0), "max": 4},
+        {"id": "so", "label": "7 - 9", "ocupados": frec.get("so", 0), "max": 4},
+        {"id": "nd", "label": "9 - 11", "ocupados": frec.get("nd", 0), "max": 4},
+        {"id": "od", "label": "11 - 13", "ocupados": frec.get("od", 0), "max": 4},
+        {"id": "tc", "label": "13 - 15", "ocupados": frec.get("tc", 0), "max": 4},
+        {"id": "qs", "label": "15 - 17", "ocupados": frec.get("qs", 0), "max": 4},
+        {"id": "do", "label": "17 - 19", "ocupados": frec.get("do", 0), "max": 4},
+        {"id": "dv", "label": "19 - 21", "ocupados": frec.get("dv", 0), "max": 4},
+    ]
+    for s in slots:
+        s["disponible"] = s["ocupados"] < s["max"]
+    return {"fecha": fecha.isoformat(), "turnos": slots}
 
 @app.route('/mensaje_crea_sala_privada')
 def mensaje_crea_sala_privada():

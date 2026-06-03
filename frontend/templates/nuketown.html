@@ -73,7 +73,8 @@
                 </div>
             </div>
         </div>
-        <div class="text-center mt-4">
+        <div class="text-center mt-4 d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('info_mapa_plano', nombre_mapa='nuketown') }}" class="btn btn-info fw-bold px-4" style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; letter-spacing: 1px; background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); border: none; color: #0b0d0f;"><i class="bi bi-map me-2"></i>VER PLANO TÁCTICO</a>
             <a href="{{ url_for('campos') }}" class="btn btn-outline-info fw-bold px-4" style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; letter-spacing: 1px;"><i class="bi bi-arrow-left me-2"></i>VOLVER A CAMPOS DE JUEGO</a>
         </div>
     </div>

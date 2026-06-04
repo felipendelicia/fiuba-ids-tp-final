@@ -6,6 +6,7 @@ import requests
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 REVIEWS_PER_PAGE = 2
 EQUIP_PER_PAGE = 2
+MAPS_PER_PAGE = 10
 
 try:
     from services.dashboard_services import (
@@ -629,7 +630,8 @@ def lobby_privada():
                            mes_actual=mes_actual,
                            hoy_str=hoy.isoformat(),
                            mes_nombre=meses[hoy.month - 1],
-                           anio=hoy.year)
+                           anio=hoy.year,
+                           mapas=_fetch_maps())
 
 @app.route("/api/turnos-disponibles")
 def api_turnos_disponibles():

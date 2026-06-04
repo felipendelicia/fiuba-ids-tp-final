@@ -616,6 +616,19 @@ def api_dashboard_data():
         "total_ocupadas": total_ocupadas,
         "total_slots": MAX_RESERVAS_POR_DIA,
     }
+
+@app.route("/admin_usuarios")
+def admin_usuarios():
+    resp_usuarios = requests.get(f"{BACKEND_URL}/account", timeout=5)
+    if resp_usuarios.status_code == 200:
+        usuarios = resp_usuarios.json()
+        listusuarios = usuarios['Listado de Usuarios']
+        print(usuarios)
+    else:
+        usuarios = []
+        flash("No se puedo obtener la lista de los usuarios.", "warning")
+
+    return render_template("admin_usuarios.html", usuario=session.get('usuario'), usuarios=listusuarios) #pendiente listar-usuarios 
 # 13. Ruta para la página de Sala Privada
 @app.route("/lobby-privada")
 def lobby_privada():

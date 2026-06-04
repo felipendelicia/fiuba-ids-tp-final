@@ -66,6 +66,15 @@ def _fetch_maps():
         pass
     return []
 
+def _fetch_gamemodes():
+    try:
+        resp = requests.get(f"{BACKEND_URL}/gamemodes/", timeout=5)
+        if resp.status_code == 200:
+            return resp.json().get("gamemodes", [])
+    except requests.RequestException:
+        pass
+    return []
+
 
 # 1. Ruta para la página principal
 @app.route("/")
@@ -278,7 +287,7 @@ def admin_crearsala():
         }
         salas_publicas.append(nueva_partida)
         return redirect(url_for('lobby_admin')) 
-    return render_template('admin_creacionsalapublica.html')
+    return render_template('admin_creacionsalapublica.html', modalidades=_fetch_gamemodes())
 
 @app.route("/perfil/reservasadmin/eliminar/<string:id_partida>", methods=["POST"])
 def eliminar_sala(id_partida):
@@ -631,6 +640,7 @@ def lobby_privada():
                            hoy_str=hoy.isoformat(),
                            mes_nombre=meses[hoy.month - 1],
                            anio=hoy.year,
+                           modalidades=_fetch_gamemodes(),
                            mapas=_fetch_maps())
 
 @app.route("/api/turnos-disponibles")

@@ -6,6 +6,7 @@ import requests
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 REVIEWS_PER_PAGE = 2
 EQUIP_PER_PAGE = 2
+MAPS_PER_PAGE = 10
 
 try:
     from services.dashboard_services import (
@@ -215,8 +216,57 @@ def perfil_password():
     return redirect(url_for('perfil'))
 
 # 7. Ruta para la página Reservas de Campos
-@app.route("/reservas")
+@app.route("/reservas", methods=['GET', 'POST'])
 def reservas():
+    usuario= session.get('usuario')
+    if not usuario:
+        flash("Debes iniciar sesión para realizar una reserva.", "warning")
+        return redirect(url_for('login_sesion'))
+    if request.method == 'POST':
+        map_id= request.form.get("mapa")
+        reservation_date= request.form.get("fecha")
+        rango_horario= request.form.get("horario")
+        equipment_kit_id= request.form.get("pack")
+        mode= request.form.get("modalidad")
+        price= request.form.get("price")
+
+        try:
+            inicio, fin= rango_horario.split("-")
+            start_time= f"{int(inicio):02d}:00:00"
+            end_time= f"{int(inicio):02d}:00:00"
+        except (ValueError, AttributeError):
+            flash("Selección de horario inválida.", "warning")
+            return redirect(url_for('reservas'))
+        payload = {
+                "account_id": int(usuario["id"]),
+                "map_id": map_id,
+                "equipment_kit_id": equipment_kit_id,
+                "reservation_date": reservation_date,
+                "start_time": start_time,
+                "end_time": end_time,
+                "mode": mode,
+                "price": price
+                }
+        headers= {"Authorization": f"Bearer {usuario.get('token')}"}
+        try:
+            resp = requests.post(f"{BACKEND_URL}/reservations/", json=payload, headers=headers, timeout=5)
+            
+            if resp.status_code == 200:
+                return redirect(url_for('mensaje_crea_sala_privada'))
+                
+            elif resp.status_code == 400:
+                flash("Datos de reserva inválidos", "warning")
+            
+            elif resp.status_code == 401:
+                flash("Tu sesión expiró. Volvé a iniciar sesión.", "warning")
+                return redirect(url_for('login_sesion'))
+            else:
+                flash("No se pudo completar la reserva. Intente nuevamente.", "warning")
+
+        except requests.RequestException:
+            flash("No se pudo conectar con el servidor.", "warning")
+            return redirect(url_for('lobby_privada'))
+    
     return render_template('reservas.html', usuario =session.get('usuario'))
 
 # --- SISTEMA DE GESTIÓN DE SALAS PÚBLICAS ---
@@ -590,7 +640,8 @@ def lobby_privada():
                            hoy_str=hoy.isoformat(),
                            mes_nombre=meses[hoy.month - 1],
                            anio=hoy.year,
-                           modalidades=_fetch_gamemodes())
+                           modalidades=_fetch_gamemodes(),
+                           mapas=_fetch_maps())
 
 @app.route("/api/turnos-disponibles")
 def api_turnos_disponibles():

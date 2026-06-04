@@ -37,6 +37,7 @@ def validate_create_reservation(request):
     missing = [f for f in required if f not in data]
     if missing:
         abort(400, f'Campos requeridos: {", ".join(missing)}')
+    validate_game_time(data['start_time'], data['end_time'])
     return {k: data[k] for k in required}
 
 
@@ -57,6 +58,7 @@ def validate_update_reservation(request):
         abort(400, f'Campos inválidos: {", ".join(invalid)}')
     if not given:
         abort(400, 'Debe enviar al menos un campo a actualizar')
+    validate_game_time(data['start_time'], data['end_time'])
     return data
 
 
@@ -76,3 +78,18 @@ def build_reservation_response(res):
         'cancelation_reason': res.get('cancelation_reason', ''),
         'created_at': str(res.get('created_at', '')),
     }
+
+
+def validate_game_time(start_time, end_time):
+    SLOT_STARTS = ['05:00:00','07:00:00','09:00:00','11:00:00',
+                   '13:00:00','15:00:00','17:00:00','19:00:00']
+    if start_time not in SLOT_STARTS:
+        abort(400, f'Horario inválido. Debe ser uno de: {", ".join(SLOT_STARTS)}')
+    try:
+        hora = int(start_time.split(':')[0])
+        expected_end = f'{hora + 2:02d}:00:00'
+    except (ValueError, IndexError):
+        abort(400, 'Formato de hora de inicio inválido')
+    if end_time != expected_end:
+        abort(400, 'La reserva debe ser de exactamente 2 horas') 
+

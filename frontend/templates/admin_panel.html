@@ -8,42 +8,68 @@
 
 
 {% block content %}
-<Section id="sectionPerfilAdmin">
+<section id="sectionPerfilAdmin">
     <div class="container-perfilAdmin">
-        
-        <div class="box-perfilAdmin">
-            <span id="mensajePrincipal"> BIENVENIDO AL PANEL ADMINISTRADOR</span>
-            <div class="box-panel">
-                <span id="datosUser">NOMBRE: {{usuario.name}}</span>
-                <span id="datosUser">DNI: {{usuario.dni}}</span>
-                <span id="datosUser">Gmail: {{usuario.email}}</span>
-                <span id="datosUser">Genero: {{usuario.gender}}</span>
-                <span id="datosUser">Telefono: +54 {{usuario.phone}}</span>
+
+        <span id="mensajePrincipal">BIENVENIDO AL PANEL ADMINISTRADOR</span>
+
+        <div class="admin-user-info">
+            <div class="admin-info-item">
+                <div class="admin-info-content">
+                    <span class="info-label">NOMBRE</span>
+                    <span class="info-value">{{usuario.name}}</span>
+                </div>
             </div>
-        </div>
-        <div class="box-perfilAdmin">
-            <div class="position-end">
-                <div class="box-panel-right">                
-                    <div class="box-center">
-                        <button class="btn-error"><a class="btna" href="{{ url_for('admin_resenias')}}"><i class="fa fa-list"></i></a></button>
-                        <p>RESEÑAS</p>
-                    </div>
-                    <div class="box-center">
-                        <button class="btn-error"><a class="btna" href="{{ url_for('admin_dashboard')}}"><i class="fa fa-bar-chart"></i></a></button>
-                        <p>DASHBOARD</p>
-                    </div>
-                    <div class="box-center">
-                        <button class="btn-error"><a class="btna" href="{{ url_for('admin_reservas')}}"><i class="fa fa-wrench"></i></a></button>
-                        <p>CREAR RESERVA</p>
-                    </div>
-                    <div class="box-center">
-                        <button class="btn-error"><a class="btna" href="{{ url_for('admin_equipamiento')}}"><i class="fa fa-binoculars"></i></a></button>
-                        <p>EQUIPAMIENTOS</p>
-                    </div>
+            <div class="admin-info-item">
+                <div class="admin-info-content">
+                    <span class="info-label">DNI</span>
+                    <span class="info-value">{{usuario.dni}}</span>
+                </div>
+            </div>
+            <div class="admin-info-item">
+                <div class="admin-info-content">
+                    <span class="info-label">GMAIL</span>
+                    <span class="info-value">{{usuario.email}}</span>
+                </div>
+            </div>
+            <div class="admin-info-item">
+                <div class="admin-info-content">
+                    <span class="info-label">GÉNERO</span>
+                    <span class="info-value">{{usuario.gender}}</span>
+                </div>
+            </div>
+            <div class="admin-info-item">
+                <div class="admin-info-content">
+                    <span class="info-label">TELÉFONO</span>
+                    <span class="info-value">+54 {{usuario.phone}}</span>
                 </div>
             </div>
         </div>
+
+        <div class="admin-cards-grid">
+            <a href="{{ url_for('admin_resenias') }}" class="admin-card">
+                <i class="fa fa-list admin-card-icon"></i>
+                <span class="admin-card-title">RESEÑAS</span>
+                <span class="admin-card-desc">Gestiona las reseñas de los usuarios</span>
+            </a>
+            <a href="{{ url_for('admin_dashboard') }}" class="admin-card">
+                <i class="fa fa-bar-chart admin-card-icon"></i>
+                <span class="admin-card-title">DASHBOARD</span>
+                <span class="admin-card-desc">Visualiza estadísticas y métricas</span>
+            </a>
+            <a href="{{ url_for('admin_reservas') }}" class="admin-card">
+                <i class="fa fa-wrench admin-card-icon"></i>
+                <span class="admin-card-title">RESERVAS</span>
+                <span class="admin-card-desc">Administra las reservas activas</span>
+            </a>
+            <a href="{{ url_for('admin_equipamiento') }}" class="admin-card">
+                <i class="fa fa-binoculars admin-card-icon"></i>
+                <span class="admin-card-title">EQUIPAMIENTO</span>
+                <span class="admin-card-desc">Controla el inventario disponible</span>
+            </a>
+        </div>
+
     </div>
-</Section>
+</section>
 {% endblock %}
 

@@ -11,49 +11,77 @@
     <span id="mensajePrincipal">GESTIÓN DE USUARIOS</span>
     <div class="container-gestionUsuarios">
         <div class="admin-usuarios-grid">
-            {% for usuario in usuarios %}
-                {% if usuario.is_admin == 1 %}
+            {% for usuariolist in usuarios %}
+                {% if usuariolist.is_admin == 1 %}
                 <div class="admin-usuario-card">
                     <i class="fa fa-user admin-usuario-admin-icon"></i>
                     <div class="admin-usuario">
                         <ul class="admin-usuario-name">
-                            <li>NUMERO DE INDENTIFICACIÓN: <span class="admin-usuario-info">{{usuario.id}}</span></li>
-                            <li>NOMBRE: <span class="admin-usuario-info">{{usuario.name}}</span></li>
-                            <li>NOMBRE DE USUARIO:  <span class="admin-usuario-info">{{usuario.username}}</span></li>
-                            <li>DNI <span class="admin-usuario-info">4577577</span>    </li>
-                            <li>CORREO <span class="admin-usuario-info">ejemplo@example.com</span></li>
-                            <li>TELÉFONO <span class="admin-usuario-info">12345678</span></li>
-                            <li>ACERCA DEL USUARIO: <span class="admin-usuario-info">descripcion que puso el usuario</span></li>
-                            <li>FECHA DE CREACION DE CUENTA: <span class="admin-usuario-info">2025-07-12</span></li>
-                            <li>ELO: <span class="admin-usuario-info">154</span></li>
-                            <li>ADMINISTRADOR:<span class="admin-usuario-info">Si</span></li>
-                            <li>GENERO:<span class="admin-usuario-info">MASCULINO</span></li>
-                            <li>ULTIMA ACTUALIZACIÓN: <span class="admin-usuario-info">2026-06-04</span></li>
-                            <li>ESTADO DE CUENTA: <span class="admin-usuario-info"> Activo</span></li>
+                            <li>NUMERO DE INDENTIFICACIÓN: <span class="admin-usuario-info">{{usuariolist.id}}</span></li>
+                            <li>NOMBRE: <span class="admin-usuario-info">{{usuariolist.name}}</span></li>
+                            <li>NOMBRE DE USUARIO:  <span class="admin-usuario-info">{{usuariolist.username}}</span></li>
+                            <li>DNI <span class="admin-usuario-info">{{usuariolist.dni}}</span></li>
+                            <li>CORREO <span class="admin-usuario-info">{{usuariolist.email}}</span></li>
+                            <li>TELÉFONO <span class="admin-usuario-info">{{usuariolist.phone}}</span></li>
+                            <li>ACERCA DEL USUARIO: <span class="admin-usuario-info">{{usuariolist.about_me}}</span></li>
+                            <li>FECHA DE CREACION DE CUENTA: <span class="admin-usuario-info">{{usuariolist.creadted_at}}</span></li>
+                            <li>ELO: <span class="admin-usuario-info">{{usuariolist.elo}}</span></li>
+                            <li>ADMINISTRADOR:
+                                <span class="admin-usuario-info">
+                                    {% if usuario.is_admin == 1%}
+                                        Si 
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                </span>
+                            </li>
+                            <li>GENERO:<span class="admin-usuario-info">{{usuariolist.gender}}</span></li>
+                            <li>ULTIMA ACTUALIZACIÓN: <span class="admin-usuario-info">{{usuariolist.updated_at}}</span></li>
+                            <li>ESTADO DE CUENTA: 
+                                {% if usuariolist.is_active == 1 %}
+                                <span class="admin-usuario-info">Activo</span>
+                                {% else %}
+                                <span class="admin-usuario-info">No activo</span>
+                                {% endif %}
+                            </li>
                         </ul>    
                         <a href="" class="admin-usuario-edit">Editar</a>
                         <a href="" class="usuarios-desactivar">Desativar cuenta</a>
                     </div>
                 </div>
                 {% endif %}
-                {% if usuario.is_admin == 0 %}
+                {% if usuariolist.is_admin == 0 %}
                 <div class="admin-usuario-card">
                     <i class="fa fa-user admin-usuario-hombre-icon"></i>
                     <div class="hombre-usuario">
                         <ul class="hombre-usuario-name">
-                            <li>NUMERO DE INDENTIFICACIÓN: <span class="admin-usuario-info">{{usuario.id}}</span></li>
-                            <li>NOMBRE: <span class="admin-usuario-info">{{usuario.name}}</span></li>
-                            <li>NOMBRE DE USUARIO:  <span class="admin-usuario-info">{{usuario.username}}</span></li>
-                            <li>DNI: <span class="admin-usuario-info">4577577</span>    </li>
-                            <li>CORREO: <span class="admin-usuario-info">ejemplo@example.com</span></li>
-                            <li>TELÉFONO: <span class="admin-usuario-info">12345678</span></li>
-                            <li>ACERCA DEL USUARIO: <span class="admin-usuario-info">descripcion que puso el usuario</span></li>
-                            <li>FECHA DE CREACION DE CUENTA: <span class="admin-usuario-info">2025-07-12</span></li>
-                            <li>ELO: <span class="admin-usuario-info">154</span></li>
-                            <li>ADMINISTRADOR:<span class="admin-usuario-info">NO</span></li>
-                            <li>GENERO:<span class="admin-usuario-info">MASCULINO</span></li>
-                            <li>ULTIMA ACTUALIZACIÓN: <span class="admin-usuario-info">2026-06-04</span></li>
-                            <li>ESTADO DE CUENTA: <span class="admin-usuario-info"> Activo</span></li>
+                            <li>NUMERO DE INDENTIFICACIÓN: <span class="admin-usuario-info">{{usuariolist.id}}</span></li>
+                            <li>NOMBRE: <span class="admin-usuario-info">{{usuariolist.name}}</span></li>
+                            <li>NOMBRE DE USUARIO:  <span class="admin-usuario-info">{{usuariolist.username}}</span></li>
+                            <li>DNI: <span class="admin-usuario-info">{{usuariolist.dni}}</span></li>
+                            <li>CORREO: <span class="admin-usuario-info">{{usuariolist.email}}</span></li>
+                            <li>TELÉFONO: <span class="admin-usuario-info">{{usuariolist.phone}}</span></li>
+                            <li>ACERCA DEL USUARIO: <span class="admin-usuario-info">{{usuariolist.about_me}} </span></li>
+                            <li>FECHA DE CREACION DE CUENTA: <span class="admin-usuario-info">{{usuariolist.creadted_at}} </span></li>
+                            <li>ELO: <span class="admin-usuario-info">{{usuariolist.elo}}</span></li>
+                            <li>ADMINISTRADOR:
+                                <span class="admin-usuario-info">
+                                    {% if usuario.is_admin == 0 %} 
+                                        Si 
+                                    {% else %} 
+                                        No
+                                    {% endif %}
+                                </span>
+                            </li>
+                            <li>GENERO:<span class="admin-usuario-info">{{usuariolist.gender}}</span></li>
+                            <li>ULTIMA ACTUALIZACIÓN: <span class="admin-usuario-info">{{usuariolist.updated_at}}</span></li>
+                            <li>ESTADO DE CUENTA:
+                                {% if usuariolist.is_active == 1 %}
+                                <span class="admin-usuario-info">Activo</span>
+                                {% else %}
+                                <span class="admin-usuario-info">No activo</span>
+                                {% endif %}
+                            </li>
                         </ul>
                         <a href="" class="hombre-usuario-edit">Editar</a>
                         <a href="" class="usuarios-desactivar">Desativar cuenta</a>
@@ -61,7 +89,7 @@
                     </div>
                 </div>
                 {% endif %}
-                {% if usuario.isdmin == 0 and usuario.gender == "FEMENINO" %}
+                {% if usuariolist.isdmin == 0 and usuario.gender == "FEMENINO" %}
                 <div class="admin-usuario-card">
                     <i class="fa fa-user admin-usuario-mujer-icon"></i>
                     <div class="mujer-usuario">
@@ -69,16 +97,30 @@
                             <li>NÚMERO DE INDENTIFICACIÓN: <span class="admin-usuario-info">{{usuario.id}}</span></li>
                             <li>NOMBRE: <span class="admin-usuario-info">{{usuario.name}}</span></li>
                             <li>NOMBRE DE USUARIO:  <span class="admin-usuario-info">LULIAS</span></li>
-                            <li>DNI <span class="admin-usuario-info">4577577</span>    </li>
-                            <li>CORREO: <span class="admin-usuario-info">ejemplo@example.com</span></li>
-                            <li>TELÉFONO: <span class="admin-usuario-info">12345678</span></li>
-                            <li>ACERCA DEL USUARIO: <span class="admin-usuario-info">descripcion que puso el usuario</span></li>
-                            <li>FECHA DE CREACIÓN DE CUENTA: <span class="admin-usuario-info">2025-07-12</span></li>
-                            <li>ELO: <span class="admin-usuario-info">154</span></li>
-                            <li>ADMINISTRADOR:<span class="admin-usuario-info">NO</span></li>
-                            <li>GÉNERO:<span class="admin-usuario-info">FEMENINO</span></li>
-                            <li>ULTIMA ACTUALIZACIÓN: <span class="admin-usuario-info">2026-06-04</span></li>
-                            <li>ESTADO DE CUENTA: <span class="admin-usuario-info"> Activo</span></li>
+                            <li>DNI <span class="admin-usuario-info">{{usuario.dni}}</span></li>
+                            <li>CORREO: <span class="admin-usuario-info">{{usuario.email}}</span></li>
+                            <li>TELÉFONO: <span class="admin-usuario-info">{{usuario.phone}}</span></li>
+                            <li>ACERCA DEL USUARIO: <span class="admin-usuario-info">{{usuario.about_me}}</span></li>
+                            <li>FECHA DE CREACIÓN DE CUENTA: <span class="admin-usuario-info">{{usuario.creadted_at}}</span></li>
+                            <li>ELO: <span class="admin-usuario-info">{{usuario.elo}}</span></li>
+                            <li>ADMINISTRADOR:
+                                <span class="admin-usuario-info">
+                                    {% if usuario.is_admin == 0%} 
+                                        Si 
+                                    {% else %} 
+                                        No
+                                    {% endif %}
+                                </span>
+                            </li>
+                            <li>GÉNERO:<span class="admin-usuario-info">{{usuario.gender}}</span></li>
+                            <li>ULTIMA ACTUALIZACIÓN: <span class="admin-usuario-info">{{usuario.updated_at}}</span></li>
+                            <li>ESTADO DE CUENTA:
+                                {% if usuariolist.is_active == 1 %}
+                                <span class="admin-usuario-info">Activo</span>
+                                {% else %}
+                                <span class="admin-usuario-info">No activo</span>
+                                {% endif %}
+                            </li>
                         </ul>                    
                         <a href="" class="mujer-usuario-edit">Editar</a>
                         <a href="" class="usuarios-desactivar">Desativar cuenta</a>

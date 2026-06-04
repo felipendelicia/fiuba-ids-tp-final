@@ -11,7 +11,8 @@
         
         <div class="p-4 rounded-3 mb-5 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25);">
             <h5 class="text-white fw-bold mb-3" style="font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">Registrar Nuevo Equipamiento</h5>
-            <form action="/equipamiento" method="POST" class="row g-3">
+            <form action="{{ url_for('admin_equipamiento') }}" method="POST" class="row g-3">
+                <input type="hidden" name="action" value="register">
                 <div class="col-md-6">
                     <input type="text" class="form-control bg-dark text-white border-secondary" name="tipo" placeholder="Ej: Pelotas, Chalecos, Conos" required>
                 </div>
@@ -32,7 +33,7 @@
                         <th class="border-secondary py-3">Descripción del Ítem</th>
                         <th class="border-secondary py-3">Cantidad Disponible</th>
                         <th class="border-secondary py-3">Estado</th>
-                        <th class="border-secondary py-3">Acciones</th>
+                        <th class="border-secondary py-3" colspan="3">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,7 +50,22 @@
                             {% endif %}
                         </td>
                         <td class="py-3 border-secondary">
-                            <button class="btn btn-sm btn-outline-info">Modificar Stock</button>
+                            <a href="{{ url_for('equipamiento_compras') }}" class="btn btn-sm btn-outline-warning fw-bold" style="font-family: 'Orbitron', sans-serif; font-size: 0.7rem; letter-spacing: 0.5px;">INFO COMPRA</a>
+                        </td>
+                        <td class="py-3 border-secondary">
+                            <form action="{{ url_for('admin_equipamiento') }}" method="POST" class="d-flex gap-2">
+                                <input type="hidden" name="action" value="modify_stock">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <input type="number" name="nueva_cantidad" value="{{ item.cantidad }}" min="0" class="form-control form-control-sm bg-dark text-white border-secondary" style="width: 80px;">
+                                <button type="submit" class="btn btn-sm btn-outline-info fw-bold" style="font-family: 'Orbitron', sans-serif; font-size: 0.7rem; letter-spacing: 0.5px;">MODIFICAR</button>
+                            </form>
+                        </td>
+                        <td class="py-3 border-secondary">
+                            <form action="{{ url_for('admin_equipamiento') }}" method="POST" onsubmit="return confirm('¿Eliminar {{ item.tipo }}?');">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-sm btn-outline-danger fw-bold" style="font-family: 'Orbitron', sans-serif; font-size: 0.7rem; letter-spacing: 0.5px;"><i class="bi bi-trash me-1"></i>ELIMINAR</button>
+                            </form>
                         </td>
                     </tr>
                     {% endfor %}

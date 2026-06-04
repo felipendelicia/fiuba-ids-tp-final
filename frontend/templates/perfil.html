@@ -27,16 +27,6 @@
             <span class="stat-label">Partidas Jugadas</span>
             <span class="stat-value">157</span>
         </div>
-        <div class="stat-box">
-            <i class="fas fa-trophy icon-ganadas"></i>
-            <span class="stat-label">Partidas Ganadas</span>
-            <span class="stat-value">92</span>
-        </div>
-        <div class="stat-box">
-            <i class="fas fa-chart-line icon-kdr"></i>
-            <span class="stat-label">Ratio Bajas/Muerte</span>
-            <span class="stat-value">1.85</span>
-        </div>
     </div>
 
     <div class="perfil-tabs">
@@ -49,22 +39,24 @@
 
         <div id="mapas" class="tab-seccion active">
             <div class="grid-mapas-favoritos">
-                <div class="mini-tarjeta-mapa">
-                    <img src="../static/img/nuketown.jpg" alt="Nuketown">
-                    <span>Nuketown</span>
-                </div>
-                <div class="mini-tarjeta-mapa">
-                    <img src="../static/img/hijacked.jpg" alt="Hijacked">
-                    <span>Hijacked</span>
-                </div>
-                <div class="mini-tarjeta-mapa">
-                    <img src="../static/img/mirage.jpg" alt="Mirage">
-                    <span>Mirage</span>
-                </div>
-                <div class="mini-tarjeta-mapa">
-                    <img src="../static/img/terminal.jpg" alt="Terminal">
-                    <span>Terminal</span>
-                </div>
+                {% set mapas_info = {'nuketown': 'Nuketown', 'mirage': 'Mirage', 'hijacked': 'Hijacked', 'terminal': 'Terminal'} %}
+                {% for nombre, titulo in mapas_info.items() %}
+                    {% if nombre in favoritos %}
+                    <div class="mini-tarjeta-mapa">
+                        <a href="{{ url_for('quitar_favorito', nombre_mapa=nombre) }}" class="favorito-remove">&times;</a>
+                        <a href="{{ url_for('info_mapa', nombre_mapa=nombre) }}">
+                            <img src="{{ url_for('static', filename='img/' + nombre + '.jpg') }}" alt="{{ titulo }}">
+                        </a>
+                        <span>{{ titulo }}</span>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                {% if favoritos|length < 4 %}
+                <a href="{{ url_for('perfil_favoritos') }}" class="mini-tarjeta-mapa agregar-favorito">
+                    <div class="agregar-icono">+</div>
+                    <span>Agregar mapa</span>
+                </a>
+                {% endif %}
             </div>
         </div>
 

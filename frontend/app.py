@@ -67,18 +67,21 @@ def login_sesion():
             if recuerdame:
                 session.permanent = True
             session['usuario'] = usuario_existente
+            session['favoritos'] = []
             return redirect(url_for('perfil'))
 
         elif email == usuario_nuevo["email"] and password == usuario_nuevo["password"]:
             if recuerdame:
                 session.permanent = True
             session['usuario'] = usuario_nuevo
+            session['favoritos'] = []
             return redirect(url_for('perfil'))
 
         elif email == usuario_admin["email"] and password == usuario_admin["password"]:
             if recuerdame:
                 session.permanent = True
             session['usuario'] = usuario_admin
+            session['favoritos'] = []
             return redirect(url_for('perfil'))
         else:
             flash("Usuario o contraseña inválidos.", "warning")
@@ -159,7 +162,35 @@ def perfil():
     usuario = session.get('usuario')
     if not usuario:
         return redirect(url_for('login_sesion'))
-    return render_template('perfil.html', usuario=usuario) 
+    favoritos = session.get('favoritos', [])
+    return render_template('perfil.html', usuario=usuario, favoritos=favoritos)
+
+@app.route('/perfil/favoritos')
+def perfil_favoritos():
+    usuario = session.get('usuario')
+    if not usuario:
+        return redirect(url_for('login_sesion'))
+    favoritos = session.get('favoritos', [])
+    return render_template('perfil_favoritos.html', usuario=usuario, favoritos=favoritos)
+
+@app.route('/perfil/favoritos/agregar/<nombre_mapa>')
+def agregar_favorito(nombre_mapa):
+    mapas_validos = {'nuketown', 'mirage', 'hijacked', 'terminal'}
+    if nombre_mapa not in mapas_validos:
+        return redirect(url_for('perfil_favoritos'))
+    favoritos = session.get('favoritos', [])
+    if nombre_mapa not in favoritos and len(favoritos) < 4:
+        favoritos.append(nombre_mapa)
+        session['favoritos'] = favoritos
+    return redirect(url_for('perfil'))
+
+@app.route('/perfil/favoritos/quitar/<nombre_mapa>')
+def quitar_favorito(nombre_mapa):
+    favoritos = session.get('favoritos', [])
+    if nombre_mapa in favoritos:
+        favoritos.remove(nombre_mapa)
+        session['favoritos'] = favoritos
+    return redirect(url_for('perfil'))
 
 # 7. Ruta para la página Reservas de Campos
 @app.route("/reservas")
@@ -537,19 +568,43 @@ def equipamiento_armas():
     return render_template('equipamiento_armas.html', usuario=session.get('usuario'))
 
 # 19. Ruta para la página de Equipamientos - Pelotas y Pecheras
+equipamiento_db = [
+    {"id": 1, "tipo": "Pelota de Fútbol 5", "cantidad": 10},
+    {"id": 2, "tipo": "Pecheras (Set x 5)", "cantidad": 8},
+]
+next_equipamiento_id = 3
+
 @app.route('/admin_equipamiento', methods=['GET', 'POST'])
 def admin_equipamiento():
-    equipamiento_db = [
-        {"id": 1, "tipo": "Pelota de Fútbol 5", "cantidad": 10},
-        {"id": 2, "tipo": "Pecheras (Set x 5)", "cantidad": 8},
-    ]
+    global next_equipamiento_id
     if request.method == "POST":
-        tipo = request.form.get("tipo")
-        cantidad = int(request.form.get("cantidad"))
-        nuevo_id = len(equipamiento_db) + 1
-        equipamiento_db.append({"id": nuevo_id, "tipo": tipo, "cantidad": cantidad})
-        return render_template('admin_equipamiento.html', equipamiento=equipamiento_db, usuario=session.get('usuario'))
+        action = request.form.get("action")
+        if action == "register":
+            tipo = request.form.get("tipo")
+            cantidad = int(request.form.get("cantidad"))
+            equipamiento_db.append({"id": next_equipamiento_id, "tipo": tipo, "cantidad": cantidad})
+            next_equipamiento_id += 1
+        elif action == "modify_stock":
+            item_id = int(request.form.get("item_id"))
+            nueva_cantidad = int(request.form.get("nueva_cantidad"))
+            for item in equipamiento_db:
+                if item["id"] == item_id:
+                    item["cantidad"] = nueva_cantidad
+                    break
+        elif action == "delete":
+            item_id = int(request.form.get("item_id"))
+            for i, item in enumerate(equipamiento_db):
+                if item["id"] == item_id:
+                    equipamiento_db.pop(i)
+                    break
+            for i, item in enumerate(equipamiento_db):
+                item["id"] = i + 1
+            next_equipamiento_id = len(equipamiento_db) + 1
     return render_template('admin_equipamiento.html', equipamiento=equipamiento_db, usuario=session.get('usuario'))
+
+@app.route('/admin_equipamiento/compras')
+def equipamiento_compras():
+    return render_template('equipamiento_compras.html', equipamiento=equipamiento_db, usuario=session.get('usuario'))
 # 20. Ruta para la página de Equipamientos - Chalecos
 @app.route('/equipamientoinfo/chaleco')
 def equipamiento_chaleco():

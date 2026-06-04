@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Airsoft - Agregar Favoritos{% endblock %}
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/perfil.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="contenedor-perfil">
+    <div class="perfil-header">
+        <h1 class="usuario-nombre" style="font-size: 1.5rem;">Seleccioná un mapa para agregarlo a favoritos</h1>
+    </div>
+
+    <div style="max-width: 900px; margin: 0 auto; padding: 0 1rem;">
+        <div class="grid-mapas-favoritos" style="grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+            {% set mapas_info = {'nuketown': 'Nuketown', 'mirage': 'Mirage', 'hijacked': 'Hijacked', 'terminal': 'Terminal'} %}
+            {% for nombre, titulo in mapas_info.items() %}
+                {% if nombre not in favoritos %}
+                <a href="{{ url_for('agregar_favorito', nombre_mapa=nombre) }}" class="mini-tarjeta-mapa" style="text-decoration: none; display: block; min-height: 220px;">
+                    <img src="{{ url_for('static', filename='img/' + nombre + '.jpg') }}" alt="{{ titulo }}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6; display: block;">
+                    <span style="position: absolute; bottom: 0.5rem; left: 0.5rem; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 600; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); letter-spacing: 1px;">{{ titulo }}</span>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 48px; color: #00f2fe; opacity: 0.8; text-shadow: 0 0 20px rgba(0,242,254,0.5);">+</div>
+                </a>
+                {% endif %}
+            {% endfor %}
+            {% if favoritos|length == 4 %}
+            <div class="mini-tarjeta-mapa agregar-favorito" style="grid-column: 1 / -1; min-height: 180px;">
+                <div class="agregar-icono" style="font-size: 24px;">¡Ya tenés 4 mapas favoritos!</div>
+                <span style="color: #4a5568; font-size: 0.85rem;">Eliminá uno desde tu perfil para agregar otro.</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('perfil') }}" class="btn btn-outline-info fw-bold px-4" style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; letter-spacing: 1px;"><i class="bi bi-arrow-left me-2"></i>VOLVER AL PERFIL</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

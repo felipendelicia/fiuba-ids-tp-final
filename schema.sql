@@ -80,7 +80,7 @@ INSERT IGNORE INTO Maps (name, description) VALUES
 ('Terminal', 'Mapa ambientado en un aeropuerto');
 
 INSERT IGNORE INTO Accounts (id, name, username, email, password, dni, phone, about_me, created_at, updated_at, is_active, is_admin)
-VALUES (1, 'Juan Perez', 'juanperez', 'juanperez@email.com', '123456', '12345678', '123456789', 'Jugador de airsoft', NOW(), NOW(), TRUE, FALSE);
+VALUES (1, 'Juan Perez', 'juanperez', 'juanperez@email.com', '123456', '12345678', '123456789', 'Jugador de airsoft', NOW(), NOW(), TRUE, TRUE);
 
 
 CREATE TABLE IF NOT EXISTS Review (

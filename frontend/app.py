@@ -617,12 +617,77 @@ def api_dashboard_data():
         "total_slots": MAX_RESERVAS_POR_DIA,
     }
 # 13. Ruta para la página de Sala Privada
-@app.route("/lobby-privada")
+@app.route("/lobby-privada", methods=['GET', 'POST'])
 def lobby_privada():
     usuario = session.get('usuario')
     if not usuario:
         flash("Debes iniciar sesión para acceder a la sala privada.", "warning")
         return redirect(url_for('login_sesion'))
+
+    if request.method == 'POST':
+        game_mode_id = request.form.get("modalidad")
+        map_id = request.form.get("campo")
+        equipment_kit_id = request.form.get("pack")
+        reservation_date = request.form.get("fecha")
+        turno = request.form.get("turno")
+        precio = request.form.get("precio")
+
+        slot_map = {
+            'cs': ('05:00:00', '07:00:00'),
+            'so': ('07:00:00', '09:00:00'),
+            'nd': ('09:00:00', '11:00:00'),
+            'od': ('11:00:00', '13:00:00'),
+            'tc': ('13:00:00', '15:00:00'),
+            'qs': ('15:00:00', '17:00:00'),
+            'do': ('17:00:00', '19:00:00'),
+            'dv': ('19:00:00', '21:00:00'),
+        }
+
+        if not all([game_mode_id, map_id, equipment_kit_id, reservation_date, turno, precio]):
+            flash("Completá todos los campos.", "warning")
+            return redirect(url_for('lobby_privada'))
+
+        start_time, end_time = slot_map.get(turno, (None, None))
+        if not start_time:
+            flash("Seleccioná un turno válido.", "warning")
+            return redirect(url_for('lobby_privada'))
+
+        kit_map = {'basico': 1}
+        kit_id = kit_map.get(equipment_kit_id)
+        if not kit_id:
+            flash("Seleccioná un pack de equipamiento válido.", "warning")
+            return redirect(url_for('lobby_privada'))
+
+        payload = {
+            "account_id": int(usuario["id"]),
+            "map_id": int(map_id),
+            "equipment_kit_id": kit_id,
+            "price": int(precio),
+            "reservation_date": reservation_date,
+            "start_time": start_time,
+            "end_time": end_time,
+        }
+        headers = {"Authorization": f"Bearer {usuario.get('token')}"}
+
+        try:
+            resp = requests.post(f"{BACKEND_URL}/reservations/{game_mode_id}", json=payload, headers=headers, timeout=5)
+        except requests.RequestException:
+            flash("No se pudo conectar con el servidor.", "warning")
+            return redirect(url_for('lobby_privada'))
+
+        if resp.status_code == 200:
+            return redirect(url_for('mensaje_crea_sala_privada'))
+        elif resp.status_code == 401:
+            flash("Tu sesión expiró. Volvé a iniciar sesión.", "warning")
+            return redirect(url_for('login_sesion'))
+        else:
+            try:
+                msg = resp.json().get("message", "No se pudo completar la reserva.")
+            except Exception:
+                msg = "No se pudo completar la reserva."
+            flash(msg, "warning")
+            return redirect(url_for('lobby_privada'))
+
     from datetime import timedelta
     import calendar as calmod
     hoy = date.today()

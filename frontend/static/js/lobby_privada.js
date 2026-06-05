@@ -45,6 +45,7 @@ function buildCalendar(month, year) {
         el.addEventListener('click', function(e) {
             var date = this.getAttribute('data-date');
             selectedDate = date;
+            document.getElementById('inputFecha').value = date;
             document.querySelectorAll('#calendarDays .day-selected, #calendarDays .day-today').forEach(function(x) {
                 x.classList.remove('day-selected', 'day-today');
             });
@@ -60,7 +61,7 @@ function seleccionarTurno(el, slotId) {
         x.classList.remove('seleccionado');
     });
     el.classList.add('seleccionado');
-    document.getElementById('turnoSeleccionado').value = slotId;
+    document.getElementById('inputTurno').value = slotId;
 }
 
 function cargarTurnos(fecha) {
@@ -70,7 +71,7 @@ function cargarTurnos(fecha) {
 
     loading.classList.remove('d-none');
     container.classList.add('d-none');
-    document.getElementById('turnoSeleccionado').value = '';
+    document.getElementById('inputTurno').value = '';
 
     fetch('/api/turnos-disponibles?date=' + fecha)
         .then(function(r) { return r.json(); })
@@ -104,6 +105,7 @@ function calcularTotal() {
     var pack = document.getElementById('pack').value;
     var total = (preciosModalidad[mod] || 0) + (preciosCampo[campo] || 0) + (preciosPack[pack] || 0);
     document.getElementById('precioTotal').textContent = '$' + total.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    document.getElementById('inputPrecio').value = total;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -125,9 +127,17 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedDate = null;
     });
 
+    document.getElementById('reservaForm').addEventListener('submit', function(e) {
+        if (!document.getElementById('inputFecha').value || !document.getElementById('inputTurno').value) {
+            e.preventDefault();
+            alert('Seleccioná una fecha y un turno antes de confirmar.');
+        }
+    });
+
     var todayEl = document.querySelector('#calendarDays .day-today');
     if (todayEl) {
         selectedDate = todayEl.getAttribute('data-date');
+        document.getElementById('inputFecha').value = selectedDate;
         todayEl.classList.add('day-selected');
         cargarTurnos(selectedDate);
     }

@@ -34,6 +34,13 @@
     justify-content: center;
 }
 
+#reservaForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .reserva-title {
     font-family: 'Orbitron', 'Arial Black', sans-serif;
     font-size: 32px;
@@ -260,7 +267,8 @@
     text-align: center;
 }
 
-.reservar a {
+.reservar a,
+.reservar button {
     display: block;
     width: 100%;
     padding: 15px;
@@ -273,11 +281,14 @@
     text-decoration: none;
     background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
     border-radius: 8px;
+    border: none;
+    cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.reservar a:hover {
+.reservar a:hover,
+.reservar button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
     color: #0b0d0f;

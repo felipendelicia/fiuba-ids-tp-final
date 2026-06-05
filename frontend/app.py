@@ -568,7 +568,7 @@ def api_dashboard_data():
         "total_slots": MAX_RESERVAS_POR_DIA,
     }
 # 13. Ruta para la página de Sala Privada
-@app.route("/lobby-privada")
+@app.route("/lobby-privada", methods= ['GET', 'POST'])
 def lobby_privada():
   usuario= session.get('usuario')
     if not usuario:
@@ -599,9 +599,8 @@ def lobby_privada():
                 "mode": mode,
                 "price": price
                 }
-        headers= {"Authorization": f"Bearer {usuario.get('token')}"}
         try:
-            resp = requests.post(f"{BACKEND_URL}/reservations/", json=payload, headers=headers, timeout=5)
+            resp = requests.post(f"{BACKEND_URL}/reservations/", json=payload, timeout=5)
             
             if resp.status_code == 200:
                 return redirect(url_for('mensaje_crea_sala_privada'))

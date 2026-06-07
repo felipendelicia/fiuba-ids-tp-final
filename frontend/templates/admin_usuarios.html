@@ -12,45 +12,6 @@
     <div class="container-gestionUsuarios">
         <div class="admin-usuarios-grid">
             {% for usuariolist in usuarios %}
-                {% if usuariolist.is_admin == 1 %}
-                <div class="admin-usuario-card">
-                    <i class="fa fa-user admin-usuario-admin-icon"></i>
-                    <div class="admin-usuario">
-                        <ul class="admin-usuario-name">
-                            <li>NUMERO DE INDENTIFICACIÓN: <span class="admin-usuario-info">{{usuariolist.id}}</span></li>
-                            <li>NOMBRE: <span class="admin-usuario-info">{{usuariolist.name}}</span></li>
-                            <li>NOMBRE DE USUARIO:  <span class="admin-usuario-info">{{usuariolist.username}}</span></li>
-                            <li>DNI <span class="admin-usuario-info">{{usuariolist.dni}}</span></li>
-                            <li>CORREO <span class="admin-usuario-info">{{usuariolist.email}}</span></li>
-                            <li>TELÉFONO <span class="admin-usuario-info">{{usuariolist.phone}}</span></li>
-                            <li>ACERCA DEL USUARIO: <span class="admin-usuario-info">{{usuariolist.about_me}}</span></li>
-                            <li>FECHA DE CREACION DE CUENTA: <span class="admin-usuario-info">{{usuariolist.creadted_at}}</span></li>
-                            <li>ELO: <span class="admin-usuario-info">{{usuariolist.elo}}</span></li>
-                            <li>ADMINISTRADOR:
-                                <span class="admin-usuario-info">
-                                    {% if usuario.is_admin == 1%}
-                                        Si 
-                                    {% else %}
-                                        No
-                                    {% endif %}
-                                </span>
-                            </li>
-                            <li>GENERO:<span class="admin-usuario-info">{{usuariolist.gender}}</span></li>
-                            <li>ULTIMA ACTUALIZACIÓN: <span class="admin-usuario-info">{{usuariolist.updated_at}}</span></li>
-                            <li>ESTADO DE CUENTA: 
-                                {% if usuariolist.is_active == 1 %}
-                                <span class="admin-usuario-info">Activo</span>
-                                {% else %}
-                                <span class="admin-usuario-info">No activo</span>
-                                {% endif %}
-                            </li>
-                        </ul>    
-                        <a href="" class="admin-usuario-edit">Editar</a>
-                        <a href="" class="usuarios-desactivar">Desativar cuenta</a>
-                    </div>
-                </div>
-                {% endif %}
-                {% if usuariolist.is_admin == 0 %}
                 <div class="admin-usuario-card">
                     <i class="fa fa-user admin-usuario-hombre-icon"></i>
                     <div class="hombre-usuario">
@@ -66,7 +27,7 @@
                             <li>ELO: <span class="admin-usuario-info">{{usuariolist.elo}}</span></li>
                             <li>ADMINISTRADOR:
                                 <span class="admin-usuario-info">
-                                    {% if usuario.is_admin == 0 %} 
+                                    {% if usuariolist.is_admin == 1 %} 
                                         Si 
                                     {% else %} 
                                         No
@@ -83,50 +44,9 @@
                                 {% endif %}
                             </li>
                         </ul>
-                        <a href="" class="hombre-usuario-edit">Editar</a>
-                        <a href="" class="usuarios-desactivar">Desativar cuenta</a>
-                        
+                        <a href="{{ url_for('admin_usuarios_editar', id_usuario_edit=usuariolist.id)}}" class="hombre-usuario-edit">Editar</a>
                     </div>
                 </div>
-                {% endif %}
-                {% if usuariolist.isdmin == 0 and usuario.gender == "FEMENINO" %}
-                <div class="admin-usuario-card">
-                    <i class="fa fa-user admin-usuario-mujer-icon"></i>
-                    <div class="mujer-usuario">
-                        <ul class="mujer-usuario-name">
-                            <li>NÚMERO DE INDENTIFICACIÓN: <span class="admin-usuario-info">{{usuario.id}}</span></li>
-                            <li>NOMBRE: <span class="admin-usuario-info">{{usuario.name}}</span></li>
-                            <li>NOMBRE DE USUARIO:  <span class="admin-usuario-info">LULIAS</span></li>
-                            <li>DNI <span class="admin-usuario-info">{{usuario.dni}}</span></li>
-                            <li>CORREO: <span class="admin-usuario-info">{{usuario.email}}</span></li>
-                            <li>TELÉFONO: <span class="admin-usuario-info">{{usuario.phone}}</span></li>
-                            <li>ACERCA DEL USUARIO: <span class="admin-usuario-info">{{usuario.about_me}}</span></li>
-                            <li>FECHA DE CREACIÓN DE CUENTA: <span class="admin-usuario-info">{{usuario.creadted_at}}</span></li>
-                            <li>ELO: <span class="admin-usuario-info">{{usuario.elo}}</span></li>
-                            <li>ADMINISTRADOR:
-                                <span class="admin-usuario-info">
-                                    {% if usuario.is_admin == 0%} 
-                                        Si 
-                                    {% else %} 
-                                        No
-                                    {% endif %}
-                                </span>
-                            </li>
-                            <li>GÉNERO:<span class="admin-usuario-info">{{usuario.gender}}</span></li>
-                            <li>ULTIMA ACTUALIZACIÓN: <span class="admin-usuario-info">{{usuario.updated_at}}</span></li>
-                            <li>ESTADO DE CUENTA:
-                                {% if usuariolist.is_active == 1 %}
-                                <span class="admin-usuario-info">Activo</span>
-                                {% else %}
-                                <span class="admin-usuario-info">No activo</span>
-                                {% endif %}
-                            </li>
-                        </ul>                    
-                        <a href="" class="mujer-usuario-edit">Editar</a>
-                        <a href="" class="usuarios-desactivar">Desativar cuenta</a>
-                    </div>
-                </div>
-                {% endif %}
             {% endfor %}
         </div>
     </div>

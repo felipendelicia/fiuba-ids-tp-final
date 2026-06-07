@@ -475,10 +475,9 @@
     background-size: 20px 20px;
     display: flex;
     flex-direction: column;
-    margin-top: 0rem;
     align-items: center;
-    justify-content: center;
-    height: 93vh;
+    min-height: 100vh;
+    padding: 5rem 0 2rem;
     font-family: 'Orbitron', sans-serif;
 }
 .container-gestionUsuarios{
@@ -508,6 +507,8 @@
     gap: 0.5rem;
     text-decoration: none !important;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    max-width: 700px;
+    justify-self: center;
 }
 .admin-usuario-admin-icon{
     font-size: 8rem;
@@ -517,14 +518,7 @@
     background-clip: text;
     margin-bottom: 0.3rem;
 }
-.admin-usuario-mujer-icon{
-    font-size: 8rem;
-    background: linear-gradient(180deg, #e228ff, #ff00d9);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.3rem;
-}
+
 .admin-usuario-hombre-icon{
     font-size: 8rem;
     background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
@@ -541,99 +535,110 @@
     border: 1px solid rgba(79, 172, 254, 0.488);
     border-radius: 1rem;
 }
-.mujer-usuario{
-    display: flex;
-    flex-flow: column;
-    text-align: start;
-    border: 1px solid #e228ff8a;;
-    padding: 2rem 0.5rem;
-    border-radius: 1rem;
-}
 .admin-usuario{
     display: flex;
     flex-flow: column;
     text-align: start;
-    padding: 2rem 0.5rem;
+    padding: 2rem 1.5rem;
     border: 1px solid #ff9800d9;
     border-radius: 1rem;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.hombre-usuario-name {
+    color: #00f1fe;
+    margin: 2px 0px;
+    padding: 0;
+    list-style: none;
+}
+.hombre-usuario-name li {
+    color: #00f1fe;
+    padding: 5px 0;
+}
+.hombre-usuario-name li:last-child {
+    border-bottom: none;
+}
+.admin-usuario-info{
+    color: #b0e0ff;
+    margin: 2px 0px;
 }
 .admin-usuario-name{
     color: #ff9800;
-    margin: 2px 0px;
-}
-.mujer-usuario-name{
-    color: #e228ff;
-    margin: 2px 0px;
-}
-.hombre-usuario-name{
-    color: #00f1fe;
-    margin: 2px 0px;
-}
-.admin-usuario-info{
-    color: white;
-    margin: 2px 0px;
+    margin: 2px 10px;
+    list-style: none;
+    padding: 0;
 }
 .admin-usuario-edit{
+    background: transparent;
+    border: 1.5px solid #ff9800;
+    border-radius: 8px;
+    width: 100%;
+    padding: 6px;
+    margin: 6px 0px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    text-decoration-line: none;
+    color: #ff9800;
+    font-weight: 700;
+    font-style: inherit;
+}
+.admin-usuario-edit:hover {
     background: linear-gradient(180deg, #ffca28, #ff9800);
-    border-radius: 8px;
-    width: 100%;
-    padding: 6px;
-    margin: 6px 0px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    text-decoration-line: none;
-    color: black;
-    font-style: inherit;
+    border-color: #ff9800;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 152, 0, 0.5);
+    color: #000;
 }
-.mujer-usuario-edit{
-    background: linear-gradient(180deg, #e228ff, #ff00d9);
-    border-radius: 8px;
-    width: 100%;
-    padding: 6px;
-    margin: 6px 0px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    text-decoration-line: none;
-    color: black;
-    font-style: inherit;
-}
+
 .hombre-usuario-edit{
+    background: transparent;
+    border: 1.5px solid #00f2fe;
+    border-radius: 8px;
+    width: 100%;
+    padding: 6px;
+    margin: 6px 0px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    text-decoration-line: none;
+    color: #00f2fe;
+    font-weight: 700;
+    font-style: inherit;
+}
+.hombre-usuario-edit:hover {
     background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-    border-radius: 8px;
-    width: 100%;
-    padding: 6px;
-    margin: 6px 0px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    text-decoration-line: none;
-    color: black;
-    font-style: inherit;
+    border-color: #00f2fe;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+    color: #000;
 }
+
 .usuarios-desactivar{
-    background: linear-gradient(135deg, #fe6600 0%, #fe4f4f 100%);
+    background: transparent;
+    border: 1.5px solid #fe6600;
     border-radius: 8px;
     width: 100%;
     padding: 6px;
     margin: 6px 0px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.25s ease;
     cursor: pointer;
     display: flex;
     justify-content: center;
     text-decoration-line: none;
-    color: black;
+    color: #fe6600;
+    font-weight: 700;
     font-style: inherit;
 }
-.usuarios-desactivar:hover, .hombre-usuario-edit:hover, .mujer-usuario-edit:hover , .admin-usuario-edit:hover{
-    transform: translateY(-6px);
-    border-color: inherit;
-    box-shadow: 0 8px 30px inherit;
-    color: #000000;
+.usuarios-desactivar:hover {
+    background: linear-gradient(135deg, #fe6600 0%, #fe4f4f 100%);
+    border-color: #fe6600;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(254, 102, 0, 0.5);
+    color: #000;
 }
 @media (max-width: 768px) {
     .container-gestionUsuarios {
@@ -641,8 +646,56 @@
         width: 95%;
     }
     .admin-usuarios-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
     }
 }
 
+.usuarios-editar-div, .usuarios-no-editar-div{
+    display: flex;
+    flex-direction: row;
+}
 
+.usuarios-editar-div label, .usuarios-no-editar-div label{
+    display: ruby;
+    width: auto;
+    padding: 2px;
+}
+
+.usuarios-editar-div input, .usuarios-editar-div select{
+    display: flex;
+    width: 100%;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background-color: transparent;
+    color: white;
+    border: 1px solid transparent;
+}
+.usuarios-no-editar-div input{
+    display: flex;
+    width: 100%;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background-color: transparent;
+    color: #ff9800;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    outline: none;
+}
+.usuarios-editar-div input:hover, .usuarios-editar-div input:focus-visible, .usuarios-editar-div select:focus-visible{
+    border: 1px solid #fe6600;
+    border-radius: 8px;
+}
+.usuarios-editar-div input:focus, .usuarios-editar-div select:focus{
+    outline: none;
+    border: 1px solid #fe6600;
+    border-radius: 8px;
+}
+.admin-usuario-name button{
+    width: 100%;
+    background-color: transparent;
+    border: transparent;
+}

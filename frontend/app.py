@@ -813,7 +813,13 @@ def servicio_estacionamiento():
 def servicio_almacenamiento():
     return render_template('servicio_almacenamiento.html')
 
-# 22. Ruta para la página de Competitivo / Eventos
+# 22. Ruta para la página Sobre Nosotros
+@app.route("/nosotros")
+def nosotros():
+    return render_template('nosotros.html', usuario=session.get('usuario'))
+
+
+# 23. Ruta para la página de Competitivo / Eventos
 @app.route("/competitivo")
 def competitivo():
     return render_template("competitivo.html", usuario=session.get('usuario'))

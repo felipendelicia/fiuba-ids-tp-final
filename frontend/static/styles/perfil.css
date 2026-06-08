@@ -182,6 +182,9 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
 }
+.grid-mapas-favoritos:has(.tarjeta-agregar) .mini-tarjeta-mapa {
+    min-height: 140px;
+}
 
 .mini-tarjeta-mapa {
     background-color: #000;
@@ -287,6 +290,220 @@
     .perfil-tabs {
         flex-wrap: wrap;
     }
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Botón de eliminar favorito (esquina) --- */
+.fav-remove-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #ff4757;
+    border-radius: 50%;
+    color: #ff4757;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: background 0.2s, transform 0.2s;
+}
+.fav-remove-btn:hover {
+    background: #ff4757;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* --- Tarjeta "+" para agregar favoritos --- */
+.tarjeta-agregar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px dashed rgba(79, 172, 254, 0.4);
+    min-height: 140px;
+    transition: border-color 0.3s, background 0.3s;
+}
+.tarjeta-agregar:hover {
+    border-color: #00f2fe;
+    background: rgba(0, 242, 254, 0.05);
+    transform: scale(1.05);
+}
+.icono-mas {
+    font-size: 3rem;
+    color: rgba(79, 172, 254, 0.6);
+    font-weight: 300;
+    line-height: 1;
+    transition: color 0.3s, transform 0.3s;
+}
+.tarjeta-agregar:hover .icono-mas {
+    color: #00f2fe;
+    transform: rotate(90deg);
+}
+
+/* --- Modal de selección de mapas --- */
+.modal-favoritos {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+.modal-favoritos-contenido {
+    background: #0b0d0f;
+    border: 1px solid rgba(79, 172, 254, 0.3);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 700px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 0 40px rgba(0, 242, 254, 0.15);
+}
+.modal-favoritos-contenido .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(79, 172, 254, 0.2);
+    padding-bottom: 1rem;
+}
+.modal-favoritos-contenido .modal-header h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    color: #00f2fe;
+    margin: 0;
+}
+.modal-cerrar {
+    background: none;
+    border: 1px solid rgba(79, 172, 254, 0.3);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    color: #a0aec0;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.modal-cerrar:hover {
+    color: #fff;
+    border-color: #00f2fe;
+    background: rgba(0, 242, 254, 0.1);
+}
+.modal-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+.modal-opcion-mapa {
+    background: rgba(18, 22, 26, 0.8);
+    border: 1px solid rgba(79, 172, 254, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+.modal-opcion-mapa:hover {
+    border-color: #00f2fe;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 242, 254, 0.2);
+}
+.modal-opcion-mapa img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    opacity: 0.7;
+    display: block;
+    transition: opacity 0.3s;
+}
+.modal-opcion-mapa:hover img {
+    opacity: 1;
+}
+.modal-opcion-mapa span {
+    display: block;
+    padding: 0.6rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/* --- Modal de confirmación para eliminar --- */
+.modal-confirm-contenido {
+    background: #0b0d0f;
+    border: 1px solid rgba(255, 71, 87, 0.3);
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(255, 71, 87, 0.15);
+}
+.modal-confirm-contenido .confirm-icono {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+.modal-confirm-contenido h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: #ff4757;
+    font-size: 1.2rem;
+    margin: 0 0 0.8rem 0;
+    letter-spacing: 1px;
+}
+.modal-confirm-contenido p {
+    color: #a0aec0;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+.confirm-botones {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+.btn-confirm-cancelar, .btn-confirm-eliminar {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    padding: 0.7rem 1.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+.btn-confirm-cancelar {
+    background: transparent;
+    border: 1px solid rgba(79, 172, 254, 0.3);
+    color: #a0aec0;
+}
+.btn-confirm-cancelar:hover {
+    border-color: #00f2fe;
+    color: #fff;
+    background: rgba(0, 242, 254, 0.05);
+}
+.btn-confirm-eliminar {
+    background: rgba(255, 71, 87, 0.15);
+    border: 1px solid #ff4757;
+    color: #ff4757;
+}
+.btn-confirm-eliminar:hover {
+    background: #ff4757;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(255, 71, 87, 0.3);
 }
 
 /* ==========================================================================

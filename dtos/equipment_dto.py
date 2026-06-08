@@ -19,12 +19,16 @@ def validate_create_equipment(request):
     name = data.get('name')
     brand = data.get('brand')
     price = data.get('price')
+    quantity = data.get('quantity', 1)
+    purchase_link = data.get('purchase_link')
     if not name or price is None:
         abort(400, 'Campos requeridos: name, price')
     return {
         'name': name.strip(),
         'brand': brand.strip() if brand else None,
         'price': float(price),
+        'quantity': int(quantity),
+        'purchase_link': purchase_link.strip() if purchase_link else None,
     }
 
 
@@ -37,4 +41,6 @@ def build_equipment_response(kit):
         'name': kit['name'],
         'brand': kit.get('brand', ''),
         'price': kit.get('price', 0),
+        'quantity': kit.get('quantity', 1),
+        'purchase_link': kit.get('purchase_link', ''),
     }

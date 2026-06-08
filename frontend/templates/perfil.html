@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Airsoft - Inicio{% endblock %}
+{% block title %}Airsoft - Perfil{% endblock %}
 
 {% block style_extra %}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/perfil.css') }}">
@@ -49,22 +49,18 @@
 
         <div id="mapas" class="tab-seccion active">
             <div class="grid-mapas-favoritos">
+                {% for fav in favoritos %}
                 <div class="mini-tarjeta-mapa">
-                    <img src="../static/img/nuketown.jpg" alt="Nuketown">
-                    <span>Nuketown</span>
+                    <div class="fav-remove-btn" onclick="event.stopPropagation(); eliminarFavorito({{ fav.id }})">✕</div>
+                    <img src="../static/img/{{ fav.name.lower() }}.jpg" alt="{{ fav.name }}" onerror="this.src='../static/img/nuketown.jpg'">
+                    <span>{{ fav.name }}</span>
                 </div>
-                <div class="mini-tarjeta-mapa">
-                    <img src="../static/img/hijacked.jpg" alt="Hijacked">
-                    <span>Hijacked</span>
+                {% endfor %}
+                {% if favoritos|length < 4 %}
+                <div class="mini-tarjeta-mapa tarjeta-agregar" onclick="abrirModalMapas()">
+                    <div class="icono-mas">+</div>
                 </div>
-                <div class="mini-tarjeta-mapa">
-                    <img src="../static/img/mirage.jpg" alt="Mirage">
-                    <span>Mirage</span>
-                </div>
-                <div class="mini-tarjeta-mapa">
-                    <img src="../static/img/terminal.jpg" alt="Terminal">
-                    <span>Terminal</span>
-                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -206,6 +202,35 @@
     </div>
 </div>
 
+<div id="modal-mapas" class="modal-favoritos" style="display:none;">
+    <div class="modal-favoritos-contenido">
+        <div class="modal-header">
+            <h2>Seleccioná un mapa</h2>
+            <button class="modal-cerrar" onclick="cerrarModalMapas()">✕</button>
+        </div>
+        <div class="modal-grid">
+            {% for mapa in mapas %}
+            <div class="modal-opcion-mapa" onclick="agregarFavorito({{ mapa.id }})">
+                <img src="../static/img/{{ mapa.name.lower() }}.jpg" alt="{{ mapa.name }}" onerror="this.src='../static/img/nuketown.jpg'">
+                <span>{{ mapa.name }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div id="modal-confirm-eliminar" class="modal-favoritos" style="display:none;">
+    <div class="modal-confirm-contenido">
+        <div class="confirm-icono">⚠</div>
+        <h3>Eliminar mapa favorito</h3>
+        <p>¿Estás seguro de que querés eliminar este mapa de tus favoritos?</p>
+        <div class="confirm-botones">
+            <button class="btn-confirm-cancelar" onclick="cerrarConfirmEliminar()">Cancelar</button>
+            <button class="btn-confirm-eliminar" onclick="confirmarEliminar()">Eliminar</button>
+        </div>
+    </div>
+</div>
+
 <script>
     const botones = document.querySelectorAll('.tab-btn');
     const secciones = document.querySelectorAll('.tab-seccion');
@@ -218,6 +243,45 @@
             boton.classList.add('active');
             document.querySelector(boton.dataset.target).classList.add('active');
         });
+    });
+
+    function abrirModalMapas() {
+        document.getElementById('modal-mapas').style.display = 'flex';
+    }
+
+    function cerrarModalMapas() {
+        document.getElementById('modal-mapas').style.display = 'none';
+    }
+
+    function agregarFavorito(mapId) {
+        cerrarModalMapas();
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/perfil/favoritos/agregar/' + mapId;
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function eliminarFavorito(mapId) {
+        document.getElementById('modal-confirm-eliminar').dataset.mapId = mapId;
+        document.getElementById('modal-confirm-eliminar').style.display = 'flex';
+    }
+
+    function confirmarEliminar() {
+        const mapId = document.getElementById('modal-confirm-eliminar').dataset.mapId;
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/perfil/favoritos/eliminar/' + mapId;
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function cerrarConfirmEliminar() {
+        document.getElementById('modal-confirm-eliminar').style.display = 'none';
+    }
+
+    document.getElementById('modal-mapas').addEventListener('click', function(e) {
+        if (e.target === this) cerrarModalMapas();
     });
 </script>
 {% endblock %}

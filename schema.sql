@@ -57,13 +57,15 @@ CREATE TABLE IF NOT EXISTS EquipmentKit (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(100) CHARACTER SET utf8mb4 NOT NULL,
 	brand VARCHAR(100),
-	price FLOAT
+	price FLOAT,
+	quantity INT NOT NULL DEFAULT 1,
+	purchase_link VARCHAR(500)
 ) DEFAULT CHARSET=utf8mb4;
 
-INSERT IGNORE INTO EquipmentKit (id, name, brand, price) VALUES
-(1, 'Kit Básico', 'Valken', 2000),
-(2, 'Kit Intermedio', 'Lancer Tactical', 3500),
-(3, 'Kit Profesional', 'G&G Armament', 5000);
+INSERT IGNORE INTO EquipmentKit (id, name, brand, price, quantity) VALUES
+(1, 'Kit Básico', 'Valken', 2000, 10),
+(2, 'Kit Intermedio', 'Lancer Tactical', 3500, 5),
+(3, 'Kit Profesional', 'G&G Armament', 5000, 3);
 
 
 CREATE TABLE IF NOT EXISTS Maps (

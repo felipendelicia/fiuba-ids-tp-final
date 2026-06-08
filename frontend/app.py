@@ -5,7 +5,7 @@ import requests
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 REVIEWS_PER_PAGE = 2
-EQUIP_PER_PAGE = 2
+EQUIP_PER_PAGE = 5
 MAPS_PER_PAGE = 10
 
 try:
@@ -205,7 +205,41 @@ def perfil():
     usuario = session.get('usuario')
     if not usuario:
         return redirect(url_for('login_sesion'))
-    return render_template('perfil.html', usuario=usuario)
+    favoritos = session.get('favoritos', [])
+    mapas = _fetch_maps()
+    return render_template('perfil.html', usuario=usuario, favoritos=favoritos, mapas=mapas)
+
+@app.route('/perfil/favoritos/agregar/<int:map_id>', methods=['POST'])
+def perfil_favoritos_agregar(map_id):
+    usuario = session.get('usuario')
+    if not usuario:
+        return redirect(url_for('login_sesion'))
+    favoritos = session.get('favoritos', [])
+    if len(favoritos) >= 4:
+        flash("Máximo 4 mapas favoritos", "warning")
+        return redirect(url_for('perfil'))
+    if any(fav['id'] == map_id for fav in favoritos):
+        flash("El mapa ya está en favoritos", "warning")
+        return redirect(url_for('perfil'))
+    mapas = _fetch_maps()
+    mapa = next((m for m in mapas if m['id'] == map_id), None)
+    if not mapa:
+        flash("Mapa no encontrado", "warning")
+        return redirect(url_for('perfil'))
+    favoritos.append(mapa)
+    session['favoritos'] = favoritos
+    flash("Mapa agregado a favoritos", "success")
+    return redirect(url_for('perfil'))
+
+@app.route('/perfil/favoritos/eliminar/<int:map_id>', methods=['POST'])
+def perfil_favoritos_eliminar(map_id):
+    usuario = session.get('usuario')
+    if not usuario:
+        return redirect(url_for('login_sesion'))
+    favoritos = session.get('favoritos', [])
+    session['favoritos'] = [f for f in favoritos if f['id'] != map_id]
+    flash("Mapa eliminado de favoritos", "success")
+    return redirect(url_for('perfil'))
 
 @app.route('/perfil/password', methods=['POST'])
 def perfil_password():
@@ -810,6 +844,8 @@ def admin_equipamiento():
             "name": request.form.get("name"),
             "brand": request.form.get("brand"),
             "price": request.form.get("price"),
+            "quantity": request.form.get("quantity", 1),
+            "purchase_link": request.form.get("purchase_link"),
         }
         try:
             resp = requests.post(f"{BACKEND_URL}/equipmentkit/", json=payload, timeout=5)
@@ -837,6 +873,25 @@ def admin_equipamiento():
     return render_template('admin_equipamiento.html', equipamiento=equipamiento,
                            usuario=session.get('usuario'), page=page, total_pages=total_pages)
 
+@app.route('/admin_equipamiento/modificar/<int:kit_id>', methods=['POST'])
+def modificar_equipamiento(kit_id):
+    payload = {
+        "name": request.form.get("name"),
+        "brand": request.form.get("brand"),
+        "price": request.form.get("price"),
+        "quantity": request.form.get("quantity", 1),
+        "purchase_link": request.form.get("purchase_link"),
+    }
+    try:
+        resp = requests.put(f"{BACKEND_URL}/equipmentkit/{kit_id}", json=payload, timeout=5)
+        if resp.status_code == 200:
+            flash("Equipamiento actualizado.", "success")
+        else:
+            flash("No se pudo actualizar el equipamiento.", "warning")
+    except requests.RequestException:
+        flash("No se pudo conectar con el servidor.", "warning")
+    return redirect(url_for('admin_equipamiento'))
+
 @app.route('/admin_equipamiento/eliminar/<int:kit_id>', methods=['POST'])
 def eliminar_equipamiento(kit_id):
     try:
@@ -845,6 +900,47 @@ def eliminar_equipamiento(kit_id):
     except requests.RequestException:
         flash("No se pudo conectar con el servidor.", "warning")
     return redirect(url_for('admin_equipamiento'))
+
+@app.route('/admin_equipamiento/info/<int:kit_id>', methods=['GET', 'POST'])
+def admin_equipamiento_info(kit_id):
+    if request.method == "POST":
+        link = request.form.get("purchase_link")
+        kit = _fetch_equipment_kit(kit_id)
+        if not kit:
+            flash("Equipamiento no encontrado.", "warning")
+            return redirect(url_for('admin_equipamiento'))
+        payload = {
+            "name": kit["name"],
+            "brand": kit["brand"],
+            "price": kit["price"],
+            "quantity": kit["quantity"],
+            "purchase_link": link,
+        }
+        try:
+            resp = requests.put(f"{BACKEND_URL}/equipmentkit/{kit_id}", json=payload, timeout=5)
+            if resp.status_code == 200:
+                flash("Link de compra actualizado.", "success")
+            else:
+                flash("No se pudo actualizar el link.", "warning")
+        except requests.RequestException:
+            flash("No se pudo conectar con el servidor.", "warning")
+        return redirect(url_for('admin_equipamiento_info', kit_id=kit_id))
+
+    kit = _fetch_equipment_kit(kit_id)
+    if not kit:
+        flash("Equipamiento no encontrado.", "warning")
+        return redirect(url_for('admin_equipamiento'))
+    return render_template('admin_equipamiento_info.html', kit=kit,
+                           usuario=session.get('usuario'))
+
+def _fetch_equipment_kit(kit_id):
+    try:
+        resp = requests.get(f"{BACKEND_URL}/equipmentkit/{kit_id}", timeout=5)
+        if resp.status_code == 200:
+            return resp.json().get('equipmentkit')
+    except requests.RequestException:
+        pass
+    return None
 # 20. Ruta para la página de Equipamientos - Chalecos
 @app.route('/equipamientoinfo/chaleco')
 def equipamiento_chaleco():

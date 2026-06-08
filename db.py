@@ -11,6 +11,7 @@ db_config = {
     'password': os.getenv('MYSQL_PASSWORD'),
     'database': os.getenv('MYSQL_DATABASE'),
     'port': int(os.getenv('MYSQL_PORT', 3306)),
+    'charset': 'utf8',
 }
 
 def get_db_connection():

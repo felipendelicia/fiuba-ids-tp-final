@@ -55,10 +55,10 @@ CREATE TABLE IF NOT EXISTS RegisteredPlayers (
 
 CREATE TABLE IF NOT EXISTS EquipmentKit (
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	name VARCHAR(100) NOT NULL,
+	name VARCHAR(100) CHARACTER SET utf8mb4 NOT NULL,
 	brand VARCHAR(100),
 	price FLOAT
-);
+) DEFAULT CHARSET=utf8mb4;
 
 INSERT IGNORE INTO EquipmentKit (id, name, brand, price) VALUES
 (1, 'Kit Básico', 'Valken', 2000),
@@ -69,9 +69,9 @@ INSERT IGNORE INTO EquipmentKit (id, name, brand, price) VALUES
 CREATE TABLE IF NOT EXISTS Maps (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	image_url VARCHAR(100),
-	name VARCHAR(100) UNIQUE,
-	description VARCHAR(900)
-);
+	name VARCHAR(100) CHARACTER SET utf8mb4 UNIQUE,
+	description VARCHAR(900) CHARACTER SET utf8mb4
+) DEFAULT CHARSET=utf8mb4;
 
 INSERT IGNORE INTO Maps (name, description) VALUES
 ('Nuketown', 'Mapa clásico de combate urbano'),
@@ -95,11 +95,11 @@ CREATE TABLE IF NOT EXISTS Review (
 
 CREATE TABLE IF NOT EXISTS GameModes (
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	name VARCHAR(75) NOT NULL,
+	name VARCHAR(75) CHARACTER SET utf8mb4 NOT NULL,
 	duration ENUM('30', '60', '90', '120') NOT NULL,
 	players INT NOT NULL,
 	updated_at DATE
-);
+) DEFAULT CHARSET=utf8mb4;
 
 INSERT IGNORE INTO GameModes (name, duration, players) VALUES
 ('Todos vs Todos', '60', 20),

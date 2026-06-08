@@ -577,6 +577,69 @@ def api_dashboard_data():
         "total_ocupadas": total_ocupadas,
         "total_slots": MAX_RESERVAS_POR_DIA,
     }
+
+@app.route("/panel_admin/administrar_usuarios")
+def admin_usuarios():
+    usuario = session.get('usuario')
+    if not usuario:
+        return redirect(url_for('login_sesion'))
+    if not usuario.get("is_admin"):
+        flash("No tenés permisos de administrador", "warning")
+        return redirect(url_for('index'))
+
+    resp = requests.get(f"{BACKEND_URL}/account", timeout=5)
+    if resp.status_code == 200:
+        data = resp.json()
+        listusuarios = data['Listado de Usuarios']
+    else:
+        listusuarios = []
+        flash("No se puedo obtener la lista de los usuarios.", "warning")
+
+    return render_template("admin_usuarios.html", usuario=usuario, usuarios=listusuarios) #pendiente listar-usuarios 
+
+@app.route('/admin_usuario/editar/<int:id_usuario_edit>', methods=['GET', 'POST'])
+def admin_usuarios_editar(id_usuario_edit):
+    usuario = session.get('usuario')
+    if not usuario:
+        return redirect(url_for('login_sesion'))
+    if not usuario.get("is_admin"):
+        flash("No tenés permisos de administrador", "warning")
+        return redirect(url_for('index'))
+
+    resp = requests.get(f"{BACKEND_URL}/account/{id_usuario_edit}", timeout=5)
+    if resp.status_code == 200:
+        usuarios = resp.json()
+        datos_usuario = usuarios['Cuenta']
+    else:
+        usuarios = []
+        flash("No se puedo obtener la lista de los usuarios.", "warning")
+    
+    if request.method == "POST":
+        datos_actualizados = {
+            "username": request.form.get("username"),
+            "email": request.form.get("email"),
+            "elo": request.form.get("elo"),
+            "phone": request.form.get("phone"),
+            "about_me": request.form.get("about_me"), 
+            "password": request.form.get("password") or "",
+            "is_active": int(request.form.get("is_active", 0))
+            }
+        try:
+            resp = requests.patch(f"{BACKEND_URL}/account/{id_usuario_edit}",
+                                json=datos_actualizados, timeout=5)
+            if resp.status_code == 204:
+                flash("Los datos del uaurio fueron actualizados exitosamente.", "success")
+            elif resp.status_code in (401, 403):
+                flash("No autorizado para actualizar datos de usuarios.", "warning")
+            else:
+                flash("No se pudo actualizar los datos del usuario.", "warning")
+        except requests.RequestException:
+            flash("No se pudo conectar con el servidor.", "warning")
+            return redirect(url_for("admin_panel"))
+        return redirect(url_for("admin_panel"))
+
+    return render_template("admin_usuarios_editar.html", id_usuario_edit=id_usuario_edit, usuario=usuario, datos=datos_usuario)
+
 # 13. Ruta para la página de Sala Privada
 @app.route("/lobby-privada", methods=['GET', 'POST'])
 def lobby_privada():

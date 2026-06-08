@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS GameModes (
 ) DEFAULT CHARSET=utf8mb4;
 
 INSERT IGNORE INTO GameModes (name, duration, players) VALUES
-('Todos vs Todos', '60', 20),
-('Captura la bandera', '90', 20),
+('Todos vs Todos', '60', 10),
+('Captura la bandera', '90', 10),
 ('Duelo por equipos', '60', 10),
 ('Rey de la colina', '120', 20);

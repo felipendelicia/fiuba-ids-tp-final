@@ -44,7 +44,9 @@
                 <div class="select-wrapper">
                     <select id="pack" name="pack" required>
                         <option value="" disabled selected hidden>Selecciona tu equipamiento</option>
-                        <option value="basico">Básico</option>
+			{% for k in pack %}
+			<option value="{{ k.id }}" precio="{{ k.price }}">{{ k.name }}</option>
+			{% endfor %}
                     </select>
                 </div>
             </div>

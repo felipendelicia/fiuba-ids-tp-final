@@ -20,22 +20,22 @@
         <div class="stat-box">
             <i class="fas fa-shield-alt icon-miembro"></i>
             <span class="stat-label">Miembro Desde</span>
-            <span class="stat-value">May 2024</span>
+	    <span class="stat-value">{{ usuario.created_at.split(' ')[0] }}</span>
         </div>
         <div class="stat-box">
             <i class="fas fa-crosshairs icon-partidas"></i>
             <span class="stat-label">Partidas Jugadas</span>
-            <span class="stat-value">157</span>
+	    <span class="stat-value">{{ usuario.played_games | default("0") }}</span>
         </div>
         <div class="stat-box">
             <i class="fas fa-trophy icon-ganadas"></i>
-            <span class="stat-label">Partidas Ganadas</span>
-            <span class="stat-value">92</span>
+            <span class="stat-label">Elo</span>
+	    <span class="stat-value">{{ usuario.elo }} </span>
         </div>
         <div class="stat-box">
             <i class="fas fa-chart-line icon-kdr"></i>
-            <span class="stat-label">Ratio Bajas/Muerte</span>
-            <span class="stat-value">1.85</span>
+            <span class="stat-label">Horas De Juego</span>
+	    <span class="stat-value">{{ usuario.hours_played | default("0") }}</span>
         </div>
     </div>
 

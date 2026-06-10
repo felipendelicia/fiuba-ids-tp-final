@@ -75,14 +75,6 @@ def _fetch_gamemodes():
         pass
     return []
 
-def _fetch_equipmentkit():
-    try:
-        resp = requests.get(f"{BACKEND_URL}/equipmentkit/", timeout=5)
-        if resp.status_code == 200:
-            return resp.json().get("equipmentkits", [])
-    except requests.RequestException:
-        pass
-    return []
 
 
 
@@ -655,7 +647,7 @@ def admin_usuarios_editar(id_usuario_edit):
             "elo": request.form.get("elo"),
             "phone": request.form.get("phone"),
             "about_me": request.form.get("about_me"), 
-            "password": request.form.get("password") or "",
+            "password": request.form.get("password") or "", # Acá remover el dato de password (?
             "is_active": int(request.form.get("is_active", 0))
             }
         try:
@@ -772,7 +764,7 @@ def lobby_privada():
                            anio=hoy.year,
                            modalidades=_fetch_gamemodes(),
                            mapas=_fetch_maps(),
-                           pack= _fetch_equipmentkit())
+                           pack= _fetch_equipment_kit())
 
 @app.route("/api/turnos-disponibles")
 def api_turnos_disponibles():

@@ -75,6 +75,15 @@ def _fetch_gamemodes():
         pass
     return []
 
+def _fetch_equipmentkits():
+    try:
+        resp = requests.get(f"{BACKEND_URL}/equipmentkit/", timeout=5)
+        if resp.status_code == 200:
+            return resp.json().get("equipmentkits", [])
+    except requests.RequestException:
+        pass
+    return []
+
 
 
 
@@ -764,7 +773,7 @@ def lobby_privada():
                            anio=hoy.year,
                            modalidades=_fetch_gamemodes(),
                            mapas=_fetch_maps(),
-                           pack= _fetch_equipment_kit())
+                           pack= _fetch_equipmentkits())
 
 @app.route("/api/turnos-disponibles")
 def api_turnos_disponibles():

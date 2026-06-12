@@ -45,6 +45,17 @@
                             </li>
                         </ul>
                         <a href="{{ url_for('admin_usuarios_editar', id_usuario_edit=usuariolist.id)}}" class="hombre-usuario-edit">Editar</a>
+                        <form action="{{ url_for('toggle_usuario_estado') }}" method="POST" style="margin-top: 10px;">
+                            <input type="hidden" name="id_usuario" value="{{ usuariolist.id }}">
+                            <input type="hidden" name="estado_actual" value="{{ usuariolist.is_active }}">
+                            <button type="submit" class="hombre-usuario-toggle {% if usuariolist.is_active == 1 %}activo{% else %}inactivo{% endif %}">
+                                {% if usuariolist.is_active == 1 %}
+                                    Desactivar
+                                {% else %}
+                                    Activar
+                                {% endif %}
+                            </button>
+                        </form>
                     </div>
                 </div>
             {% endfor %}

@@ -617,6 +617,45 @@
     color: #000;
 }
 
+.hombre-usuario-toggle {
+    background: transparent;
+    border: 1.5px solid;
+    border-radius: 8px;
+    width: 100%;
+    padding: 6px;
+    margin: 6px 0px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    font-weight: 700;
+    font-style: inherit;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.hombre-usuario-toggle.activo {
+    border-color: #28a745;
+    color: #28a745;
+}
+
+.hombre-usuario-toggle.activo:hover {
+    background: #28a745;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.hombre-usuario-toggle.inactivo {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.hombre-usuario-toggle.inactivo:hover {
+    background: #dc3545;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+}
+
 .usuarios-desactivar{
     background: transparent;
     border: 1.5px solid #fe6600;

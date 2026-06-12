@@ -632,6 +632,32 @@ def admin_usuarios():
 
     return render_template("admin_usuarios.html", usuario=usuario, usuarios=listusuarios) #pendiente listar-usuarios 
 
+@app.route('/admin_usuario/toggle_estado', methods=['POST'])
+def toggle_usuario_estado():
+    usuario = session.get('usuario')
+    if not usuario or not usuario.get("is_admin"):
+        flash("No tenés permisos de administrador", "warning")
+        return redirect(url_for('index'))
+
+    user_id = request.form.get("id_usuario")
+    estado_actual = int(request.form.get("estado_actual"))
+    if (estado_actual == 1): 
+        nuevo_estado = 0 
+    else:
+        nuevo_estado = 1
+
+    try:
+        resp = requests.patch(f"{BACKEND_URL}/account/{user_id}/toggle_status",
+                            json={"is_active": nuevo_estado}, timeout=5)
+        if resp.status_code == 204:
+            flash("Estado del usuario actualizado.", "success")
+        else:
+            flash("Error al cambiar el estado.", "warnig")
+    except requests.RequestException:
+        flash("No se pudo conectar con el servidor.", "warning")
+
+    return redirect(url_for('admin_usuarios'))
+
 @app.route('/admin_usuario/editar/<int:id_usuario_edit>', methods=['GET', 'POST'])
 def admin_usuarios_editar(id_usuario_edit):
     usuario = session.get('usuario')
@@ -656,7 +682,7 @@ def admin_usuarios_editar(id_usuario_edit):
             "elo": request.form.get("elo"),
             "phone": request.form.get("phone"),
             "about_me": request.form.get("about_me"), 
-            "password": request.form.get("password") or "", # Acá remover el dato de password (?
+            "password": request.form.get("password"),
             "is_active": int(request.form.get("is_active", 0))
             }
         try:

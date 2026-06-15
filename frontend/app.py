@@ -6,6 +6,7 @@ import requests
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 REVIEWS_PER_PAGE = 2
 EQUIP_PER_PAGE = 5
+USUARIOS_PER_PAGE = 4
 MAPS_PER_PAGE = 10
 
 try:
@@ -622,15 +623,25 @@ def admin_usuarios():
         flash("No tenés permisos de administrador", "warning")
         return redirect(url_for('index'))
 
-    resp = requests.get(f"{BACKEND_URL}/account", timeout=5)
-    if resp.status_code == 200:
-        data = resp.json()
-        listusuarios = data['Listado de Usuarios']
-    else:
-        listusuarios = []
-        flash("No se puedo obtener la lista de los usuarios.", "warning")
+    page = max(1, request.args.get('page', 1, type=int))
+    offset = (page - 1) * USUARIOS_PER_PAGE
 
-    return render_template("admin_usuarios.html", usuario=usuario, usuarios=listusuarios) #pendiente listar-usuarios 
+    listusuarios = []
+    total = 0
+    try:
+        resp = requests.get(f"{BACKEND_URL}/account/?_offset={offset}&_limit={USUARIOS_PER_PAGE}", timeout=5)
+        if resp.status_code == 200:
+            data = resp.json()
+            listusuarios = data.get('Listado de Usuarios', [])
+            total = data.get("total", 0)
+        else:
+            flash("No se pudo obtener la lista de los usuarios.", "warning")
+    except requests.RequestException:
+        flash("No se pudo conectar con el servidor.", "warning")
+
+    total_pages = max(1, (total + USUARIOS_PER_PAGE - 1) // USUARIOS_PER_PAGE)
+
+    return render_template("admin_usuarios.html", usuario=usuario, usuarios=listusuarios, page=page, total_pages=total_pages) 
 
 @app.route('/admin_usuario/toggle_estado', methods=['POST'])
 def toggle_usuario_estado():

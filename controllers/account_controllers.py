@@ -1,12 +1,15 @@
 from flask import g, jsonify
+from helpers import build_links
 from dtos.errors import validate_dto
 from dtos.account_dto import (
+    validate_list_accounts,
     validate_update_user,
     validate_toggle_status,
     validate_update_gender,
     validate_update_password,
     build_user_response,
 )
+from dtos.response import build_paginated_response
 from services.account_services import (
     listar_usuarios as listar_usuarios_service,
     obtener_cuenta as obtener_cuenta_service,
@@ -17,9 +20,12 @@ from services.account_services import (
 )
 
 
+@validate_dto(validate_list_accounts)
 def listar_usuarios():
-    usuarios = listar_usuarios_service()
-    return jsonify({'Listado de Usuarios': [build_user_response(u) for u in usuarios]}), 200
+    params = g.dto
+    usuarios, total = listar_usuarios_service(params['limit'], params['offset'])
+    links = build_links(total, params['offset'], params['limit'])
+    return build_paginated_response('Listado de Usuarios', usuarios, total, links, item_builder=build_user_response)
 
 
 def obtener_cuenta(id):

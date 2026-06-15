@@ -2,8 +2,10 @@ from db import execute
 from dtos.errors import abort
 
 
-def listar_usuarios():
-    return execute("SELECT * FROM Accounts")
+def listar_usuarios(limit=10, offset=0):
+    total = execute("SELECT COUNT(*) AS total FROM Accounts")[0]['total']
+    usuarios = execute(f"SELECT * FROM Accounts LIMIT {limit} OFFSET {offset}")
+    return usuarios, total
 
 
 def obtener_cuenta(id):

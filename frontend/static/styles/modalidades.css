@@ -1,0 +1,140 @@
+.modalidades-section {
+    background-color: #0b0d0f;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    padding: 100px 0 80px;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modalidades-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.modalidades-title {
+    font-family: 'Orbitron', 'Arial Black', sans-serif;
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+.modalidades-subtitle {
+    color: #9ca3af;
+    font-size: 16px;
+    margin: 0;
+}
+
+.modalidades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.modalidad-card {
+    background-color: rgba(18, 22, 26, 0.85);
+    border: 1px solid rgba(79, 172, 254, 0.2);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modalidad-card:hover {
+    transform: translateY(-6px);
+    border-color: #00f2fe;
+    box-shadow: 0 10px 30px rgba(0, 242, 254, 0.25);
+}
+
+.modalidad-icon {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 15px;
+}
+
+.modalidad-meta {
+    color: #9ca3af;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.modalidad-meta span + span {
+    margin-left: 20px;
+}
+
+.modalidad-meta i {
+    color: #4facfe;
+    width: 20px;
+}
+
+.modalidad-desc {
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.modalidad-maps-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.modalidad-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.modalidad-card p {
+    color: #a0aec0;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.modalidad-card .badge-info {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.05);
+    color: #6b7280;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.modalidad-card .badge-info:hover {
+    background: rgba(0, 242, 254, 0.1);
+    color: #00f2fe;
+    border-color: rgba(0, 242, 254, 0.3);
+}

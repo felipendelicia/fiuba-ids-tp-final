@@ -1016,6 +1016,10 @@ def nosotros():
     return render_template('nosotros.html', usuario=session.get('usuario'))
 
 
+@app.route("/modalidades")
+def modalidades():
+    return render_template('modalidades.html', modalidades=_fetch_gamemodes(), usuario=session.get('usuario'))
+
 # 23. Ruta para la página de Competitivo / Eventos
 @app.route("/competitivo")
 def competitivo():

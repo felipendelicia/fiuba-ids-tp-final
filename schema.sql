@@ -100,11 +100,26 @@ CREATE TABLE IF NOT EXISTS GameModes (
 	name VARCHAR(75) CHARACTER SET utf8mb4 NOT NULL,
 	duration ENUM('30', '60', '90', '120') NOT NULL,
 	players INT NOT NULL,
+	description TEXT,
 	updated_at DATE
 ) DEFAULT CHARSET=utf8mb4;
 
-INSERT IGNORE INTO GameModes (name, duration, players) VALUES
-('Todos vs Todos', '60', 10),
-('Captura la bandera', '90', 10),
-('Duelo por equipos', '60', 10),
-('Rey de la colina', '120', 20);
+INSERT IGNORE INTO GameModes (name, duration, players, description) VALUES
+('Todos vs Todos', '60', 10, 'Todos los jugadores compiten por sí mismos. El último en pie o el que más eliminaciones consiga gana la partida.'),
+('Captura la bandera', '90', 10, 'Dos equipos compiten por robar la bandera del equipo contrario y llevarla a su base. Coordinación y estrategia son clave.'),
+('Duelo por equipos', '60', 10, 'Combate directo entre dos equipos. Gana el equipo que más bajas realice dentro del tiempo límite.'),
+('Rey de la colina', '120', 20, 'Los equipos luchan por controlar una zona neutral. El equipo que mantenga la posición más tiempo acumulado gana.');
+
+CREATE TABLE IF NOT EXISTS MapGameModes (
+	map_id INT NOT NULL,
+	gamemode_id INT NOT NULL,
+	PRIMARY KEY (map_id, gamemode_id),
+	FOREIGN KEY (map_id) REFERENCES Maps(id),
+	FOREIGN KEY (gamemode_id) REFERENCES GameModes(id)
+) DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO MapGameModes (map_id, gamemode_id) VALUES
+(1, 1), (1, 2), (1, 3),
+(2, 1), (2, 3), (2, 4),
+(3, 2), (3, 3), (3, 4),
+(4, 1), (4, 2), (4, 3), (4, 4);

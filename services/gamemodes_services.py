@@ -43,4 +43,14 @@ def eliminar_game_mode(id):
     gamemode = execute(f"SELECT id FROM GameModes WHERE id = {id}")
     if not gamemode:
         abort(404, 'Gamemode no encontrado')
+    execute(f"DELETE FROM MapGameModes WHERE gamemode_id = {id}")
     execute(f"DELETE FROM GameModes WHERE id = {id}")
+
+
+def reemplazar_mapas_de_modo(gamemode_id, map_ids):
+    gamemode = execute(f"SELECT id FROM GameModes WHERE id = {gamemode_id}")
+    if not gamemode:
+        abort(404, 'Gamemode no encontrado')
+    execute(f"DELETE FROM MapGameModes WHERE gamemode_id = {gamemode_id}")
+    for mid in map_ids:
+        execute(f"INSERT INTO MapGameModes (gamemode_id, map_id) VALUES ({gamemode_id}, {int(mid)})")

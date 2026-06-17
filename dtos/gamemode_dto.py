@@ -33,3 +33,15 @@ def build_gamemode_response(gm):
         'description': gm['description'],
         'maps': gm['maps'],
     }
+
+
+def validate_map_ids(request):
+    data = request.get_json()
+    if not data:
+        abort(400, 'Body requerido')
+    map_ids = data.get('map_ids')
+    if map_ids is None:
+        abort(400, 'Campo requerido: map_ids')
+    if not isinstance(map_ids, list):
+        abort(400, 'map_ids debe ser una lista')
+    return {'map_ids': map_ids}

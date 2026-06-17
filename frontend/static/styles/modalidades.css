@@ -11,9 +11,22 @@
     align-items: center;
 }
 
+.modalidades-section.form-section {
+    justify-content: center;
+    padding: 80px 0;
+}
+
 .modalidades-header {
     text-align: center;
     margin-bottom: 50px;
+}
+
+.modalidades-header.form-header {
+    margin-bottom: 30px;
+}
+
+.modalidades-header.form-header .modalidades-title {
+    margin-bottom: 8px;
 }
 
 .modalidades-title {
@@ -59,6 +72,11 @@
     transform: translateY(-6px);
     border-color: #00f2fe;
     box-shadow: 0 10px 30px rgba(0, 242, 254, 0.25);
+}
+
+.modalidad-wrapper {
+    display: flex;
+    flex-direction: column;
 }
 
 .modalidad-icon {
@@ -137,4 +155,178 @@
     background: rgba(0, 242, 254, 0.1);
     color: #00f2fe;
     border-color: rgba(0, 242, 254, 0.3);
+}
+
+.admin-card-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.card-add {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: 2px dashed rgba(79, 172, 254, 0.3);
+    transition: border-color 0.3s ease, background 0.3s ease;
+    cursor: pointer;
+    min-height: 200px;
+}
+
+.card-add:hover {
+    border-color: #00f2fe;
+    background: rgba(0, 242, 254, 0.05);
+}
+
+.card-add-icon {
+    font-size: 48px;
+    font-weight: 300;
+    color: #4facfe;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.card-add-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #4facfe;
+    margin: 0;
+}
+
+/* ── Formularios admin ── */
+
+.form-container {
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 40px;
+    background: rgba(18, 22, 26, 0.85);
+    border: 1px solid rgba(79, 172, 254, 0.2);
+    border-radius: 12px;
+}
+
+.form-container label {
+    color: #00f2fe;
+    font-size: 12px;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.form-container input,
+.form-container textarea,
+.form-container select {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(79, 172, 254, 0.2);
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-container input:focus,
+.form-container textarea:focus,
+.form-container select:focus {
+    outline: none;
+    border-color: #00f2fe;
+}
+
+.form-container select option {
+    background: #1a1e22;
+    color: #fff;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #0b0d0f;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    opacity: 0.85;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #cbd5e1;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(79, 172, 254, 0.15);
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    accent-color: #4facfe;
+}
+
+.btn-cancel {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.btn-cancel:hover {
+    color: #fff;
+}
+
+.btn-card-edit,
+.btn-card-delete {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 7px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.btn-card-edit {
+    color: #0b0d0f;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+}
+
+.btn-card-delete {
+    color: #fff;
+    background: rgba(239, 68, 68, 0.85);
+}
+
+.btn-card-edit:hover,
+.btn-card-delete:hover {
+    opacity: 0.75;
 }

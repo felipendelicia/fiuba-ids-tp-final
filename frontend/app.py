@@ -1020,6 +1020,80 @@ def nosotros():
 def modalidades():
     return render_template('modalidades.html', modalidades=_fetch_gamemodes(), usuario=session.get('usuario'))
 
+@app.route("/admin/modalidades/crear", methods=['GET', 'POST'])
+def admin_modalidades_crear():
+    usuario = session.get('usuario')
+    if not usuario or not usuario.get('is_admin'):
+        flash("Acceso solo para administradores.", "warning")
+        return redirect(url_for('modalidades'))
+    if request.method == 'POST':
+        name = request.form.get('name')
+        duration = request.form.get('duration')
+        players = request.form.get('players')
+        description = request.form.get('description')
+        try:
+            resp = requests.post(
+                f"{BACKEND_URL}/gamemodes/",
+                json={'name': name, 'duration': duration, 'players': int(players), 'description': description},
+                timeout=5,
+            )
+            if resp.status_code == 201:
+                flash("Modalidad creada exitosamente.", "warning")
+            else:
+                flash("Error al crear la modalidad.", "warning")
+        except requests.RequestException:
+            flash("Error de conexión con el servidor.", "warning")
+        return redirect(url_for('modalidades'))
+    return render_template('admin_modalidades_crear.html', usuario=usuario)
+
+@app.route("/admin/modalidades/editar/<int:id>", methods=['GET', 'POST'])
+def admin_modalidades_editar(id):
+    usuario = session.get('usuario')
+    if not usuario or not usuario.get('is_admin'):
+        flash("Acceso solo para administradores.", "warning")
+        return redirect(url_for('modalidades'))
+    modo = next((m for m in _fetch_gamemodes() if m['id'] == id), None)
+    if not modo:
+        flash("Modalidad no encontrada.", "warning")
+        return redirect(url_for('modalidades'))
+    if request.method == 'POST':
+        name = request.form.get('name')
+        duration = request.form.get('duration')
+        players = request.form.get('players')
+        description = request.form.get('description')
+        try:
+            resp = requests.put(
+                f"{BACKEND_URL}/gamemodes/{id}",
+                json={'name': name, 'duration': duration, 'players': int(players), 'description': description},
+                timeout=5,
+            )
+            if resp.status_code == 200:
+                map_ids = request.form.getlist('map_ids')
+                requests.put(f"{BACKEND_URL}/gamemodes/{id}/maps", json={'map_ids': map_ids}, timeout=5)
+                flash("Modalidad actualizada exitosamente.", "success")
+            else:
+                flash("Error al actualizar la modalidad.", "warning")
+        except requests.RequestException:
+            flash("Error de conexión con el servidor.", "warning")
+        return redirect(url_for('modalidades'))
+    return render_template('admin_modalidades_editar.html', modo=modo, usuario=usuario, mapas=_fetch_maps())
+
+@app.route("/admin/modalidades/eliminar/<int:id>", methods=['POST'])
+def admin_modalidades_eliminar(id):
+    usuario = session.get('usuario')
+    if not usuario or not usuario.get('is_admin'):
+        flash("Acceso solo para administradores.", "warning")
+        return redirect(url_for('modalidades'))
+    try:
+        resp = requests.delete(f"{BACKEND_URL}/gamemodes/{id}", timeout=5)
+        if resp.status_code == 200:
+            flash("Modalidad eliminada exitosamente.", "success")
+        else:
+            flash("Error al eliminar la modalidad.", "warning")
+    except requests.RequestException:
+        flash("Error de conexión con el servidor.", "warning")
+    return redirect(url_for('modalidades'))
+
 # 23. Ruta para la página de Competitivo / Eventos
 @app.route("/competitivo")
 def competitivo():

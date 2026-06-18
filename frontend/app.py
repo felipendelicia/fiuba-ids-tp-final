@@ -484,11 +484,6 @@ def admin_resenias():
     return render_template("admin_resenias.html", resenias=resenias, usuario=usuario,
                            page=page, total_pages=total_pages)
 
-# 10. Ruta para la página de administración de reservas
-@app.route("/admin_reservas")
-def admin_reservas():
-    return render_template('admin_reservas.html', usuario=session.get('usuario'))
-
 # 11. Ruta para la página de Administrador de Servicios
 @app.route('/admin_servicios', methods=['GET', 'POST'])
 def admin_servicios():

@@ -328,4 +328,21 @@
     color: rgba(255, 179, 0, 0.3);
 }
 
+.admin-reservas-panel {
+    background-color: rgba(40, 34, 15, 0.6);
+    border: 2px solid #ffca28;
+    box-shadow: 0 0 20px rgba(255, 202, 40, 0.2);
+}
+
+.admin-panel-title {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
+.admin-crear-btn {
+    background: linear-gradient(135deg, #ffca28 0%, #ff9800 100%);
+    border: none;
+    letter-spacing: 0.5px;
+}
+
 .oculto { display: none; }

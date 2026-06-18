@@ -99,6 +99,22 @@ var preciosModalidad = {'1': 5000, '2': 4500, '3': 4000, '4': 5500};
 var preciosCampo = {'1': 3000, '2': 3500, '3': 4000, '4': 4500};
 //var preciosPack = {'basico': 2000};
 
+function filtrarCampos() {
+    var selectMod = document.getElementById('modalidad');
+    var opcion = selectMod.options[selectMod.selectedIndex];
+    var data = opcion.getAttribute('data-map-ids') || '';
+    var ids = data.split(',').filter(Boolean);
+    var campoSelect = document.getElementById('campo');
+    for (var i = 0; i < campoSelect.options.length; i++) {
+        var opt = campoSelect.options[i];
+        if (ids.indexOf(opt.value) === -1) {
+            opt.classList.add('oculto');
+        } else {
+            opt.classList.remove('oculto');
+        }
+    }
+}
+
 function calcularTotal() {
     var mod = document.getElementById('modalidad').value;
     var campo = document.getElementById('campo').value;
@@ -151,9 +167,9 @@ document.addEventListener('DOMContentLoaded', function() {
         cargarTurnos(selectedDate);
     }
 
-    document.getElementById('modalidad').addEventListener('change', calcularTotal);
+    document.getElementById('modalidad').addEventListener('change', filtrarCampos);
     document.getElementById('campo').addEventListener('change', calcularTotal);
     document.getElementById('pack').addEventListener('change', calcularTotal);
 
-    calcularTotal();
+    filtrarCampos();
 });

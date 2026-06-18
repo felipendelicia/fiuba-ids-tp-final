@@ -21,7 +21,8 @@
                     <select id="modalidad" name="modalidad" required>
                         <option value="" disabled selected hidden>Selecciona una modalidad</option>
                         {% for g in modalidades %}
-                            <option value="{{ g.id }}">{{ g.name }}</option>
+                            {% set ids = g.maps | map(attribute='id') | join(',') %}
+                            <option value="{{ g.id }}" data-map-ids="{{ ids }}">{{ g.name }}</option>
                         {% endfor %}
                     </select>
                 </div>

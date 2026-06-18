@@ -327,3 +327,5 @@
     font-size: 2rem;
     color: rgba(255, 179, 0, 0.3);
 }
+
+.oculto { display: none; }

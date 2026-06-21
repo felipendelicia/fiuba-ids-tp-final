@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Kinetix - Modalidades{% endblock %}
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/modalidades.css') }}">
+{% endblock %}
+{% block content %}
+<section class="modalidades-section">
+    <div class="modalidades-header">
+        <h1 class="modalidades-title">Modalidades</h1>
+        <p class="modalidades-subtitle">Elegí el modo de juego que más se adapte a tu estilo</p>
+    </div>
+    <div class="modalidades-grid">
+        {% for modo in modalidades %}
+        <div class="modalidad-wrapper">
+            <div class="modalidad-card">
+                <div class="modalidad-icon">
+                    {{ modo.name }}
+                </div>
+                <p class="modalidad-meta"><span><i class="fas fa-users"></i> {{ modo.players }} jugadores</span><span><i class="fas fa-clock"></i> {{ modo.duration }} minutos</span></p>
+                <p class="modalidad-desc">{{ modo.description }}</p>
+                <div class="modalidad-maps-container">
+                    {% for mp in modo.maps %}
+                    <a href="{{ url_for('info_mapa', nombre_mapa=mp.name | lower) }}" class="badge-info">{{ mp.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% if usuario and usuario.is_admin %}
+            <div class="admin-card-actions">
+                <a href="{{ url_for('admin_modalidades_editar', id=modo.id) }}" class="btn-card-edit">Editar</a>
+                <form action="{{ url_for('admin_modalidades_eliminar', id=modo.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar {{ modo.name }}?')">
+                    <button type="submit" class="btn-card-delete">Eliminar</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% if usuario and usuario.is_admin %}
+        <a href="{{ url_for('admin_modalidades_crear') }}" class="modalidad-card card-add">
+            <div class="card-add-icon">+</div>
+            <p class="card-add-text">AGREGAR MODALIDAD</p>
+        </a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

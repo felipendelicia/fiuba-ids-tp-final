@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Protección de Rostro{% endblock %}
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/equipamiento.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/casco.css') }}?v=2">
+{% endblock %}
+
+{% block content %}
+<section class="equipamiento-section">
+    <div class="rostro-container">
+        
+        <div class="text-center mb-5">
+            <h1 class="equipamiento-title">SISTEMAS DE PROTECCIÓN FACIAL</h1>
+            <p class="equipamiento-description mx-auto">
+                Blindaje avanzado y optimización de visibilidad. Indumentaria de seguridad certificada para operaciones en entornos de alta densidad de impactos.
+            </p>
+        </div>
+
+        <div class="rostro-grid-card">
+            <div class="rostro-pic-box">
+                <img src="{{ url_for('static', filename='img/casco2.png') }}" alt="Casco Táctico">
+            </div>
+            
+            <div class="rostro-content-box">
+                <div class="rostro-header-meta">
+                    <span class="rostro-sku">MODELO: SATORI-FAST</span>
+                    <span class="rostro-status-online">● HOMOLOGADO</span>
+                </div>
+                <h2 class="rostro-main-title">CASCO TÁCTICO AJUSTABLE</h2>
+                <p class="rostro-body-text">
+                    El Casco Táctico Militar Fast está diseñado para quienes buscan complementar su equipamiento con un accesorio funcional, cómodo y de apariencia profesional. Su diseño táctico moderno ofrece una excelente combinación entre estética y practicidad, siendo ideal para airsoft, entrenamiento recreativo y actividades al aire libre.
+                </p>
+                <div class="rostro-stats-block">
+                    <div class="rostro-stat-row">
+                        <label>ABSORCIÓN DE IMPACTO</label>
+                        <div class="rostro-progress"><div class="rostro-fill" style="width: 95%;"></div></div>
+                    </div>
+                    <div class="rostro-stat-row">
+                        <label>ERGONOMÍA CRANEAL</label>
+                        <div class="rostro-progress"><div class="rostro-fill" style="width: 80%;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rostro-grid-card">
+            <div class="rostro-pic-box">
+                <img src="{{ url_for('static', filename='img/gafas.png') }}" alt="Gafas de Protección">
+            </div>
+            
+            <div class="rostro-content-box">
+                <div class="rostro-header-meta">
+                    <span class="rostro-sku">MODELO: SPECTER-V2</span>
+                    <span class="rostro-status-online">● CRÍTICO</span>
+                </div>
+                <h2 class="rostro-main-title">ANTIPARRAS BALÍSTICAS ALPHA</h2>
+                <p class="rostro-body-text">
+                    Protección ocular absoluta con certificación balística EN166. El marco perimetral de goma sellada suprime los ángulos ciegos contra impactos externos. Integra tecnología micro-estriada de ventilación activa y capas químicas anti-fog que mitigan el empañamiento por transpiración.
+                </p>
+                <div class="rostro-stats-block">
+                    <div class="rostro-stat-row">
+                        <label>PROTECCIÓN BALÍSTICA</label>
+                        <div class="rostro-progress"><div class="rostro-fill" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="rostro-stat-row">
+                        <label>SISTEMA ANTI-EMPAÑANTE</label>
+                        <div class="rostro-progress"><div class="rostro-fill" style="width: 90%;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rostro-grid-card">
+            <div class="rostro-pic-box">
+                <img src="{{ url_for('static', filename='img/pasamontaña.png') }}" alt="Pasamontañas Táctico">
+            </div>
+            
+            <div class="rostro-content-box">
+                <div class="rostro-header-meta">
+                    <span class="rostro-sku">MODELO: SHIELD-DRY</span>
+                    <span class="rostro-status-online">● COMPLEMENTO</span>
+                </div>
+                <h2 class="rostro-main-title">BALACLAVA TÁCTICA ERGONÓMICA</h2>
+                <p class="rostro-body-text">
+                    Capa de aislamiento confeccionada en tejido elástico transpirable (híbrido poliéster/spandex). Protege el cuello y el contorno mandibular contra quemaduras por fricción e impactos menores, actuando además como barrera higiénica absorbente bajo el casco rígico.
+                </p>
+                <div class="rostro-stats-block">
+                    <div class="rostro-stat-row">
+                        <label>TRANSPIRABILIDAD</label>
+                        <div class="rostro-progress"><div class="rostro-fill" style="width: 95%;"></div></div>
+                    </div>
+                    <div class="rostro-stat-row">
+                        <label>PROTECCIÓN TÉRMICA</label>
+                        <div class="rostro-progress"><div class="rostro-fill" style="width: 60%;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

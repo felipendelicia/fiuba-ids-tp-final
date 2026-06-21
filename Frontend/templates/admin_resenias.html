@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Gestión de Reseñas (Admin){% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold" style="font-family: 'Orbitron', 'Arial Black', sans-serif; color: #00d2ff; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0, 210, 255, 0.3);">
+            PANEL DE GESTIÓN: RESEÑAS
+        </h1>
+        <p class="text-white-50">Monitoreá las críticas globales, mapas específicos y respondé con asistencia del sistema.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            
+            {% for reseña in resenias %}
+            
+            <div class="card mb-5 border-0 rounded-3 shadow-lg" 
+                 style="background-color: rgba(20, 22, 25, 0.95); 
+                        /* LÓGICA DINÁMICA: Si tiene 1, 2 o 3 estrellas se pone roja; si tiene 4 o 5 se pone cian */
+                        border-left: 4px solid {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %} !important;">
+                
+                <div class="card-body p-4">
+                    
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h5 class="text-white fw-bold mb-1" style="letter-spacing: 0.5px;">{{ reseña.usuario }}</h5>
+                            <span class="badge bg-dark border {% if reseña.puntuacion < 4 %}border-danger text-danger{% else %}border-info text-info{% endif %} small">
+                                MAPA: {{ reseña.mapa | upper }}
+                            </span>
+                        </div>
+                        <div class="text-end">
+                            <div class="mb-1" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#ffb300{% endif %}; font-size: 1.1rem; letter-spacing: 2px;">
+                                {% for i in range(0, reseña.puntuacion) %}
+                                    ★
+                                {% endfor %}
+                                <span style="opacity: 0.15; color: #fff;">
+                                {% for i in range(reseña.puntuacion, 5) %}
+                                    ★
+                                {% endfor %}
+                                </span>
+                            </div>
+                            <small class="text-white-50">Reciente</small>
+                        </div>
+                    </div>
+
+                    <h4 class="fw-bold mb-2" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %}; font-family: 'Orbitron', sans-serif; font-size: 1.2rem;">
+                        {{ reseña.titulo }}
+                    </h4>
+
+                    <p class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4" style="font-size: 0.95rem; line-height: 1.6;">
+                        "{{ reseña.comentario }}"
+                    </p>
+
+                    <div class="pt-3 border-top border-secondary border-opacity-25 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <span class="badge fs-6 {% if reseña.approved %}bg-success{% else %}bg-secondary{% endif %}">
+                            {% if reseña.approved %}APROBADA{% else %}PENDIENTE{% endif %}
+                        </span>
+                        <div class="d-flex gap-2">
+                            <form method="POST" action="{{ url_for('moderar_resenia', resena_id=reseña.id) }}">
+                                <input type="hidden" name="approved" value="true">
+                                <button type="submit" class="btn btn-success fw-bold px-4" {% if reseña.approved %}disabled{% endif %}>Aprobar</button>
+                            </form>
+                            <form method="POST" action="{{ url_for('moderar_resenia', resena_id=reseña.id) }}">
+                                <input type="hidden" name="approved" value="false">
+                                <button type="submit" class="btn btn-outline-danger fw-bold px-4" {% if not reseña.approved %}disabled{% endif %}>Desaprobar</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            {% else %}
+            <div class="p-5 text-center text-muted rounded-3" style="background-color: rgba(20, 22, 25, 0.95); border: 1px dashed rgba(255,255,255,0.1);">
+                <p class="mb-0">No hay nuevas reseñas cargadas por los usuarios.</p>
+            </div>
+            {% endfor %}
+
+            {% if total_pages > 1 %}
+            <nav class="d-flex justify-content-center align-items-center gap-3 mt-4">
+                <a class="btn btn-outline-info {% if page <= 1 %}disabled{% endif %}" href="{{ url_for('admin_resenias', page=page-1) }}">&laquo; Anterior</a>
+                <span class="text-white-50">Página {{ page }} de {{ total_pages }}</span>
+                <a class="btn btn-outline-info {% if page >= total_pages %}disabled{% endif %}" href="{{ url_for('admin_resenias', page=page+1) }}">Siguiente &raquo;</a>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

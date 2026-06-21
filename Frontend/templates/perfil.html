@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}Airsoft - Perfil{% endblock %}
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/perfil.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="contenedor-perfil">
+
+    <div class="perfil-header">
+        <div class="avatar-wrapper">
+            <img src="../static/img/ejercitos.jpg" alt="Foto de Perfil" class="avatar-foto">
+        </div>
+        <h1 class="usuario-nombre">{{ usuario.name }} '{{ usuario.user_name }}'</h1>
+    </div>
+
+    <div class="perfil-estadisticas">
+        <div class="stat-box">
+            <i class="fas fa-shield-alt icon-miembro"></i>
+            <span class="stat-label">Miembro Desde</span>
+	    <span class="stat-value">{{ usuario.created_at.split(' ')[0] }}</span>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-crosshairs icon-partidas"></i>
+            <span class="stat-label">Partidas Jugadas</span>
+	    <span class="stat-value">{{ usuario.played_games | default("0") }}</span>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-trophy icon-ganadas"></i>
+            <span class="stat-label">Elo</span>
+	    <span class="stat-value">{{ usuario.elo }} </span>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-chart-line icon-kdr"></i>
+            <span class="stat-label">Horas De Juego</span>
+	    <span class="stat-value">{{ usuario.hours_played | default("0") }}</span>
+        </div>
+    </div>
+
+    <div class="perfil-tabs">
+        <button class="tab-btn active" data-target="#mapas">Mis Mapas Favoritos</button>
+        <button class="tab-btn" data-target="#config">Configuración de Cuenta</button>
+        <button class="tab-btn" data-target="#historial">Historial de Partidas</button>
+    </div>
+
+    <div class="tab-contenido-wrapper">
+
+        <div id="mapas" class="tab-seccion active">
+            <div class="grid-mapas-favoritos">
+                {% for fav in favoritos %}
+                <div class="mini-tarjeta-mapa">
+                    <div class="fav-remove-btn" onclick="event.stopPropagation(); eliminarFavorito({{ fav.id }})">✕</div>
+                    <img src="../static/img/{{ fav.name.lower() }}.jpg" alt="{{ fav.name }}" onerror="this.src='../static/img/nuketown.jpg'">
+                    <span>{{ fav.name }}</span>
+                </div>
+                {% endfor %}
+                {% if favoritos|length < 4 %}
+                <div class="mini-tarjeta-mapa tarjeta-agregar" onclick="abrirModalMapas()">
+                    <div class="icono-mas">+</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div id="config" class="tab-seccion">
+            <h3>Configuración de la Cuenta</h3>
+            <ul class="list-group mb-4">
+                <li class="list-group-item d-flex justify-content-between"><strong>Email</strong><span>{{ usuario.email }}</span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>DNI</strong><span>{{ usuario.dni }}</span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Teléfono</strong><span>{{ usuario.phone or '—' }}</span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>Género</strong><span>{{ usuario.gender or '—' }}</span></li>
+                <li class="list-group-item d-flex justify-content-between"><strong>ELO</strong><span>{{ usuario.elo or 0 }}</span></li>
+            </ul>
+            <form method="POST" action="{{ url_for('perfil_password') }}" class="d-flex flex-column gap-2" style="max-width: 320px;">
+                <label class="fw-bold">Cambiar contraseña</label>
+                <input type="password" name="password" class="form-control" placeholder="Nueva contraseña" required>
+                <button type="submit" class="btn btn-info fw-bold">Actualizar contraseña</button>
+            </form>
+        </div>
+
+        <div id="historial" class="tab-seccion">
+            <h3>Historial de Partidas</h3>
+            <div class="row">
+                <div id="containerhistorial" class="col-3">
+                    <div class="list-group" id="list-tab" role="tablist">
+                        <a class="list-group-item list-group-item-action active" id="list-home-list"
+                            data-bs-toggle="list" href="#list-home" role="tab" aria-controls="list-home">Victoria</a>
+                        <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list"
+                            href="#list-profile" role="tab" aria-controls="list-profile">Victoria</a>
+                        <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list"
+                            href="#list-messages" role="tab" aria-controls="list-messages">Victoria</a>
+                        <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list"
+                            href="#list-settings" role="tab" aria-controls="list-settings">Victoria</a>
+                        <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list"
+                            href="#list-settings" role="tab" aria-controls="list-settings">Victoria</a>
+                        <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list"
+                            href="#list-settings" role="tab" aria-controls="list-settings">Victoria</a>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="list-home" role="tabpanel"
+                            aria-labelledby="list-home-list">
+                            <table class="table">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">First</th>
+                                        <th scope="col">Last</th>
+                                        <th scope="col">Handle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">First</th>
+                                        <th scope="col">Last</th>
+                                        <th scope="col">Handle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="list-profile" role="tabpanel"
+                            aria-labelledby="list-profile-list">...</div>
+                        <div class="tab-pane fade" id="list-messages" role="tabpanel"
+                            aria-labelledby="list-messages-list">...</div>
+                        <div class="tab-pane fade" id="list-settings" role="tabpanel"
+                            aria-labelledby="list-settings-list">...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modal-mapas" class="modal-favoritos" style="display:none;">
+    <div class="modal-favoritos-contenido">
+        <div class="modal-header">
+            <h2>Seleccioná un mapa</h2>
+            <button class="modal-cerrar" onclick="cerrarModalMapas()">✕</button>
+        </div>
+        <div class="modal-grid">
+            {% for mapa in mapas %}
+            <div class="modal-opcion-mapa" onclick="agregarFavorito({{ mapa.id }})">
+                <img src="../static/img/{{ mapa.name.lower() }}.jpg" alt="{{ mapa.name }}" onerror="this.src='../static/img/nuketown.jpg'">
+                <span>{{ mapa.name }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div id="modal-confirm-eliminar" class="modal-favoritos" style="display:none;">
+    <div class="modal-confirm-contenido">
+        <div class="confirm-icono">⚠</div>
+        <h3>Eliminar mapa favorito</h3>
+        <p>¿Estás seguro de que querés eliminar este mapa de tus favoritos?</p>
+        <div class="confirm-botones">
+            <button class="btn-confirm-cancelar" onclick="cerrarConfirmEliminar()">Cancelar</button>
+            <button class="btn-confirm-eliminar" onclick="confirmarEliminar()">Eliminar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const botones = document.querySelectorAll('.tab-btn');
+    const secciones = document.querySelectorAll('.tab-seccion');
+
+    botones.forEach(boton => {
+        boton.addEventListener('click', () => {
+            botones.forEach(b => b.classList.remove('active'));
+            secciones.forEach(s => s.classList.remove('active'));
+
+            boton.classList.add('active');
+            document.querySelector(boton.dataset.target).classList.add('active');
+        });
+    });
+
+    function abrirModalMapas() {
+        document.getElementById('modal-mapas').style.display = 'flex';
+    }
+
+    function cerrarModalMapas() {
+        document.getElementById('modal-mapas').style.display = 'none';
+    }
+
+    function agregarFavorito(mapId) {
+        cerrarModalMapas();
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/perfil/favoritos/agregar/' + mapId;
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function eliminarFavorito(mapId) {
+        document.getElementById('modal-confirm-eliminar').dataset.mapId = mapId;
+        document.getElementById('modal-confirm-eliminar').style.display = 'flex';
+    }
+
+    function confirmarEliminar() {
+        const mapId = document.getElementById('modal-confirm-eliminar').dataset.mapId;
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/perfil/favoritos/eliminar/' + mapId;
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function cerrarConfirmEliminar() {
+        document.getElementById('modal-confirm-eliminar').style.display = 'none';
+    }
+
+    document.getElementById('modal-mapas').addEventListener('click', function(e) {
+        if (e.target === this) cerrarModalMapas();
+    });
+</script>
+{% endblock %}

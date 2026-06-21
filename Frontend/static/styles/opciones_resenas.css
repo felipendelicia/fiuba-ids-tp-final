@@ -1,0 +1,110 @@
+.opciones-section {
+    background-color: #0b0d0f;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    padding: 80px 0;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.opciones-title {
+    font-family: 'Orbitron', 'Arial Black', sans-serif;
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.opciones-subtitle {
+    color: #9ca3af;
+    font-size: 16px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.opciones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+    max-width: 900px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.opcion-card {
+    background-color: rgba(18, 22, 26, 0.8);
+    border: 1px solid rgba(79, 172, 254, 0.2);
+    border-radius: 12px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.opcion-card:hover {
+    transform: translateY(-8px);
+    border-color: #00f2fe;
+    box-shadow: 0 10px 30px rgba(0, 242, 254, 0.3);
+}
+
+.opcion-icon {
+    font-size: 48px;
+    color: #00f2fe;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.opcion-card:hover .opcion-icon {
+    transform: scale(1.15);
+}
+
+.opcion-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.opcion-card p {
+    color: #a0aec0;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+.opcion-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    color: #0b0d0f;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.opcion-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4);
+    color: #0b0d0f;
+}

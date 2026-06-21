@@ -3,8 +3,10 @@ from flask import flash, render_template, request, redirect, url_for, session
 from helpers import (
     REVIEWS_PER_PAGE, EQUIP_PER_PAGE, USUARIOS_PER_PAGE,
     _api_get_maps, _api_get_gamemodes, _api_get_equipment_kit,
-    _api_get_equipment_categories,
+    _api_get_equipment_categories, _api_get_competitivo_events,
+    _api_create_competitivo_event, _api_update_competitivo_event, _api_delete_competitivo_event,
     _api_get, _api_post, _api_put, _api_patch, _api_delete,
+    _api_get_contact_messages, _api_get_services, _api_create_service, _api_update_service, _api_delete_service,
     get_reservas_dia, contar_reservas_dia, get_ingresos_periodo,
     get_frecuencia_horaria, get_calendario_mes, MAX_RESERVAS_POR_DIA
 )
@@ -181,19 +183,77 @@ def register(app):
 
         return render_template("admin_usuarios_editar.html", id_usuario_edit=id_usuario_edit, usuario=usuario, datos=datos_usuario)
 
-    @app.route('/admin_servicios', methods=['GET', 'POST'])
+    @app.route('/admin_servicios', methods=['GET'])
     def admin_servicios():
-        servicios_db = [
-            {"id": 1, "nombre": "Bufet / Bar", "descripcion": "Venta de bebidas y comidas post-partido."},
-            {"id": 2, "nombre": "Estacionamiento", "descripcion": "Predio cerrado con seguridad para autos y motos."}
-        ]
+        servicios = _api_get_services()
+        return render_template('admin_servicios.html', servicios=servicios, usuario=session.get('usuario'))
+
+    @app.route('/admin_servicios/crear', methods=['POST'])
+    def admin_servicios_crear():
+        data = {
+            "name": request.form.get("name"),
+            "tab_icon": request.form.get("tab_icon") or "bi bi-gear",
+            "summary_title": request.form.get("summary_title"),
+            "summary_text": request.form.get("summary_text"),
+            "bullet_1": request.form.get("bullet_1"),
+            "bullet_2": request.form.get("bullet_2"),
+            "tab_image": request.form.get("tab_image"),
+            "detail_title": request.form.get("detail_title"),
+            "detail_subtitle": request.form.get("detail_subtitle"),
+            "section_1_title": request.form.get("section_1_title"),
+            "section_1_text": request.form.get("section_1_text"),
+            "section_2_title": request.form.get("section_2_title"),
+            "section_2_text": request.form.get("section_2_text"),
+            "detail_image_1": request.form.get("detail_image_1"),
+            "detail_image_2": request.form.get("detail_image_2"),
+            "breadcrumb_label": request.form.get("breadcrumb_label"),
+        }
+        if _api_create_service(data):
+            flash("Servicio creado.", "success")
+        else:
+            flash("Error al crear servicio.", "warning")
+        return redirect(url_for('admin_servicios'))
+
+    @app.route('/admin_servicios/editar/<int:service_id>', methods=['GET', 'POST'])
+    def admin_servicios_editar(service_id):
+        from helpers import _api_get_service
         if request.method == 'POST':
-            nuevo_nombre = request.form.get('nombre')
-            nueva_desc = request.form.get('descripcion')
-            nuevo_id = len(servicios_db) + 1
-            servicios_db.append({"id": nuevo_id, "nombre": nuevo_nombre, "descripcion": nueva_desc})
-            return render_template('admin_servicios.html', servicios=servicios_db, usuario=session.get('usuario'))
-        return render_template('admin_servicios.html', servicios=servicios_db, usuario=session.get('usuario'))
+            data = {
+                "name": request.form.get("name"),
+                "tab_icon": request.form.get("tab_icon") or "bi bi-gear",
+                "summary_title": request.form.get("summary_title"),
+                "summary_text": request.form.get("summary_text"),
+                "bullet_1": request.form.get("bullet_1"),
+                "bullet_2": request.form.get("bullet_2"),
+                "tab_image": request.form.get("tab_image"),
+                "detail_title": request.form.get("detail_title"),
+                "detail_subtitle": request.form.get("detail_subtitle"),
+                "section_1_title": request.form.get("section_1_title"),
+                "section_1_text": request.form.get("section_1_text"),
+                "section_2_title": request.form.get("section_2_title"),
+                "section_2_text": request.form.get("section_2_text"),
+                "detail_image_1": request.form.get("detail_image_1"),
+                "detail_image_2": request.form.get("detail_image_2"),
+                "breadcrumb_label": request.form.get("breadcrumb_label"),
+            }
+            if _api_update_service(service_id, data):
+                flash("Servicio actualizado.", "success")
+            else:
+                flash("Error al actualizar servicio.", "warning")
+            return redirect(url_for('admin_servicios'))
+        s = _api_get_service(service_id)
+        if not s:
+            flash("Servicio no encontrado.", "warning")
+            return redirect(url_for('admin_servicios'))
+        return render_template('admin_servicio_editar.html', s=s, usuario=session.get('usuario'))
+
+    @app.route('/admin_servicios/eliminar/<int:service_id>', methods=['POST'])
+    def admin_servicios_eliminar(service_id):
+        if _api_delete_service(service_id):
+            flash("Servicio eliminado.", "success")
+        else:
+            flash("Error al eliminar servicio.", "warning")
+        return redirect(url_for('admin_servicios'))
 
     @app.route('/admin_equipamiento', methods=['GET', 'POST'])
     def admin_equipamiento():
@@ -410,3 +470,71 @@ def register(app):
         else:
             flash("Error al eliminar la modalidad.", "warning")
         return redirect(url_for('modalidades'))
+
+    @app.route('/admin_competitivo', methods=['POST'])
+    def admin_competitivo():
+        usuario = session.get('usuario')
+        if not usuario or not usuario.get('is_admin'):
+            flash("Acceso solo para administradores.", "warning")
+            return redirect(url_for('modalidades'))
+        payload = {
+            "title": request.form.get("title"),
+            "description": request.form.get("description") or None,
+            "image_url": request.form.get("image_url") or None,
+            "badge": request.form.get("badge") or None,
+            "event_date": request.form.get("event_date") or None,
+            "event_time": request.form.get("event_time") or None,
+        }
+        if _api_create_competitivo_event(payload):
+            flash("Evento creado.", "success")
+        else:
+            flash("Error al crear evento.", "warning")
+        return redirect(url_for('modalidades'))
+
+    @app.route('/admin_competitivo/editar/<int:event_id>', methods=['GET', 'POST'])
+    def admin_competitivo_editar(event_id):
+        usuario = session.get('usuario')
+        if not usuario or not usuario.get('is_admin'):
+            flash("Acceso solo para administradores.", "warning")
+            return redirect(url_for('modalidades'))
+        if request.method == 'POST':
+            payload = {
+                "title": request.form.get("title"),
+                "description": request.form.get("description") or None,
+                "image_url": request.form.get("image_url") or None,
+                "badge": request.form.get("badge") or None,
+                "event_date": request.form.get("event_date") or None,
+                "event_time": request.form.get("event_time") or None,
+            }
+            if _api_update_competitivo_event(event_id, payload):
+                flash("Evento actualizado.", "success")
+            else:
+                flash("Error al actualizar evento.", "warning")
+            return redirect(url_for('modalidades'))
+        events = _api_get_competitivo_events()
+        event = next((e for e in events if e['id'] == event_id), None)
+        if not event:
+            flash("Evento no encontrado.", "warning")
+            return redirect(url_for('modalidades'))
+        return render_template('admin_competitivo_editar.html', event=event, usuario=usuario)
+
+    @app.route('/admin_competitivo/eliminar/<int:event_id>', methods=['POST'])
+    def admin_competitivo_eliminar(event_id):
+        usuario = session.get('usuario')
+        if not usuario or not usuario.get('is_admin'):
+            flash("Acceso solo para administradores.", "warning")
+            return redirect(url_for('modalidades'))
+        if _api_delete_competitivo_event(event_id):
+            flash("Evento eliminado.", "success")
+        else:
+            flash("Error al eliminar evento.", "warning")
+        return redirect(url_for('modalidades'))
+
+    @app.route('/admin_contactos')
+    def admin_contactos():
+        usuario = session.get('usuario')
+        if not usuario or not usuario.get('is_admin'):
+            flash("Acceso solo para administradores.", "warning")
+            return redirect(url_for('login_sesion'))
+        mensajes = _api_get_contact_messages()
+        return render_template('admin_contactos.html', usuario=usuario, mensajes=mensajes)

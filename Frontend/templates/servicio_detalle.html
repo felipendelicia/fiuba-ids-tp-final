@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - {{ s.name }}{% endblock %}
+
+{% block style_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/servicios.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5 text-white">
+    <div class="p-5 rounded-3 mb-4" style="background-color: rgba(20, 24, 30, 0.85); border: 1px solid rgba(0, 242, 254, 0.2);">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}" class="text-info">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('servicios') }}" class="text-info">Servicios</a></li>
+                <li class="breadcrumb-item active text-white-50" aria-current="page">{{ s.breadcrumb_label or s.name }}</li>
+            </ol>
+        </nav>
+
+        <h1 class="display-4 fw-bold mt-3" style="font-family: 'Orbitron', sans-serif; color: #00f2fe;">{{ s.detail_title }}</h1>
+        {% if s.detail_subtitle %}
+        <p class="lead text-white-50 mt-3">{{ s.detail_subtitle }}</p>
+        {% endif %}
+
+        <hr class="my-4" style="background-color: rgba(0, 242, 254, 0.3);">
+
+        <div class="row mb-5">
+            {% if s.section_1_title %}
+            <div class="col-md-6">
+                <h4>{{ s.section_1_title }}</h4>
+                <p class="text-white-50">{{ s.section_1_text }}</p>
+            </div>
+            {% endif %}
+            {% if s.section_2_title %}
+            <div class="col-md-6">
+                <h4>{{ s.section_2_title }}</h4>
+                <p class="text-white-50">{{ s.section_2_text }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if s.detail_image_1 or s.detail_image_2 %}
+        <h4 class="mb-4" style="font-family: 'Orbitron', sans-serif; color: #4facfe;">Galería del Sector</h4>
+        <div class="row g-4">
+            {% if s.detail_image_1 %}
+            <div class="col-md-6">
+                <div class="img-servicio-container">
+                    <img src="{{ url_for('static', filename=s.detail_image_1) }}" alt="{{ s.name }}" class="img-fluid rounded-3 w-100">
+                </div>
+            </div>
+            {% endif %}
+            {% if s.detail_image_2 %}
+            <div class="col-md-6">
+                <div class="img-servicio-container">
+                    <img src="{{ url_for('static', filename=s.detail_image_2) }}" alt="{{ s.name }}" class="img-fluid rounded-3 w-100">
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="mt-5 text-center">
+            <a href="{{ url_for('servicios') }}" class="btn btn-outline-light"><i class="bi bi-arrow-left me-2"></i>Volver a Servicios</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

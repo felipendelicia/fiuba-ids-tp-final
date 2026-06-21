@@ -11,19 +11,34 @@
     <div class="box-panel">
         <div class="box-agregarservicio">
             <h5>Agregar Nuevo Servicio</h5>
-            <form action="/adminservicios" method="POST" class="row g-3">
+            <form action="{{ url_for('admin_servicios_crear') }}" method="POST" class="row g-3">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" name="nombre" placeholder="Nombre del servicio" required>
+                    <input type="text" class="form-control" name="name" placeholder="Nombre del servicio" required>
                 </div>
-                <div class="col-md-6">
-                    <input type="text" class="form-control" name="descripcion" placeholder="Descripción breve" required>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="summary_title" placeholder="Título resumen">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="summary_text" placeholder="Texto resumen">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="tab_icon" placeholder="Ícono (ej: bi bi-cup-hot)">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="tab_image" placeholder="Imagen tab (ej: img/bufet.png)">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="bullet_1" placeholder="Bullet 1">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="bullet_2" placeholder="Bullet 2">
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-success w-100">Agregar</button>
                 </div>
             </form>
         </div>
-    
+
         <table class="tabla-adminServicios">
             <thead class="titulo-tablaAdminServicio">
                 <tr>
@@ -34,14 +49,16 @@
                 </tr>
             </thead>
             <tbody>
-                {% for servicio in servicios %}
+                {% for s in servicios %}
                 <tr>
-                    <td>{{ servicio.id }}</td>
-                    <td><strong>{{ servicio.nombre }}</strong></td>
-                    <td>{{ servicio.descripcion }}</td>
+                    <td>{{ s.id }}</td>
+                    <td><strong>{{ s.name }}</strong></td>
+                    <td>{{ s.summary_text or '' }}</td>
                     <td>
-                        <button class="btn btn-sm btn-warning">Editar</button>
-                        <button class="btn btn-sm btn-danger">Eliminar</button>
+                        <a href="{{ url_for('admin_servicios_editar', service_id=s.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        <form method="POST" action="{{ url_for('admin_servicios_eliminar', service_id=s.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}

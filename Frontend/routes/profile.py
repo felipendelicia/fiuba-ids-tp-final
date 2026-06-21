@@ -1,5 +1,5 @@
 from flask import flash, render_template, request, redirect, url_for, session
-from helpers import REVIEWS_PER_PAGE, _api_get_maps, _api_get, _api_post, _api_patch
+from helpers import REVIEWS_PER_PAGE, _api_get_maps, _api_get, _api_post, _api_patch, _api_send_contact_message
 
 
 def register(app):
@@ -64,6 +64,18 @@ def register(app):
     @app.route('/perfil/contacto', methods=['GET', 'POST'])
     def contacto():
         if request.method == 'POST':
+            data = {
+                'user_name': request.form.get('nombre', '').strip(),
+                'email': request.form.get('email', '').strip(),
+                'message': request.form.get('mensaje', '').strip(),
+            }
+            if all(data.values()):
+                if _api_send_contact_message(data):
+                    flash("Mensaje enviado correctamente.", "success")
+                else:
+                    flash("Error al enviar el mensaje.", "warning")
+            else:
+                flash("Completá todos los campos.", "warning")
             return redirect(url_for('contacto'))
         return render_template('contacto.html', usuario=session.get('usuario'))
 

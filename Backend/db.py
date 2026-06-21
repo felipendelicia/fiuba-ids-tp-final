@@ -19,11 +19,11 @@ def get_db_connection():
     return conn
 
 
-def execute(query: str) -> list:
+def execute(query: str, params=None) -> list:
     conexion = get_db_connection()
     cursor = conexion.cursor(dictionary=True, buffered=True)
     try:
-        cursor.execute(query)
+        cursor.execute(query, params)
         conexion.commit()
         resultados = cursor.fetchall()
 

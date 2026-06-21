@@ -13,52 +13,21 @@
             <div class="nosotros__logo">
                 <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Kinetix">
             </div>
-            <p class="nosotros__subtitle">Desde 2020</p>
-            <h1 class="nosotros__title">Sobre Nosotros</h1>
+            {% if info.subtitle %}<p class="nosotros__subtitle">{{ info.subtitle }}</p>{% endif %}
+            <h1 class="nosotros__title">{{ info.title or 'Sobre Nosotros' }}</h1>
 
-            <p class="nosotros__text">
-                <span class="nosotros__highlight">Kinetix</span> nace de la pasión por el airsoft táctico y la
-                necesidad de crear un espacio donde la estrategia, el trabajo en equipo y la adrenalina se
-                combinen en experiencias únicas. Somos un centro de recreación y entrenamiento ubicado en
-                <span class="nosotros__highlight">José C. Paz</span>, diseñado tanto para jugadores
-                principiantes como para veteranos del campo de batalla.
-            </p>
-
-            <p class="nosotros__text">
-                Cada uno de nuestros campos —<span class="nosotros__highlight">Nuketown</span>,
-                <span class="nosotros__highlight">Mirage</span>, <span class="nosotros__highlight">Hijacked</span>
-                y <span class="nosotros__highlight">Terminal</span>— está inspirado en escenarios icónicos de
-                videojuegos y recreado a escala real para ofrecer una inmersión total. Desde calles urbanas
-                hasta un yate de lujo en Puerto Madero, cada partida es una nueva misión.
-            </p>
-
-            <p class="nosotros__text">
-                Contamos con equipamiento profesional, sistema de marcación de impactos en tiempo real,
-                chalecos tácticos, réplicas de alta calidad y un bufet para la recarga de energía entre
-                combates. Nuestro objetivo es que cada visitante viva el airsoft como nunca antes.
-            </p>
+            {% for paragraph in info.paragraphs %}
+            <p class="nosotros__text">{{ paragraph | safe }}</p>
+            {% endfor %}
 
             <div class="nosotros__grid">
+                {% for card in cards %}
                 <div class="nosotros__item">
-                    <div class="nosotros__item-icon"><i class="fa-solid fa-crosshairs"></i></div>
-                    <h5>Misión</h5>
-                    <p>Ofrecer la experiencia de airsoft más realista y emocionante de la región, fomentando el compañerismo y la estrategia.</p>
+                    <div class="nosotros__item-icon"><i class="{{ card.icon_class }}"></i></div>
+                    <h5>{{ card.title }}</h5>
+                    <p>{{ card.description }}</p>
                 </div>
-                <div class="nosotros__item">
-                    <div class="nosotros__item-icon"><i class="fa-solid fa-eye"></i></div>
-                    <h5>Visión</h5>
-                    <p>Ser el centro de airsoft de referencia en Argentina, con campos temáticos y tecnología de punta.</p>
-                </div>
-                <div class="nosotros__item">
-                    <div class="nosotros__item-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h5>Valores</h5>
-                    <p>Seguridad, respeto, trabajo en equipo, innovación constante y pasión por el deporte táctico.</p>
-                </div>
-                <div class="nosotros__item">
-                    <div class="nosotros__item-icon"><i class="fa-solid fa-location-dot"></i></div>
-                    <h5>Ubicación</h5>
-                    <p>José C. Paz, Provincia de Buenos Aires. Fácil acceso y estacionamiento para todo el equipo.</p>
-                </div>
+                {% endfor %}
             </div>
 
             <div class="text-center mt-4">

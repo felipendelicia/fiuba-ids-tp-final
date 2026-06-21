@@ -135,9 +135,9 @@ CREATE TABLE IF NOT EXISTS GameModes (
 ) DEFAULT CHARSET=utf8mb4;
 
 INSERT IGNORE INTO GameModes (name, duration, players, description) VALUES
-('Todos vs Todos', '60', 10, 'Todos los jugadores compiten por sí mismos. El último en pie o el que más eliminaciones consiga gana la partida.'),
-('Captura la bandera', '90', 10, 'Dos equipos compiten por robar la bandera del equipo contrario y llevarla a su base. Coordinación y estrategia son clave.'),
-('Duelo por equipos', '60', 10, 'Combate directo entre dos equipos. Gana el equipo que más bajas realice dentro del tiempo límite.'),
+('Todos vs Todos', '120', 10, 'Todos los jugadores compiten por si mismos. El último en pie o el que mas eliminaciones consiga gana la partida.'),
+('Captura la bandera', '120', 10, 'Dos equipos compiten por robar la bandera del equipo contrario y llevarla a su base. Coordinación y estrategia son clave.'),
+('Duelo por equipos', '120', 10, 'Combate directo entre dos equipos. Gana el equipo que mas bajas realice dentro del tiempo límite.'),
 ('Rey de la colina', '120', 20, 'Los equipos luchan por controlar una zona neutral. El equipo que mantenga la posición más tiempo acumulado gana.');
 
 CREATE TABLE IF NOT EXISTS MapGameModes (
@@ -153,3 +153,79 @@ INSERT IGNORE INTO MapGameModes (map_id, gamemode_id) VALUES
 (2, 1), (2, 3), (2, 4),
 (3, 2), (3, 3), (3, 4),
 (4, 1), (4, 2), (4, 3), (4, 4);
+
+CREATE TABLE IF NOT EXISTS CompetitivoEvent (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	title VARCHAR(200) NOT NULL,
+	description TEXT,
+	image_url VARCHAR(200),
+	badge VARCHAR(50),
+	event_date VARCHAR(100),
+	event_time VARCHAR(100),
+	sort_order INT DEFAULT 0
+) DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS NosotrosInfo (
+	section VARCHAR(50) PRIMARY KEY,
+	title VARCHAR(200),
+	subtitle VARCHAR(200),
+	paragraphs TEXT
+) DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO NosotrosInfo (section, title, subtitle, paragraphs) VALUES
+('main', 'Sobre Nosotros', 'Desde 2020', '["<span class=\"nosotros__highlight\">Kinetix</span> nace de la pasión por el airsoft táctico y la necesidad de crear un espacio donde la estrategia, el trabajo en equipo y la adrenalina se combinen en experiencias únicas. Somos un centro de recreación y entrenamiento ubicado en <span class=\"nosotros__highlight\">José C. Paz</span>, diseñado tanto para jugadores principiantes como para veteranos del campo de batalla.", "Cada uno de nuestros campos —<span class=\"nosotros__highlight\">Nuketown</span>, <span class=\"nosotros__highlight\">Mirage</span>, <span class=\"nosotros__highlight\">Hijacked</span> y <span class=\"nosotros__highlight\">Terminal</span>— está inspirado en escenarios icónicos de videojuegos y recreado a escala real para ofrecer una inmersión total. Desde calles urbanas hasta un yate de lujo en Puerto Madero, cada partida es una nueva misión.", "Contamos con equipamiento profesional, sistema de marcación de impactos en tiempo real, chalecos tácticos, réplicas de alta calidad y un bufet para la recarga de energía entre combates. Nuestro objetivo es que cada visitante viva el airsoft como nunca antes."]');
+
+CREATE TABLE IF NOT EXISTS NosotrosCard (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	icon_class VARCHAR(100) NOT NULL,
+	title VARCHAR(100) NOT NULL,
+	description TEXT NOT NULL,
+	sort_order INT DEFAULT 0
+) DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO NosotrosCard (id, icon_class, title, description, sort_order) VALUES
+(1, 'fa-solid fa-crosshairs', 'Misión', 'Ofrecer la experiencia de airsoft más realista y emocionante de la región, fomentando el compañerismo y la estrategia.', 1),
+(2, 'fa-solid fa-eye', 'Visión', 'Ser el centro de airsoft de referencia en Argentina, con campos temáticos y tecnología de punta.', 2),
+(3, 'fa-solid fa-shield-halved', 'Valores', 'Seguridad, respeto, trabajo en equipo, innovación constante y pasión por el deporte táctico.', 3),
+(4, 'fa-solid fa-location-dot', 'Ubicación', 'José C. Paz, Provincia de Buenos Aires. Fácil acceso y estacionamiento para todo el equipo.', 4);
+
+CREATE TABLE IF NOT EXISTS ContactMessage (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	user_name VARCHAR(100) NOT NULL,
+	email VARCHAR(150) NOT NULL,
+	message TEXT NOT NULL,
+	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+	leido TINYINT DEFAULT 0
+) DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS Service (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	tab_icon VARCHAR(50) DEFAULT 'bi bi-gear',
+	summary_title VARCHAR(200),
+	summary_text TEXT,
+	bullet_1 TEXT,
+	bullet_2 TEXT,
+	tab_image VARCHAR(300),
+	detail_title VARCHAR(200),
+	detail_subtitle TEXT,
+	section_1_title VARCHAR(200),
+	section_1_text TEXT,
+	section_2_title VARCHAR(200),
+	section_2_text TEXT,
+	detail_image_1 VARCHAR(300),
+	detail_image_2 VARCHAR(300),
+	breadcrumb_label VARCHAR(100),
+	sort_order INT DEFAULT 0
+) DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO Service (id, name, tab_icon, summary_title, summary_text, bullet_1, bullet_2, tab_image, detail_title, detail_subtitle, section_1_title, section_1_text, section_2_title, section_2_text, detail_image_1, detail_image_2, breadcrumb_label, sort_order) VALUES
+(1, 'Buffet & Bar', 'bi bi-cup-hot', 'Buffet & Zona de Descanso', 'Contamos con una cantina completamente equipada para recargar energías entre partidas. Ofrecemos una amplia variedad de comidas rápidas, minutas, snacks y bebidas heladas.', 'Hamburguesas completas y opciones vegetarianas.', 'Bebidas hidratantes, energizantes y cafetería completa.', 'img/bufet.png', 'BUFFET / BAR INFO COMPLETA', 'Nuestra zona gastronómica está pensada para cubrir todas las necesidades del jugador de Airsoft antes, durante y después de la simulación militar.', 'Menú de Combate', 'Ofrecemos un menú rápido de alta calidad que incluye hamburguesas premium, sándwiches de milanesa, pizzas calientes y opciones aptas para celíacos y vegetarianos. Todo elaborado en el momento.', 'Hidratación Estratégica', 'Un combatiente deshidratado pierde efectividad. Mantenemos stock constante de agua mineral, bebidas isotónicas, jugos naturales, energizantes y cafetería completa para los días fríos.', 'img/bufet_2.png', 'img/bufet_3.png', 'Buffet', 1),
+(2, 'Estacionamiento Privado', 'bi bi-p-circle', 'Estacionamiento Controlado', 'Tu tranquilidad es prioridad. Disponemos de un predio de estacionamiento privado dentro de las instalaciones del club, totalmente cerrado y vigilado mecánicamente.', 'Capacidad para más de 80 vehículos en simultáneo.', 'Cámaras de seguridad de circuito cerrado las 24 hs.', 'img/estacionamiento.png', 'ESTACIONAMIENTO PRIVADO INFO', 'Dejá tu vehículo con total tranquilidad mientras te concentrás al 100% en los objetivos tácticos dentro del campo de juego.', 'Seguridad Perimetral', 'El predio está completamente delimitado con alambrado olímpico, cuenta con un único portón de acceso controlado y un custodio físico asignado durante los eventos masivos.', 'Monitoreo CCTV', 'Implementamos domos de seguridad con visión nocturna infrarroja conectados a nuestra central del predio, registrando de forma ininterrumpida patentes y movimientos.', 'img/estacionamiento_2.png', 'img/estacionamiento_3.png', 'Estacionamiento', 2),
+(3, 'Almacenamiento / Lockers', 'bi bi-safe', 'Almacenamiento Seguro', 'Resguardá tu equipamiento táctico, réplicas y objetos personales de valor mientras estás en combate. Contamos con un sector exclusivo de lockers individuales reforzados.', 'Lockers individuales con llaves codificadas.', 'Monitoreo constante por personal del predio.', 'img/almacenamiento.png', 'SISTEMA DE LOCKERS SEGUROS', 'Sabemos el valor de tus réplicas y chalecos tácticos. Por eso creamos una zona exclusiva para el resguardo de tu material militar.', 'Asignación Personalizada', 'Al realizar el ingreso al predio, se te entrega una pulsera magnética RFID o llave numerada correspondiente a tu locker metálico reforzado para guardar bolsos y estuches rígidos.', 'Zona de Armado Técnica', 'Ubicado justo al lado del sector de lockers, disponemos de bancos de trabajo técnicos iluminados ideales para realizar la carga de baterías LiPo, recarga de gas y ajuste de Hop-Up.', 'img/almacenamiento_2.png', 'img/almacenamiento_3.png', 'Almacenamiento', 3);
+
+INSERT IGNORE INTO CompetitivoEvent (id, title, description, image_url, badge, event_date, event_time, sort_order) VALUES
+(1, 'Airsoft Premier Series', 'Inscribite en el torneo mensual por equipos. Modalidad 5vs5, mapa rotativo. Premios en efectivo y equipamiento para el equipo ganador.', 'img/ejercitos.jpg', 'Proximamente', '15 de Julio, 2026', '10:00 hs', 1),
+(2, 'Campeonato Cruz del Sur', 'Torneo por equipos con fases clasificatorias y eliminación directa. Partidas reglamentadas, mapas rotativos, diferentes modalidades de juego y premios para los primeros puestos.', 'img/soldado_argentino2.jpg', 'Nuevo', '22 de Julio, 2026', '14:00 hs', 2),
+(3, 'Liga Condor', 'Competencia por fechas disputada a lo largo de la temporada. Los equipos acumulan puntos en cada jornada para definir la tabla general y los clasificados a la final.', 'img/ejercitos.jpg', 'Proximamente', '5 de Agosto, 2026', '09:00 hs', 3),
+(4, 'Campeonato Condor Austral', 'Evento anual de formato competitivo con cupos limitados. Incluye arbitraje, cronograma de partidas y premios para los equipos destacados.', 'img/soldado_argentino2.jpg', 'Proximamente', '12 de Agosto, 2026', '20:00 hs', 4);

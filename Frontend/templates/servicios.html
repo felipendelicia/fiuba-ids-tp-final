@@ -14,87 +14,37 @@
         </h1>
 
         <div class="d-flex justify-content-center flex-wrap mb-4">
-            <button class="tab-boton active" onclick="cambiarPestaña(event, 'pestaña-buffet')">
-                <i class="bi bi-cup-hot me-2"></i>Buffet & Bar
+            {% for s in servicios %}
+            <button class="tab-boton {% if loop.first %}active{% endif %}" onclick="cambiarPestaña(event, 'pestaña-{{ s.id }}')">
+                <i class="{{ s.tab_icon }} me-2"></i>{{ s.name }}
             </button>
-            <button class="tab-boton" onclick="cambiarPestaña(event, 'pestaña-estacionamiento')">
-                <i class="bi bi-p-circle me-2"></i>Estacionamiento Privado
-            </button>
-            <button class="tab-boton" onclick="cambiarPestaña(event, 'pestaña-almacenamiento')">
-                <i class="bi bi-safe me-2"></i>Almacenamiento / Lockers
-            </button>
+            {% endfor %}
         </div>
 
         <div class="tab-contenido-wrapper text-start text-white p-4 rounded-3" style="background-color: rgba(20, 24, 30, 0.75); border: 1px solid rgba(0, 242, 254, 0.15);">
 
-            <div id="pestaña-buffet" class="tab-seccion active">
+            {% for s in servicios %}
+            <div id="pestaña-{{ s.id }}" class="tab-seccion {% if loop.first %}active{% endif %}" {% if not loop.first %}style="display: none;"{% endif %}>
                 <div class="row align-items-center">
                     <div class="col-md-5 mb-4 mb-md-0">
                         <div class="img-servicio-container">
-                            <img src="{{ url_for('static', filename='img/bufet.png') }}" alt="Buffet Airsoft" class="img-fluid rounded-3 w-100">
+                            <img src="{{ url_for('static', filename=s.tab_image) }}" alt="{{ s.name }}" class="img-fluid rounded-3 w-100">
                         </div>
                     </div>
                     <div class="col-md-7">
-                        <h3 style="color: #00f2fe; font-family: 'Orbitron', sans-serif;">Buffet & Zona de Descanso</h3>
-                        <p class="text-white-50 mt-3">
-                            Contamos con una cantina completamente equipada para recargar energías entre partidas. Ofrecemos una amplia variedad de comidas rápidas, minutas, snacks y bebidas heladas.
-                        </p>
+                        <h3 style="color: #00f2fe; font-family: 'Orbitron', sans-serif;">{{ s.summary_title }}</h3>
+                        <p class="text-white-50 mt-3">{{ s.summary_text }}</p>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li class="mb-2"><i class="bi bi-check2-circle me-2 text-info"></i> Hamburguesas completas y opciones vegetarianas.</li>
-                            <li class="mb-2"><i class="bi bi-check2-circle me-2 text-info"></i> Bebidas hidratantes, energizantes y cafetería completa.</li>
+                            <li class="mb-2"><i class="bi bi-check2-circle me-2 text-info"></i> {{ s.bullet_1 }}</li>
+                            <li class="mb-2"><i class="bi bi-check2-circle me-2 text-info"></i> {{ s.bullet_2 }}</li>
                         </ul>
-                        <a href="{{ url_for('servicio_buffet') }}" class="btn btn-outline-info font-orbitron" style="font-family: 'Orbitron', sans-serif;">
+                        <a href="{% if s.id == 1 %}{{ url_for('servicio_buffet') }}{% elif s.id == 2 %}{{ url_for('servicio_estacionamiento') }}{% elif s.id == 3 %}{{ url_for('servicio_almacenamiento') }}{% endif %}" class="btn btn-outline-info font-orbitron" style="font-family: 'Orbitron', sans-serif;">
                             <i class="bi bi-plus-circle me-2"></i>Más Información
                         </a>
                     </div>
                 </div>
             </div>
-
-            <div id="pestaña-estacionamiento" class="tab-seccion" style="display: none;">
-                <div class="row align-items-center">
-                    <div class="col-md-5 mb-4 mb-md-0">
-                        <div class="img-servicio-container">
-                            <img src="{{ url_for('static', filename='img/estacionamiento.png') }}" alt="Estacionamiento" class="img-fluid rounded-3 w-100">
-                        </div>
-                    </div>
-                    <div class="col-md-7">
-                        <h3 style="color: #00f2fe; font-family: 'Orbitron', sans-serif;">Estacionamiento Controlado</h3>
-                        <p class="text-white-50 mt-3">
-                            Tu tranquilidad es prioridad. Disponemos de un predio de estacionamiento privado dentro de las instalaciones del club, totalmente cerrado y vigilado mecánicamente.
-                        </p>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li class="mb-2"><i class="bi bi-check2-circle me-2 text-info"></i> Capacidad para más de 80 vehículos en simultáneo.</li>
-                            <li class="mb-2"><i class="bi bi-check2-circle me-2 text-info"></i> Cámaras de seguridad de circuito cerrado las 24 hs.</li>
-                        </ul>
-                        <a href="{{ url_for('servicio_estacionamiento') }}" class="btn btn-outline-info font-orbitron" style="font-family: 'Orbitron', sans-serif;">
-                            <i class="bi bi-plus-circle me-2"></i>Más Información
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div id="pestaña-almacenamiento" class="tab-seccion" style="display: none;">
-                <div class="row align-items-center">
-                    <div class="col-md-5 mb-4 mb-md-0">
-                        <div class="img-servicio-container">
-                            <img src="{{ url_for('static', filename='img/almacenamiento.png') }}" alt="Almacenamiento Lockers" class="img-fluid rounded-3 w-100">
-                        </div>
-                    </div>
-                    <div class="col-md-7">
-                        <h3 style="color: #00f2fe; font-family: 'Orbitron', sans-serif;">Almacenamiento Seguro</h3>
-                        <p class="text-white-50 mt-3">
-                            Resguardá tu equipamiento táctico, réplicas y objetos personales de valor mientras estás en combate. Contamos con un sector exclusivo de lockers individuales reforzados.
-                        </p>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li class="mb-2"><i class="bi bi-check2-circle me-2 text-info"></i> Lockers individuales con llaves codificadas.</li>
-                            <li class="mb-2"><i class="bi bi-check2-circle me-2 text-info"></i> Monitoreo constante por personal del predio.</li>
-                        </ul>
-                        <a href="{{ url_for('servicio_almacenamiento') }}" class="btn btn-outline-info font-orbitron" style="font-family: 'Orbitron', sans-serif;">
-                            <i class="bi bi-plus-circle me-2"></i>Más Información
-                        </a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
 
         </div>
     </div>

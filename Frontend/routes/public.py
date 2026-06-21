@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, session
-from helpers import _api_get_maps, _api_get_gamemodes, _api_get_equipmentkits, _api_get_equipment_categories
+from helpers import _api_get_maps, _api_get_gamemodes, _api_get_equipmentkits, _api_get_equipment_categories, _api_get_competitivo_events, _api_get_nosotros, _api_get_services, _api_get_service
 
 
 def register(app):
@@ -45,31 +45,33 @@ def register(app):
 
     @app.route('/servicios')
     def servicios():
-        servicios_db = [
-            {"id": 1, "nombre": "Bufet / Bar", "descripcion": "Venta de bebidas y comidas post-partido."},
-            {"id": 2, "nombre": "Estacionamiento", "descripcion": "Predio cerrado con seguridad para autos y motos."}
-        ]
-        return render_template('servicios.html', servicios=servicios_db, usuario=session.get('usuario'))
+        servicios = _api_get_services()
+        return render_template('servicios.html', servicios=servicios, usuario=session.get('usuario'))
 
     @app.route('/servicios/buffet')
     def servicio_buffet():
-        return render_template('servicio_buffet.html')
+        s = _api_get_service(1)
+        return render_template('servicio_detalle.html', s=s, usuario=session.get('usuario'))
 
     @app.route('/servicios/estacionamiento')
     def servicio_estacionamiento():
-        return render_template('servicio_estacionamiento.html')
+        s = _api_get_service(2)
+        return render_template('servicio_detalle.html', s=s, usuario=session.get('usuario'))
 
     @app.route('/servicios/almacenamiento')
     def servicio_almacenamiento():
-        return render_template('servicio_almacenamiento.html')
+        s = _api_get_service(3)
+        return render_template('servicio_detalle.html', s=s, usuario=session.get('usuario'))
 
     @app.route("/nosotros")
     def nosotros():
-        return render_template('nosotros.html', usuario=session.get('usuario'))
+        data = _api_get_nosotros()
+        return render_template('nosotros.html', info=data.get('info', {}), cards=data.get('cards', []), usuario=session.get('usuario'))
 
     @app.route("/competitivo")
     def competitivo():
-        return render_template("competitivo.html", usuario=session.get('usuario'))
+        events = _api_get_competitivo_events()
+        return render_template("competitivo.html", events=events, usuario=session.get('usuario'))
 
     @app.route('/equipamiento')
     def equipamiento():
@@ -99,7 +101,8 @@ def register(app):
 
     @app.route("/modalidades")
     def modalidades():
-        return render_template('modalidades.html', modalidades=_api_get_gamemodes(), usuario=session.get('usuario'))
+        events = _api_get_competitivo_events()
+        return render_template('modalidades.html', modalidades=_api_get_gamemodes(), events=events, usuario=session.get('usuario'))
 
     @app.route("/resenias")
     def opciones_resenias():

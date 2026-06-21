@@ -14,6 +14,10 @@ from routes.reservations_routes import reservations_bp
 from routes.dashboard_routes import dashboard_bp
 from routes.maps_routes import maps_bp
 from routes.equipmentkit_routes import equipmentkit_bp
+from routes.competitivo_routes import competitivo_bp
+from routes.nosotros_routes import nosotros_bp
+from routes.contact_routes import contact_bp
+from routes.service_routes import service_bp
 
 
 
@@ -31,6 +35,10 @@ app.register_blueprint(reservations_bp, url_prefix='/reservations')
 app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
 app.register_blueprint(maps_bp, url_prefix='/maps')
 app.register_blueprint(equipmentkit_bp, url_prefix='/equipmentkit')
+app.register_blueprint(competitivo_bp, url_prefix='/competitivo')
+app.register_blueprint(nosotros_bp, url_prefix='/nosotros')
+app.register_blueprint(contact_bp, url_prefix='/contacto')
+app.register_blueprint(service_bp, url_prefix='/services')
 
 
 @app.errorhandler(HTTPException)

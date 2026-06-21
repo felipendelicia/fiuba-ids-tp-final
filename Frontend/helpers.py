@@ -132,6 +132,76 @@ def _api_get_equipment_categories():
     resp = _api_get("/equipmentkit/categories")
     if resp and resp.status_code == 200:
         return resp.json().get("categories", [])
+
+
+def _api_get_contact_messages():
+    resp = _api_get("/contacto/")
+    if resp and resp.status_code == 200:
+        return resp.json()
+    return []
+
+
+def _api_send_contact_message(data):
+    resp = _api_post("/contacto/", data=data)
+    return resp is not None and resp.status_code == 201
+
+
+def _api_get_services():
+    resp = _api_get("/services/")
+    if resp and resp.status_code == 200:
+        return resp.json().get("services", [])
+    return []
+
+
+def _api_get_service(service_id):
+    resp = _api_get(f"/services/{service_id}")
+    if resp and resp.status_code == 200:
+        return resp.json().get("service")
+    return None
+
+
+def _api_create_service(data):
+    resp = _api_post("/services/", data=data)
+    return resp is not None and resp.status_code == 201
+
+
+def _api_update_service(service_id, data):
+    resp = _api_put(f"/services/{service_id}", data=data)
+    return resp is not None and resp.status_code == 200
+
+
+def _api_delete_service(service_id):
+    resp = _api_delete(f"/services/{service_id}")
+    return resp is not None and resp.status_code == 200
+
+
+def _api_get_nosotros():
+    resp = _api_get("/nosotros/")
+    if resp and resp.status_code == 200:
+        return resp.json()
+    return {'info': None, 'cards': []}
+
+
+def _api_get_competitivo_events():
+    resp = _api_get("/competitivo/")
+    if resp and resp.status_code == 200:
+        return resp.json().get("events", [])
+    return []
+
+
+def _api_create_competitivo_event(data):
+    resp = _api_post("/competitivo/", data=data)
+    return resp is not None and resp.status_code == 201
+
+
+def _api_update_competitivo_event(id, data):
+    resp = _api_put(f"/competitivo/{id}", data=data)
+    return resp is not None and resp.status_code == 200
+
+
+def _api_delete_competitivo_event(id):
+    resp = _api_delete(f"/competitivo/{id}")
+    return resp is not None and resp.status_code == 200
     return []
 
 

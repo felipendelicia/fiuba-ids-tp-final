@@ -12,7 +12,7 @@
     <p class="contacto-subtitle">¿Dudas sobre reservas o torneos? Envíanos un reporte.</p>
 
     <div class="contacto-card">
-        <form action="/contacto" method="POST">
+        <form action="{{ url_for('contacto') }}" method="POST">
 
             <div class="form-group">
                 <label for="nombre">Nombre / Callsign</label>

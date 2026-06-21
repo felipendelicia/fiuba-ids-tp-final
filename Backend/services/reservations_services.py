@@ -1,5 +1,5 @@
-from Backend.db import execute
-from Backend.dtos.errors import abort
+from db import execute
+from dtos.errors import abort
 
 
 def listar_reservas(params):

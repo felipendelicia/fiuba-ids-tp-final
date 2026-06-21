@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS Accounts (
 	email VARCHAR(100) UNIQUE NOT NULL,
 	password VARCHAR(150) NOT NULL,
 	dni VARCHAR(20) NOT NULL UNIQUE,
-	gender VARCHAR,
+	gender VARCHAR(10),
 	phone VARCHAR(30),
 	about_me TEXT,
 	created_at DATETIME,

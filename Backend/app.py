@@ -6,14 +6,14 @@ from flask_jwt_extended import JWTManager
 from werkzeug.exceptions import HTTPException
 
 
-from Backend.routes.account_routes import account_bp
-from Backend.routes.authentication_routes import authentication_bp
-from Backend.routes.gamemodes_routes import gamemodes_bp
-from Backend.routes.reviews_routes import reviews_bp
-from Backend.routes.reservations_routes import reservations_bp
-from Backend.routes.dashboard_routes import dashboard_bp
-from Backend.routes.maps_routes import maps_bp
-from Backend.routes.equipmentkit_routes import equipmentkit_bp
+from routes.account_routes import account_bp
+from routes.authentication_routes import authentication_bp
+from routes.gamemodes_routes import gamemodes_bp
+from routes.reviews_routes import reviews_bp
+from routes.reservations_routes import reservations_bp
+from routes.dashboard_routes import dashboard_bp
+from routes.maps_routes import maps_bp
+from routes.equipmentkit_routes import equipmentkit_bp
 
 
 

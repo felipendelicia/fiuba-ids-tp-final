@@ -1,7 +1,7 @@
 from flask import g, jsonify
-from Backend.helpers import build_links
-from Backend.dtos.errors import validate_dto
-from Backend.dtos.account_dto import (
+from helpers import build_links
+from dtos.errors import validate_dto
+from dtos.account_dto import (
     validate_list_accounts,
     validate_update_user,
     validate_toggle_status,
@@ -9,8 +9,8 @@ from Backend.dtos.account_dto import (
     validate_update_password,
     build_user_response,
 )
-from Backend.dtos.response import build_paginated_response
-from Backend.services.account_services import (
+from dtos.response import build_paginated_response
+from services.account_services import (
     listar_usuarios as listar_usuarios_service,
     obtener_cuenta as obtener_cuenta_service,
     actualizar_usuario as actualizar_usuario_service,

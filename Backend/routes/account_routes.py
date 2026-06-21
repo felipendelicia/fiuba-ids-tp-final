@@ -1,5 +1,5 @@
 from flask import Blueprint
-from Backend.controllers.account_controllers import *
+from controllers.account_controllers import *
 
 account_bp = Blueprint('account', __name__)
 

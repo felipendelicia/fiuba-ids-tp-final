@@ -1,12 +1,12 @@
 from flask import g, jsonify
-from Backend.dtos.errors import validate_dto
-from Backend.dtos.gamemode_dto import (
+from dtos.errors import validate_dto
+from dtos.gamemode_dto import (
     validate_create_gamemode,
     validate_map_ids,
     build_gamemode_response,
 )
-from Backend.dtos.response import build_created_response, build_updated_response
-from Backend.services.gamemodes_services import (
+from dtos.response import build_created_response, build_updated_response
+from services.gamemodes_services import (
     listar_game_modes as service_listar_game_modes,
     crear_game_mode as service_crear_game_mode,
     reemplazar_game_mode as service_reemplazar_game_mode,

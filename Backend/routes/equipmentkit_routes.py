@@ -1,5 +1,5 @@
 from flask import Blueprint
-from Backend.controllers.equipmentkit_controllers import *
+from controllers.equipmentkit_controllers import *
 
 
 equipmentkit_bp = Blueprint('equipmentkit', __name__)

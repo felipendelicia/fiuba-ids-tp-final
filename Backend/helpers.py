@@ -1,7 +1,7 @@
 from flask import request
 import os
 from dotenv import load_dotenv
-from Backend.db import execute
+from db import execute
 
 from email.message import EmailMessage
 import ssl

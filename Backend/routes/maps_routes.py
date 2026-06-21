@@ -1,5 +1,5 @@
 from flask import Blueprint
-from Backend.controllers.maps_controllers import *
+from controllers.maps_controllers import *
 
 maps_bp = Blueprint('maps', __name__)
 

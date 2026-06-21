@@ -1,4 +1,4 @@
-from Backend.db import execute
+from db import execute
 
 
 def listar_mapas(limit, offset):

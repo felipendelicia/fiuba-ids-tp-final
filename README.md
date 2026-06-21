@@ -21,7 +21,7 @@ la reserva de turnos y gestión de predios para el deporte airsoft.
 - Realizar reseñas de canchas
 
 
-## Instalación de manera local:
+## Instalación de Manera Local:
 
 ### Configurar variables de entorno
 ```cp .env.example .env```
@@ -47,10 +47,9 @@ pip install -r requirements.txt
 ```python3 app.py```
 
 
-## Levantar con Docker
+## Levantar con Docker:
 
 ```bash
-cd Backend
 docker compose up --build
 ```
 
@@ -72,10 +71,7 @@ docker compose down
 docker compose logs -f
 
 # Reconstruir sin cache
-docker compose build --no-cache
-
-# Ejecutar solo backend (sin frontend)
-docker compose up -d db backend
+docker compose up --build
 ```
 
 ## Estructura del proyecto

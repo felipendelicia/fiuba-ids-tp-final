@@ -1,7 +1,7 @@
 import mysql.connector
 import os
 from dotenv import load_dotenv
-from Backend.dtos.errors import abort
+from dtos.errors import abort
 
 load_dotenv()
 

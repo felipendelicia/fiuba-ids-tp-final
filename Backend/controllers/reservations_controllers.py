@@ -1,7 +1,7 @@
 from flask import request, g, jsonify
-from Backend.helpers import build_links, send_reservation_mail
-from Backend.dtos.errors import validate_dto
-from Backend.dtos.reservation_dto import (
+from helpers import build_links, send_reservation_mail
+from dtos.errors import validate_dto
+from dtos.reservation_dto import (
     validate_list_reservations,
     validate_list_user_reservations,
     validate_create_reservation,
@@ -9,8 +9,8 @@ from Backend.dtos.reservation_dto import (
     validate_update_reservation,
     build_reservation_response,
 )
-from Backend.dtos.response import build_paginated_response
-from Backend.services.reservations_services import (
+from dtos.response import build_paginated_response
+from services.reservations_services import (
     listar_reservas as listar_service,
     listar_reservas_usuario as listar_reservas_usuario_service,
     crear_reserva as crear_service,

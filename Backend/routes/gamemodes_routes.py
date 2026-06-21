@@ -1,5 +1,5 @@
 from flask import Blueprint
-from Backend.controllers.gamemodes_controllers import *
+from controllers.gamemodes_controllers import *
 
 gamemodes_bp = Blueprint('gamemodes', __name__)
 

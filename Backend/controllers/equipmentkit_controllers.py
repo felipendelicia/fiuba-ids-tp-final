@@ -1,13 +1,13 @@
 from flask import g, jsonify
-from Backend.helpers import build_links
-from Backend.dtos.errors import validate_dto
-from Backend.dtos.equipment_dto import (
+from helpers import build_links
+from dtos.errors import validate_dto
+from dtos.equipment_dto import (
     validate_list_equipment,
     validate_create_equipment,
     build_equipment_response,
 )
-from Backend.dtos.response import build_paginated_response, build_created_response, build_updated_response
-from Backend.services.equipmentkit_services import (
+from dtos.response import build_paginated_response, build_created_response, build_updated_response
+from services.equipmentkit_services import (
     listar_kit_equipamientos as service_listar,
     obtener_kit_equipamiento as service_obtener,
     crear_kit_equipamiento as service_crear,

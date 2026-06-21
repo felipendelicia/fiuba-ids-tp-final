@@ -1,9 +1,9 @@
 from datetime import date
 from flask import jsonify, g, request
-from Backend.helpers import build_links
-from Backend.dtos.errors import validate_dto
-from Backend.dtos.dashboard_dto import validate_disponibility
-from Backend.services.dashboard_services import (
+from helpers import build_links
+from dtos.errors import validate_dto
+from dtos.dashboard_dto import validate_disponibility
+from services.dashboard_services import (
     listar_periodo_reservas as service_listar_reservas,
     get_dashboard_data,
 )

@@ -1,4 +1,4 @@
-from Backend.dtos.errors import abort
+from dtos.errors import abort
 
 
 def validate_list_reviews(request):

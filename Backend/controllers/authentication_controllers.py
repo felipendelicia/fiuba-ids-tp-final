@@ -1,9 +1,9 @@
 from flask import g, jsonify
 from flask_jwt_extended import create_access_token
-from Backend.dtos.errors import validate_dto
-from Backend.dtos.auth_dto import validate_login, validate_register
-from Backend.services.authentication_services import login_usuario as login_service
-from Backend.services.authentication_services import registrar_usuario as registrar_service
+from dtos.errors import validate_dto
+from dtos.auth_dto import validate_login, validate_register
+from services.authentication_services import login_usuario as login_service
+from services.authentication_services import registrar_usuario as registrar_service
 
 
 @validate_dto(validate_login)

@@ -1,8 +1,8 @@
 from flask import request, g, jsonify
-from Backend.helpers import build_links
-from Backend.dtos.errors import validate_dto, abort
-from Backend.dtos.map_dto import validate_list_maps, build_map_response
-from Backend.services.maps_services import listar_mapas as listar_mapas_service
+from helpers import build_links
+from dtos.errors import validate_dto, abort
+from dtos.map_dto import validate_list_maps, build_map_response
+from services.maps_services import listar_mapas as listar_mapas_service
 
 
 @validate_dto(validate_list_maps)

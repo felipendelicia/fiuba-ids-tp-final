@@ -1,15 +1,15 @@
 from flask import g
 from flask_jwt_extended import jwt_required
-from Backend.helpers import build_links
-from Backend.dtos.errors import validate_dto, admin_required, abort
-from Backend.dtos.review_dto import (
+from helpers import build_links
+from dtos.errors import validate_dto, admin_required, abort
+from dtos.review_dto import (
     validate_list_reviews,
     validate_create_review,
     validate_update_review,
     build_review_response,
 )
-from Backend.dtos.response import build_paginated_response, build_created_response, build_updated_response
-from Backend.services.reviews_services import (
+from dtos.response import build_paginated_response, build_created_response, build_updated_response
+from services.reviews_services import (
     listar_reviews as listar_reviews_service,
     crear_map_review as crear_review_service,
     actualizar_review as actualizar_review_service,

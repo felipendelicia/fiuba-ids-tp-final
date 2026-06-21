@@ -1,5 +1,5 @@
 from flask import Blueprint
-from Backend.controllers.dashboard_controllers import *
+from controllers.dashboard_controllers import *
 
 
 dashboard_bp = Blueprint('dashboard', __name__)

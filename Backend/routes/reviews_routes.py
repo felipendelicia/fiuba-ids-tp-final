@@ -1,5 +1,5 @@
 from flask import Blueprint
-from Backend.controllers.reviews_controllers import *
+from controllers.reviews_controllers import *
 
 reviews_bp = Blueprint('review', __name__)
 

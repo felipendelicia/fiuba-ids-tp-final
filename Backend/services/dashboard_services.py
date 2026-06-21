@@ -1,5 +1,5 @@
 from datetime import date
-from Backend.db import execute
+from db import execute
 
 
 def listar_periodo_reservas(limit, offset, fecha=None):

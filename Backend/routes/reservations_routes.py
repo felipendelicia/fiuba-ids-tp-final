@@ -1,5 +1,5 @@
 from flask import Blueprint
-from Backend.controllers.reservations_controllers import *
+from controllers.reservations_controllers import *
 
 reservations_bp = Blueprint('reservations', __name__)
 

@@ -19,7 +19,8 @@ from services.equipmentkit_services import (
 @validate_dto(validate_list_equipment)
 def listar_kit_equipamientos():
     params = g.dto
-    kits, total = service_listar(params['offset'], params['limit'])
+    category = params.get('category', '_all')
+    kits, total = service_listar(params['offset'], params['limit'], category)
     links = build_links(total, params['offset'], params['limit'])
     return build_paginated_response('equipmentkits', kits, total, links, item_builder=build_equipment_response)
 

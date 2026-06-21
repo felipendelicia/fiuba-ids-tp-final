@@ -10,88 +10,48 @@
 {% block content %}
 <section class="equipamiento-section">
     <div class="container">
-        
+
         <div class="text-center mb-4">
-            <h1 class="equipamiento-title">GUÍA DE USO Y TUTORIALES</h1>
+            <h1 class="equipamiento-title">{{ cat_info.title or 'GUÍA DE USO Y TUTORIALES' }}</h1>
+            {% if cat_info.subtitle %}<p class="equipamiento-description mx-auto">{{ cat_info.subtitle }}</p>{% endif %}
         </div>
-        
+
+        {% for item in items %}
+        {% set details = item.details or {} %}
         <div class="tutorial-container">
             <div class="row align-items-center">
-                
+
                 <div class="col-md-6 tutorial-media mb-4 mb-md-0">
-                    <img src="{{ url_for('static', filename='img/pistola.png') }}" alt="Manual de Juguete Táctico 1">
+                    <img src="{{ url_for('static', filename=item.image_url) if item.image_url else '' }}" alt="{{ item.name }}">
                 </div>
-                
+
                 <div class="col-md-6">
                     <div class="tutorial-content">
-                        <h2 class="equipamiento-title tutorial-main-title">Pistola de juguete estilo Airsoft SW40F</h2>
-                        
+                        <h2 class="equipamiento-title tutorial-main-title">{{ item.name }}</h2>
+
+                        {% if item.description %}
                         <div class="tutorial-long-text">
-                            <p>
-                                BIENVENIDO AL MANUAL TÉCNICO AVANZADO ¡Sentí la experiencia táctica y llevá tus partidas al siguiente nivel!
-La SW40F es una pistola de juguete estilo airsoft con diseño realista, ideal para juego recreativo, colección o práctica de puntería.
-                            </p>
+                            <p>{{ item.description }}</p>
                         </div>
+                        {% endif %}
 
+                        {% if details.get('instructions') %}
                         <h3 class="tutorial-subtitle">Instrucciones de manejo</h3>
-                        
                         <ol class="tutorial-steps-list">
+                            {% for step in details['instructions'] %}
                             <li>
-                                <strong>Carga y preparación:</strong> 
-                                <span>Para comenzar, colocá las balas plásticas dentro del cargador incluido y asegurate de insertarlo correctamente en la pistola hasta escuchar el ajuste. El diseño del cargador permite una carga rápida y cómoda para continuar la diversión sin interrupciones.</span>
+                                <strong>{{ step.title }}:</strong>
+                                <span>{{ step.text }}</span>
                             </li>
-                            <li>
-                                <strong>Activación del sistema de disparo:</strong> 
-                                <span>Deslizá la corredera hacia atrás para comprimir el resorte interno y preparar el mecanismo. Este sistema manual estilo airsoft brinda una experiencia más realista y entretenida, simulando el funcionamiento de una pistola táctica recreativa.</span>
-                            </li>
-                                                        <li>
-                                <strong>Disparo y uso recreativo</strong> 
-                                <span>Una vez preparado el mecanismo, simplemente presioná el gatillo para liberar la tensión del resorte y expulsar la bala plástica. Gracias a su diseño liviano y ergonómico, ofrece un agarre cómodo y fácil manejo para juegos recreativos, práctica de puntería o colección.</span>
-                            </li>
+                            {% endfor %}
                         </ol>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-
-        <div class="tutorial-container" style="margin-top: 50px;"> <div class="row align-items-center">
-                
-                <div class="col-md-6 order-2 order-md-1">
-                    <div class="tutorial-content" style="padding-left: 0; padding-right: 20px;">
-                        <h2 class="equipamiento-title tutorial-main-title">Rifle Airsoft 221A+ a Resorte Calibre 6MM</h2>
-                        
-                        <div class="tutorial-long-text">
-                            <p>
-                                Fabricado en polímero ABS de alto impacto, este rifle ofrece una estructura liviana, resistente y cómoda de manipular. Cuenta con corredera móvil, cargador estilo real y sistema monotiro que replica de manera muy fiel el funcionamiento de un rifle táctico real. Además, incorpora mira de puntería y una potencia aproximada de 340 FPS, ideal para prácticas de tiro recreativo y simulaciones.
-                            </p>
-                        </div>
-
-                        <h3 class="tutorial-subtitle">Instrucciones de manejo</h3>
-                        
-                        <ol class="tutorial-steps-list">
-                            <li>
-                                <strong>Carga del cargador:</strong> 
-                                <span>Colocá los balines plásticos de 6 mm dentro del cargador y asegurate de insertarlo correctamente en el rifle hasta escuchar el ajuste. El sistema de cargador desmontable facilita una carga rápida y cómoda para continuar la experiencia sin interrupciones.</span>
-                            </li>
-                            <li>
-                                <strong>Activación del mecanismo a resorte:</strong> 
-                                <span>Deslizá la corredera para comprimir el resorte interno y preparar el sistema de disparo. Este mecanismo manual tipo monotiro brinda una experiencia más realista, simulando el funcionamiento de un rifle táctico recreativo.</span>
-                            </li>
-                                                        <li>
-                                <strong>Disparo y uso recreativo:</strong> 
-                                <span>Una vez preparado el mecanismo, presioná el gatillo para liberar la tensión del resorte y disparar el balín plástico. Gracias a su diseño ergonómico y liviano, el rifle ofrece un manejo cómodo para prácticas de puntería, simulaciones recreativas y colección táctica.</span>
-                            </li>
-                        </ol>
+                        {% endif %}
                     </div>
                 </div>
 
-                <div class="col-md-6 tutorial-media mb-4 mb-md-0 order-1 order-md-2">
-                    <img src="{{ url_for('static', filename='img/rifle.png') }}" alt="Manual de Juguete Táctico 2">
-                </div>
-                
             </div>
         </div>
+        {% endfor %}
 
     </div>
 </section>

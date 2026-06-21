@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, session
-from helpers import _api_get_maps, _api_get_gamemodes
+from helpers import _api_get_maps, _api_get_gamemodes, _api_get_equipmentkits, _api_get_equipment_categories
 
 
 def register(app):
@@ -73,19 +73,29 @@ def register(app):
 
     @app.route('/equipamiento')
     def equipamiento():
-        return render_template('equipamiento.html', usuario=session.get('usuario'))
+        categorias = _api_get_equipment_categories()
+        return render_template('equipamiento.html', categorias=categorias, usuario=session.get('usuario'))
 
     @app.route('/equipamientoinfo/armasinfo')
     def equipamiento_armas():
-        return render_template('equipamiento_armas.html', usuario=session.get('usuario'))
+        items = _api_get_equipmentkits(category='arma')
+        cats = _api_get_equipment_categories()
+        cat_info = next((c for c in cats if c['slug'] == 'arma'), {})
+        return render_template('equipamiento_armas.html', items=items, cat_info=cat_info, usuario=session.get('usuario'))
 
     @app.route('/equipamientoinfo/chaleco')
     def equipamiento_chaleco():
-        return render_template('equipamiento_chaleco.html', usuario=session.get('usuario'))
+        items = _api_get_equipmentkits(category='chaleco')
+        cats = _api_get_equipment_categories()
+        cat_info = next((c for c in cats if c['slug'] == 'chaleco'), {})
+        return render_template('equipamiento_chaleco.html', items=items, cat_info=cat_info, usuario=session.get('usuario'))
 
     @app.route('/equipamientoinfo/casco')
     def equipamiento_casco():
-        return render_template('equipamiento_casco.html', usuario=session.get('usuario'))
+        items = _api_get_equipmentkits(category='casco')
+        cats = _api_get_equipment_categories()
+        cat_info = next((c for c in cats if c['slug'] == 'casco'), {})
+        return render_template('equipamiento_casco.html', items=items, cat_info=cat_info, usuario=session.get('usuario'))
 
     @app.route("/modalidades")
     def modalidades():

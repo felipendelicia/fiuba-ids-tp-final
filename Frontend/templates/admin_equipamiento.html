@@ -24,6 +24,20 @@
                 <div class="col-md-2">
                     <input type="number" class="form-control bg-dark text-white border-secondary" name="quantity" placeholder="Cantidad" min="1" value="1" required>
                 </div>
+                <div class="col-md-2">
+                    <select class="form-control bg-dark text-white border-secondary" name="category">
+                        <option value="">Sin categoría</option>
+                        {% for cat in categorias %}
+                        <option value="{{ cat.slug }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <input type="text" class="form-control bg-dark text-white border-secondary" name="image_url" placeholder="Img path">
+                </div>
+                <div class="col-md-9">
+                    <textarea class="form-control bg-dark text-white border-secondary" name="description" placeholder="Descripción" rows="2"></textarea>
+                </div>
                 <div class="col-md-3">
                     <input type="url" class="form-control bg-dark text-white border-secondary" name="purchase_link" placeholder="Link de compra (opcional)">
                 </div>
@@ -39,6 +53,7 @@
                     <tr>
                         <th class="border-secondary py-3">ID</th>
                         <th class="border-secondary py-3">Nombre</th>
+                        <th class="border-secondary py-3">Categoría</th>
                         <th class="border-secondary py-3">Marca</th>
                         <th class="border-secondary py-3">Precio</th>
                         <th class="border-secondary py-3">Cantidad</th>
@@ -51,20 +66,21 @@
                     <tr>
                         <td class="py-3 border-secondary text-white">{{ item.id }}</td>
                         <td class="py-3 border-secondary text-white-50">{{ item.name }}</td>
+                        <td class="py-3 border-secondary"><span class="badge bg-secondary text-white fs-6">{{ item.category or 'Kit' }}</span></td>
                         <td class="py-3 border-secondary text-white-50">{{ item.brand or '—' }}</td>
                         <td class="py-3 border-secondary"><span class="badge bg-info text-dark fs-6">${{ item.price }}</span></td>
                         <td class="py-3 border-secondary text-white">{{ item.quantity }}</td>
                         <td class="py-3 border-secondary"><span class="badge bg-success fs-6">${{ item.price * item.quantity }}</span></td>
                         <td class="py-3 border-secondary">
                             <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-info" onclick="abrirModalModificar({{ item.id }}, '{{ item.name }}', '{{ item.brand or '' }}', {{ item.price }}, {{ item.quantity }}, '{{ item.purchase_link or '' }}')">Modificar</button>
+                                <button class="btn btn-sm btn-outline-info" onclick='abrirModalModificar({{ item.id }}, {{ item.name | tojson }}, {{ item.brand | tojson if item.brand else "" }}, {{ item.price }}, {{ item.quantity }}, {{ item.purchase_link | tojson if item.purchase_link else "" }}, {{ item.category | tojson if item.category else "" }}, {{ item.description | tojson if item.description else "" }}, {{ item.image_url | tojson if item.image_url else "" }}, {{ item.details | tojson if item.details else "" }})'>Modificar</button>
                                 <button class="btn btn-sm btn-outline-danger" onclick="abrirModalEliminar({{ item.id }}, '{{ item.name }}')">Eliminar</button>
                                 <a href="{{ url_for('admin_equipamiento_info', kit_id=item.id) }}" class="btn btn-sm btn-outline-light">Info</a>
                             </div>
                         </td>
                     </tr>
                     {% else %}
-                    <tr><td colspan="7" class="text-center text-white-50 py-4">No hay equipamiento cargado.</td></tr>
+                    <tr><td colspan="8" class="text-center text-white-50 py-4">No hay equipamiento cargado.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -86,6 +102,12 @@
         <form id="formModificar" method="POST" class="d-flex flex-column gap-3">
             <input type="text" name="name" id="mod-name" class="form-control bg-dark text-white border-secondary" placeholder="Nombre" required>
             <input type="text" name="brand" id="mod-brand" class="form-control bg-dark text-white border-secondary" placeholder="Marca">
+            <select name="category" id="mod-category" class="form-control bg-dark text-white border-secondary">
+                <option value="">Sin categoría</option>
+                {% for cat in categorias %}
+                <option value="{{ cat.slug }}">{{ cat.name }}</option>
+                {% endfor %}
+            </select>
             <div class="row g-2">
                 <div class="col-6">
                     <input type="number" step="0.01" name="price" id="mod-price" class="form-control bg-dark text-white border-secondary" placeholder="Precio" min="0" required>
@@ -94,6 +116,9 @@
                     <input type="number" name="quantity" id="mod-quantity" class="form-control bg-dark text-white border-secondary" placeholder="Cantidad" min="1" required>
                 </div>
             </div>
+            <input type="text" name="image_url" id="mod-image_url" class="form-control bg-dark text-white border-secondary" placeholder="Ruta de imagen (ej: img/arma.png)">
+            <textarea name="description" id="mod-description" class="form-control bg-dark text-white border-secondary" placeholder="Descripción" rows="3"></textarea>
+            <textarea name="details" id="mod-details" class="form-control bg-dark text-white border-secondary" placeholder="Detalles JSON (opcional)" rows="3"></textarea>
             <input type="url" name="purchase_link" id="mod-purchase_link" class="form-control bg-dark text-white border-secondary" placeholder="Link de compra (opcional)">
             <div class="d-flex gap-2 justify-content-end mt-2">
                 <button type="button" class="btn btn-secondary" onclick="cerrarModalModificar()">Cancelar</button>
@@ -148,12 +173,16 @@
 </style>
 
 <script>
-function abrirModalModificar(id, name, brand, price, quantity, purchaseLink) {
+function abrirModalModificar(id, name, brand, price, quantity, purchaseLink, category, description, imageUrl, details) {
     document.getElementById('mod-name').value = name;
     document.getElementById('mod-brand').value = brand;
     document.getElementById('mod-price').value = price;
     document.getElementById('mod-quantity').value = quantity;
     document.getElementById('mod-purchase_link').value = purchaseLink;
+    document.getElementById('mod-category').value = category;
+    document.getElementById('mod-description').value = description;
+    document.getElementById('mod-image_url').value = imageUrl;
+    document.getElementById('mod-details').value = details;
     document.getElementById('formModificar').action = "{{ url_for('admin_equipamiento') }}/modificar/" + id;
     document.getElementById('modalModificar').style.display = 'flex';
 }

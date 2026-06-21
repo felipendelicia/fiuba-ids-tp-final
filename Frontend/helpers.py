@@ -114,10 +114,24 @@ def _api_get_gamemodes():
     return []
 
 
-def _api_get_equipmentkits():
-    resp = _api_get("/equipmentkit/")
+def _api_get_equipmentkits(category=None):
+    params = {"_limit": 100}
+    if category:
+        params["category"] = category
+    resp = _api_get("/equipmentkit/", params=params)
     if resp and resp.status_code == 200:
         return resp.json().get("equipmentkits", [])
+    return []
+
+
+def _api_get_reservation_kits():
+    return _api_get_equipmentkits(category='null')
+
+
+def _api_get_equipment_categories():
+    resp = _api_get("/equipmentkit/categories")
+    if resp and resp.status_code == 200:
+        return resp.json().get("categories", [])
     return []
 
 

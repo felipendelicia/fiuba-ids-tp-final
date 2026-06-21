@@ -2,7 +2,7 @@ from datetime import date
 from flask import flash, render_template, request, redirect, url_for, session
 from helpers import (
     slot_map, salas_publicas,
-    _api_get_gamemodes, _api_get_maps, _api_get_equipmentkits, _api_post,
+    _api_get_gamemodes, _api_get_maps, _api_get_equipmentkits, _api_get_reservation_kits, _api_post,
     get_frecuencia_horaria, MAX_RESERVAS_POR_DIA
 )
 
@@ -145,7 +145,7 @@ def register(app):
                                anio=hoy.year,
                                modalidades=_api_get_gamemodes(),
                                mapas=_api_get_maps(),
-                               pack=_api_get_equipmentkits())
+                               pack=_api_get_reservation_kits())
 
     @app.route("/api/turnos-disponibles")
     def api_turnos_disponibles():

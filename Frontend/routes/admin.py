@@ -3,6 +3,7 @@ from flask import flash, render_template, request, redirect, url_for, session
 from helpers import (
     REVIEWS_PER_PAGE, EQUIP_PER_PAGE, USUARIOS_PER_PAGE,
     _api_get_maps, _api_get_gamemodes, _api_get_equipment_kit,
+    _api_get_equipment_categories,
     _api_get, _api_post, _api_put, _api_patch, _api_delete,
     get_reservas_dia, contar_reservas_dia, get_ingresos_periodo,
     get_frecuencia_horaria, get_calendario_mes, MAX_RESERVAS_POR_DIA
@@ -203,6 +204,10 @@ def register(app):
                 "price": request.form.get("price"),
                 "quantity": request.form.get("quantity", 1),
                 "purchase_link": request.form.get("purchase_link"),
+                "category": request.form.get("category") or None,
+                "description": request.form.get("description") or None,
+                "image_url": request.form.get("image_url") or None,
+                "details": request.form.get("details") or None,
             }
             resp = _api_post("/equipmentkit/", data=payload)
             if resp is None:
@@ -225,8 +230,10 @@ def register(app):
         else:
             flash("No se pudo conectar con el servidor.", "warning")
         total_pages = max(1, (total + EQUIP_PER_PAGE - 1) // EQUIP_PER_PAGE)
+        categorias = _api_get_equipment_categories()
         return render_template('admin_equipamiento.html', equipamiento=equipamiento,
-                               usuario=session.get('usuario'), page=page, total_pages=total_pages)
+                               usuario=session.get('usuario'), page=page, total_pages=total_pages,
+                               categorias=categorias)
 
     @app.route('/admin_equipamiento/modificar/<int:kit_id>', methods=['POST'])
     def modificar_equipamiento(kit_id):
@@ -236,6 +243,10 @@ def register(app):
             "price": request.form.get("price"),
             "quantity": request.form.get("quantity", 1),
             "purchase_link": request.form.get("purchase_link"),
+            "category": request.form.get("category") or None,
+            "description": request.form.get("description") or None,
+            "image_url": request.form.get("image_url") or None,
+            "details": request.form.get("details") or None,
         }
         resp = _api_put(f"/equipmentkit/{kit_id}", data=payload)
         if resp is None:

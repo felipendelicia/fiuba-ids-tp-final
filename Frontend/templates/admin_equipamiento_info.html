@@ -17,6 +17,10 @@
                         <td class="text-white fw-bold">#{{ kit.id }}</td>
                     </tr>
                     <tr>
+                        <td class="text-white-50">Categoría</td>
+                        <td class="text-white">{{ kit.category or 'Kit de reserva' }}</td>
+                    </tr>
+                    <tr>
                         <td class="text-white-50">Marca</td>
                         <td class="text-white">{{ kit.brand or '—' }}</td>
                     </tr>
@@ -32,6 +36,24 @@
                         <td class="text-white-50">Valor total</td>
                         <td><span class="badge bg-success fs-6">${{ kit.price * kit.quantity }}</span></td>
                     </tr>
+                    {% if kit.description %}
+                    <tr>
+                        <td class="text-white-50">Descripción</td>
+                        <td class="text-white"><small>{{ kit.description[:200] }}{% if kit.description|length > 200 %}...{% endif %}</small></td>
+                    </tr>
+                    {% endif %}
+                    {% if kit.image_url %}
+                    <tr>
+                        <td class="text-white-50">Imagen</td>
+                        <td class="text-white">{{ kit.image_url }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if kit.details %}
+                    <tr>
+                        <td class="text-white-50">Detalles</td>
+                        <td class="text-white"><small><pre style="color:#a0aec0;font-size:12px;margin:0;">{{ kit.details | tojson if kit.details is mapping or kit.details is sequence else kit.details[:300] }}{% if kit.details is string and kit.details|length > 300 %}...{% endif %}</pre></small></td>
+                    </tr>
+                    {% endif %}
                 </tbody>
             </table>
 

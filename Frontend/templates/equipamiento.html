@@ -9,27 +9,19 @@
 {% block content %}
 <section class="equipamiento-section">
     <div class="container text-center">
-        
+
         <h1 class="equipamiento-title">EQUIPAMIENTO</h1>
-        
+
         <p class="equipamiento-description mx-auto">
             Sistema modular y cascos de protección profesional para garantizar tu máxima seguridad y rendimiento en cada partida.
         </p>
 
         <div class="equipamiento-galeria">
-            
-            <a href="{{ url_for('equipamiento_armas') }}" class="equipamiento-item">
-                <img src="{{ url_for('static', filename='img/arma.png') }}" alt="Armas Usadas">
+            {% for cat in categorias %}
+            <a href="{{ url_for(cat.route_name) }}" class="equipamiento-item">
+                <img src="{{ url_for('static', filename=cat.image_url) if cat.image_url else '' }}" alt="{{ cat.name }}">
             </a>
-
-            <a href="{{ url_for('equipamiento_casco') }}" class="equipamiento-item">
-                <img src="{{ url_for('static', filename='img/casco.png') }}" alt="Cascos y Accesorios">
-            </a>
-
-            <a href="{{ url_for('equipamiento_chaleco') }}" class="equipamiento-item">
-                <img src="{{ url_for('static', filename='img/chaleco.png') }}" alt="Protección Personal">
-            </a>
-
+            {% endfor %}
         </div>
     </div>
 </section>

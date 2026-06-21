@@ -2,9 +2,12 @@ from datetime import date
 from flask import flash, render_template, request, redirect, url_for, session
 from helpers import (
     slot_map, salas_publicas,
-    _api_get_gamemodes, _api_get_maps, _api_get_equipmentkits, _api_get_reservation_kits, _api_post,
+    _api_post,
     get_frecuencia_horaria, MAX_RESERVAS_POR_DIA
 )
+from services.mapas_services import _api_get_maps
+from services.modalidades_services import _api_get_gamemodes
+from services.equipamiento_services import _api_get_equipmentkits
 
 
 def register(app):
@@ -15,20 +18,53 @@ def register(app):
 
     @app.route("/perfil/reservasadmin/crearsala", methods=['GET', 'POST'])
     def admin_crearsala():
+        usuario = session.get('usuario')
+        if not usuario:
+            flash("Debes iniciar sesión para realizar una reserva.", "warning")
+            return redirect(url_for('login_sesion'))
+        
         if request.method == 'POST':
-            nueva_partida = {
-                "id": request.form.get("id_reserva"),
-                "modalidad": request.form.get("modalidad"),
-                "escenario": request.form.get("escenario"),
-                "fecha": request.form.get("fecha"),
-                "hora": request.form.get("hora"),
-                "actuales": 0,
-                "maximos": 10,
-                "estado": "[ RESERVA DE ADMIN ]",
+            game_mode_id = request.form.get("modalidad")
+            payload = {
+                "account_id": int(usuario["id"]),
+                "map_id": int(request.form.get("map_id")),
+                "equipment_kit_id": int(request.form.get("equipment_kit_id")),
+                "price": int(request.form.get("price")),
+                "reservation_date": request.form.get("reservation_date"),
+                "start_time": request.form.get("start_time") + ":00",
+                "end_time": request.form.get("end_time") + ":00",
             }
-            salas_publicas.append(nueva_partida)
-            return redirect(url_for('lobby_admin'))
-        return render_template('admin_creacionsalapublica.html', modalidades=_api_get_gamemodes())
+            resp = _api_post(f"/reservations/register/{game_mode_id}", data=payload, token=usuario.get('token'))
+            if isinstance(resp, Exception):
+                flash(f"Error de conexión: {resp}", "warning")
+                return redirect(url_for('admin_crearsala'))
+            if resp.status_code == 200:
+                flash("Sala creada exitosamente.", "success")
+                return redirect(url_for('reservas'))
+            elif resp.status_code == 401:
+                flash("Tu sesión expiró. Volvé a iniciar sesión.", "warning")
+                return redirect(url_for('login_sesion'))
+            else:
+                try:
+                    msg = resp.json().get("message", "No se pudo crear la sala.")
+                except Exception:
+                    msg = "No se pudo crear la sala."
+                flash(msg, "warning")
+                return redirect(url_for('admin_crearsala'))
+
+        modalidades = _api_get_gamemodes()
+        if isinstance(modalidades, Exception):
+            flash(f"Error al cargar modalidades: {modalidades}", "warning")
+            modalidades = []
+        mapas = _api_get_maps()
+        if isinstance(mapas, Exception):
+            flash(f"Error al cargar mapas: {mapas}", "warning")
+            mapas = []
+        equipmentkits = _api_get_equipmentkits()
+        if isinstance(equipmentkits, Exception):
+            flash(f"Error al cargar equipamiento: {equipmentkits}", "warning")
+            equipmentkits = []
+        return render_template('admin_creacionsalapublica.html', modalidades=modalidades, mapas=mapas, equipmentkits=equipmentkits, usuario=usuario)
 
     @app.route("/perfil/reservasadmin/eliminar/<string:id_partida>", methods=["POST"])
     def eliminar_sala(id_partida):

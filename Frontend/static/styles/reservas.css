@@ -346,3 +346,41 @@
 }
 
 .oculto { display: none; }
+
+/* admin_creacionsalapublica - yellow theme */
+.form-container.yellow {
+    border-color: rgba(255, 202, 40, 0.3);
+    max-width: 900px;
+    padding: 50px 60px;
+}
+.form-container.yellow label {
+    color: #ffca28;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+}
+.form-container.yellow input,
+.form-container.yellow select {
+    border-color: rgba(255, 202, 40, 0.25);
+    padding: 14px 18px;
+    font-size: 16px;
+}
+.form-container.yellow input:focus,
+.form-container.yellow select:focus {
+    border-color: #ffca28;
+    box-shadow: 0 0 8px rgba(255, 202, 40, 0.3);
+}
+.form-container.yellow button {
+    background: linear-gradient(135deg, #ffca28 0%, #ff9800 100%);
+    font-size: 15px;
+    padding: 14px;
+    letter-spacing: 2px;
+}
+.form-container.yellow button:hover {
+    opacity: 0.9;
+}
+.yellow-title {
+    background: linear-gradient(135deg, #ffca28 0%, #ff9800 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}

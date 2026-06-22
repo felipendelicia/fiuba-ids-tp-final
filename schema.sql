@@ -82,7 +82,14 @@ CREATE TABLE IF NOT EXISTS Maps (
     terrain VARCHAR(100),
     difficulty ENUM('Fácil', 'Media', 'Difícil'),
     compatible_gamemodes VARCHAR(300),
-    origin VARCHAR(100)
+    origin VARCHAR(100),
+    plano_image_url VARCHAR(100),
+    zone_1_name VARCHAR(100),
+    zone_1_description VARCHAR(300),
+    zone_2_name VARCHAR(100),
+    zone_2_description VARCHAR(300),
+    zone_3_name VARCHAR(100),
+    zone_3_description VARCHAR(300)
 ) DEFAULT CHARSET=utf8mb4;
 
 INSERT IGNORE INTO Maps (
@@ -98,7 +105,14 @@ INSERT IGNORE INTO Maps (
     terrain,
     difficulty,
     compatible_gamemodes,
-    origin
+    origin,
+    plano_image_url,
+    zone_1_name,
+    zone_1_description,
+    zone_2_name,
+    zone_2_description,
+    zone_3_name,
+    zone_3_description
 ) VALUES
 -- NUKETOWN
 ('nuketown.jpg', 'nuketown_2.png', 'nuketown_3.png', 'Nuketown',
@@ -110,7 +124,11 @@ INSERT IGNORE INTO Maps (
  'Urbano / Calles y edificios',
  'Media',
  'Team Deathmatch · Dominio · Captura la Bandera · Todos contra Todos',
- 'Call of Duty: Black Ops II'),
+ 'Call of Duty: Black Ops II',
+ 'plano_nuketown.png',
+ 'Acceso principal y zona de bienvenida', 'Entrada principal al complejo, diseñada para recibir a los visitantes y brindar una vista general del proyecto. Incluye el área de estacionamiento, senderos peatonales, señalética temática de Nuketown y espacios de circulación que conectan con el resto de las instalaciones.',
+ 'Plaza central y area recreativa', 'Núcleo central del mapa compuesto por espacios verdes, árboles ornamentales, banderas decorativas y zonas de descanso. La vía circular que la rodea facilita el recorrido de vehículos y peatones, convirtiéndola en el principal punto de encuentro y distribución del complejo.',
+ 'Zonas especiales y estructuras futuristas', 'Sector destinado a las construcciones más representativas del proyecto, incluyendo el Domo de la Biosfera y otras estructuras de diseño futurista. Estas instalaciones aportan identidad visual al mapa y funcionan como puntos de interés arquitectónico y recreativo para los visitantes.'),
 
 -- MIRAGE
 ('mirage.jpg', 'mirage_2.png', 'mirage_3.png', 'Mirage',
@@ -122,7 +140,11 @@ INSERT IGNORE INTO Maps (
  'Urbano / Desértico',
  'Difícil',
  'Defuse (Buscar y Destruir) · Team Deathmatch · Dominio · Escolta VIP',
- 'Counter-Strike: Global Offensive'),
+ 'Counter-Strike: Global Offensive',
+ 'plano_mirage.png',
+ 'Zona de Contención y Logística Terrestre', 'Esta gran sección abarca toda la franja norte y noroeste del predio, donde se ubican el almacén de equipamiento de 15 m X 10 m y las pilas de municiones pesadas. Está diseñada estructuralmente como una barrera perimetral masiva que delimita el fondo del escenario.',
+ 'El Núcleo de Fuego y Conflicto Directo', 'Es el corazón del mapa, dominado por el símbolo central de grafiti y la gran plataforma de cajas de carga apiladas. Al ser una explanada completamente despejada con pavimento rígido, se convierte de inmediato en el epicentro de máxima exposición y peligro.',
+ 'Zona de Descompresión', 'Situada en el lateral este del plano, esta franja destaca por su cambio de suelo hacia la arena, fuentes de agua y vegetación de palmeras altas. Visualmente actúa como un respiro estético (oasis), pero operativamente funciona como el callejón de flanqueo más peligroso del entorno.'),
 
 -- HIJACKED
 ('hijacked.jpg', 'hijacked_2.png', 'hijacked_3.png', 'Hijacked',
@@ -134,7 +156,11 @@ INSERT IGNORE INTO Maps (
  'Embarcación / Cubiertas y pasillos',
  'Media',
  'Team Deathmatch · Captura la Bandera · Dominio · Todos contra Todos',
- 'Call of Duty: Black Ops II'),
+ 'Call of Duty: Black Ops II',
+ 'plano_hijacked.png',
+ 'Zona de Acceso y Logística', 'Esta sección comprende la entrada principal desde la plataforma de baño trasera, el helipuerto y el salón comedor principal en el primer piso. Al ser el punto de partida y la zona de circulación más amplia, está diseñada para un tránsito fluido y la recepción del flujo de personas.',
+ 'Zona de Alta Intensidad y Conflicto Central', 'Ubicada en la parte media de la cubierta superior (segundo piso), esta área concentra el mayor atractivo visual y operativo. Al albergar la zona de solárium, el jacuzzi y los pasillos abiertos que conectan proa con popa, se convierte en el punto caliente del mapa donde se cruzan todos los recorridos.',
+ 'Puntos Estratégicos de Comando', 'Esta categoría engloba las posiciones elevadas y los extremos cerrados del yate: el puente de mando principal al frente y el salón VIP/Sky Lounge en la zona alta. Son sectores clave para dominar la estrategia del mapa, ya que ofrecen una ventaja táctica de altura y control visual sobre las cubiertas inferiores.'),
 
 -- TERMINAL
 ('terminal.jpg', 'terminal_2.png', 'terminal_3.png', 'Terminal',
@@ -146,7 +172,11 @@ INSERT IGNORE INTO Maps (
  'Aeropuerto / Terminal y pista exterior',
  'Media',
  'Buscar y Destruir · Dominio · Team Deathmatch · Sabotaje',
- 'Call of Duty: Modern Warfare 3');
+ 'Call of Duty: Modern Warfare 3',
+ 'plano_terminal.png',
+ 'Zona de Impacto', 'Es el sector exterior más masivo del mapa, dominado por un avión de 28.7 m de envergadura y una pista asfaltada de 21.5 m de largo. Una zona completamente abierta, ideal para transiciones rápidas entre las cajas de carga y los vehículos policiales.',
+ 'Nucleo Operativo', 'El corazón del aeropuerto que conecta la entrada principal con los mostradores de recepción y el control de escáneres. Es un laberinto interior con pasillos de 1.18 m de ancho y oficinas comerciales que obligan al combate a corta distancia y al control de esquinas ciegas.',
+ 'Punto Caliente', 'La zona este del mapa, un cuello de botella crítico que concentra las salas de espera, asientos y el famoso local de comidas. Al tener accesos reducidos de 1.2 m a 1.9 m, es el sector de máxima fricción defensiva donde se definen las partidas.');
 
 INSERT IGNORE INTO Accounts (id, name, username, email, password, dni, phone, about_me, created_at, updated_at, is_active, is_admin)
 VALUES (1, 'Juan Perez', 'juanperez', 'juanperez@email.com', '123456', '12345678', '123456789', 'Jugador de airsoft', NOW(), NOW(), TRUE, TRUE);

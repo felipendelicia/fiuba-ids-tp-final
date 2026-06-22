@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Airsoft - Dashboard{% endblock %} 
+
+
+{% block js_extra %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<section class="dashboard-section">
+
+    <div class="dashboard-title">DASHBOARD</div>
+
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-label">Total del día</div>
+            <div class="kpi-value">${{ cantidad.dia }}</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Total de la semana</div>
+            <div class="kpi-value">${{ cantidad.semana }}</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Total del mes</div>
+            <div class="kpi-value">${{ cantidad.mes }}</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Total del año</div>
+            <div class="kpi-value">${{ cantidad.año }}</div>
+        </div>
+    </div>
+
+    <div class="chart-row">
+        <div class="chart-row-title">Análisis de Reservas por Día</div>
+
+        <div class="chart-bars">
+            <div class="chart-bar" style="height: {{ frec_reservas.cs * 2 + 2 }}rem;">
+                <span>5-7</span><span>({{ frec_reservas.cs }})</span>
+            </div>
+            <div class="chart-bar" style="height: {{ frec_reservas.so * 2 + 2 }}rem;">
+                <span>7-9</span><span>({{ frec_reservas.so }})</span>
+            </div>
+            <div class="chart-bar" style="height: {{ frec_reservas.nd * 2 + 2 }}rem;">
+                <span>9-11</span><span>({{ frec_reservas.nd }})</span>
+            </div>
+            <div class="chart-bar" style="height: {{ frec_reservas.od * 2 + 2 }}rem;">
+                <span>11-13</span><span>({{ frec_reservas.od }})</span>
+            </div>
+            <div class="chart-bar" style="height: {{ frec_reservas.tc * 2 + 2 }}rem;">
+                <span>13-15</span><span>({{ frec_reservas.tc }})</span>
+            </div>
+            <div class="chart-bar" style="height: {{ frec_reservas.qs * 2 + 2 }}rem;">
+                <span>15-17</span><span>({{ frec_reservas.qs }})</span>
+            </div>
+            <div class="chart-bar" style="height: {{ frec_reservas.do * 2 + 2 }}rem;">
+                <span>17-19</span><span>({{ frec_reservas.do }})</span>
+            </div>
+            <div class="chart-bar" style="height: {{ frec_reservas.dv * 2 + 2 }}rem;">
+                <span>19-21</span><span>({{ frec_reservas.dv }})</span>
+            </div>
+        </div>
+
+        <div class="calendar-box">
+            <div class="calendar-header">{{ mes_nombre }} {{ anio }}</div>
+            <div class="calendar-weekdays">
+                <div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div>
+            </div>
+            <div class="calendar-days">
+                {% for dia in mes_actual %}
+                    {% if dia.fecha == hoy_str %}
+                    <div class="day-today" data-date="{{ dia.fecha }}">{{ dia.num }}</div>
+                    {% elif not dia.actual %}
+                    <div class="day-other" data-date="{{ dia.fecha }}">{{ dia.num }}</div>
+                    {% else %}
+                    <div data-date="{{ dia.fecha }}">{{ dia.num }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div id="calendarLoading" style="display:none;text-align:center;color:#00f2fe;margin-top:8px;">Cargando...</div>
+        </div>
+    </div>
+
+    <div class="pie-wrapper" style="display:flex;justify-content:center;margin:2rem 0">
+        <div id="pie-chart" class="pie-chart" data-ocupadas="{{ total_ocupadas }}" data-total="{{ total_capacidad }}">
+            <div class="pie-inner">
+                <h2>Ocupado</h2>
+                <span class="pie-percent" id="pieDate">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-wrapper" style="margin:0 auto">
+        <div class="table-title">Reservas</div>
+        <div class="reservations-header">
+            <div>ID</div><div>NOMBRE</div><div>DNI</div><div>USUARIO</div><div>PRECIO</div><div>HORARIO</div><div>MAPA</div><div>TIPO</div>
+        </div>
+        <div id="reservationsBody">
+        {% for reserva in data_ocu %}
+        <div class="reservations-row">
+            <div>{{ reserva.id_reserva }}</div>
+            <div>{{ reserva.user_name }}</div>
+            <div>{{ reserva.dni_usuario }}</div>
+            <div>{{ reserva.user_name }}</div>
+            <div>${{ reserva.price }}</div>
+            <div>{{ reserva.start_time[:16] }} - {{ reserva.end_time[:16] }}</div>
+            <div>{{ reserva.map_name }}</div>
+            <div>{{ "Pública" if reserva.is_public else "Privada" }}</div>
+        </div>
+        {% endfor %}
+        {% if not data_ocu %}
+        <div class="reservations-row">
+            <div class="dim" style="flex:1;text-align:center">Sin reservas para esta fecha</div>
+        </div>
+        {% endif %}
+        </div>
+    </div>
+
+</section>
+{% endblock %}

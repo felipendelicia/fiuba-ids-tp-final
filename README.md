@@ -1,16 +1,13 @@
-# Airsoft Project
 # Introducción al desarrollo de software (FIUBA)
 
 ## Integrantes:
-- Felipe Nahuel Delicia 115775
+- Felipe Nahuel Delicia 115775 
 - Dante Ghisi 115735
 - Balderrama Rubin de Celis Mariano 115667
 - Suarez Hans Leonardo 115120
-- Franchini Juan Luca 115800
 - Gabriel Alexander Saavedra 114419
 - Ronny Mamani Torrez 114779
 - Kiliano Agustin Olivera 115740
-- Gabriel Vera 114517
 
 ## Descripción:
 
@@ -24,41 +21,58 @@ la reserva de turnos y gestión de predios para el deporte airsoft.
 - Perfil del jugador
 - Realizar reseñas de canchas
 
-## Instalación:
 
-En el directorio del proyecto:
+## Levantar con Docker:
 
-### Configurar variables de entorno
-```cp .env.example .env```
-
-Editar el archivo .env con las credenciales de la base de datos
-
-### Crear un entorno virtual e instalar las dependencias
-
-```
-python3 -m venv .venv  
-source .venv/bin/activate
-pip install -r requirements.txt
+```bash
+docker compose up --build
 ```
 
-### Crear esquema de base de datos
+```obs: en .env.example, se pueden descomentar los valores del email para poder utilizar el de kinetix o usar otro email empresarial```
 
-```Observación: El schema.sql está configurado para crear una base de datos por defecto llamada "airsoftdb"```
+## Servicios
 
-```sudo mysql -u root -p < schema.sql```
+| Servicio | Puerto | URL |
+|----------|--------|-----|
+| Frontend | 5000 | http://localhost:5000 |
+| Backend  | 8000 | http://localhost:8000 |
+| MySQL    | 3307 | localhost:3307 |
 
-### Ejecutar el servidor
+## Comandos útiles
 
-```python3 app.py```
+```bash
+# Detener contenedores
+docker compose down
 
+# Ver logs
+docker compose logs -f
 
+# Reconstruir sin cache
+docker compose up --build
+```
 
+## Estructura del proyecto
 
+```
+Backend/
+├── app.py               # Entry point
+├── controllers/         # Request handlers
+├── routes/              # Route registrations
+├── services/            # Business logic
+├── dtos/                # Validation & responses
+├── db.py                # Database connection
+└── schema.sql           # DB schema
 
-
-
-- 
-- 
--
--
--
+Frontend/
+├── app.py               # Entry point (8 líneas)
+├── helpers.py           # API helpers (_api_get, _api_post, etc.)
+├── routes/              # Route modules agrupados por dominio
+│   ├── public.py        # index, campos, modalidades, servicios
+│   ├── auth.py          # login, registro, contraseña
+│   ├── profile.py       # perfil, favoritos, reseñas
+│   ├── reservations.py  # reservas, lobbies, turnos
+│   └── admin.py         # dashboard, usuarios, equipamiento, modalidades
+├── services/            # Dashboard services
+├── templates/           # Jinja2 templates
+└── static/              # CSS, JS, images
+```

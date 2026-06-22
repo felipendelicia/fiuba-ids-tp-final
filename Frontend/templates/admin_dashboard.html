@@ -81,39 +81,38 @@
         </div>
     </div>
 
-    <div class="dashboard-bottom">
-        <div class="table-wrapper">
-            <div class="table-title">Reservas</div>
-            <div class="reservations-header">
-                <div>ID</div><div>NOMBRE</div><div>DNI</div><div>USUARIO</div><div>PRECIO</div><div>HORARIO</div><div>MAPA</div>
-            </div>
-            <div id="reservationsBody">
-            {% for reserva in data_ocu %}
-            <div class="reservations-row">
-                <div>{{ reserva.id_reserva }}</div>
-                <div>{{ reserva.user_name }}</div>
-                <div>{{ reserva.dni_usuario }}</div>
-                <div>{{ reserva.user_name }}</div>
-                <div>${{ reserva.price }}</div>
-                <div>{{ reserva.start_time[:16] }} - {{ reserva.end_time[:16] }}</div>
-                <div>{{ reserva.map_name }}</div>
-            </div>
-            {% endfor %}
-            {% if not data_ocu %}
-            <div class="reservations-row">
-                <div class="dim" style="flex:1;text-align:center">Sin reservas para esta fecha</div>
-            </div>
-            {% endif %}
+    <div class="pie-wrapper" style="display:flex;justify-content:center;margin:2rem 0">
+        <div id="pie-chart" class="pie-chart" data-ocupadas="{{ total_ocupadas }}" data-total="{{ total_capacidad }}">
+            <div class="pie-inner">
+                <h2>Ocupado</h2>
+                <span class="pie-percent" id="pieDate">0%</span>
             </div>
         </div>
+    </div>
 
-        <div class="pie-wrapper">
-            <div id="pie-chart" class="pie-chart" data-ocupadas="{{ total_ocupadas }}" data-total="{{ total_capacidad }}">
-                <div class="pie-inner">
-                    <h2>Ocupado</h2>
-                    <span class="pie-percent" id="pieDate">0%</span>
-                </div>
-            </div>
+    <div class="table-wrapper" style="margin:0 auto">
+        <div class="table-title">Reservas</div>
+        <div class="reservations-header">
+            <div>ID</div><div>NOMBRE</div><div>DNI</div><div>USUARIO</div><div>PRECIO</div><div>HORARIO</div><div>MAPA</div><div>TIPO</div>
+        </div>
+        <div id="reservationsBody">
+        {% for reserva in data_ocu %}
+        <div class="reservations-row">
+            <div>{{ reserva.id_reserva }}</div>
+            <div>{{ reserva.user_name }}</div>
+            <div>{{ reserva.dni_usuario }}</div>
+            <div>{{ reserva.user_name }}</div>
+            <div>${{ reserva.price }}</div>
+            <div>{{ reserva.start_time[:16] }} - {{ reserva.end_time[:16] }}</div>
+            <div>{{ reserva.map_name }}</div>
+            <div>{{ "Pública" if reserva.is_public else "Privada" }}</div>
+        </div>
+        {% endfor %}
+        {% if not data_ocu %}
+        <div class="reservations-row">
+            <div class="dim" style="flex:1;text-align:center">Sin reservas para esta fecha</div>
+        </div>
+        {% endif %}
         </div>
     </div>
 

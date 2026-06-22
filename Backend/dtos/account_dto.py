@@ -16,18 +16,14 @@ def validate_update_user(request):
     data = request.get_json()
     if not data:
         abort(400, 'Body requerido')
-    required = ['username', 'email', 'password', 'phone', 'elo', 'is_active']
-    missing = [f for f in required if f not in data]
-    if missing:
-        abort(400, f'Campos requeridos: {", ".join(missing)}')
-    return {
-        'username': data['username'],
-        'email': data['email'],
-        'password': data['password'],
-        'phone': data['phone'],
-        'elo': data['elo'],
-        'is_active': data['is_active'],
-    }
+    allowed = {'username', 'email', 'password', 'phone', 'elo', 'is_active', 'name'}
+    given = set(data.keys())
+    invalid = given - allowed
+    if invalid:
+        abort(400, f'Campos inválidos: {", ".join(invalid)}')
+    if not given:
+        abort(400, 'Debe enviar al menos un campo')
+    return data
 
 
 def validate_toggle_status(request):
@@ -70,6 +66,8 @@ def build_user_response(user):
         'is_active': user.get('is_active', False),
         'is_admin': user.get('is_admin', False),
         'elo': user.get('elo', 0),
+        'played_games': user.get('played_games', 0),
+        'hours_played': user.get('hours_played', 0),
         'created_at': str(user.get('created_at', '')),
         'updated_at': str(user.get('updated_at', '')),
     }

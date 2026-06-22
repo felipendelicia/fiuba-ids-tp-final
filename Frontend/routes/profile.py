@@ -1,5 +1,68 @@
+import os
 from flask import flash, render_template, request, redirect, url_for, session
-from helpers import REVIEWS_PER_PAGE, _api_get_maps, _api_get, _api_post, _api_patch, _api_send_contact_message
+from werkzeug.utils import secure_filename
+from helpers import (
+    REVIEWS_PER_PAGE, _api_get_maps, _api_get, _api_post, _api_patch,
+    _api_send_contact_message, _api_get_gamemodes, _api_get_equipmentkits
+)
+
+
+def _fetch_user_history(user_id, token):
+    """Fetch user's sala history: private rooms they created + public rooms they joined."""
+    salas_resp = _api_get("/salas/", params={"_limit": 1000}, token=token)
+    reservas_resp = _api_get("/reservations/", params={"_limit": 1000}, token=token)
+
+    modalidades = _api_get_gamemodes()
+    modalidad_map = {}
+    if not isinstance(modalidades, Exception):
+        modalidad_map = {m["id"]: m["name"] for m in modalidades}
+
+    mapas = _api_get_maps()
+    mapa_map = {}
+    if not isinstance(mapas, Exception):
+        mapa_map = {m["id"]: m["name"] for m in mapas}
+
+    equip_map = {}
+    kits = _api_get_equipmentkits()
+    if not isinstance(kits, Exception):
+        equip_map = {k["id"]: k["name"] for k in kits}
+
+    all_salas = []
+    if salas_resp and salas_resp.status_code == 200:
+        all_salas = salas_resp.json().get("salas", [])
+
+    all_reservas = []
+    if reservas_resp and reservas_resp.status_code == 200:
+        all_reservas = reservas_resp.json().get("reservas", [])
+
+    user_reservas = [r for r in all_reservas if r.get("account_id") == user_id and not r.get("canceled")]
+    user_sala_ids = {r["sala_id"] for r in user_reservas}
+
+    history = []
+    for s in all_salas:
+        if s.get("canceled"):
+            continue
+        is_owner = s.get("admin_account_id") == user_id
+        is_joined = s["id"] in user_sala_ids
+        if not is_owner and not is_joined:
+            continue
+        user_res = None
+        for r in user_reservas:
+            if r["sala_id"] == s["id"]:
+                user_res = r
+                break
+        kit_name = equip_map.get(user_res["equipment_kit_id"], "-") if user_res else "-"
+        history.append({
+            "id": s["id"],
+            "tipo": "Privada" if not s.get("is_public", True) else "Pública",
+            "modalidad": modalidad_map.get(s["game_mode_id"], f"ID {s['game_mode_id']}"),
+            "mapa": mapa_map.get(s["map_id"], f"Mapa {s['map_id']}"),
+            "fecha": s["reservation_date"],
+            "horario": f"{s['start_time'][:5]} - {s['end_time'][:5]}",
+            "equipamiento": kit_name,
+            "precio": user_res["price"] if user_res else s.get("price", 0),
+        })
+    return history
 
 
 def register(app):
@@ -9,9 +72,16 @@ def register(app):
         usuario = session.get('usuario')
         if not usuario:
             return redirect(url_for('login_sesion'))
+        cuenta_resp = _api_get(f"/account/{usuario['id']}", token=usuario.get('token'))
+        if cuenta_resp and cuenta_resp.status_code == 200:
+            cuenta = cuenta_resp.json().get("Cuenta", {})
+            cuenta["user_name"] = cuenta.get("username")
+            session['usuario'] = cuenta
+            usuario = cuenta
         favoritos = session.get('favoritos', [])
         mapas = _api_get_maps()
-        return render_template('perfil.html', usuario=usuario, favoritos=favoritos, mapas=mapas)
+        historial = _fetch_user_history(usuario["id"], usuario.get("token"))
+        return render_template('perfil.html', usuario=usuario, favoritos=favoritos, mapas=mapas, historial=historial)
 
     @app.route('/perfil/favoritos/agregar/<int:map_id>', methods=['POST'])
     def perfil_favoritos_agregar(map_id):
@@ -43,6 +113,65 @@ def register(app):
         favoritos = session.get('favoritos', [])
         session['favoritos'] = [f for f in favoritos if f['id'] != map_id]
         flash("Mapa eliminado de favoritos", "success")
+        return redirect(url_for('perfil'))
+
+    @app.route('/perfil/actualizar', methods=['POST'])
+    def perfil_actualizar():
+        usuario = session.get('usuario')
+        if not usuario:
+            return redirect(url_for('login_sesion'))
+        payload = {}
+        email = request.form.get('email', '').strip()
+        phone = request.form.get('phone', '').strip()
+        if email:
+            payload['email'] = email
+        if phone:
+            payload['phone'] = phone
+        if not payload:
+            flash("No hay campos para actualizar.", "warning")
+            return redirect(url_for('perfil'))
+        resp = _api_patch(f"/account/{usuario['id']}", data=payload, token=usuario.get('token'))
+        if resp is None:
+            flash("No se pudo conectar con el servidor.", "warning")
+            return redirect(url_for('perfil'))
+        if resp.status_code == 204:
+            cuenta_resp = _api_get(f"/account/{usuario['id']}", token=usuario.get('token'))
+            if cuenta_resp and cuenta_resp.status_code == 200:
+                cuenta = cuenta_resp.json().get("Cuenta", {})
+                cuenta["user_name"] = cuenta.get("username")
+                session['usuario'] = cuenta
+            flash("Datos actualizados correctamente.", "success")
+        else:
+            flash("No se pudieron actualizar los datos.", "warning")
+        return redirect(url_for('perfil'))
+
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+
+    def _allowed_file(filename):
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+    @app.route('/perfil/foto', methods=['POST'])
+    def perfil_foto():
+        usuario = session.get('usuario')
+        if not usuario:
+            return redirect(url_for('login_sesion'))
+        if 'foto' not in request.files:
+            flash("No se seleccionó ningún archivo.", "warning")
+            return redirect(url_for('perfil'))
+        file = request.files['foto']
+        if file.filename == '':
+            flash("No se seleccionó ningún archivo.", "warning")
+            return redirect(url_for('perfil'))
+        if not _allowed_file(file.filename):
+            flash("Formato de imagen no permitido (usá PNG, JPG, GIF o WebP).", "warning")
+            return redirect(url_for('perfil'))
+        upload_dir = os.path.join(app.root_path, 'static', 'uploads', 'profile')
+        os.makedirs(upload_dir, exist_ok=True)
+        filename = secure_filename(f"user_{usuario['id']}_{file.filename}")
+        file.save(os.path.join(upload_dir, filename))
+        usuario['profile_picture'] = url_for('static', filename=f'uploads/profile/{filename}')
+        session['usuario'] = usuario
+        flash("Foto de perfil actualizada.", "success")
         return redirect(url_for('perfil'))
 
     @app.route('/perfil/password', methods=['POST'])

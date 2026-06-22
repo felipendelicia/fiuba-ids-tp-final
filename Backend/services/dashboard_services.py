@@ -41,7 +41,7 @@ def get_dashboard_data(fecha, limit=100, offset=0):
     if total > 0:
         reservas = execute(f"""
             SELECT r.id,
-                   r.price, s.start_time, s.end_time, s.map_id,
+                   r.price, s.start_time, s.end_time, s.map_id, s.is_public,
                    a.name as user_name, a.dni as dni_usuario,
                    m.name as map_name
             FROM Reservations r

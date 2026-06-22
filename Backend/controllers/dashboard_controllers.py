@@ -49,6 +49,7 @@ def api_dashboard_data():
             'start_time': str(r['start_time']),
             'end_time': str(r['end_time']),
             'map_name': r.get('map_name', ''),
+            'is_public': bool(r.get('is_public', True)),
         })
 
     frecuencia = {k: int(v) for k, v in frecuencia.items()}

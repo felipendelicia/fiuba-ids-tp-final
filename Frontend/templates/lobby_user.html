@@ -116,7 +116,7 @@
                         <td class="py-3 border-secondary text-center">
                             {% if sala.unido %}
                                 <button class="btn btn-sm btn-secondary fw-bold px-3 btn-sala" disabled>
-                                    UNIDO ✔ ({{ sala.actuales }}/{{ sala.maximos }})
+                                    UNIDO ({{ sala.actuales }}/{{ sala.maximos }})
                                 </button>
                             {% elif sala.actuales < sala.maximos %}
                                 <button class="btn btn-sm btn-success fw-bold px-3 shadow-sm btn-sala" disabled>
@@ -136,7 +136,7 @@
                             </button>
                             {% endif %}
                             {% if sala.user_reservation_id %}
-                            <form action="{{ url_for('cancelar_reserva', reservation_id=sala.user_reservation_id) }}" method="POST" onsubmit="return confirm('¿Cancelar tu reserva en esta sala?')">
+                            <form action="{{ url_for('cancelar_reserva', reservation_id=sala.user_reservation_id) }}" method="POST" data-confirm="¿Cancelar tu reserva en esta sala?">
                                 <button type="submit" class="btn btn-sm btn-outline-danger fw-bold px-3 btn-sala">
                                     CANCELAR
                                 </button>
@@ -148,7 +148,7 @@
                         </td>
                         <td class="py-3 border-secondary text-center">
                             {% if sala.es_propia %}
-                            <form action="{{ url_for('cancelar_sala', sala_id=sala.id) }}" method="POST" onsubmit="return confirm('¿Cancelar toda la sala? Se cancelarán todas las reservas activas.')">
+                            <form action="{{ url_for('cancelar_sala', sala_id=sala.id) }}" method="POST" data-confirm="¿Cancelar toda la sala? Se cancelarán todas las reservas activas.">
                                 <button type="submit" class="btn btn-sm btn-outline-danger fw-bold px-3 btn-sala">
                                     CANCELAR SALA
                                 </button>
@@ -172,5 +172,6 @@
 
 <script id="reservas-data" type="application/json">{{ reservas_json | tojson | safe }}</script>
 <script id="slot-map-data" type="application/json">{{ slot_map | tojson | safe }}</script>
-<script src="{{ url_for('static', filename='scripts/lobby_user.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modales.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lobby_user.js') }}"></script>
 {% endblock %}

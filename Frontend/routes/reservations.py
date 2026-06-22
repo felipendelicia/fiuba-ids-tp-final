@@ -208,11 +208,17 @@ def register(app):
             maximos = s.get("max_players", 4)
             unido = s["id"] in user_sala_ids
             user_reservation_id = None
+            user_reservation_price = None
+            user_reservation_kit = None
             for r in user_reservas:
                 if r["sala_id"] == s["id"]:
                     user_reservation_id = r["id"]
+                    user_reservation_price = r.get("price")
+                    user_reservation_kit = r.get("equipment_kit_id")
                     break
             es_admin_sala = usuario.get("is_admin")
+            sala_precio = user_reservation_price if user_reservation_price else s.get("price", 0)
+            sala_equip = equip_map.get(user_reservation_kit) if user_reservation_kit else equip_map.get(s.get("equipment_kit_id", 1), f"Kit {s.get('equipment_kit_id', 1)}")
             salas.append({
                 "id": s["id"],
                 "user_reservation_id": user_reservation_id,
@@ -220,7 +226,7 @@ def register(app):
                 "escenario": mapa_map.get(s["map_id"], f"Mapa {s['map_id']}"),
                 "fecha": s["reservation_date"],
                 "hora": f"{s['start_time'][:5]} - {s['end_time'][:5]}",
-                "precio": s.get("price", 0),
+                "precio": sala_precio,
                 "actuales": current,
                 "maximos": maximos,
                 "estado": "Abierta" if current < maximos else "Llena",
@@ -231,7 +237,7 @@ def register(app):
                 "start_time": s["start_time"],
                 "end_time": s["end_time"],
                 "unido": unido,
-                "equipamiento": equip_map.get(s.get("equipment_kit_id", 1), f"Kit {s.get('equipment_kit_id', 1)}"),
+                "equipamiento": sala_equip,
                 "admin_account_id": s.get("admin_account_id"),
                 "es_admin_sala": es_admin_sala,
                 "es_propia": es_admin_sala and s.get("admin_account_id") == usuario["id"],

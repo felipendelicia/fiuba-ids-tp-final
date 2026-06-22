@@ -64,6 +64,14 @@ function filtrarCampos() {
     actualizarDisponibles();
 }
 
+function hiddenInput(name, value) {
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    return input;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     var modSelect = document.getElementById('modalidad');
     if (modSelect) {
@@ -96,19 +104,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    document.querySelectorAll('form[data-confirm]').forEach(function(form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            var ok = await abrirModalConfirm(this.dataset.confirm);
+            if (ok) {
+                this.submit();
+            }
+        });
+    });
+
     document.querySelectorAll('.btn-unirse').forEach(function(btn) {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', async function() {
             var salaId = this.dataset.salaId;
             var kit = document.getElementById('kit-' + salaId);
             if (!kit || !kit.value) {
-                alert('Seleccioná un kit de equipamiento primero.');
+                await abrirModalAlerta('Seleccioná un kit de equipamiento primero.');
                 return;
             }
             var baseEl = document.getElementById('precio-base-' + salaId);
             var base = baseEl ? parseInt(String(baseEl.textContent).replace('$', '').replace(/\./g, '')) || 0 : 0;
             var option = kit.options[kit.selectedIndex];
+            var kitName = option.text;
             var kitPrice = option && option.dataset.price ? parseInt(option.dataset.price) || 0 : 0;
             var totalPrice = base + kitPrice;
+            var confirmar = await abrirModalConfirm(
+                '¿Unirte a la sala #' + salaId + '?\nKit: ' + kitName + '\nTotal: $' + totalPrice
+            );
+            if (!confirmar) return;
             var form = document.createElement('form');
             form.method = 'POST';
             form.action = '/lobby/unirse-publica';
@@ -120,11 +143,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-function hiddenInput(name, value) {
-    var input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = name;
-    input.value = value;
-    return input;
-}

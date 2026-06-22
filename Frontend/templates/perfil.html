@@ -228,57 +228,8 @@
     </div>
 </div>
 
-<script>
-    const botones = document.querySelectorAll('.tab-btn');
-    const secciones = document.querySelectorAll('.tab-seccion');
+{% endblock %}
 
-    botones.forEach(boton => {
-        boton.addEventListener('click', () => {
-            botones.forEach(b => b.classList.remove('active'));
-            secciones.forEach(s => s.classList.remove('active'));
-
-            boton.classList.add('active');
-            document.querySelector(boton.dataset.target).classList.add('active');
-        });
-    });
-
-    function abrirModalMapas() {
-        document.getElementById('modal-mapas').style.display = 'flex';
-    }
-
-    function cerrarModalMapas() {
-        document.getElementById('modal-mapas').style.display = 'none';
-    }
-
-    function agregarFavorito(mapId) {
-        cerrarModalMapas();
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/perfil/favoritos/agregar/' + mapId;
-        document.body.appendChild(form);
-        form.submit();
-    }
-
-    function eliminarFavorito(mapId) {
-        document.getElementById('modal-confirm-eliminar').dataset.mapId = mapId;
-        document.getElementById('modal-confirm-eliminar').style.display = 'flex';
-    }
-
-    function confirmarEliminar() {
-        const mapId = document.getElementById('modal-confirm-eliminar').dataset.mapId;
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/perfil/favoritos/eliminar/' + mapId;
-        document.body.appendChild(form);
-        form.submit();
-    }
-
-    function cerrarConfirmEliminar() {
-        document.getElementById('modal-confirm-eliminar').style.display = 'none';
-    }
-
-    document.getElementById('modal-mapas').addEventListener('click', function(e) {
-        if (e.target === this) cerrarModalMapas();
-    });
-</script>
+{% block js_extra %}
+<script src="{{ url_for('static', filename='js/modales.js') }}"></script>
 {% endblock %}

@@ -1,4 +1,4 @@
-from db import execute
+from db import execute, get_db_connection
 from dtos.errors import abort
 
 
@@ -43,6 +43,8 @@ def crear_sala(params):
     end_time = params['end_time']
     max_players = params['max_players']
     admin_account_id = params['admin_account_id']
+    account_id = params.get('account_id')
+    join_kit_id = params.get('join_equipment_kit_id')
 
     game_mode = execute(f"SELECT * FROM GameModes WHERE id = {game_mode_id}")
     if not game_mode:
@@ -54,9 +56,46 @@ def crear_sala(params):
 
     kit_val = f"'{equipment_kit_id}'" if equipment_kit_id else "NULL"
 
-    execute(f"""INSERT INTO Salas
-        (game_mode_id, map_id, equipment_kit_id, price, reservation_date, start_time, end_time, max_players, admin_account_id)
-        VALUES ({game_mode_id}, {map_id}, {kit_val}, {price}, '{reservation_date}', '{start_time}', '{end_time}', {max_players}, {admin_account_id})""")
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True, buffered=True)
+    try:
+        cursor.execute(f"""INSERT INTO Salas
+            (game_mode_id, map_id, equipment_kit_id, price, reservation_date, start_time, end_time, max_players, admin_account_id)
+            VALUES ({game_mode_id}, {map_id}, {kit_val}, {price}, '{reservation_date}', '{start_time}', '{end_time}', {max_players}, {admin_account_id})""")
+        sala_id = cursor.lastrowid
+
+        if account_id:
+            if not join_kit_id:
+                abort(400, 'join_equipment_kit_id requerido para unirse a la sala')
+
+            current = execute(f"SELECT COUNT(*) as cnt FROM Reservations WHERE sala_id = {sala_id} AND canceled = FALSE")
+            if current[0]['cnt'] >= max_players:
+                abort(409, 'La sala está completa')
+
+            duplicado = execute(f"SELECT id FROM Reservations WHERE sala_id = {sala_id} AND account_id = {account_id} AND canceled = FALSE")
+            if duplicado:
+                abort(409, 'Ya estás registrado en esta sala')
+
+            kit = execute(f"SELECT price FROM EquipmentKit WHERE id = {join_kit_id}")
+            kit_price = kit[0]['price'] if kit else 0
+            total_price = int(price) + int(kit_price)
+
+            cursor.execute(f"""INSERT INTO Reservations (sala_id, account_id, equipment_kit_id, price)
+                    VALUES ({sala_id}, {account_id}, {join_kit_id}, {total_price})""")
+
+        conn.commit()
+
+        if account_id:
+            user = execute(f"SELECT email FROM Accounts WHERE id = {account_id}")
+            if user:
+                return user[0]['email']
+
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        cursor.close()
+        conn.close()
 
 
 def actualizar_sala(id, data):

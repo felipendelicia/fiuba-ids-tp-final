@@ -28,6 +28,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    env_file:
+      - ./Backend/.env
     environment:
       MYSQL_HOST: db
       MYSQL_PORT: 3306

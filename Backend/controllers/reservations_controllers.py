@@ -1,5 +1,6 @@
 from flask import request, g, jsonify
 from helpers import build_links, send_reservation_mail
+from db import execute
 from dtos.errors import validate_dto
 from dtos.reservation_dto import (
     validate_join_sala,
@@ -13,7 +14,6 @@ from services.reservations_services import (
     crear_reserva as crear_service,
     actualizar_reserva as actualizar_service,
 )
-from services.salas_services import listar_salas as listar_salas_service
 
 
 @validate_dto(validate_list_reservations)
@@ -29,8 +29,16 @@ def join_sala(sala_id):
     dto = g.dto
     user_email = crear_service(sala_id, dto)
 
-    sala_info = listar_salas_service({'limit': 1, 'offset': 0, 'start_time': None, 'end_time': None, 'is_public': None, 'reservation_date': None})
-    mail_body = {**dto, **({'sala_id': sala_id})}
+    sala_rows = execute(f"SELECT * FROM Salas WHERE id = {sala_id}")
+    sala = sala_rows[0] if sala_rows else {}
+    mail_body = {
+        **dto,
+        'sala_id': sala_id,
+        'map_id': sala.get('map_id'),
+        'reservation_date': str(sala.get('reservation_date', '')),
+        'start_time': str(sala.get('start_time', '')),
+        'end_time': str(sala.get('end_time', '')),
+    }
 
     if not send_reservation_mail(user_email, mail_body):
         print("Advertencia: mail no pudo enviarse")

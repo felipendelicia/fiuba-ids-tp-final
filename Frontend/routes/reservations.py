@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-from flask import flash, render_template, request, redirect, url_for, session
+from flask import flash, render_template, request, redirect, url_for, session, jsonify
 from helpers import (
     slot_map as slot_map_dict,
     _api_get, _api_post, _api_patch, _api_get_reservation_kits
@@ -7,6 +7,7 @@ from helpers import (
 from services.mapas_services import _api_get_maps
 from services.modalidades_services import _api_get_gamemodes
 from services.equipamiento_services import _api_get_equipmentkits
+from services.dashboard_services import get_frecuencia_horaria
 
 
 def register(app):
@@ -255,6 +256,31 @@ def register(app):
                                today=date.today().isoformat(), reservas_json=reservas_json,
                                slot_map=slot_map_dict)
 
+    @app.route("/api/turnos-disponibles")
+    def api_turnos_disponibles():
+        fecha_param = request.args.get('date')
+        if fecha_param:
+            try:
+                fecha = date.fromisoformat(fecha_param)
+            except ValueError:
+                return {"error": "Formato de fecha inválido"}, 400
+        else:
+            fecha = date.today()
+        frec = get_frecuencia_horaria(fecha)
+        slots = [
+            {"id": "cs", "label": "5 - 7", "ocupados": frec.get("cs", 0), "max": 4},
+            {"id": "so", "label": "7 - 9", "ocupados": frec.get("so", 0), "max": 4},
+            {"id": "nd", "label": "9 - 11", "ocupados": frec.get("nd", 0), "max": 4},
+            {"id": "od", "label": "11 - 13", "ocupados": frec.get("od", 0), "max": 4},
+            {"id": "tc", "label": "13 - 15", "ocupados": frec.get("tc", 0), "max": 4},
+            {"id": "qs", "label": "15 - 17", "ocupados": frec.get("qs", 0), "max": 4},
+            {"id": "do", "label": "17 - 19", "ocupados": frec.get("do", 0), "max": 4},
+            {"id": "dv", "label": "19 - 21", "ocupados": frec.get("dv", 0), "max": 4},
+        ]
+        for s in slots:
+            s["disponible"] = s["ocupados"] < s["max"]
+        return {"fecha": fecha.isoformat(), "turnos": slots}
+
     @app.route("/lobby-privada", methods=['GET', 'POST'])
     def lobby_privada():
         usuario = session.get('usuario')
@@ -285,32 +311,41 @@ def register(app):
                 flash("Seleccioná un pack de equipamiento válido", "warning")
                 return redirect(url_for('lobby_privada'))
 
-            payload = {
-                "account_id": int(usuario["id"]),
+            modalidades = _api_get_gamemodes()
+            modalidad_max_players = 4
+            if not isinstance(modalidades, Exception):
+                for m in modalidades:
+                    if str(m["id"]) == game_mode_id:
+                        modalidad_max_players = m.get("players", 4)
+                        break
+
+            sala_payload = {
+                "game_mode_id": int(game_mode_id),
                 "map_id": int(map_id),
-                "equipment_kit_id": kit_id,
                 "price": int(precio),
                 "reservation_date": reservation_date,
                 "start_time": start_time,
                 "end_time": end_time,
+                "max_players": modalidad_max_players,
+                "admin_account_id": int(usuario["id"]),
+                "account_id": int(usuario["id"]),
+                "join_equipment_kit_id": kit_id,
             }
-            resp = _api_post(f"/reservations/{game_mode_id}", data=payload, token=usuario.get('token'))
-            if resp is None:
+            sala_resp = _api_post("/salas/", data=sala_payload, token=usuario.get('token'))
+            if sala_resp is None:
                 flash("No se pudo conectar con el servidor.", "warning")
                 return redirect(url_for('lobby_privada'))
 
-            if resp.status_code == 200:
+            if sala_resp.status_code == 201:
                 return redirect(url_for('mensaje_crea_sala_privada'))
-            elif resp.status_code == 401:
-                flash("Tu sesión expiró. Volvé a iniciar sesión.", "warning")
-                return redirect(url_for('login_sesion'))
             else:
                 try:
-                    msg = resp.json().get("message", "No se pudo completar la reserva.")
+                    body = sala_resp.json()
+                    msg = body.get("message", "No se pudo crear la sala privada.")
                 except Exception:
-                    msg = "No se pudo completar la reserva."
+                    msg = "No se pudo crear la sala privada."
                 flash(msg, "warning")
-                return redirect(url_for('lobby_privada'))
+                return redirect(url_for('lobby_user'))
 
         import calendar as calmod
         hoy = date.today()

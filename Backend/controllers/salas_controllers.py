@@ -1,5 +1,5 @@
 from flask import request, g, jsonify
-from helpers import build_links
+from helpers import build_links, send_reservation_mail
 from dtos.errors import validate_dto
 from dtos.sala_dto import (
     validate_create_sala,
@@ -27,8 +27,13 @@ def listar_salas():
 
 @validate_dto(validate_create_sala)
 def crear_sala():
-    crear_service(g.dto)
-    return jsonify({"message": "Sala creada exitosamente"}), 201
+    user_email = crear_service(g.dto)
+    resp = {"message": "Sala creada exitosamente"}
+    if g.dto.get("account_id"):
+        if user_email:
+            send_reservation_mail(user_email, request.get_json())
+        resp["message"] = "Sala creada y te has unido exitosamente"
+    return jsonify(resp), 201
 
 
 @validate_dto(validate_update_sala)

@@ -12,8 +12,9 @@ def validate_create_sala(request):
         abort(400, f'Campos requeridos: {", ".join(missing)}')
     validate_sala_time(data['start_time'], data['end_time'])
     dto = {k: data[k] for k in required}
-    if 'equipment_kit_id' in data:
-        dto['equipment_kit_id'] = data['equipment_kit_id']
+    for opt in ('equipment_kit_id', 'account_id', 'join_equipment_kit_id'):
+        if opt in data:
+            dto[opt] = data[opt]
     return dto
 
 

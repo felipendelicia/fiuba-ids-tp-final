@@ -28,4 +28,11 @@ def build_map_response(map_data):
         'difficulty': map_data.get('difficulty', ''),
         'compatible_gamemodes': map_data.get('compatible_gamemodes', ''),
         'origin': map_data.get('origin', ''),
+        'plano_image_url': map_data.get('plano_image_url', ''),
+        'zone_1_name': map_data.get('zone_1_name', ''),
+        'zone_1_description': map_data.get('zone_1_description', ''),
+        'zone_2_name': map_data.get('zone_2_name', ''),
+        'zone_2_description': map_data.get('zone_2_description', ''),
+        'zone_3_name': map_data.get('zone_3_name', ''),
+        'zone_3_description': map_data.get('zone_3_description', ''),
     }

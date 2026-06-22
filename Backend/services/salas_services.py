@@ -54,6 +54,16 @@ def crear_sala(params):
     if not mapa:
         abort(404, 'Mapa no encontrado')
 
+    conflict = execute(f"""SELECT id FROM Salas
+        WHERE map_id = {map_id}
+          AND reservation_date = '{reservation_date}'
+          AND canceled = FALSE
+          AND start_time < '{end_time}'
+          AND end_time > '{start_time}'
+        LIMIT 1""")
+    if conflict:
+        abort(409, 'Ese mapa ya está reservado en ese turno. Seleccioná otro mapa u horario.')
+
     kit_val = f"'{equipment_kit_id}'" if equipment_kit_id else "NULL"
 
     conn = get_db_connection()
@@ -80,8 +90,13 @@ def crear_sala(params):
             kit_price = kit[0]['price'] if kit else 0
             total_price = int(price) + int(kit_price)
 
-            cursor.execute(f"""INSERT INTO Reservations (sala_id, account_id, equipment_kit_id, price)
-                    VALUES ({sala_id}, {account_id}, {join_kit_id}, {total_price})""")
+            existing = execute(f"SELECT id FROM Reservations WHERE sala_id = {sala_id} AND account_id = {account_id} AND canceled = TRUE")
+            if existing:
+                cursor.execute(f"""UPDATE Reservations SET canceled = FALSE, equipment_kit_id = {join_kit_id}, price = {total_price}
+                        WHERE id = {existing[0]['id']}""")
+            else:
+                cursor.execute(f"""INSERT INTO Reservations (sala_id, account_id, equipment_kit_id, price)
+                        VALUES ({sala_id}, {account_id}, {join_kit_id}, {total_price})""")
 
         conn.commit()
 

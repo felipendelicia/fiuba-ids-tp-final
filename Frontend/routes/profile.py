@@ -72,10 +72,13 @@ def register(app):
         usuario = session.get('usuario')
         if not usuario:
             return redirect(url_for('login_sesion'))
+        old_picture = usuario.get('profile_picture')
         cuenta_resp = _api_get(f"/account/{usuario['id']}", token=usuario.get('token'))
         if cuenta_resp and cuenta_resp.status_code == 200:
             cuenta = cuenta_resp.json().get("Cuenta", {})
             cuenta["user_name"] = cuenta.get("username")
+            if old_picture:
+                cuenta['profile_picture'] = old_picture
             session['usuario'] = cuenta
             usuario = cuenta
         favoritos = session.get('favoritos', [])
@@ -135,10 +138,13 @@ def register(app):
             flash("No se pudo conectar con el servidor.", "warning")
             return redirect(url_for('perfil'))
         if resp.status_code == 204:
+            old_picture = usuario.get('profile_picture')
             cuenta_resp = _api_get(f"/account/{usuario['id']}", token=usuario.get('token'))
             if cuenta_resp and cuenta_resp.status_code == 200:
                 cuenta = cuenta_resp.json().get("Cuenta", {})
                 cuenta["user_name"] = cuenta.get("username")
+                if old_picture:
+                    cuenta['profile_picture'] = old_picture
                 session['usuario'] = cuenta
             flash("Datos actualizados correctamente.", "success")
         else:

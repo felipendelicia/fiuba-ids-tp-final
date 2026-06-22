@@ -43,8 +43,13 @@ def crear_reserva(sala_id, params):
     kit_price = kit[0]['price'] if kit else 0
     total_price = int(sala['price']) + int(kit_price)
 
-    execute(f"""INSERT INTO Reservations (sala_id, account_id, equipment_kit_id, price)
-            VALUES ({sala_id}, {account_id}, {equipment_kit_id}, {total_price})""")
+    existing = execute(f"SELECT id FROM Reservations WHERE sala_id = {sala_id} AND account_id = {account_id} AND canceled = TRUE")
+    if existing:
+        execute(f"""UPDATE Reservations SET canceled = FALSE, equipment_kit_id = {equipment_kit_id}, price = {total_price}
+                WHERE id = {existing[0]['id']}""")
+    else:
+        execute(f"""INSERT INTO Reservations (sala_id, account_id, equipment_kit_id, price)
+                VALUES ({sala_id}, {account_id}, {equipment_kit_id}, {total_price})""")
 
     user = execute(f"SELECT email FROM Accounts WHERE id = {account_id}")
     if not user:

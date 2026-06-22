@@ -1,6 +1,7 @@
 # Introducción al desarrollo de software (FIUBA)
 
 ## Integrantes:
+- Felipe Nahuel Delicia 115775 
 - Dante Ghisi 115735
 - Balderrama Rubin de Celis Mariano 115667
 - Suarez Hans Leonardo 115120

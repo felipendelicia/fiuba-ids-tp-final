@@ -22,37 +22,13 @@ la reserva de turnos y gestión de predios para el deporte airsoft.
 - Realizar reseñas de canchas
 
 
-## Instalación de Manera Local:
-
-### Configurar variables de entorno
-```cp .env.example .env```
-
-Editar el archivo .env con las credenciales de la base de datos
-
-### Crear un entorno virtual e instalar las dependencias
-
-```
-python3 -m venv .venv  
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-### Crear esquema de base de datos (Backend)
-
-```Observación: El schema.sql está configurado para crear una base de datos por defecto llamada "airsoftdb"```
-
-```sudo mysql -u root -p < schema.sql```
-
-### Ejecutar el servidor
-
-```python3 app.py```
-
-
 ## Levantar con Docker:
 
 ```bash
 docker compose up --build
 ```
+
+```obs: en .env.example, se pueden descomentar los valores del email para poder utilizar el de kinetix o usar otro email empresarial```
 
 ## Servicios
 

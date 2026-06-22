@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Competitivo{% endblock %}
+
+
+{% block content %}
+<section class="competitivo-section">
+    <div class="container">
+        <h1 class="competitivo-title">Competitivo</h1>
+        <p class="competitivo-subtitle">Comunicados oficiales y próximos eventos</p>
+
+        <div class="eventos-grid">
+            {% for event in events %}
+            <div class="evento-card">
+                <div class="evento-header">
+                    {% if event.badge %}<span class="evento-badge">{{ event.badge }}</span>{% endif %}
+                    <img src="{{ url_for('static', filename=event.image_url) if event.image_url else '' }}" alt="{{ event.title }}" class="evento-img">
+                </div>
+                <div class="evento-body">
+                    <h3>{{ event.title }}</h3>
+                    <p>{{ event.description }}</p>
+                    <div class="evento-meta">
+                        <span><i class="fa-regular fa-calendar"></i> {{ event.event_date }}</span>
+                        <span><i class="fa-regular fa-clock"></i> {{ event.event_time }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

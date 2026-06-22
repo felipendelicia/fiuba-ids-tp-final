@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Kinetix - Agregar Modalidad{% endblock %}
+
+{% block content %}
+<section class="modalidades-section form-section">
+    <div class="modalidades-header form-header">
+        <h1 class="modalidades-title">Agregar Modalidad</h1>
+        <p class="modalidades-subtitle">Completá los datos para crear una nueva modalidad de juego</p>
+    </div>
+    <div class="form-container">
+        <form method="POST">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="duration">Duración (minutos)</label>
+            <select id="duration" name="duration" required>
+                <option value="">Seleccionar...</option>
+                <option value="30">30</option>
+                <option value="60">60</option>
+                <option value="90">90</option>
+                <option value="120">120</option>
+            </select>
+
+            <label for="players">Jugadores</label>
+            <input type="number" id="players" name="players" min="1" required>
+
+            <label for="description">Descripción</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+
+            <button type="submit">Crear Modalidad</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

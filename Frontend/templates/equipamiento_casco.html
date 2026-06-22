@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Protección de Rostro{% endblock %}
+
+
+{% block content %}
+<section class="equipamiento-section">
+    <div class="rostro-container">
+
+        <div class="text-center mb-5">
+            <h1 class="equipamiento-title">{{ cat_info.title or 'SISTEMAS DE PROTECCIÓN FACIAL' }}</h1>
+            <p class="equipamiento-description mx-auto">{{ cat_info.subtitle or 'Blindaje avanzado y optimización de visibilidad. Indumentaria de seguridad certificada para operaciones en entornos de alta densidad de impactos.' }}</p>
+        </div>
+
+        {% for item in items %}
+        {% set details = item.details or {} %}
+        <div class="rostro-grid-card">
+            <div class="rostro-pic-box">
+                <img src="{{ url_for('static', filename=item.image_url) if item.image_url else '' }}" alt="{{ item.name }}">
+            </div>
+
+            <div class="rostro-content-box">
+                <div class="rostro-header-meta">
+                    {% if details.get('sku') %}
+                    <span class="rostro-sku">MODELO: {{ details['sku'] }}</span>
+                    {% endif %}
+                    {% if details.get('status') %}
+                    <span class="rostro-status-online">● {{ details['status'] }}</span>
+                    {% endif %}
+                </div>
+                <h2 class="rostro-main-title">{{ item.name }}</h2>
+                {% if item.description %}
+                <p class="rostro-body-text">{{ item.description }}</p>
+                {% endif %}
+
+                {% if details.get('stats') %}
+                <div class="rostro-stats-block">
+                    {% for stat in details['stats'] %}
+                    <div class="rostro-stat-row">
+                        <label>{{ stat.label }}</label>
+                        <div class="rostro-progress"><div class="rostro-fill" style="width: {{ stat.percentage }}%;"></div></div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+{% endblock %}

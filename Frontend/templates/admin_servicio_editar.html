@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Kinetix - Editar Servicio{% endblock %}
+{% block content %}
+<section style="background-color: #0b0d0f; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px; min-height: calc(100vh - 56px); padding: 80px 0;">
+    <div class="container">
+        <a href="{{ url_for('admin_servicios') }}" class="btn btn-outline-info mb-4">&laquo; Volver</a>
+        <div class="p-4 rounded-3 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25); max-width:700px;margin:0 auto;">
+            <h2 style="font-family:'Orbitron',sans-serif;color:#00f2fe;letter-spacing:1px;margin-bottom:1.5rem;">Editar Servicio</h2>
+            <form method="POST" class="d-flex flex-column gap-3">
+                <input type="text" name="name" class="form-control bg-dark text-white border-secondary" value="{{ s.name }}" required>
+                <input type="text" name="tab_icon" class="form-control bg-dark text-white border-secondary" value="{{ s.tab_icon or '' }}" placeholder="Ícono (ej: bi bi-cup-hot)">
+                <input type="text" name="summary_title" class="form-control bg-dark text-white border-secondary" value="{{ s.summary_title or '' }}" placeholder="Título resumen">
+                <textarea name="summary_text" class="form-control bg-dark text-white border-secondary" placeholder="Texto resumen" rows="2">{{ s.summary_text or '' }}</textarea>
+                <input type="text" name="bullet_1" class="form-control bg-dark text-white border-secondary" value="{{ s.bullet_1 or '' }}" placeholder="Bullet 1">
+                <input type="text" name="bullet_2" class="form-control bg-dark text-white border-secondary" value="{{ s.bullet_2 or '' }}" placeholder="Bullet 2">
+                <input type="text" name="tab_image" class="form-control bg-dark text-white border-secondary" value="{{ s.tab_image or '' }}" placeholder="Imagen tab (ej: img/bufet.png)">
+                <hr class="border-secondary">
+                <input type="text" name="detail_title" class="form-control bg-dark text-white border-secondary" value="{{ s.detail_title or '' }}" placeholder="Título detalle">
+                <textarea name="detail_subtitle" class="form-control bg-dark text-white border-secondary" placeholder="Subtítulo detalle" rows="2">{{ s.detail_subtitle or '' }}</textarea>
+                <input type="text" name="section_1_title" class="form-control bg-dark text-white border-secondary" value="{{ s.section_1_title or '' }}" placeholder="Título sección 1">
+                <textarea name="section_1_text" class="form-control bg-dark text-white border-secondary" placeholder="Texto sección 1" rows="2">{{ s.section_1_text or '' }}</textarea>
+                <input type="text" name="section_2_title" class="form-control bg-dark text-white border-secondary" value="{{ s.section_2_title or '' }}" placeholder="Título sección 2">
+                <textarea name="section_2_text" class="form-control bg-dark text-white border-secondary" placeholder="Texto sección 2" rows="2">{{ s.section_2_text or '' }}</textarea>
+                <input type="text" name="detail_image_1" class="form-control bg-dark text-white border-secondary" value="{{ s.detail_image_1 or '' }}" placeholder="Imagen detalle 1">
+                <input type="text" name="detail_image_2" class="form-control bg-dark text-white border-secondary" value="{{ s.detail_image_2 or '' }}" placeholder="Imagen detalle 2">
+                <input type="text" name="breadcrumb_label" class="form-control bg-dark text-white border-secondary" value="{{ s.breadcrumb_label or '' }}" placeholder="Etiqueta breadcrumb">
+                <div class="d-flex gap-2 justify-content-end">
+                    <a href="{{ url_for('admin_servicios') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn fw-bold" style="background:linear-gradient(135deg,#00f2fe 0%,#4facfe 100%);border:none;color:#000;">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

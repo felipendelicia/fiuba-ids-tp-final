@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Kinetix - Editar Modalidad{% endblock %}
+
+{% block content %}
+<section class="modalidades-section form-section">
+    <div class="modalidades-header form-header">
+        <h1 class="modalidades-title">Editar Modalidad</h1>
+        <p class="modalidades-subtitle">Modificá los datos de la modalidad de juego</p>
+    </div>
+    <div class="form-container">
+        <form method="POST">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" name="name" value="{{ modo.name }}" required>
+
+            <label for="duration">Duración (minutos)</label>
+            <select id="duration" name="duration" required>
+                <option value="30" {% if modo.duration == '30' %}selected{% endif %}>30</option>
+                <option value="60" {% if modo.duration == '60' %}selected{% endif %}>60</option>
+                <option value="90" {% if modo.duration == '90' %}selected{% endif %}>90</option>
+                <option value="120" {% if modo.duration == '120' %}selected{% endif %}>120</option>
+            </select>
+
+            <label for="players">Jugadores</label>
+            <input type="number" id="players" name="players" min="1" value="{{ modo.players }}" required>
+
+            <label for="description">Descripción</label>
+            <textarea id="description" name="description" rows="4" required>{{ modo.description }}</textarea>
+
+            <label>Mapas disponibles</label>
+            <div class="checkbox-group">
+                {% for mp in mapas %}
+                <label>
+                    <input type="checkbox" name="map_ids" value="{{ mp.id }}"
+                        {% if mp.id in modo.maps | map(attribute='id') | list %}checked{% endif %}>
+                    {{ mp.name }}
+                </label>
+                {% endfor %}
+            </div>
+
+            <button type="submit">Guardar Cambios</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

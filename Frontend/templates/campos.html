@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Airsoft - Campos de Juego{% endblock %}
+
+
+{% block content %}
+    <div class="maps">
+
+    <div class="maps__title">
+        <h2>Nuestros Mapas</h2>
+    </div>
+
+    <div class="maps__container">
+        {% for mapa in mapas %}
+        <div class="maps__card"
+             onclick="window.location.href='{{ url_for('info_mapa', nombre_mapa=mapa.name.lower()) }}'">
+
+            <img src="{{ url_for('static', filename='img/' ~ mapa.vista_general_image_url) }}"
+                 alt="{{ mapa.name }}">
+
+            <div class="maps__info">
+                <h3>{{ mapa.name }}</h3>
+
+                <p class="maps__description">
+                    {{ mapa.description }}
+                </p>
+
+                <div class="stars" onclick="event.stopPropagation()">
+                    {% for _ in range(5) %}
+                    <a href="{{ url_for('resenias') }}">
+                        <i class="fa-regular fa-star"></i>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block js_extra %}
+<script src="{{ url_for('static', filename='js/campos.js') }}"></script>
+{% endblock %}

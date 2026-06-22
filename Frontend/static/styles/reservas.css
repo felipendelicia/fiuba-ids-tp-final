@@ -18,6 +18,13 @@
     border: 1px solid rgba(79, 172, 254, 0.2);
 }
 
+.reservas-card h3 {
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 /* lobby_privada  */
 .reserva-section {
     background-color: #0b0d0f;
@@ -298,18 +305,21 @@
 /*lobby_user*/
 .lobby-title {
     font-family: 'Orbitron', sans-serif;
-    color: #ffb300;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     letter-spacing: 2px;
 }
 
 .lobby-table-container {
     background-color: rgba(20, 22, 25, 0.95);
-    border: 1px solid rgba(255, 179, 0, 0.2);
+    border: 1px solid rgba(0, 242, 254, 0.2);
 }
 
 .lobby-thead {
     font-family: 'Orbitron', sans-serif;
-    color: #ffe082;
+    color: #4facfe;
 }
 
 .btn-sala {
@@ -325,7 +335,7 @@
 
 .lobby-empty-icon {
     font-size: 2rem;
-    color: rgba(255, 179, 0, 0.3);
+    color: rgba(0, 242, 254, 0.3);
 }
 
 .admin-reservas-panel {
@@ -346,6 +356,81 @@
 }
 
 .oculto { display: none; }
+
+/* admin-create-section (lobby_user) */
+.admin-create-section {
+    background-color: rgba(20, 22, 25, 0.95);
+    border: 1px solid rgba(255, 202, 40, 0.25);
+    border-radius: 12px;
+    padding: 30px 35px;
+    margin-bottom: 30px;
+}
+.admin-create-section .form-label {
+    color: #ffca28;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 6px;
+}
+.admin-create-section select,
+.admin-create-section input {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 202, 40, 0.25);
+    color: #e0e0e0;
+    padding: 10px 14px;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.admin-create-section select:focus,
+.admin-create-section input:focus {
+    border-color: #ffca28;
+    box-shadow: 0 0 6px rgba(255, 202, 40, 0.25);
+    outline: none;
+}
+.admin-create-section select option {
+    background-color: #1a1c1f;
+    color: #e0e0e0;
+}
+.admin-create-section .btn-lanzar {
+    background: linear-gradient(135deg, #ffca28 0%, #ff9800 100%);
+    border: none;
+    color: #1a1c1f;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1.5px;
+    padding: 12px;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.admin-create-section .btn-lanzar:hover {
+    opacity: 0.9;
+}
+
+.admin-create-icon {
+    color: #ffca28;
+    font-size: 1.4rem;
+}
+.admin-create-title {
+    color: #ffca28;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+.disponibles-hint {
+    font-size: 12px;
+    color: #ffca28;
+}
+.kit-select {
+    background-color: rgba(11,13,15,0.8);
+    color: #e0e0e0;
+    border-color: rgba(0,242,254,0.3);
+    max-width: 160px;
+}
 
 /* admin_creacionsalapublica - yellow theme */
 .form-container.yellow {

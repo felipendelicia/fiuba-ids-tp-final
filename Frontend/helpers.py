@@ -9,9 +9,9 @@ USUARIOS_PER_PAGE = 4
 MAPS_PER_PAGE = 10
 
 try:
-    from Backend.services.dashboard_services import (
-        get_reservas_dia, contar_reservas_dia, get_ingresos_periodo,
-        get_frecuencia_horaria, get_calendario_mes, MAX_RESERVAS_POR_DIA
+    from services.dashboard_services import (
+        get_reservas_dia, contar_reservas_dia, contar_capacidad_dia,
+        get_ingresos_periodo, get_frecuencia_horaria, get_calendario_mes,
     )
     DB_AVAILABLE = True
 except Exception:
@@ -20,6 +20,8 @@ except Exception:
     def get_reservas_dia(fecha=None, limit=10, offset=0):
         return []
     def contar_reservas_dia(fecha=None):
+        return 0
+    def contar_capacidad_dia(fecha=None):
         return 0
     def get_ingresos_periodo(fecha):
         return {'dia': 0, 'semana': 0, 'mes': 0, 'año': 0}
@@ -38,7 +40,6 @@ except Exception:
         meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
                  'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
         return dias, hoy.isoformat(), meses[hoy.month - 1], hoy.year
-    MAX_RESERVAS_POR_DIA = 32
 
 
 slot_map = {
@@ -51,8 +52,6 @@ slot_map = {
     'do': ('17:00:00', '19:00:00'),
     'dv': ('19:00:00', '21:00:00'),
 }
-
-salas_publicas = []
 
 
 def _api_request(method, endpoint, data=None, token=None, params=None):

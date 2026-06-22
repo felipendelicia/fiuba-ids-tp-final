@@ -4,7 +4,6 @@ import os
 import requests
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
-MAX_RESERVAS_POR_DIA = 32
 
 
 def _fetch_dashboard_data(fecha):
@@ -18,7 +17,7 @@ def _fetch_dashboard_data(fecha):
             return resp.json()
     except requests.RequestException:
         pass
-    return {"reservas": [], "frecuencia": {}, "ingresos": {}, "total": 0}
+    return {"reservas": [], "frecuencia": {}, "ingresos": {}, "total": 0, "total_capacidad": 0}
 
 
 def get_reservas_dia(fecha=None, limit=100, offset=0):
@@ -33,6 +32,13 @@ def contar_reservas_dia(fecha=None):
         fecha = date.today().isoformat()
     data = _fetch_dashboard_data(fecha)
     return data.get("total", 0)
+
+
+def contar_capacidad_dia(fecha=None):
+    if not fecha:
+        fecha = date.today().isoformat()
+    data = _fetch_dashboard_data(fecha)
+    return data.get("total_capacidad", 0)
 
 
 def get_ingresos_periodo(fecha):

@@ -4,6 +4,7 @@
 
 {% block style_extra %}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/reservas.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/modalidades.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -12,18 +13,80 @@
         LOBBY GLOBAL: PARTIDAS ACTIVAS
     </h1>
 
+    {% if usuario and usuario.is_admin %}
+    <div class="admin-create-section">
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <i class="bi bi-plus-circle-fill admin-create-icon"></i>
+            <h5 class="m-0 admin-create-title">
+                CREAR NUEVA SALA PÚBLICA
+            </h5>
+        </div>
+        <form method="POST" action="{{ url_for('admin_crearsala') }}">
+            <input type="hidden" name="next" value="{{ url_for('lobby_user') }}">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Modalidad</label>
+                    <select id="modalidad" name="modalidad" required>
+                        <option value="">Seleccionar...</option>
+                        {% for g in modalidades %}
+                        {% set ids = g.maps | map(attribute='id') | join(',') %}
+                        <option value="{{ g.id }}" data-map-ids="{{ ids }}" data-max-cupo="{{ g.get('players', 4) }}">{{ g.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Mapa</label>
+                    <select id="campo" name="map_id" required>
+                        <option value="">Seleccionar...</option>
+                        {% for m in mapas %}
+                        <option value="{{ m.id }}">{{ m.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Precio</label>
+                    <input type="number" name="price" placeholder="Ej: 30000" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fecha</label>
+                    <input type="date" name="reservation_date" min="{{ today }}" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Turno</label>
+                    <select name="turno" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="cs">05:00 - 07:00</option>
+                        <option value="so">07:00 - 09:00</option>
+                        <option value="nd">09:00 - 11:00</option>
+                        <option value="od">11:00 - 13:00</option>
+                        <option value="tc">13:00 - 15:00</option>
+                        <option value="qs">15:00 - 17:00</option>
+                        <option value="do">17:00 - 19:00</option>
+                        <option value="dv">19:00 - 21:00</option>
+                    </select>
+                    <span id="disponibles" class="d-block mt-1 disponibles-hint"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn-lanzar mt-3">LANZAR SALA</button>
+        </form>
+    </div>
+    {% endif %}
+
     <div class="p-4 rounded-3 shadow-lg lobby-table-container">
         <div class="table-responsive">
             <table class="table table-dark table-hover align-middle mb-0">
                 <thead class="lobby-thead">
                     <tr>
-                        <th scope="col" class="border-secondary py-3">ID RESERVA</th>
+                        <th scope="col" class="border-secondary py-3">ID SALA</th>
                         <th scope="col" class="border-secondary py-3">MODALIDAD</th>
-                        <th scope="col" class="border-secondary py-3">ZONA / ESCENARIO</th>
+                        <th scope="col" class="border-secondary py-3">MAPA</th>
                         <th scope="col" class="border-secondary py-3">FECHA</th>
                         <th scope="col" class="border-secondary py-3">HORA</th>
-                        <th scope="col" class="border-secondary py-3 text-center">CUPO / ACCIÓN</th>
-                        <th scope="col" class="border-secondary py-3 text-end">ESTADO</th>
+                        <th scope="col" class="border-secondary py-3">PRECIO</th>
+                        <th scope="col" class="border-secondary py-3">EQUIPAMIENTO</th>
+                        <th scope="col" class="border-secondary py-3 text-center">CUPOS</th>
+                        <th scope="col" class="border-secondary py-3 text-center">ACCIÓN</th>
+                        <th scope="col" class="border-secondary py-3 text-center">ACCIÓN ADMIN</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,18 +97,35 @@
                         <td class="py-3 border-secondary text-white-50">{{ sala.escenario }}</td>
                         <td class="py-3 border-secondary text-white-50">{{ sala.fecha }}</td>
                         <td class="py-3 border-secondary text-white-50">{{ sala.hora }}</td>
+                        <td class="py-3 border-secondary text-white-50">
+                            <span id="precio-base-{{ sala.id }}">${{ sala.precio }}</span>
+                            <span id="precio-kit-{{ sala.id }}" class="text-info" style="display:none"></span>
+                            <span id="precio-total-{{ sala.id }}" class="fw-bold" style="display:none"></span>
+                        </td>
+                        <td class="py-3 border-secondary">
+                            {% if sala.unido %}
+                                <span class="text-white-50">{{ sala.equipamiento }}</span>
+                            {% elif sala.actuales < sala.maximos %}
+                                <select id="kit-{{ sala.id }}" class="form-select form-select-sm kit-select">
+                                    <option value="">Kit...</option>
+                                    {% for k in equipmentkits %}
+                                    <option value="{{ k.id }}" data-price="{{ k.price }}">{{ k.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <span class="text-white-50">-</span>
+                            {% endif %}
+                        </td>
                         
                         <td class="py-3 border-secondary text-center">
-                            {% if sala.id in unidas %}
+                            {% if sala.unido %}
                                 <button class="btn btn-sm btn-secondary fw-bold px-3 btn-sala" disabled>
                                     UNIDO ✔ ({{ sala.actuales }}/{{ sala.maximos }})
                                 </button>
                             {% elif sala.actuales < sala.maximos %}
-                                <form action="{{ url_for('unirse_sala', id_partida=sala.id) }}" method="POST" class="d-inline">
-                                    <button type="submit" class="btn btn-sm btn-success fw-bold px-3 shadow-sm btn-sala">
-                                        UNIRSE ({{ sala.actuales }}/{{ sala.maximos }})
-                                    </button>
-                                </form>
+                                <button class="btn btn-sm btn-success fw-bold px-3 shadow-sm btn-sala" disabled>
+                                    {{ sala.actuales }}/{{ sala.maximos }}
+                                </button>
                             {% else %}
                                 <button class="btn btn-sm btn-danger fw-bold px-3 btn-sala" disabled>
                                     LLENO ({{ sala.actuales }}/{{ sala.maximos }})
@@ -53,15 +133,36 @@
                             {% endif %}
                         </td>
 
-                        <td class="py-3 border-secondary text-end">
-                            <span class="badge bg-dark border border-warning text-warning fw-bold px-3 py-2 badge-sala">
-                                {{ sala.estado }}
-                            </span>
+                        <td class="py-3 border-secondary text-center accion-cell">
+                            {% if sala.actuales < sala.maximos and not sala.unido %}
+                            <button class="btn btn-sm btn-success fw-bold px-3 shadow-sm btn-sala btn-unirse" data-sala-id="{{ sala.id }}">
+                                UNIRSE
+                            </button>
+                            {% endif %}
+                            {% if sala.user_reservation_id %}
+                            <form action="{{ url_for('cancelar_reserva', reservation_id=sala.user_reservation_id) }}" method="POST" onsubmit="return confirm('¿Cancelar tu reserva en esta sala?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger fw-bold px-3 btn-sala">
+                                    CANCELAR
+                                </button>
+                            </form>
+                            {% endif %}
+                            {% if not sala.user_reservation_id and not (sala.actuales < sala.maximos and not sala.unido) %}
+                            <span class="text-white-50">-</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-3 border-secondary text-center">
+                            {% if sala.es_propia %}
+                            <form action="{{ url_for('cancelar_sala', sala_id=sala.id) }}" method="POST" onsubmit="return confirm('¿Cancelar toda la sala? Se cancelarán todas las reservas activas.')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger fw-bold px-3 btn-sala">
+                                    CANCELAR SALA
+                                </button>
+                            </form>
+                            {% endif %}
                         </td>
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="8" class="text-center py-5 text-muted border-0">
+                        <td colspan="11" class="text-center py-5 text-muted border-0">
                             <i class="bi bi-exclamation-triangle d-block mb-2 lobby-empty-icon"></i>
                             No hay salas públicas lanzadas en este momento. Completá el formulario de administración.
                         </td>
@@ -72,4 +173,8 @@
         </div>
     </div>
 </div>
+
+<script id="reservas-data" type="application/json">{{ reservas_json | tojson | safe }}</script>
+<script id="slot-map-data" type="application/json">{{ slot_map | tojson | safe }}</script>
+<script src="{{ url_for('static', filename='scripts/lobby_user.js') }}"></script>
 {% endblock %}

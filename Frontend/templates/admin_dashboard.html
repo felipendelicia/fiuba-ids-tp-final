@@ -39,28 +39,28 @@
 
         <div class="chart-bars">
             <div class="chart-bar" style="height: {{ frec_reservas.cs * 2 + 2 }}rem;">
-                <span>5-7</span><span>({{ frec_reservas.cs }}/4)</span>
+                <span>5-7</span><span>({{ frec_reservas.cs }})</span>
             </div>
             <div class="chart-bar" style="height: {{ frec_reservas.so * 2 + 2 }}rem;">
-                <span>7-9</span><span>({{ frec_reservas.so }}/4)</span>
+                <span>7-9</span><span>({{ frec_reservas.so }})</span>
             </div>
             <div class="chart-bar" style="height: {{ frec_reservas.nd * 2 + 2 }}rem;">
-                <span>9-11</span><span>({{ frec_reservas.nd }}/4)</span>
+                <span>9-11</span><span>({{ frec_reservas.nd }})</span>
             </div>
             <div class="chart-bar" style="height: {{ frec_reservas.od * 2 + 2 }}rem;">
-                <span>11-13</span><span>({{ frec_reservas.od }}/4)</span>
+                <span>11-13</span><span>({{ frec_reservas.od }})</span>
             </div>
             <div class="chart-bar" style="height: {{ frec_reservas.tc * 2 + 2 }}rem;">
-                <span>13-15</span><span>({{ frec_reservas.tc }}/4)</span>
+                <span>13-15</span><span>({{ frec_reservas.tc }})</span>
             </div>
             <div class="chart-bar" style="height: {{ frec_reservas.qs * 2 + 2 }}rem;">
-                <span>15-17</span><span>({{ frec_reservas.qs }}/4)</span>
+                <span>15-17</span><span>({{ frec_reservas.qs }})</span>
             </div>
             <div class="chart-bar" style="height: {{ frec_reservas.do * 2 + 2 }}rem;">
-                <span>17-19</span><span>({{ frec_reservas.do }}/4)</span>
+                <span>17-19</span><span>({{ frec_reservas.do }})</span>
             </div>
             <div class="chart-bar" style="height: {{ frec_reservas.dv * 2 + 2 }}rem;">
-                <span>19-21</span><span>({{ frec_reservas.dv }}/4)</span>
+                <span>19-21</span><span>({{ frec_reservas.dv }})</span>
             </div>
         </div>
 
@@ -102,22 +102,16 @@
                 <div>{{ reserva.map_name }}</div>
             </div>
             {% endfor %}
-            {% for reserva in data_dis %}
+            {% if not data_ocu %}
             <div class="reservations-row">
-                <div class="dim">{{ reserva.id_reserva }}</div>
-                <div class="dim">{{ reserva.user_name }}</div>
-                <div class="dim">{{ reserva.dni_usuario }}</div>
-                <div class="dim">{{ reserva.user_name }}</div>
-                <div class="dim">{{ reserva.price }}</div>
-                <div class="dim">{{ reserva.start_time }}</div>
-                <div class="dim">{{ reserva.map_name }}</div>
+                <div class="dim" style="flex:1;text-align:center">Sin reservas para esta fecha</div>
             </div>
-            {% endfor %}
+            {% endif %}
             </div>
         </div>
 
         <div class="pie-wrapper">
-            <div id="pie-chart" class="pie-chart" data-ocupadas="{{ total_ocupadas }}" data-total="{{ total_slots }}">
+            <div id="pie-chart" class="pie-chart" data-ocupadas="{{ total_ocupadas }}" data-total="{{ total_capacidad }}">
                 <div class="pie-inner">
                     <h2>Ocupado</h2>
                     <span class="pie-percent" id="pieDate">0%</span>

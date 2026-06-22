@@ -7,8 +7,8 @@ from helpers import (
     _api_create_competitivo_event, _api_update_competitivo_event, _api_delete_competitivo_event,
     _api_get, _api_post, _api_put, _api_patch, _api_delete,
     _api_get_contact_messages, _api_get_services, _api_create_service, _api_update_service, _api_delete_service,
-    get_reservas_dia, contar_reservas_dia, get_ingresos_periodo,
-    get_frecuencia_horaria, get_calendario_mes, MAX_RESERVAS_POR_DIA
+    get_reservas_dia, contar_reservas_dia, contar_capacidad_dia,
+    get_ingresos_periodo, get_frecuencia_horaria, get_calendario_mes
 )
 
 
@@ -24,14 +24,11 @@ def register(app):
         try:
             reservas = get_reservas_dia(hoy, limit=100, offset=0)
             total_ocupadas = contar_reservas_dia(hoy)
+            total_capacidad = contar_capacidad_dia(hoy)
         except Exception:
             reservas = []
             total_ocupadas = 0
-
-        reservas_dis = [{
-            "id_reserva": "-", "user_name": "-", "dni_usuario": "-",
-            "price": "-", "start_time": "-", "end_time": "-", "map_name": "-",
-        } for _ in range(max(0, MAX_RESERVAS_POR_DIA - total_ocupadas))]
+            total_capacidad = 0
 
         try:
             cantidad = get_ingresos_periodo(hoy)
@@ -62,8 +59,8 @@ def register(app):
             "admin_dashboard.html",
             cantidad=cantidad, mes_actual=mes_actual, hoy_str=hoy_str,
             mes_nombre=mes_nombre, anio=anio, data_ocu=reservas,
-            data_dis=reservas_dis, frec_reservas=frec_reservas,
-            total_ocupadas=total_ocupadas, total_slots=MAX_RESERVAS_POR_DIA,
+            frec_reservas=frec_reservas,
+            total_ocupadas=total_ocupadas, total_capacidad=total_capacidad,
         )
 
     @app.route("/api/dashboard/data")
@@ -79,12 +76,11 @@ def register(app):
         try:
             reservas = get_reservas_dia(fecha, limit=100, offset=0)
             total_ocupadas = contar_reservas_dia(fecha)
+            total_capacidad = contar_capacidad_dia(fecha)
         except Exception:
             reservas = []
             total_ocupadas = 0
-        reservas_dis = [{"id_reserva": "-", "user_name": "-", "dni_usuario": "-",
-                         "price": "-", "start_time": "-", "end_time": "-", "map_name": "-"}
-                        for _ in range(max(0, MAX_RESERVAS_POR_DIA - total_ocupadas))]
+            total_capacidad = 0
         try:
             cantidad = get_ingresos_periodo(fecha)
             cantidad_serializable = {k: int(v) for k, v in cantidad.items()}
@@ -95,9 +91,9 @@ def register(app):
         except Exception:
             frec = {'cs': 0, 'so': 0, 'nd': 0, 'od': 0, 'tc': 0, 'qs': 0, 'do': 0, 'dv': 0}
         return {
-            "reservas": reservas, "disponibles": reservas_dis,
+            "reservas": reservas,
             "ingresos": cantidad_serializable, "frecuencia": frec,
-            "total_ocupadas": total_ocupadas, "total_slots": MAX_RESERVAS_POR_DIA,
+            "total_ocupadas": total_ocupadas, "total_capacidad": total_capacidad,
         }
 
     @app.route("/panel_admin/administrar_usuarios")

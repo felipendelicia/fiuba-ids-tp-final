@@ -1,6 +1,20 @@
 from dtos.errors import abort
 
 
+def validate_join_sala(request):
+    data = request.get_json()
+    if not data:
+        abort(400, 'Body requerido')
+    required = ['account_id', 'equipment_kit_id']
+    missing = [f for f in required if f not in data]
+    if missing:
+        abort(400, f'Campos requeridos: {", ".join(missing)}')
+    return {
+        'account_id': data['account_id'],
+        'equipment_kit_id': data['equipment_kit_id'],
+    }
+
+
 def validate_list_reservations(request):
     try:
         limit = int(request.args.get('_limit', 10))
@@ -12,84 +26,42 @@ def validate_list_reservations(request):
     return {
         'limit': limit,
         'offset': offset,
-        'start_time': request.args.get('start_time'),
-        'end_time': request.args.get('end_time'),
-        'is_public': request.args.get('is_public'),
+        'sala_id': request.args.get('sala_id'),
     }
-
-
-def validate_list_user_reservations(request):
-    try:
-        limit = int(request.args.get('_limit', 10))
-        offset = int(request.args.get('_offset', 0))
-    except ValueError:
-        abort(400, '_limit y _offset deben ser enteros')
-    if limit < 1 or offset < 0:
-        abort(400, '_limit >= 1 y _offset >= 0')
-    return {'limit': limit, 'offset': offset}
-
-
-def validate_create_reservation(request):
-    data = request.get_json()
-    if not data:
-        abort(400, 'Body requerido')
-    required = ['account_id', 'map_id', 'equipment_kit_id', 'price', 'reservation_date', 'start_time', 'end_time']
-    missing = [f for f in required if f not in data]
-    if missing:
-        abort(400, f'Campos requeridos: {", ".join(missing)}')
-    validate_game_time(data['start_time'], data['end_time'])
-    return {k: data[k] for k in required}
-
-
-def validate_create_public_reservation(request):
-    return validate_create_reservation(request)
 
 
 def validate_update_reservation(request):
     data = request.get_json()
     if not data:
         abort(400, 'Body requerido')
-    allowed = {'game_mode_id', 'map_id', 'equipment_kit_id', 'price',
-               'reservation_date', 'start_time', 'end_time',
-               'is_public', 'canceled', 'cancelation_reason'}
+    allowed = {'equipment_kit_id', 'canceled', 'cancelation_reason', 'account_id'}
     given = set(data.keys())
     invalid = given - allowed
     if invalid:
         abort(400, f'Campos inválidos: {", ".join(invalid)}')
     if not given:
         abort(400, 'Debe enviar al menos un campo a actualizar')
-    validate_game_time(data['start_time'], data['end_time'])
     return data
 
 
-def build_reservation_response(res):
+def _fmt_time(t):
+    if t is None:
+        return ''
+    s = str(t)
+    parts = s.split(':')
+    if len(parts) == 3:
+        return f'{int(parts[0]):02d}:{parts[1]}:{parts[2]}'
+    return s
+
+
+def build_reservation_response(r):
     return {
-        'id': res['id'],
-        'account_id': res['account_id'],
-        'game_mode_id': res['game_mode_id'],
-        'map_id': res['map_id'],
-        'equipment_kit_id': res['equipment_kit_id'],
-        'price': res['price'],
-        'reservation_date': str(res.get('reservation_date', '')),
-        'start_time': str(res.get('start_time', '')),
-        'end_time': str(res.get('end_time', '')),
-        'is_public': res.get('is_public', False),
-        'canceled': res.get('canceled', False),
-        'cancelation_reason': res.get('cancelation_reason', ''),
-        'created_at': str(res.get('created_at', '')),
+        'id': r['id'],
+        'sala_id': r['sala_id'],
+        'account_id': r['account_id'],
+        'equipment_kit_id': r['equipment_kit_id'],
+        'price': r.get('price', 0),
+        'created_at': str(r.get('created_at', '')),
+        'canceled': r.get('canceled', False),
+        'cancelation_reason': r.get('cancelation_reason', ''),
     }
-
-
-def validate_game_time(start_time, end_time):
-    SLOT_STARTS = ['05:00:00','07:00:00','09:00:00','11:00:00',
-                   '13:00:00','15:00:00','17:00:00','19:00:00']
-    if start_time not in SLOT_STARTS:
-        abort(400, f'Horario inválido. Debe ser uno de: {", ".join(SLOT_STARTS)}')
-    try:
-        hora = int(start_time.split(':')[0])
-        expected_end = f'{hora + 2:02d}:00:00'
-    except (ValueError, IndexError):
-        abort(400, 'Formato de hora de inicio inválido')
-    if end_time != expected_end:
-        abort(400, 'La reserva debe ser de exactamente 2 horas') 
-

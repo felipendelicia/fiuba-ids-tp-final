@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controllers.dashboard_controllers import *
+from controllers.dashboard_controllers import listar_periodo_reservas, api_dashboard_data
 
 
 dashboard_bp = Blueprint('dashboard', __name__)

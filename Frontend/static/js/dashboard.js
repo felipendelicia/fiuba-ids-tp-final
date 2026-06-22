@@ -31,7 +31,7 @@ function cargarFecha(fecha, clickedEl) {
       for (var i = 0; i < barras.length; i++) {
         var val = data.frecuencia[slots[i]] || 0;
         barras[i].style.height = (val * 2 + 2) + "rem";
-        barras[i].innerHTML = "<span>" + labels[i] + "<br>(" + val + "/4)</span>";
+        barras[i].innerHTML = "<span>" + labels[i] + "<br>(" + val + ")</span>";
       }
 
       var container = document.getElementById("reservationsBody");
@@ -49,22 +49,14 @@ function cargarFecha(fecha, clickedEl) {
         html += '<div>' + (r.map_name || "-") + '</div>';
         html += '</div>';
       });
-      data.disponibles.forEach(function(r) {
-        html += '<div class="reservations-row">';
-        html += '<div class="dim">' + (r.id_reserva || "-") + '</div>';
-        html += '<div class="name_user_r dim">' + (r.user_name || "-") + '</div>';
-        html += '<div class="dim">' + (r.dni_usuario || "-") + '</div>';
-        html += '<div class="dim">' + (r.user_name || "-") + '</div>';
-        html += '<div class="dim">' + (r.price || "-") + '</div>';
-        html += '<div class="dim">' + (r.start_time || "-") + '</div>';
-        html += '<div class="dim">' + (r.map_name || "-") + '</div>';
-        html += '</div>';
-      });
+      if (data.reservas.length === 0) {
+        html += '<div class="reservations-row"><div class="dim" style="flex:1;text-align:center">Sin reservas para esta fecha</div></div>';
+      }
       container.innerHTML = html;
 
       var pieChart = document.getElementById("pie-chart");
       pieChart.setAttribute("data-ocupadas", data.total_ocupadas);
-      pieChart.setAttribute("data-total", data.total_slots);
+      pieChart.setAttribute("data-total", data.total_capacidad);
       actualizar_pie();
 
       if (clickedEl) {

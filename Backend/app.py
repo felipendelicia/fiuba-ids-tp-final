@@ -18,6 +18,7 @@ from routes.competitivo_routes import competitivo_bp
 from routes.nosotros_routes import nosotros_bp
 from routes.contact_routes import contact_bp
 from routes.service_routes import service_bp
+from routes.salas_routes import salas_bp
 
 
 
@@ -39,6 +40,7 @@ app.register_blueprint(competitivo_bp, url_prefix='/competitivo')
 app.register_blueprint(nosotros_bp, url_prefix='/nosotros')
 app.register_blueprint(contact_bp, url_prefix='/contacto')
 app.register_blueprint(service_bp, url_prefix='/services')
+app.register_blueprint(salas_bp, url_prefix='/salas')
 
 
 @app.errorhandler(HTTPException)

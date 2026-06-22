@@ -3,10 +3,7 @@ from flask import jsonify, g, request
 from helpers import build_links
 from dtos.errors import validate_dto
 from dtos.dashboard_dto import validate_disponibility
-from services.dashboard_services import (
-    listar_periodo_reservas as service_listar_reservas,
-    get_dashboard_data,
-)
+from services.dashboard_services import listar_periodo_reservas as service_listar_reservas, get_dashboard_data
 
 
 @validate_dto(validate_disponibility)
@@ -40,7 +37,7 @@ def api_dashboard_data():
     limit = int(request.args.get('_limit', 100))
     offset = int(request.args.get('_offset', 0))
 
-    reservas, frecuencia, ingresos, total = get_dashboard_data(fecha, limit, offset)
+    reservas, frecuencia, ingresos, total, total_capacidad = get_dashboard_data(fecha, limit, offset)
 
     items = []
     for r in reservas:
@@ -61,4 +58,5 @@ def api_dashboard_data():
         'frecuencia': frecuencia,
         'ingresos': ingresos,
         'total': total,
+        'total_capacidad': total_capacidad,
     })

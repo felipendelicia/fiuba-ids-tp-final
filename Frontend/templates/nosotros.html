@@ -17,6 +17,15 @@
             <p class="nosotros__text">{{ paragraph | safe }}</p>
             {% endfor %}
 
+            <div class="nosotros__quote-container mt-4 mb-4" style="border-left: 4px solid #00f2fe; padding-left: 20px; background: rgba(0, 242, 254, 0.05); padding-top: 15px; padding-bottom: 15px; border-radius: 4px;">
+                <p class="nosotros__text m-0" style="font-style: italic; color: #e2e8f0; text-align: justify;">
+                    "En <span class="nosotros__highlight">Kinetix</span>, nos esforzamos por ir más allá del juego convencional. Creemos firmemente que el airsoft es una herramienta de superación personal y cohesión social, donde el respeto mutuo, la honestidad en cada impacto y el espíritu competitivo sano forman el núcleo de nuestra comunidad. Seguimos innovando día a día para brindarte la mejor experiencia táctica del país."
+                </p>
+                <p class="text-end m-0 mt-2" style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; color: #00f2fe; letter-spacing: 1px;">
+                    — El Equipo de Kinetix
+                </p>
+            </div>
+
             <div class="nosotros__grid">
                 {% for card in cards %}
                 <div class="nosotros__item">

@@ -174,7 +174,7 @@ def login_contrasenia():
 # 5. Ruta para la página de Campos de Juegos
 @app.route("/campos")
 def campos():
-    return render_template('campos.html', usuario=session.get('usuario'))
+    return render_template('campos.html', mapas=_fetch_maps(), usuario=session.get('usuario'))
 @app.route('/campos/informacion/planonuketown')
 def info_mapa_index():
     return render_template('nuketown_plano.html', usuario=session.get('usuario'))
@@ -200,7 +200,7 @@ def info_mapa_plano(nombre_mapa):
     mapas = _fetch_maps()
     for mapa in mapas:
         if mapa["name"].lower() == nombre_mapa:
-            return render_template(f'{nombre_mapa}_plano.html', mapa=mapa, usuario=session.get('usuario'))
+            return render_template(f'plano_mapa.html', mapa=mapa, usuario=session.get('usuario'))
     return render_template('404.html'), 404
 
 # 6. Ruta para la página de de perfil del usuario

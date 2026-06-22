@@ -16,6 +16,16 @@ def build_map_response(map_data):
     return {
         'id': map_data['id'],
         'name': map_data['name'],
-        'image_url': map_data.get('image_url', ''),
+        'vista_general_image_url': map_data.get('vista_general_image_url', ''),
+        'plano_despliegue_image_url': map_data.get('plano_despliegue_image_url', ''),
+        'operaciones_terreno_image_url': map_data.get('operaciones_terreno_image_url', ''),
         'description': map_data.get('description', ''),
+        'capacity': map_data.get('capacity', ''),
+        'extra_information': map_data.get('extra_information', ''),
+        'location': map_data.get('location', ''),
+        'style': map_data.get('style', ''),
+        'terrain': map_data.get('terrain', ''),
+        'difficulty': map_data.get('difficulty', ''),
+        'compatible_gamemodes': map_data.get('compatible_gamemodes', ''),
+        'origin': map_data.get('origin', ''),
     }

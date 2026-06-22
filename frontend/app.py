@@ -189,10 +189,11 @@ def info_mapa_index4():
     return render_template('terminal_plano.html', usuario=session.get('usuario'))
 @app.route('/campos/informacion/<nombre_mapa>')
 def info_mapa(nombre_mapa):
-    mapas = {'nuketown': {}, 'mirage': {}, 'hijacked': {}, 'terminal': {}}
-    if nombre_mapa not in mapas:
-        return render_template('404.html'), 404
-    return render_template(f'{nombre_mapa}.html', mapa=mapas[nombre_mapa], usuario=session.get('usuario'))
+    mapas = _fetch_maps()
+    for mapa in mapas:
+        if mapa["name"].lower() == nombre_mapa:
+            return render_template(f'info_mapa.html', mapa=mapa, usuario=session.get('usuario'))
+    return render_template('404.html'), 404
 
 @app.route('/campos/informacion/<nombre_mapa>/plano')
 def info_mapa_plano(nombre_mapa):

@@ -70,16 +70,83 @@ INSERT IGNORE INTO EquipmentKit (id, name, brand, price, quantity) VALUES
 
 CREATE TABLE IF NOT EXISTS Maps (
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	image_url VARCHAR(100),
 	name VARCHAR(100) CHARACTER SET utf8mb4 UNIQUE,
-	description VARCHAR(900) CHARACTER SET utf8mb4
+    vista_general_image_url VARCHAR(100),
+    plano_despliegue_image_url VARCHAR(100),
+    operaciones_terreno_image_url VARCHAR(100),
+	description VARCHAR(900) CHARACTER SET utf8mb4,
+    capacity INT,
+    extra_information VARCHAR(900) CHARACTER SET utf8mb4,
+    location VARCHAR(100),
+    style VARCHAR(100),
+    terrain VARCHAR(100),
+    difficulty ENUM('Fácil', 'Media', 'Difícil'),
+    compatible_gamemodes VARCHAR(300),
+    origin VARCHAR(100)
 ) DEFAULT CHARSET=utf8mb4;
 
-INSERT IGNORE INTO Maps (name, description) VALUES
-('Nuketown', 'Mapa clásico de combate urbano'),
-('Mirage', 'Mapa táctico con zonas desérticas'),
-('Hijacked', 'Mapa ambientado en un yate de lujo'),
-('Terminal', 'Mapa ambientado en un aeropuerto');
+INSERT IGNORE INTO Maps (
+    vista_general_image_url,
+    plano_despliegue_image_url,
+    operaciones_terreno_image_url,
+    name,
+    description,
+    capacity,
+    extra_information,
+    location,
+    style,
+    terrain,
+    difficulty,
+    compatible_gamemodes,
+    origin
+) VALUES
+-- NUKETOWN
+('nuketown.jpg', 'nuketown_2.png', 'nuketown_3.png', 'Nuketown',
+ 'Recreación de Nuketown 2025, el clásico escenario futurista popularizado por Call of Duty: Black Ops II. Inspirado en un vecindario construido para ensayos y demostraciones dentro de una instalación de pruebas nucleares, ofrece una distribución equilibrada que favorece partidas rápidas y enfrentamientos constantes entre ambos equipos.',
+ 10,
+ 'Nuketown 2025 es una recreación a escala real del famoso mapa de Call of Duty: Black Ops II. Ambientado en un vecindario suburbano construido dentro de una instalación de pruebas nucleares, ofrece un campo de batalla simétrico y equilibrado. Las dos casas enfrentadas, los vehículos en el frente y los patios traseros conforman el núcleo del combate. Su diseño promueve enfrentamientos rápidos, reflejos afilados y acción constante. Ideal para partidas casuales y torneos cortos donde la velocidad de reacción define al vencedor.',
+ 'Instalaciones Kinetix - Sector Alpha',
+ 'Combate rápido / Acción constante',
+ 'Urbano / Calles y edificios',
+ 'Media',
+ 'Team Deathmatch · Dominio · Captura la Bandera · Todos contra Todos',
+ 'Call of Duty: Black Ops II'),
+
+-- MIRAGE
+('mirage.jpg', 'mirage_2.png', 'mirage_3.png', 'Mirage',
+ 'Recreación de Mirage, uno de los mapas más emblemáticos de Counter-Strike: Global Offensive. Ambientado en una ciudad del norte de África, el escenario combina callejones estrechos, plazas abiertas y múltiples rutas de acceso entre sectores clave. Su diseño equilibrado favorece el juego táctico, el control de posiciones y la coordinación entre equipos en modalidades competitivas.',
+ 10,
+ 'Mirage es un clásico táctico por excelencia, inspirado en los callejones laberínticos y plazas del norte de África. Destaca por su diseño de tres vías con múltiples conexiones que exigen una excelente comunicación y control del mapa. Las zonas clave como el "Centro" (Mid) y los sitios de bomba proporcionan oportunidades tanto para asaltos directos como para estrategias de flanqueo. Requiere un enfoque coordinado, uso inteligente de coberturas y precisión para dominar sus ángulos y cuellos de botella.',
+ 'Instalaciones Kinetix - Sector Bravo',
+ 'Juego Táctico / Estrategia de equipo',
+ 'Urbano / Desértico',
+ 'Difícil',
+ 'Defuse (Buscar y Destruir) · Team Deathmatch · Dominio · Escolta VIP',
+ 'Counter-Strike: Global Offensive'),
+
+-- HIJACKED
+('hijacked.jpg', 'hijacked_2.png', 'hijacked_3.png', 'Hijacked',
+ 'Recreación de Hijacked, el icónico yate de lujo popularizado por Call of Duty: Black Ops II. Ambientado en una embarcación privada de alta gama en altamar, el escenario combina pasillos estrechos, cubiertas abiertas y múltiples niveles conectados. Su diseño compacto favorece enfrentamientos constantes, rápidas rotaciones y un ritmo de juego intenso en modalidades competitivas. Se lleva a cabo en Puerto Madero.',
+ 12,
+ 'Hijacked traslada la acción a las cubiertas de un espectacular superyate de lujo. El mapa cuenta con una distribución simétrica con dos estructuras principales en proa y popa conectadas por un área central abierta y pasillos laterales exteriores. Un conducto subterráneo en la sala de máquinas permite cruzar el barco de forma encubierta para sorprender por la espalda. Su escala compacta promueve tiroteos intensos en distancias cortas, reflejos inmediatos y batallas agresivas por el control de las plantas superiores.',
+ 'Puerto Madero - Dársena Norte',
+ 'Combate cerrado / Ritmo frenético',
+ 'Embarcación / Cubiertas y pasillos',
+ 'Media',
+ 'Team Deathmatch · Captura la Bandera · Dominio · Todos contra Todos',
+ 'Call of Duty: Black Ops II'),
+
+-- TERMINAL
+('terminal.jpg', 'terminal_2.png', 'terminal_3.png', 'Terminal',
+ 'Inspirado en Terminal de Call of Duty: Modern Warfare 3, este mapa recrea un aeropuerto internacional con terminales de pasajeros, corredores interiores y zonas de pista. Su diseño versátil favorece distintos estilos de juego y lo convierte en uno de los escenarios más versatiles para desarrollar todos los modos de juego. Se lleva a cabo el ex-aeropuerto de Don Torcuato.',
+ 14,
+ 'Terminal ofrece un escenario dinámico y multifacético que simula la terminal de un aeropuerto comercial a gran escala. Dividido entre un interior acristalado repleto de tiendas, controles de seguridad y pasillos estrechos, y una zona exterior en la pista de aterrizaje que incluye un avión civil completamente transitable. Su diseño equilibra las líneas de visión largas ideales para tiradores en la pista con cuellos de botella y coberturas densas en el interior, exigiendo adaptabilidad táctica constante.',
+ 'Ex-Aeródromo de Don Torcuato',
+ 'Juego versátil / Combate táctico',
+ 'Aeropuerto / Terminal y pista exterior',
+ 'Media',
+ 'Buscar y Destruir · Dominio · Team Deathmatch · Sabotaje',
+ 'Call of Duty: Modern Warfare 3');
 
 INSERT IGNORE INTO Accounts (id, name, username, email, password, dni, phone, about_me, created_at, updated_at, is_active, is_admin)
 VALUES (1, 'Juan Perez', 'juanperez', 'juanperez@email.com', '123456', '12345678', '123456789', 'Jugador de airsoft', NOW(), NOW(), TRUE, TRUE);

@@ -261,10 +261,12 @@ VALUES (1, 'Juan Perez', 'juanperez', 'juanperez@email.com', '123456', '12345678
 CREATE TABLE IF NOT EXISTS Review (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	stars INT NOT NULL CHECK (stars BETWEEN 1 AND 5),
+	title VARCHAR(200),
 	body_review VARCHAR(900),
 	map_id INT NOT NULL,
 	created_at DATE,
-	approved BOOLEAN
+	approved BOOLEAN,
+	admin_response TEXT
 );
 
 CREATE TABLE IF NOT EXISTS CompetitivoEvent (

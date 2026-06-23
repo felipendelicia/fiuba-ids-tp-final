@@ -12,6 +12,9 @@ def validate_login(request):
     return {'email': email.strip(), 'password': password}
 
 
+import re
+
+
 def validate_register(request):
     data = request.get_json()
     if not data:
@@ -24,11 +27,17 @@ def validate_register(request):
     phone = data.get('phone')
     if not all([name, username, email, password, dni]):
         abort(400, 'name, username, email, password y dni son requeridos')
+    dni_str = str(dni).strip()
+    if not re.match(r'^\d{7,8}$', dni_str):
+        abort(400, 'DNI debe ser un número de 7 u 8 dígitos, sin puntos ni guiones')
+    phone_str = phone.strip() if phone else None
+    if phone_str is not None and not re.match(r'^\+?\d{7,15}$', phone_str.replace(' ', '').replace('-', '')):
+        abort(400, 'Teléfono inválido: debe contener entre 7 y 15 dígitos')
     return {
         'name': name.strip(),
         'username': username.strip(),
         'email': email.strip(),
         'password': password,
-        'dni': str(dni).strip(),
-        'phone': phone.strip() if phone else None,
+        'dni': dni_str,
+        'phone': phone_str,
     }

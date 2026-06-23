@@ -100,14 +100,10 @@
                         </td>
                         <td class="py-3 border-secondary">
                             {% if sala.unido %}
-                                <span class="text-white-50">{{ sala.equipamiento }}</span>
+                                <span class="text-white-50">Kit Básico</span>
                             {% elif sala.actuales < sala.maximos %}
-                                <select id="kit-{{ sala.id }}" class="form-select form-select-sm kit-select">
-                                    <option value="">Kit...</option>
-                                    {% for k in equipmentkits %}
-                                    <option value="{{ k.id }}" data-price="{{ k.price }}">{{ k.name }}</option>
-                                    {% endfor %}
-                                </select>
+                                <span class="text-white-50">Kit Básico</span>
+                                <input type="hidden" class="kit-hidden" data-sala-id="{{ sala.id }}" value="1">
                             {% else %}
                                 <span class="text-white-50">-</span>
                             {% endif %}

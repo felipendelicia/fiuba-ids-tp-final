@@ -18,7 +18,6 @@
             
             <div class="card mb-5 border-0 rounded-3 shadow-lg" 
                  style="background-color: rgba(20, 22, 25, 0.95); 
-                        /* LÓGICA DINÁMICA: Si tiene 1, 2 o 3 estrellas se pone roja; si tiene 4 o 5 se pone cian */
                         border-left: 4px solid {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %} !important;">
                 
                 <div class="card-body p-4">
@@ -53,21 +52,30 @@
                         "{{ reseña.comentario }}"
                     </p>
 
-                    <div class="pt-3 border-top border-secondary border-opacity-25 d-flex justify-content-between align-items-center flex-wrap gap-2">
-                        <span class="badge fs-6 {% if reseña.approved %}bg-success{% else %}bg-secondary{% endif %}">
-                            {% if reseña.approved %}APROBADA{% else %}PENDIENTE{% endif %}
-                        </span>
-                        <div class="d-flex gap-2">
-                            <form method="POST" action="{{ url_for('moderar_resenia', resena_id=reseña.id) }}">
-                                <input type="hidden" name="approved" value="true">
-                                <button type="submit" class="btn btn-success fw-bold px-4" {% if reseña.approved %}disabled{% endif %}>Aprobar</button>
-                            </form>
-                            <form method="POST" action="{{ url_for('moderar_resenia', resena_id=reseña.id) }}">
-                                <input type="hidden" name="approved" value="false">
-                                <button type="submit" class="btn btn-outline-danger fw-bold px-4" {% if not reseña.approved %}disabled{% endif %}>Desaprobar</button>
-                            </form>
+                    <form method="POST" action="{{ url_for('moderar_resenia', resena_id=reseña.id) }}">
+                        <div class="mb-3">
+                            <label class="text-white-50 small fw-bold mb-2" style="letter-spacing: 1px; font-size: 0.75rem;">
+                                <i class="bi bi-reply-all me-2"></i>RESPUESTA DE SOPORTE KINETIX
+                            </label>
+                            <textarea name="admin_response" class="form-control bg-dark text-white border-secondary" rows="3" placeholder="Escribí una respuesta para el usuario...">{{ reseña.admin_response }}</textarea>
                         </div>
-                    </div>
+
+                        <div class="pt-3 border-top border-secondary border-opacity-25 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <span class="badge fs-6 {% if reseña.approved %}bg-success{% else %}bg-secondary{% endif %}">
+                                {% if reseña.approved %}APROBADA{% else %}PENDIENTE{% endif %}
+                            </span>
+                            <div class="d-flex gap-2">
+                                <input type="hidden" name="approved" value="true">
+                                <button type="submit" class="btn btn-success fw-bold px-4" {% if reseña.approved %}disabled{% endif %}>Aprobar y enviar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form method="POST" action="{{ url_for('moderar_resenia', resena_id=reseña.id) }}" class="mt-2">
+                        <input type="hidden" name="approved" value="false">
+                        <input type="hidden" name="admin_response" value="">
+                        <button type="submit" class="btn btn-outline-danger fw-bold px-4" {% if not reseña.approved %}disabled{% endif %}>Desaprobar</button>
+                    </form>
 
                 </div>
             </div>

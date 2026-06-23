@@ -1,7 +1,6 @@
 from flask import g
-from flask_jwt_extended import jwt_required
 from helpers import build_links
-from dtos.errors import validate_dto, admin_required, abort
+from dtos.errors import validate_dto
 from dtos.review_dto import (
     validate_list_reviews,
     validate_create_review,
@@ -16,7 +15,6 @@ from services.reviews_services import (
 )
 
 
-@jwt_required()
 @validate_dto(validate_list_reviews)
 def listar_reviews():
     params = g.dto
@@ -25,16 +23,13 @@ def listar_reviews():
     return build_paginated_response('reviews', reviews, total, links, item_builder=build_review_response)
 
 
-@jwt_required()
 @validate_dto(validate_create_review)
 def crear_map_review():
     crear_review_service(**g.dto)
     return build_created_response('Reseña creada exitosamente')
 
 
-@jwt_required()
-@admin_required
 @validate_dto(validate_update_review)
 def actualizar_review(id):
-    actualizar_review_service(id, g.dto['approved'])
+    actualizar_review_service(id, **g.dto)
     return build_updated_response('Reseña actualizada exitosamente')

@@ -31,6 +31,7 @@ def validate_create_review(request):
     return {
         'stars': stars,
         'map_id': map_id,
+        'title': data.get('title', '').strip(),
         'body_review': data.get('body_review', '').strip()
     }
 
@@ -44,15 +45,23 @@ def validate_update_review(request):
         abort(400, 'approved es requerido')
     if not isinstance(approved, bool):
         abort(400, 'approved debe ser un booleano')
-    return {'approved': approved}
+    result = {'approved': approved}
+    admin_response = data.get('admin_response')
+    if admin_response is not None:
+        if not isinstance(admin_response, str):
+            abort(400, 'admin_response debe ser un texto')
+        result['admin_response'] = admin_response.strip()
+    return result
 
 
 def build_review_response(review):
     return {
         'id': review['id'],
         'stars': review['stars'],
+        'title': review.get('title', ''),
         'body_review': review.get('body_review', ''),
         'map_id': review['map_id'],
         'created_at': str(review.get('created_at', '')),
-        'approved': review.get('approved', False)
+        'approved': review.get('approved', False),
+        'admin_response': review.get('admin_response', '')
     }

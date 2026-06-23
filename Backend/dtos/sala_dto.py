@@ -12,7 +12,7 @@ def validate_create_sala(request):
         abort(400, f'Campos requeridos: {", ".join(missing)}')
     validate_sala_time(data['start_time'], data['end_time'])
     dto = {k: data[k] for k in required}
-    for opt in ('equipment_kit_id', 'account_id', 'join_equipment_kit_id'):
+    for opt in ('equipment_kit_id', 'account_id', 'join_equipment_kit_id', 'is_public'):
         if opt in data:
             dto[opt] = data[opt]
     return dto
@@ -42,7 +42,7 @@ def validate_update_sala(request):
         abort(400, 'Body requerido')
     allowed = {'game_mode_id', 'map_id', 'equipment_kit_id', 'price',
                'reservation_date', 'start_time', 'end_time',
-               'max_players', 'canceled', 'cancelation_reason', 'admin_account_id'}
+               'max_players', 'is_public', 'canceled', 'cancelation_reason', 'admin_account_id'}
     given = set(data.keys())
     invalid = given - allowed
     if invalid:

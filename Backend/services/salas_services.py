@@ -65,13 +65,14 @@ def crear_sala(params):
         abort(409, 'Ese mapa ya está reservado en ese turno. Seleccioná otro mapa u horario.')
 
     kit_val = f"'{equipment_kit_id}'" if equipment_kit_id else "NULL"
+    is_public_val = 1 if params.get('is_public', True) else 0
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True, buffered=True)
     try:
         cursor.execute(f"""INSERT INTO Salas
-            (game_mode_id, map_id, equipment_kit_id, price, reservation_date, start_time, end_time, max_players, admin_account_id)
-            VALUES ({game_mode_id}, {map_id}, {kit_val}, {price}, '{reservation_date}', '{start_time}', '{end_time}', {max_players}, {admin_account_id})""")
+            (game_mode_id, map_id, equipment_kit_id, price, reservation_date, start_time, end_time, max_players, admin_account_id, is_public)
+            VALUES ({game_mode_id}, {map_id}, {kit_val}, {price}, '{reservation_date}', '{start_time}', '{end_time}', {max_players}, {admin_account_id}, {is_public_val})""")
         sala_id = cursor.lastrowid
 
         if account_id:
@@ -117,7 +118,7 @@ def actualizar_sala(id, data):
     updates = []
     campos = ['game_mode_id', 'map_id', 'equipment_kit_id', 'price',
               'reservation_date', 'start_time', 'end_time',
-              'max_players', 'canceled', 'cancelation_reason']
+              'max_players', 'is_public', 'canceled', 'cancelation_reason']
 
     for key, value in data.items():
         if key in campos:

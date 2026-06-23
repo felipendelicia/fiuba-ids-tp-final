@@ -357,11 +357,10 @@ def register(app):
             return redirect(url_for("login_sesion"))
         page = max(1, request.args.get('page', 1, type=int))
         offset = (page - 1) * REVIEWS_PER_PAGE
-        token = usuario.get('token')
         mapas = {m["id"]: m["name"] for m in _api_get_maps()}
         resenias = []
         total = 0
-        resp = _api_get("/reviews/", params={"_offset": offset, "_limit": REVIEWS_PER_PAGE}, token=token)
+        resp = _api_get("/reviews/", params={"_offset": offset, "_limit": REVIEWS_PER_PAGE})
         if resp is None:
             flash("No se pudo conectar con el servidor.", "warning")
         elif resp.status_code == 200:
@@ -371,13 +370,11 @@ def register(app):
                 resenias.append({
                     "id": r["id"], "usuario": "Jugador",
                     "mapa": mapas.get(r["map_id"], "Desconocido"),
-                    "puntuacion": r["stars"], "titulo": "Reseña de la comunidad",
+                    "puntuacion": r["stars"], "titulo": r.get("title", "") or "Reseña de la comunidad",
                     "comentario": r.get("body_review", ""),
                     "approved": r.get("approved", False),
+                    "admin_response": r.get("admin_response", ""),
                 })
-        elif resp.status_code == 401:
-            flash("Tu sesión expiró. Volvé a iniciar sesión.", "warning")
-            return redirect(url_for("login_sesion"))
         total_pages = max(1, (total + REVIEWS_PER_PAGE - 1) // REVIEWS_PER_PAGE)
         return render_template("admin_resenias.html", resenias=resenias, usuario=usuario,
                                page=page, total_pages=total_pages)
@@ -389,13 +386,15 @@ def register(app):
             flash("Acceso solo para administradores.", "warning")
             return redirect(url_for("login_sesion"))
         approved = request.form.get("approved") == "true"
-        resp = _api_patch(f"/reviews/auth/{resena_id}", data={"approved": approved}, token=usuario.get('token'))
+        admin_response = request.form.get("admin_response", "").strip()
+        payload = {"approved": approved}
+        if admin_response:
+            payload["admin_response"] = admin_response
+        resp = _api_patch(f"/reviews/auth/{resena_id}", data=payload)
         if resp is None:
             flash("No se pudo conectar con el servidor.", "warning")
         elif resp.status_code == 200:
-            flash("Reseña aprobada." if approved else "Reseña desaprobada.", "success")
-        elif resp.status_code in (401, 403):
-            flash("No autorizado para moderar reseñas.", "warning")
+            flash("Reseña actualizada correctamente.", "success")
         else:
             flash("No se pudo actualizar la reseña.", "warning")
         return redirect(url_for("admin_resenias"))

@@ -3,7 +3,7 @@ from flask import flash, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 from helpers import (
     REVIEWS_PER_PAGE, _api_get_maps, _api_get, _api_post, _api_patch,
-    _api_send_contact_message, _api_get_gamemodes, _api_get_equipmentkits
+    _api_send_contact_message, _api_get_gamemodes
 )
 
 
@@ -21,11 +21,6 @@ def _fetch_user_history(user_id, token):
     mapa_map = {}
     if not isinstance(mapas, Exception):
         mapa_map = {m["id"]: m["name"] for m in mapas}
-
-    equip_map = {}
-    kits = _api_get_equipmentkits()
-    if not isinstance(kits, Exception):
-        equip_map = {k["id"]: k["name"] for k in kits}
 
     all_salas = []
     if salas_resp and salas_resp.status_code == 200:
@@ -51,7 +46,7 @@ def _fetch_user_history(user_id, token):
             if r["sala_id"] == s["id"]:
                 user_res = r
                 break
-        kit_name = equip_map.get(user_res["equipment_kit_id"], "-") if user_res else "-"
+        kit_name = "Kit Básico" if user_res else "-"
         history.append({
             "id": s["id"],
             "tipo": "Privada" if not s.get("is_public", True) else "Pública",
@@ -231,26 +226,26 @@ def register(app):
 
         page = max(1, request.args.get('page', 1, type=int))
         offset = (page - 1) * REVIEWS_PER_PAGE
-        token = usuario.get('token')
         mapas = {m["id"]: m["name"] for m in _api_get_maps()}
         resenias = []
         total = 0
-        resp = _api_get("/reviews/", params={"approved": "true", "_offset": offset, "_limit": REVIEWS_PER_PAGE}, token=token)
+        resp = _api_get("/reviews/", params={"approved": "true", "_offset": offset, "_limit": REVIEWS_PER_PAGE})
         if resp is None:
             flash("No se pudo conectar con el servidor.", "warning")
         elif resp.status_code == 200:
             data = resp.json()
             total = data.get("total", 0)
             for r in data.get("reviews", []):
+                admin_resp = r.get("admin_response", "")
+                respuestas = []
+                if admin_resp:
+                    respuestas.append({"autor": "Soporte Kinetix", "texto": admin_resp})
                 resenias.append({
                     "id": r["id"], "usuario": "Jugador",
                     "mapa": mapas.get(r["map_id"], "Desconocido"),
-                    "puntuacion": r["stars"], "titulo": "Reseña de la comunidad",
-                    "comentario": r.get("body_review", ""), "respuestas": [],
+                    "puntuacion": r["stars"], "titulo": r.get("title", "") or "Reseña de la comunidad",
+                    "comentario": r.get("body_review", ""), "respuestas": respuestas,
                 })
-        elif resp.status_code == 401:
-            flash("Tu sesión expiró. Volvé a iniciar sesión.", "warning")
-            return redirect(url_for('login_sesion'))
         total_pages = max(1, (total + REVIEWS_PER_PAGE - 1) // REVIEWS_PER_PAGE)
         return render_template("ver_resenias.html", resenias=resenias,
                                usuario=usuario, nombre_usuario=usuario["user_name"],
@@ -266,19 +261,17 @@ def register(app):
         comentario = request.form.get("comentario")
         puntuacion = request.form.get("puntuacion")
         mapa = request.form.get("mapa")
+        titulo = request.form.get("titulo", "").strip()
         if not (comentario and puntuacion and mapa):
             flash("Faltan datos en la reseña.", "warning")
             return redirect(url_for('resenias'))
 
-        payload = {"stars": int(puntuacion), "map_id": int(mapa), "body_review": comentario}
-        resp = _api_post("/reviews/", data=payload, token=usuario.get('token'))
+        payload = {"stars": int(puntuacion), "map_id": int(mapa), "title": titulo, "body_review": comentario}
+        resp = _api_post("/reviews/", data=payload)
         if resp is None:
             flash("No se pudo conectar con el servidor.", "warning")
             return redirect(url_for('resenias'))
         if resp.status_code == 201:
             return render_template("mensaje_envia_resenia.html", usuario=usuario)
-        if resp.status_code == 401:
-            flash("Tu sesión expiró. Volvé a iniciar sesión.", "warning")
-            return redirect(url_for('login_sesion'))
         flash("No se pudo enviar la reseña.", "warning")
         return redirect(url_for('resenias'))

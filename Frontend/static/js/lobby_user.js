@@ -82,28 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
         filtrarCampos();
     }
 
-    document.querySelectorAll('.kit-select').forEach(function(sel) {
-        sel.addEventListener('change', function() {
-            var salaId = this.id.replace('kit-', '');
-            var baseEl = document.getElementById('precio-base-' + salaId);
-            var kitEl = document.getElementById('precio-kit-' + salaId);
-            var totalEl = document.getElementById('precio-total-' + salaId);
-            if (!baseEl) return;
-            var base = parseInt(baseEl.textContent.replace('$', '').replace(/\./g, '')) || 0;
-            if (this.value) {
-                var option = this.options[this.selectedIndex];
-                var kitPrice = parseInt(option.dataset.price) || 0;
-                kitEl.textContent = ' + $' + kitPrice + ' (kit)';
-                kitEl.style.display = 'inline';
-                totalEl.textContent = ' = $' + (base + kitPrice);
-                totalEl.style.display = 'inline';
-            } else {
-                kitEl.style.display = 'none';
-                totalEl.style.display = 'none';
-            }
-        });
-    });
-
     document.querySelectorAll('form[data-confirm]').forEach(function(form) {
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -117,26 +95,19 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.btn-unirse').forEach(function(btn) {
         btn.addEventListener('click', async function() {
             var salaId = this.dataset.salaId;
-            var kit = document.getElementById('kit-' + salaId);
-            if (!kit || !kit.value) {
-                await abrirModalAlerta('Seleccioná un kit de equipamiento primero.');
-                return;
-            }
             var baseEl = document.getElementById('precio-base-' + salaId);
             var base = baseEl ? parseInt(String(baseEl.textContent).replace('$', '').replace(/\./g, '')) || 0 : 0;
-            var option = kit.options[kit.selectedIndex];
-            var kitName = option.text;
-            var kitPrice = option && option.dataset.price ? parseInt(option.dataset.price) || 0 : 0;
+            var kitPrice = 2000;
             var totalPrice = base + kitPrice;
             var confirmar = await abrirModalConfirm(
-                '¿Unirte a la sala #' + salaId + '?\nKit: ' + kitName + '\nTotal: $' + totalPrice
+                '¿Unirte a la sala #' + salaId + '?\nKit: Kit Básico\nTotal: $' + totalPrice
             );
             if (!confirmar) return;
             var form = document.createElement('form');
             form.method = 'POST';
             form.action = '/lobby/unirse-publica';
             form.appendChild(hiddenInput('sala_id', salaId));
-            form.appendChild(hiddenInput('equipment_kit_id', kit.value));
+            form.appendChild(hiddenInput('equipment_kit_id', '1'));
             form.appendChild(hiddenInput('total_price', totalPrice));
             document.body.appendChild(form);
             form.submit();

@@ -2,11 +2,10 @@ from datetime import date, timedelta
 from flask import flash, render_template, request, redirect, url_for, session, jsonify
 from helpers import (
     slot_map as slot_map_dict,
-    _api_get, _api_post, _api_patch, _api_get_reservation_kits
+    _api_get, _api_post, _api_patch
 )
 from services.mapas_services import _api_get_maps
 from services.modalidades_services import _api_get_gamemodes
-from services.equipamiento_services import _api_get_equipmentkits
 from services.dashboard_services import get_frecuencia_horaria
 
 
@@ -186,12 +185,6 @@ def register(app):
         mapa_map = {m["id"]: m["name"] for m in mapas}
         mapas_admin = mapas if usuario.get("is_admin") else []
 
-        equipmentkits = _api_get_equipmentkits()
-        if isinstance(equipmentkits, Exception):
-            equipmentkits = []
-        equip_map = {k["id"]: k["name"] for k in equipmentkits}
-        equipmentkits_admin = equipmentkits if usuario.get("is_admin") else []
-
         reservas_resp = _api_get("/reservations/", params={"_limit": 1000}, token=usuario.get('token'))
         user_reservas = []
         if reservas_resp and reservas_resp.status_code == 200:
@@ -210,16 +203,13 @@ def register(app):
             unido = s["id"] in user_sala_ids
             user_reservation_id = None
             user_reservation_price = None
-            user_reservation_kit = None
             for r in user_reservas:
                 if r["sala_id"] == s["id"]:
                     user_reservation_id = r["id"]
                     user_reservation_price = r.get("price")
-                    user_reservation_kit = r.get("equipment_kit_id")
                     break
             es_admin_sala = usuario.get("is_admin")
             sala_precio = user_reservation_price if user_reservation_price else s.get("price", 0)
-            sala_equip = equip_map.get(user_reservation_kit) if user_reservation_kit else equip_map.get(s.get("equipment_kit_id", 1), f"Kit {s.get('equipment_kit_id', 1)}")
             salas.append({
                 "id": s["id"],
                 "user_reservation_id": user_reservation_id,
@@ -233,12 +223,12 @@ def register(app):
                 "estado": "Abierta" if current < maximos else "Llena",
                 "game_mode_id": s["game_mode_id"],
                 "map_id": s["map_id"],
-                "equipment_kit_id": s.get("equipment_kit_id", 1),
+                "equipment_kit_id": 1,
                 "reservation_date": s["reservation_date"],
                 "start_time": s["start_time"],
                 "end_time": s["end_time"],
                 "unido": unido,
-                "equipamiento": sala_equip,
+                "equipamiento": "Kit Básico",
                 "admin_account_id": s.get("admin_account_id"),
                 "es_admin_sala": es_admin_sala,
                 "es_propia": es_admin_sala and s.get("admin_account_id") == usuario["id"],
@@ -252,7 +242,6 @@ def register(app):
 
         return render_template('lobby_user.html', salas=salas, usuario=usuario,
                                modalidades=modalidades_admin, mapas=mapas_admin,
-                               equipmentkits=equipmentkits, equipmentkits_admin=equipmentkits_admin,
                                today=date.today().isoformat(), reservas_json=reservas_json,
                                slot_map=slot_map_dict)
 
@@ -330,6 +319,7 @@ def register(app):
                 "admin_account_id": int(usuario["id"]),
                 "account_id": int(usuario["id"]),
                 "join_equipment_kit_id": kit_id,
+                "is_public": False,
             }
             sala_resp = _api_post("/salas/", data=sala_payload, token=usuario.get('token'))
             if sala_resp is None:
@@ -364,8 +354,7 @@ def register(app):
                                mes_nombre=meses[hoy.month - 1],
                                anio=hoy.year,
                                modalidades=_api_get_gamemodes(),
-                               mapas=_api_get_maps(),
-                               pack=_api_get_reservation_kits())
+                               mapas=_api_get_maps())
 
     @app.route('/mensaje_crea_sala_privada')
     def mensaje_crea_sala_privada():

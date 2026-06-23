@@ -97,7 +97,6 @@ function cargarTurnos(fecha) {
 
 var preciosModalidad = {'1': 5000, '2': 4500, '3': 4000, '4': 5500};
 var preciosCampo = {'1': 3000, '2': 3500, '3': 4000, '4': 4500};
-//var preciosPack = {'basico': 2000};
 
 function filtrarCampos() {
     var selectMod = document.getElementById('modalidad');
@@ -118,17 +117,8 @@ function filtrarCampos() {
 function calcularTotal() {
     var mod = document.getElementById('modalidad').value;
     var campo = document.getElementById('campo').value;
-    //var pack = document.getElementById('pack').value;
-    var packSelect = document.getElementById('pack');
-    var packSelectedOption = packSelect.options[packSelect.selectedIndex];
-
-    var precioPack = 0;
-    if (packSelectedOption && packSelectedOption.hasAttribute('precio')){
-	    precioPack = parseFloat(packSelectedOption.getAttribute('precio')) || 0;
-    }
-
-
-    var total = (preciosModalidad[mod] || 0) + (preciosCampo[campo] || 0) + (precioPack || 0);
+    var precioPack = 2000;
+    var total = (preciosModalidad[mod] || 0) + (preciosCampo[campo] || 0) + precioPack;
     document.getElementById('precioTotal').textContent = '$' + total.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     document.getElementById('inputPrecio').value = total;
 }
@@ -169,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('modalidad').addEventListener('change', filtrarCampos);
     document.getElementById('campo').addEventListener('change', calcularTotal);
-    document.getElementById('pack').addEventListener('change', calcularTotal);
 
     filtrarCampos();
 });

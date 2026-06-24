@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from flask import flash, render_template, request, redirect, url_for, session, jsonify
 from helpers import (
     slot_map as slot_map_dict,
@@ -266,8 +266,13 @@ def register(app):
             {"id": "do", "label": "17 - 19", "ocupados": frec.get("do", 0), "max": 4},
             {"id": "dv", "label": "19 - 21", "ocupados": frec.get("dv", 0), "max": 4},
         ]
+        now = datetime.now()
         for s in slots:
-            s["disponible"] = s["ocupados"] < s["max"]
+            slot_start_hour = int(s["label"].split()[0])
+            if fecha == now.date() and slot_start_hour <= now.hour:
+                s["disponible"] = False
+            else:
+                s["disponible"] = s["ocupados"] < s["max"]
         return {"fecha": fecha.isoformat(), "turnos": slots}
 
     @app.route("/lobby-privada", methods=['GET', 'POST'])

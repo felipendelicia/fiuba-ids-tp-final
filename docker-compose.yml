@@ -37,8 +37,11 @@ services:
       MYSQL_USER: airsoft
       MYSQL_PASSWORD: airsoft123
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-dev-secret-change-me}
+      
       FLASK_PORT: 8000
+
       ENV: prod
+      TZ: America/Argentina/Buenos_Aires
     ports:
       - "8000:8000"
 
@@ -52,6 +55,7 @@ services:
       - backend
     environment:
       BACKEND_URL: http://backend:8000
+      TZ: America/Argentina/Buenos_Aires
     ports:
       - "5000:5000"
 

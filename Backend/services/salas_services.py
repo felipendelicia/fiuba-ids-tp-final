@@ -1,3 +1,4 @@
+from datetime import date, datetime, time
 from db import execute, get_db_connection
 from dtos.errors import abort
 
@@ -53,6 +54,12 @@ def crear_sala(params):
     mapa = execute(f"SELECT * FROM Maps WHERE id = {map_id}")
     if not mapa:
         abort(404, 'Mapa no encontrado')
+
+    today_str = str(date.today())
+    if reservation_date < today_str:
+        abort(400, 'No podés crear una reserva en una fecha anterior al día de hoy.')
+    if reservation_date == today_str and start_time < str(datetime.now().time()):
+        abort(400, 'No podés reservar un turno que ya pasó.')
 
     conflict = execute(f"""SELECT id FROM Salas
         WHERE map_id = {map_id}

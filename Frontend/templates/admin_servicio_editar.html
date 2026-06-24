@@ -14,10 +14,10 @@
                 <input type="text" name="bullet_2" class="form-control bg-dark text-white border-secondary" value="{{ s.bullet_2 or '' }}" placeholder="Bullet 2">
                 <label class="text-white-50 small">Imagen del servicio</label>
                 <div class="d-flex align-items-center gap-3">
-                    <img id="edit-preview-tab-image" src="{{ url_for('static', filename=s.tab_image) if s.tab_image else url_for('static', filename='img/placeholder.png') }}" alt="Vista previa" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:#1a1e24;">
+                    <img id="edit-preview-tab-image" src="{{ url_for('static', filename=s.tab_image) if s.tab_image else url_for('static', filename='img/placeholder.png') }}" alt="Vista previa" class="img-preview">
                     <div>
                         <button type="button" class="btn btn-sm btn-outline-info" onclick="document.getElementById('edit_tab_image_input').click()">Cambiar imagen</button>
-                        <input type="file" name="tab_image" id="edit_tab_image_input" accept="image/png,image/jpeg,image/gif,image/webp" style="display:none;" onchange="document.getElementById('edit-preview-tab-image').src = URL.createObjectURL(this.files[0])">
+                        <input type="file" name="tab_image" id="edit_tab_image_input" accept="image/png,image/jpeg,image/gif,image/webp" class="input-hidden" onchange="document.getElementById('edit-preview-tab-image').src = URL.createObjectURL(this.files[0])">
                     </div>
                 </div>
                 <hr class="border-secondary">

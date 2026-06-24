@@ -4,8 +4,7 @@ from helpers import (
     slot_map as slot_map_dict,
     _api_get, _api_post, _api_patch
 )
-from services.mapas_services import _api_get_maps
-from services.modalidades_services import _api_get_gamemodes
+from services.public_services import _api_get_maps, _api_get_gamemodes
 from services.dashboard_services import get_frecuencia_horaria
 
 

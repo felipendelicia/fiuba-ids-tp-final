@@ -1,4 +1,3 @@
-from datetime import date, datetime
 import os
 import requests
 
@@ -6,40 +5,6 @@ BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 REVIEWS_PER_PAGE = 2
 EQUIP_PER_PAGE = 5
 USUARIOS_PER_PAGE = 4
-MAPS_PER_PAGE = 10
-
-try:
-    from services.dashboard_services import (
-        get_reservas_dia, contar_reservas_dia, contar_capacidad_dia,
-        get_ingresos_periodo, get_frecuencia_horaria, get_calendario_mes,
-    )
-    DB_AVAILABLE = True
-except Exception:
-    DB_AVAILABLE = False
-
-    def get_reservas_dia(fecha=None, limit=10, offset=0):
-        return []
-    def contar_reservas_dia(fecha=None):
-        return 0
-    def contar_capacidad_dia(fecha=None):
-        return 0
-    def get_ingresos_periodo(fecha):
-        return {'dia': 0, 'semana': 0, 'mes': 0, 'año': 0}
-    def get_frecuencia_horaria(fecha=None):
-        return {'cs': 0, 'so': 0, 'nd': 0, 'od': 0, 'tc': 0, 'qs': 0, 'do': 0, 'dv': 0}
-    def get_calendario_mes():
-        from datetime import timedelta
-        import calendar
-        hoy = date.today()
-        primer_dia = date(hoy.year, hoy.month, 1)
-        inicio_calendario = primer_dia - timedelta(days=primer_dia.weekday())
-        dias = []
-        for i in range(35):
-            d = inicio_calendario + timedelta(days=i)
-            dias.append({'num': d.day, 'fecha': d.isoformat(), 'actual': d.month == hoy.month})
-        meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-                 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-        return dias, hoy.isoformat(), meses[hoy.month - 1], hoy.year
 
 
 slot_map = {
@@ -85,100 +50,4 @@ def _api_patch(endpoint, data=None, token=None):
 
 def _api_delete(endpoint, token=None):
     return _api_request("DELETE", endpoint, token=token)
-
-
-
-
-
-def _api_get_usuario(user_id):
-    resp = _api_get(f"/account/{user_id}")
-    if resp and resp.status_code == 200:
-        cuenta = resp.json().get("Cuenta", {})
-        cuenta["user_name"] = cuenta.get("username")
-        return cuenta
-    return None
-
-
-def _api_get_maps():
-    resp = _api_get("/maps/disponibility", params={"_limit": 100})
-    if resp and resp.status_code == 200:
-        return resp.json().get("Maps", [])
-    return []
-
-
-def _api_get_gamemodes():
-    resp = _api_get("/gamemodes/")
-    if resp and resp.status_code == 200:
-        return resp.json().get("gamemodes", [])
-    return []
-
-
-def _api_get_contact_messages():
-    resp = _api_get("/contacto/")
-    if resp and resp.status_code == 200:
-        return resp.json()
-    return []
-
-
-def _api_send_contact_message(data):
-    resp = _api_post("/contacto/", data=data)
-    return resp is not None and resp.status_code == 201
-
-
-def _api_get_services():
-    resp = _api_get("/services/")
-    if resp and resp.status_code == 200:
-        return resp.json().get("services", [])
-    return []
-
-
-def _api_get_service(service_id):
-    resp = _api_get(f"/services/{service_id}")
-    if resp and resp.status_code == 200:
-        return resp.json().get("service")
-    return None
-
-
-def _api_create_service(data):
-    resp = _api_post("/services/", data=data)
-    return resp is not None and resp.status_code == 201
-
-
-def _api_update_service(service_id, data):
-    resp = _api_put(f"/services/{service_id}", data=data)
-    return resp is not None and resp.status_code == 200
-
-
-def _api_delete_service(service_id):
-    resp = _api_delete(f"/services/{service_id}")
-    return resp is not None and resp.status_code == 200
-
-
-def _api_get_nosotros():
-    resp = _api_get("/nosotros/")
-    if resp and resp.status_code == 200:
-        return resp.json()
-    return {'info': None, 'cards': []}
-
-
-def _api_get_competitivo_events():
-    resp = _api_get("/competitivo/")
-    if resp and resp.status_code == 200:
-        return resp.json().get("events", [])
-    return []
-
-
-def _api_create_competitivo_event(data):
-    resp = _api_post("/competitivo/", data=data)
-    return resp is not None and resp.status_code == 201
-
-
-def _api_update_competitivo_event(id, data):
-    resp = _api_put(f"/competitivo/{id}", data=data)
-    return resp is not None and resp.status_code == 200
-
-
-def _api_delete_competitivo_event(id):
-    resp = _api_delete(f"/competitivo/{id}")
-    return resp is not None and resp.status_code == 200
 

@@ -77,11 +77,11 @@
                     {% endif %}
                 {% endfor %}
             </div>
-            <div id="calendarLoading" style="display:none;text-align:center;color:#00f2fe;margin-top:8px;">Cargando...</div>
+            <div id="calendarLoading" class="text-center text-info mt-2 d-none">Cargando...</div>
         </div>
     </div>
 
-    <div class="pie-wrapper" style="display:flex;justify-content:center;margin:2rem 0">
+    <div class="pie-wrapper d-flex justify-content-center my-2r">
         <div id="pie-chart" class="pie-chart" data-ocupadas="{{ total_ocupadas }}" data-total="{{ total_capacidad }}">
             <div class="pie-inner">
                 <h2>Ocupado</h2>
@@ -90,7 +90,7 @@
         </div>
     </div>
 
-    <div class="table-wrapper" style="margin:0 auto">
+    <div class="table-wrapper mx-auto">
         <div class="table-title">Reservas</div>
         <div class="reservations-header">
             <div>ID</div><div>NOMBRE</div><div>DNI</div><div>USUARIO</div><div>PRECIO</div><div>HORARIO</div><div>MAPA</div><div>TIPO</div>
@@ -110,7 +110,7 @@
         {% endfor %}
         {% if not data_ocu %}
         <div class="reservations-row">
-            <div class="dim" style="flex:1;text-align:center">Sin reservas para esta fecha</div>
+            <div class="dim text-center flex-1">Sin reservas para esta fecha</div>
         </div>
         {% endif %}
         </div>

@@ -2,13 +2,13 @@ import os
 from flask import flash, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 from helpers import (
-    REVIEWS_PER_PAGE, _api_get_maps, _api_get, _api_post, _api_patch,
-    _api_send_contact_message, _api_get_gamemodes
+    REVIEWS_PER_PAGE, _api_get, _api_post, _api_patch,
 )
+from services.public_services import _api_get_maps, _api_get_gamemodes
+from services.public_services import _api_send_contact_message
 
 
-def _fetch_user_history(user_id, token):
-    """Fetch user's sala history: private rooms they created + public rooms they joined."""
+def _get_user_history(user_id, token):
     salas_resp = _api_get("/salas/", params={"_limit": 1000}, token=token)
     reservas_resp = _api_get("/reservations/", params={"_limit": 1000}, token=token)
 
@@ -78,7 +78,7 @@ def register(app):
             usuario = cuenta
         favoritos = session.get('favoritos', [])
         mapas = _api_get_maps()
-        historial = _fetch_user_history(usuario["id"], usuario.get("token"))
+        historial = _get_user_history(usuario["id"], usuario.get("token"))
         return render_template('perfil.html', usuario=usuario, favoritos=favoritos, mapas=mapas, historial=historial)
 
     @app.route('/perfil/favoritos/agregar/<int:map_id>', methods=['POST'])

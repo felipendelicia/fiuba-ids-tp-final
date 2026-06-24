@@ -24,7 +24,7 @@
             {% if usuario and usuario.is_admin %}
             <div class="admin-card-actions">
                 <a href="{{ url_for('admin_modalidades_editar', id=modo.id) }}" class="btn-card-edit">Editar</a>
-                <form action="{{ url_for('admin_modalidades_eliminar', id=modo.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar {{ modo.name }}?')">
+                <form action="{{ url_for('admin_modalidades_eliminar', id=modo.id) }}" method="POST" class="form-inline" onsubmit="return confirm('¿Eliminar {{ modo.name }}?')">
                     <button type="submit" class="btn-card-delete">Eliminar</button>
                 </form>
             </div>
@@ -41,7 +41,7 @@
 </section>
 
 {% if usuario and usuario.is_admin %}
-<section class="modalidades-section" style="padding-top:0;">
+<section class="modalidades-section pt-0">
     <div class="modalidades-header">
         <h1 class="modalidades-title">Eventos Competitivos</h1>
         <p class="modalidades-subtitle">Administra los eventos de la seccion competitivo</p>
@@ -109,6 +109,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </section>

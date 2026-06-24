@@ -18,10 +18,10 @@
             {% endfor %}
         </div>
 
-        <div class="tab-contenido-wrapper text-start text-white p-4 rounded-3" style="background-color: rgba(20, 24, 30, 0.75); border: 1px solid rgba(0, 242, 254, 0.15);">
+        <div class="tab-contenido-wrapper text-start text-white p-4 rounded-3 card-container-dark">
 
             {% for s in servicios %}
-            <div id="pestaña-{{ s.id }}" class="tab-seccion {% if loop.first %}active{% endif %}" {% if not loop.first %}style="display: none;"{% endif %}>
+            <div id="pestaña-{{ s.id }}" class="tab-seccion {% if loop.first %}active{% endif %}" {% if not loop.first %}hidden{% endif %}>
                 <div class="row align-items-center">
                     <div class="col-md-5 mb-4 mb-md-0">
                         <div class="img-servicio-container">

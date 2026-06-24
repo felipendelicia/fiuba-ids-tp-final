@@ -23,7 +23,7 @@
                     
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
-                            <h5 class="text-white fw-bold mb-1" style="letter-spacing: 0.5px;">{{ reseña.usuario }}</h5>
+                            <h5 class="text-white fw-bold mb-1 ls-05">{{ reseña.usuario }}</h5>
                             <span class="badge bg-dark border {% if reseña.puntuacion < 4 %}border-danger text-danger{% else %}border-info text-info{% endif %} small">
                                 MAPA: {{ reseña.mapa | upper }}
                             </span>
@@ -33,7 +33,7 @@
                                 {% for i in range(0, reseña.puntuacion) %}
                                     ★
                                 {% endfor %}
-                                <span style="opacity: 0.15; color: #fff;">
+                                <span class="op-15 text-white">
                                 {% for i in range(reseña.puntuacion, 5) %}
                                     ★
                                 {% endfor %}
@@ -47,13 +47,13 @@
                         {{ reseña.titulo }}
                     </h4>
 
-                    <p class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4" style="font-size: 0.95rem; line-height: 1.6;">
+                    <p class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4 fs-095 lh-16">
                         "{{ reseña.comentario }}"
                     </p>
 
                     <form method="POST" action="{{ url_for('moderar_resenia', resena_id=reseña.id) }}">
                         <div class="mb-3">
-                            <label class="text-white-50 small fw-bold mb-2" style="letter-spacing: 1px; font-size: 0.75rem;">
+                            <label class="text-white-50 small fw-bold mb-2 label-orbitron fs-075">
                                 <i class="bi bi-reply-all me-2"></i>RESPUESTA DE SOPORTE KINETIX
                             </label>
                             <textarea name="admin_response" class="form-control bg-dark text-white border-secondary" rows="3" placeholder="Escribi una respuesta para el usuario...">{{ reseña.admin_response }}</textarea>

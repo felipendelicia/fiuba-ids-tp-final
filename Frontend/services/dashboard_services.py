@@ -6,7 +6,7 @@ import requests
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 
-def _fetch_dashboard_data(fecha):
+def _get_dashboard_data(fecha):
     try:
         resp = requests.get(
             f"{BACKEND_URL}/dashboard/data/",
@@ -23,28 +23,28 @@ def _fetch_dashboard_data(fecha):
 def get_reservas_dia(fecha=None, limit=100, offset=0):
     if not fecha:
         fecha = date.today().isoformat()
-    data = _fetch_dashboard_data(fecha)
+    data = _get_dashboard_data(fecha)
     return data.get("reservas", [])
 
 
 def contar_reservas_dia(fecha=None):
     if not fecha:
         fecha = date.today().isoformat()
-    data = _fetch_dashboard_data(fecha)
+    data = _get_dashboard_data(fecha)
     return data.get("total", 0)
 
 
 def contar_capacidad_dia(fecha=None):
     if not fecha:
         fecha = date.today().isoformat()
-    data = _fetch_dashboard_data(fecha)
+    data = _get_dashboard_data(fecha)
     return data.get("total_capacidad", 0)
 
 
 def get_ingresos_periodo(fecha):
     if not fecha:
         fecha = date.today().isoformat()
-    data = _fetch_dashboard_data(fecha)
+    data = _get_dashboard_data(fecha)
     ingresos = data.get("ingresos", {})
     return {
         "dia": int(ingresos.get("dia", 0) or 0),
@@ -57,7 +57,7 @@ def get_ingresos_periodo(fecha):
 def get_frecuencia_horaria(fecha=None):
     if not fecha:
         fecha = date.today().isoformat()
-    data = _fetch_dashboard_data(fecha)
+    data = _get_dashboard_data(fecha)
     raw = data.get("frecuencia", {})
     slots = ["cs", "so", "nd", "od", "tc", "qs", "do", "dv"]
     return {s: int(raw.get(s, 0) or 0) for s in slots}

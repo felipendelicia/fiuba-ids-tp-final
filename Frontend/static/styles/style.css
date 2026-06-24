@@ -3,11 +3,13 @@
    FONDO GLOBAL ESTILO KINETIX (grid táctico oscuro)
    ========================================================================== */
 body {
+  font-family: Arial, sans-serif;
   background-color: #0b0d0f;
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 20px 20px;
+  width: 100%;
 }
 
 /* ==========================================================================
@@ -259,7 +261,7 @@ body {
 
 @media (max-width: 768px) {
   .hero {
-    min-height: 450px;
+    min-height: 350px;
   }
 
   .hero__button {
@@ -268,12 +270,22 @@ body {
   }
 
   .fields__title h2 {
-    font-size: 60px;
+    font-size: 32px;
   }
 
   .fields__grid a {
     flex: 1 1 140px;
     max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .fields__title h2 {
+    font-size: 24px;
+  }
+
+  .hero {
+    min-height: 280px;
   }
 }
 
@@ -446,7 +458,7 @@ body {
 
 .servicios-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 40px;
     max-width: 1000px;
     margin: 0 auto;
@@ -511,7 +523,6 @@ body {
     margin-bottom: 0;
 }
 
-/* Estilos para los botones selectores de pestañas */
 .tab-boton {
     background-color: rgba(10, 12, 15, 0.8);
     color: #8a99ad;
@@ -541,7 +552,6 @@ body {
     text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
 }
 
-/* Línea de resplandor superior para el botón activo */
 .tab-boton.active::after {
     content: '';
     position: absolute;
@@ -573,39 +583,35 @@ body {
 
 /* 1. Quitar el fondo blanco/gris por defecto del Breadcrumb */
 .breadcrumb {
-    background-color: transparent !important; /* Hace que se fusione con tu contenedor oscuro */
-    padding: 0.5rem 0 !important;
-    margin-bottom: 1.5rem !important;
+    background-color: transparent; /* Hace que se fusione con tu contenedor oscuro */
+    padding: 0.5rem 0;
+    margin-bottom: 1.5rem;
     font-family: 'Orbitron', sans-serif;
     font-size: 0.85rem;
 }
 
 /* Color neón para los links del camino de navegación */
 .breadcrumb-item a {
-    color: #00f2fe !important;
+    color: #00f2fe;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
 .breadcrumb-item a:hover {
-    color: #4facfe !important;
+    color: #4facfe;
     text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
 }
 
 /* Color gris sutil para el texto de la página en la que estás parado */
 .breadcrumb-item.active {
-    color: rgba(255, 255, 255, 0.4) !important;
+    color: rgba(255, 255, 255, 0.4);
 }
 
 /* Cambiar el color de las barritas separadoras (/) a azul táctico */
 .breadcrumb-item + .breadcrumb-item::before {
-    color: rgba(0, 242, 254, 0.3) !important;
+    color: rgba(0, 242, 254, 0.3);
 }
 
-/* 2. Asegurar que el fondo general del body sea el oscuro de Kinetix si queda luz en los bordes */
-body {
-    background-color: #0a0c0f !important; /* Tu color oscuro base */
-}
 
 /* ================================================================
    contacto.html - Airsoft - Contacto Operativo
@@ -1118,7 +1124,7 @@ textarea.form-control-custom {
     align-items: center;
     text-align: center;
     gap: 0.5rem;
-    text-decoration: none !important;
+    text-decoration: none;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -1230,7 +1236,7 @@ textarea.form-control-custom {
 }
 .admin-usuarios-grid{
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.2rem;
     margin: 1rem;
 }
@@ -1244,7 +1250,7 @@ textarea.form-control-custom {
     align-items: center;
     text-align: center;
     gap: 0.5rem;
-    text-decoration: none !important;
+    text-decoration: none;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     max-width: 700px;
     justify-self: center;
@@ -1753,32 +1759,32 @@ textarea.form-control-custom {
 }
 
 .list-group-item-action {
-    background-color: rgba(18, 22, 26, 0.8) !important;
-    color: #a0aec0 !important;
-    border: 1px solid rgba(79, 172, 254, 0.1) !important;
-    border-radius: 8px !important;
+    background-color: rgba(18, 22, 26, 0.8);
+    color: #a0aec0;
+    border: 1px solid rgba(79, 172, 254, 0.1);
+    border-radius: 8px;
     padding: 1rem 1.5rem;
     font-weight: 600;
-    border-left: 4px solid transparent !important;
+    border-left: 4px solid transparent;
     transition: all 0.3s ease-in-out;
     margin-bottom: 0.5rem;
 }
 
 /* Hover: barra neón lateral y movimiento */
 .list-group-item-action:hover {
-    background-color: #1a1e23 !important;
-    color: #ffffff !important;
-    border-left-color: #00f2fe !important;
-    box-shadow: inset 4px 0 0 #00f2fe, 0 4px 10px rgba(0, 242, 254, 0.1) !important;
+    background-color: #1a1e23;
+    color: #ffffff;
+    border-left-color: #00f2fe;
+    box-shadow: inset 4px 0 0 #00f2fe, 0 4px 10px rgba(0, 242, 254, 0.1);
     transform: translateX(5px);
 }
 
 .list-group-item-action.active {
-    background-color: rgba(0, 242, 254, 0.1) !important;
-    color: #00f2fe !important;
-    border-left-color: #00f2fe !important;
-    border: 1px solid rgba(0, 242, 254, 0.3) !important;
-    box-shadow: inset 4px 0 0 #00f2fe !important;
+    background-color: rgba(0, 242, 254, 0.1);
+    color: #00f2fe;
+    border-left-color: #00f2fe;
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    box-shadow: inset 4px 0 0 #00f2fe;
 }
 
 .tab-content {
@@ -1787,7 +1793,6 @@ textarea.form-control-custom {
     color: #ffffff;
 }
 
-/* Responsive para pantallas chicas */
 @media (max-width: 600px) {
     .grid-mapas-favoritos {
         grid-template-columns: repeat(2, 1fr);
@@ -2020,14 +2025,14 @@ textarea.form-control-custom {
 .tab-contenido-wrapper .table,
 .tab-contenido-wrapper table th,
 .tab-contenido-wrapper table td {
-    color: #ffffff !important;
-    background-color: transparent !important;
+    color: #ffffff;
+    background-color: transparent;
 }
 
 /* Cabeceras de la tabla con color neón y borde brillante */
 .tab-contenido-wrapper table thead th {
-    color: #00f2fe !important;
-    border-bottom: 2px solid #00f2fe !important;
+    color: #00f2fe;
+    border-bottom: 2px solid #00f2fe;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-family: 'Orbitron', sans-serif;
@@ -2035,14 +2040,14 @@ textarea.form-control-custom {
 
 /* Bordes sutiles para las filas */
 .tab-contenido-wrapper table tbody td {
-    border-bottom: 1px solid rgba(79, 172, 254, 0.2) !important;
+    border-bottom: 1px solid rgba(79, 172, 254, 0.2);
     vertical-align: middle;
 }
 
 /* Efecto Hover Táctico en las filas (cuando pasás el mouse por cada usuario) */
 .tab-contenido-wrapper table tbody tr:hover td {
-    background-color: rgba(0, 242, 254, 0.1) !important;
-    color: #ffffff !important;
+    background-color: rgba(0, 242, 254, 0.1);
+    color: #ffffff;
 }
 
 /* ================================================================
@@ -2237,7 +2242,7 @@ textarea.form-input {
 
 .opciones-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 40px;
     max-width: 900px;
     width: 90%;
@@ -2664,15 +2669,13 @@ textarea.form-input {
     align-items: center;
     gap: 30px;
     width: 100%;
-    max-width: 1100px;
     margin: 0 auto;
     padding: 0 15px;
 }
 
 .equipamiento-item {
     display: block;
-    flex: 1;
-    min-width: 280px;
+    flex: 1 1 280px;
     max-width: 320px;
     height: 220px;
     background-color: rgba(18, 22, 26, 0.6);
@@ -2693,9 +2696,32 @@ textarea.form-input {
 .equipamiento-item img {
     width: 100%;
     height: 100%;
-    object-fit: fill;  
+    object-fit: cover;
     display: block;
     border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .equipamiento-galeria {
+    gap: 20px;
+  }
+  .equipamiento-item {
+    flex: 1 1 200px;
+    max-width: 280px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .equipamiento-galeria {
+    gap: 15px;
+    padding: 0 10px;
+  }
+  .equipamiento-item {
+    flex: 1 1 140px;
+    max-width: 100%;
+    height: 160px;
+  }
 }
 
 /* ================================================================
@@ -2714,13 +2740,13 @@ textarea.form-input {
 
 /* Forzar títulos principales de la sección */
 .equipamiento-title {
-    color: #00f2fe !important;
+    color: #00f2fe;
     font-weight: 800;
     text-transform: uppercase;
 }
 
 .equipamiento-description {
-    color: #ffffff !important;
+    color: #ffffff;
     opacity: 0.9;
 }
 
@@ -2728,9 +2754,9 @@ textarea.form-input {
 .rostro-grid-card {
     display: flex;
     flex-direction: row;
-    background-color: #161b22 !important; /* Gris oscuro militar sólido */
-    border: 2px solid #00f2fe !important;  /* Borde celeste Kinetix */
-    border-radius: 8px !important;
+    background-color: #161b22; /* Gris oscuro militar sólido */
+    border: 2px solid #00f2fe;  /* Borde celeste Kinetix */
+    border-radius: 8px;
     margin-bottom: 40px;
     overflow: hidden;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
@@ -2738,7 +2764,7 @@ textarea.form-input {
 
 /* Caja contenedora de la foto (Fondo más oscuro) */
 .rostro-pic-box {
-    background-color: #0d1117 !important;
+    background-color: #0d1117;
     padding: 30px;
     display: flex;
     justify-content: center;
@@ -2762,7 +2788,7 @@ textarea.form-input {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #161b22 !important;
+    background-color: #161b22;
 }
 
 /* Metadatos superiores */
@@ -2775,30 +2801,30 @@ textarea.form-input {
 .rostro-sku {
     font-size: 11px;
     font-weight: bold;
-    color: #8b949e !important; /* Gris claro */
+    color: #8b949e; /* Gris claro */
     letter-spacing: 1px;
 }
 
 .rostro-status-online {
     font-size: 11px;
     font-weight: bold;
-    color: #00f2fe !important; /* Celeste brillante */
+    color: #00f2fe; /* Celeste brillante */
 }
 
 /* Título del producto en Blanco Puro */
 .rostro-main-title {
     font-size: 24px;
     font-weight: 800;
-    color: #ffffff !important; /* Blanco forzado */
-    margin: 0 0 12px 0 !important;
+    color: #ffffff; /* Blanco forzado */
+    margin: 0 0 12px 0;
 }
 
 /* Párrafo descriptivo legible */
 .rostro-body-text {
     font-size: 14px;
-    color: #e2e8f0 !important; /* Gris ultraclaro para lectura cómoda */
+    color: #e2e8f0; /* Gris ultraclaro para lectura cómoda */
     line-height: 1.6;
-    margin: 0 0 20px 0 !important;
+    margin: 0 0 20px 0;
 }
 
 /* Bloque e indicadores de las barras de progreso */
@@ -2819,14 +2845,14 @@ textarea.form-input {
 .rostro-stat-row label {
     font-size: 12px;
     font-weight: bold;
-    color: #ffffff !important; /* Etiquetas en blanco */
+    color: #ffffff; /* Etiquetas en blanco */
     margin: 0;
 }
 
 /* Contenedores visuales de las barras */
 .rostro-progress {
     width: 60%;
-    background-color: #21262d !important; /* Fondo de barra vacío */
+    background-color: #21262d; /* Fondo de barra vacío */
     height: 10px;
     border-radius: 5px;
     overflow: hidden;
@@ -2835,11 +2861,10 @@ textarea.form-input {
 
 .rostro-fill {
     height: 100%;
-    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%) !important; /* Degradado celeste */
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); /* Degradado celeste */
     border-radius: 5px;
 }
 
-/* Adaptación para celulares */
 @media (max-width: 768px) {
     .rostro-grid-card {
         flex-direction: column;
@@ -3011,7 +3036,7 @@ textarea.form-input {
 }
 
 .tutorial-main-title {
-    font-size: 28px !important; 
+    font-size: 28px; 
     margin-bottom: 15px;
 }
 
@@ -3368,7 +3393,6 @@ textarea.form-input {
   margin-top: 4px;
 }
 
-/* --- Responsive --- */
 @media (max-width: 992px) {
   .chart-bars {
     flex: 1 1 100%;
@@ -3389,7 +3413,9 @@ textarea.form-input {
   .dashboard-section {
     padding: 100px 0 40px;
   }
-  .dashboard-title {
+  .dashboard-title,
+  .opciones-title,
+  .maps__title h2 {
     font-size: 60px;
   }
   .kpi-card {
@@ -3457,7 +3483,7 @@ textarea.form-input {
 
 .eventos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
   max-width: 1100px;
   margin: 0 auto;
@@ -4369,21 +4395,48 @@ textarea.form-input {
     background-clip: text;
 }
 
+@media (max-width: 768px) {
+  .competitivo-title,
+  .nosotros__title,
+  .servicios-title,
+  .contacto-title,
+  .equipamiento-title,
+  .review-title,
+  .reserva-title,
+  .dashboard-title,
+  .opciones-title,
+  .maps__title h2 {
+    font-size: 32px;
+  }
+  .modalidades-title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .competitivo-title,
+  .nosotros__title,
+  .servicios-title,
+  .contacto-title,
+  .equipamiento-title,
+  .review-title,
+  .reserva-title,
+  .dashboard-title,
+  .opciones-title,
+  .maps__title h2 {
+    font-size: 24px;
+  }
+  .modalidades-title {
+    font-size: 22px;
+  }
+}
+
 
 /* ================================================================
    base.html - Template Base (fondo global, flash, footer)
    ================================================================ */
 
-/* ==========================================================================
-   FONDO GLOBAL ESTILO KINETIX (grid táctico oscuro)
-   ========================================================================== */
-body {
-  background-color: #0b0d0f;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
+
 
 /* ==========================================================================
    MENSAJES FLASH
@@ -4634,7 +4687,7 @@ body {
 
 @media (max-width: 768px) {
   .hero {
-    min-height: 450px;
+    min-height: 350px;
   }
 
   .hero__button {
@@ -4643,12 +4696,22 @@ body {
   }
 
   .fields__title h2 {
-    font-size: 60px;
+    font-size: 32px;
   }
 
   .fields__grid a {
     flex: 1 1 140px;
     max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .fields__title h2 {
+    font-size: 24px;
+  }
+
+  .hero {
+    min-height: 280px;
   }
 }
 
@@ -4821,7 +4884,7 @@ body {
 
 .servicios-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 40px;
     max-width: 1000px;
     margin: 0 auto;
@@ -4948,39 +5011,35 @@ body {
 
 /* 1. Quitar el fondo blanco/gris por defecto del Breadcrumb */
 .breadcrumb {
-    background-color: transparent !important; /* Hace que se fusione con tu contenedor oscuro */
-    padding: 0.5rem 0 !important;
-    margin-bottom: 1.5rem !important;
+    background-color: transparent; /* Hace que se fusione con tu contenedor oscuro */
+    padding: 0.5rem 0;
+    margin-bottom: 1.5rem;
     font-family: 'Orbitron', sans-serif;
     font-size: 0.85rem;
 }
 
 /* Color neón para los links del camino de navegación */
 .breadcrumb-item a {
-    color: #00f2fe !important;
+    color: #00f2fe;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
 .breadcrumb-item a:hover {
-    color: #4facfe !important;
+    color: #4facfe;
     text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
 }
 
 /* Color gris sutil para el texto de la página en la que estás parado */
 .breadcrumb-item.active {
-    color: rgba(255, 255, 255, 0.4) !important;
+    color: rgba(255, 255, 255, 0.4);
 }
 
 /* Cambiar el color de las barritas separadoras (/) a azul táctico */
 .breadcrumb-item + .breadcrumb-item::before {
-    color: rgba(0, 242, 254, 0.3) !important;
+    color: rgba(0, 242, 254, 0.3);
 }
 
-/* 2. Asegurar que el fondo general del body sea el oscuro de Kinetix si queda luz en los bordes */
-body {
-    background-color: #0a0c0f !important; /* Tu color oscuro base */
-}
 
 /* ================================================================
    contacto.html - Airsoft - Contacto Operativo
@@ -5493,7 +5552,7 @@ textarea.form-control-custom {
     align-items: center;
     text-align: center;
     gap: 0.5rem;
-    text-decoration: none !important;
+    text-decoration: none;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -5605,7 +5664,7 @@ textarea.form-control-custom {
 }
 .admin-usuarios-grid{
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.2rem;
     margin: 1rem;
 }
@@ -5619,7 +5678,7 @@ textarea.form-control-custom {
     align-items: center;
     text-align: center;
     gap: 0.5rem;
-    text-decoration: none !important;
+    text-decoration: none;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     max-width: 700px;
     justify-self: center;
@@ -6128,32 +6187,32 @@ textarea.form-control-custom {
 }
 
 .list-group-item-action {
-    background-color: rgba(18, 22, 26, 0.8) !important;
-    color: #a0aec0 !important;
-    border: 1px solid rgba(79, 172, 254, 0.1) !important;
-    border-radius: 8px !important;
+    background-color: rgba(18, 22, 26, 0.8);
+    color: #a0aec0;
+    border: 1px solid rgba(79, 172, 254, 0.1);
+    border-radius: 8px;
     padding: 1rem 1.5rem;
     font-weight: 600;
-    border-left: 4px solid transparent !important;
+    border-left: 4px solid transparent;
     transition: all 0.3s ease-in-out;
     margin-bottom: 0.5rem;
 }
 
 /* Hover: barra neón lateral y movimiento */
 .list-group-item-action:hover {
-    background-color: #1a1e23 !important;
-    color: #ffffff !important;
-    border-left-color: #00f2fe !important;
-    box-shadow: inset 4px 0 0 #00f2fe, 0 4px 10px rgba(0, 242, 254, 0.1) !important;
+    background-color: #1a1e23;
+    color: #ffffff;
+    border-left-color: #00f2fe;
+    box-shadow: inset 4px 0 0 #00f2fe, 0 4px 10px rgba(0, 242, 254, 0.1);
     transform: translateX(5px);
 }
 
 .list-group-item-action.active {
-    background-color: rgba(0, 242, 254, 0.1) !important;
-    color: #00f2fe !important;
-    border-left-color: #00f2fe !important;
-    border: 1px solid rgba(0, 242, 254, 0.3) !important;
-    box-shadow: inset 4px 0 0 #00f2fe !important;
+    background-color: rgba(0, 242, 254, 0.1);
+    color: #00f2fe;
+    border-left-color: #00f2fe;
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    box-shadow: inset 4px 0 0 #00f2fe;
 }
 
 .tab-content {
@@ -6395,14 +6454,14 @@ textarea.form-control-custom {
 .tab-contenido-wrapper .table,
 .tab-contenido-wrapper table th,
 .tab-contenido-wrapper table td {
-    color: #ffffff !important;
-    background-color: transparent !important;
+    color: #ffffff;
+    background-color: transparent;
 }
 
 /* Cabeceras de la tabla con color neón y borde brillante */
 .tab-contenido-wrapper table thead th {
-    color: #00f2fe !important;
-    border-bottom: 2px solid #00f2fe !important;
+    color: #00f2fe;
+    border-bottom: 2px solid #00f2fe;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-family: 'Orbitron', sans-serif;
@@ -6410,14 +6469,14 @@ textarea.form-control-custom {
 
 /* Bordes sutiles para las filas */
 .tab-contenido-wrapper table tbody td {
-    border-bottom: 1px solid rgba(79, 172, 254, 0.2) !important;
+    border-bottom: 1px solid rgba(79, 172, 254, 0.2);
     vertical-align: middle;
 }
 
 /* Efecto Hover Táctico en las filas (cuando pasás el mouse por cada usuario) */
 .tab-contenido-wrapper table tbody tr:hover td {
-    background-color: rgba(0, 242, 254, 0.1) !important;
-    color: #ffffff !important;
+    background-color: rgba(0, 242, 254, 0.1);
+    color: #ffffff;
 }
 
 /* ================================================================
@@ -6612,7 +6671,7 @@ textarea.form-input {
 
 .opciones-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 40px;
     max-width: 900px;
     width: 90%;
@@ -7039,15 +7098,13 @@ textarea.form-input {
     align-items: center;
     gap: 30px;
     width: 100%;
-    max-width: 1100px;
     margin: 0 auto;
     padding: 0 15px;
 }
 
 .equipamiento-item {
     display: block;
-    flex: 1;
-    min-width: 280px;
+    flex: 1 1 280px;
     max-width: 320px;
     height: 220px;
     background-color: rgba(18, 22, 26, 0.6);
@@ -7068,9 +7125,32 @@ textarea.form-input {
 .equipamiento-item img {
     width: 100%;
     height: 100%;
-    object-fit: fill;  
+    object-fit: cover;
     display: block;
     border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .equipamiento-galeria {
+    gap: 20px;
+  }
+  .equipamiento-item {
+    flex: 1 1 200px;
+    max-width: 280px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .equipamiento-galeria {
+    gap: 15px;
+    padding: 0 10px;
+  }
+  .equipamiento-item {
+    flex: 1 1 140px;
+    max-width: 100%;
+    height: 160px;
+  }
 }
 
 /* ================================================================
@@ -7089,13 +7169,13 @@ textarea.form-input {
 
 /* Forzar títulos principales de la sección */
 .equipamiento-title {
-    color: #00f2fe !important;
+    color: #00f2fe;
     font-weight: 800;
     text-transform: uppercase;
 }
 
 .equipamiento-description {
-    color: #ffffff !important;
+    color: #ffffff;
     opacity: 0.9;
 }
 
@@ -7103,9 +7183,9 @@ textarea.form-input {
 .rostro-grid-card {
     display: flex;
     flex-direction: row;
-    background-color: #161b22 !important; /* Gris oscuro militar sólido */
-    border: 2px solid #00f2fe !important;  /* Borde celeste Kinetix */
-    border-radius: 8px !important;
+    background-color: #161b22; /* Gris oscuro militar sólido */
+    border: 2px solid #00f2fe;  /* Borde celeste Kinetix */
+    border-radius: 8px;
     margin-bottom: 40px;
     overflow: hidden;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
@@ -7113,7 +7193,7 @@ textarea.form-input {
 
 /* Caja contenedora de la foto (Fondo más oscuro) */
 .rostro-pic-box {
-    background-color: #0d1117 !important;
+    background-color: #0d1117;
     padding: 30px;
     display: flex;
     justify-content: center;
@@ -7137,7 +7217,7 @@ textarea.form-input {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #161b22 !important;
+    background-color: #161b22;
 }
 
 /* Metadatos superiores */
@@ -7150,30 +7230,30 @@ textarea.form-input {
 .rostro-sku {
     font-size: 11px;
     font-weight: bold;
-    color: #8b949e !important; /* Gris claro */
+    color: #8b949e; /* Gris claro */
     letter-spacing: 1px;
 }
 
 .rostro-status-online {
     font-size: 11px;
     font-weight: bold;
-    color: #00f2fe !important; /* Celeste brillante */
+    color: #00f2fe; /* Celeste brillante */
 }
 
 /* Título del producto en Blanco Puro */
 .rostro-main-title {
     font-size: 24px;
     font-weight: 800;
-    color: #ffffff !important; /* Blanco forzado */
-    margin: 0 0 12px 0 !important;
+    color: #ffffff; /* Blanco forzado */
+    margin: 0 0 12px 0;
 }
 
 /* Párrafo descriptivo legible */
 .rostro-body-text {
     font-size: 14px;
-    color: #e2e8f0 !important; /* Gris ultraclaro para lectura cómoda */
+    color: #e2e8f0; /* Gris ultraclaro para lectura cómoda */
     line-height: 1.6;
-    margin: 0 0 20px 0 !important;
+    margin: 0 0 20px 0;
 }
 
 /* Bloque e indicadores de las barras de progreso */
@@ -7194,14 +7274,14 @@ textarea.form-input {
 .rostro-stat-row label {
     font-size: 12px;
     font-weight: bold;
-    color: #ffffff !important; /* Etiquetas en blanco */
+    color: #ffffff; /* Etiquetas en blanco */
     margin: 0;
 }
 
 /* Contenedores visuales de las barras */
 .rostro-progress {
     width: 60%;
-    background-color: #21262d !important; /* Fondo de barra vacío */
+    background-color: #21262d; /* Fondo de barra vacío */
     height: 10px;
     border-radius: 5px;
     overflow: hidden;
@@ -7210,7 +7290,7 @@ textarea.form-input {
 
 .rostro-fill {
     height: 100%;
-    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%) !important; /* Degradado celeste */
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); /* Degradado celeste */
     border-radius: 5px;
 }
 
@@ -7386,7 +7466,7 @@ textarea.form-input {
 }
 
 .tutorial-main-title {
-    font-size: 28px !important; 
+    font-size: 28px; 
     margin-bottom: 15px;
 }
 
@@ -7764,7 +7844,9 @@ textarea.form-input {
   .dashboard-section {
     padding: 100px 0 40px;
   }
-  .dashboard-title {
+  .dashboard-title,
+  .opciones-title,
+  .maps__title h2 {
     font-size: 60px;
   }
   .kpi-card {
@@ -7832,7 +7914,7 @@ textarea.form-input {
 
 .eventos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
   max-width: 1100px;
   margin: 0 auto;

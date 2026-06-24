@@ -17,11 +17,11 @@
             <p class="nosotros__text">{{ paragraph | safe }}</p>
             {% endfor %}
 
-            <div class="nosotros__quote-container mt-4 mb-4" style="border-left: 4px solid #00f2fe; padding-left: 20px; background: rgba(0, 242, 254, 0.05); padding-top: 15px; padding-bottom: 15px; border-radius: 4px;">
-                <p class="nosotros__text m-0" style="font-style: italic; color: #e2e8f0; text-align: justify;">
+            <div class="nosotros__quote-container mt-4 mb-4 quote-border quote-pad">
+                <p class="nosotros__text m-0 fst-italic text-justify">
                     "En <span class="nosotros__highlight">Kinetix</span>, nos esforzamos por ir mas alla del juego convencional. Creemos firmemente que el airsoft es una herramienta de superacion personal y cohesion social, donde el respeto mutuo, la honestidad en cada impacto y el espiritu competitivo sano forman el nucleo de nuestra comunidad. Seguimos innovando dia a dia para brindarte la mejor experiencia tactica del pais."
                 </p>
-                <p class="text-end m-0 mt-2" style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; color: #00f2fe; letter-spacing: 1px;">
+                <p class="text-end m-0 mt-2 label-orbitron text-info text-small-085">
                     — El Equipo de Kinetix
                 </p>
             </div>
@@ -37,7 +37,7 @@
             </div>
 
             <div class="text-center mt-4">
-                <a href="{{ url_for('contacto') }}" class="btn btn-outline-info fw-bold px-4" style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; letter-spacing: 1px;">
+                <a href="{{ url_for('contacto') }}" class="btn btn-outline-info fw-bold px-4 label-orbitron text-small-085">
                     <i class="fa-solid fa-envelope me-2"></i>CONTACTANOS
                 </a>
             </div>

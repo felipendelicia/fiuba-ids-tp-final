@@ -42,7 +42,7 @@
                             </li>
                         </ul>
                         <a href="{{ url_for('admin_usuarios_editar', id_usuario_edit=usuariolist.id)}}" class="hombre-usuario-edit">Editar</a>
-                        <form action="{{ url_for('toggle_usuario_estado') }}" method="POST" style="margin-top: 10px;">
+                        <form action="{{ url_for('toggle_usuario_estado') }}" method="POST" class="mt-2">
                             <input type="hidden" name="id_usuario" value="{{ usuariolist.id }}">
                             <input type="hidden" name="estado_actual" value="{{ usuariolist.is_active }}">
                             <button type="submit" class="hombre-usuario-toggle {% if usuariolist.is_active == 1 %}activo{% else %}inactivo{% endif %}">
@@ -60,7 +60,7 @@
     </div>
 
     {% if total_pages > 1 %}
-    <div class="paginacion-resenias" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px; padding-bottom: 30px;">
+    <div class="paginacion-resenias d-flex justify-content-center gap-10 mt-4 pb-4">
         {% if page > 1 %}
         <a href="{{ url_for('admin_usuarios', page=page-1) }}" class="btn btn-outline-info btn-sm">Anterior</a>
         {% endif %}

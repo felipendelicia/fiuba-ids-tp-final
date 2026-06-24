@@ -24,7 +24,7 @@
             {% if usuario and usuario.is_admin %}
             <div class="admin-card-actions">
                 <a href="{{ url_for('admin_modalidades_editar', id=modo.id) }}" class="btn-card-edit">Editar</a>
-                <form action="{{ url_for('admin_modalidades_eliminar', id=modo.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar {{ modo.name }}?')">
+                <form action="{{ url_for('admin_modalidades_eliminar', id=modo.id) }}" method="POST" class="form-inline" onsubmit="return confirm('¿Eliminar {{ modo.name }}?')">
                     <button type="submit" class="btn-card-delete">Eliminar</button>
                 </form>
             </div>
@@ -41,15 +41,15 @@
 </section>
 
 {% if usuario and usuario.is_admin %}
-<section class="modalidades-section" style="padding-top:0;">
+<section class="modalidades-section pt-0">
     <div class="modalidades-header">
         <h1 class="modalidades-title">Eventos Competitivos</h1>
         <p class="modalidades-subtitle">Administra los eventos de la seccion competitivo</p>
     </div>
 
-    <div style="max-width:1000px;margin:0 auto;padding:0 15px;">
-        <div class="p-4 rounded-3 mb-5 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25);">
-            <h5 class="text-white fw-bold mb-3" style="font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">Crear Evento</h5>
+    <div class="mw-1000 mx-auto px-3">
+        <div class="p-4 rounded-3 mb-5 shadow-lg card-admin-form">
+            <h5 class="text-white fw-bold mb-3 label-orbitron">Crear Evento</h5>
             <form action="{{ url_for('admin_competitivo') }}" method="POST" class="row g-3">
                 <div class="col-md-4">
                     <input type="text" class="form-control bg-dark text-white border-secondary" name="title" placeholder="Titulo" required>
@@ -70,14 +70,15 @@
                     <textarea class="form-control bg-dark text-white border-secondary" name="description" placeholder="Descripcion" rows="2"></textarea>
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn fw-bold text-dark px-4" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); border: none;">Crear Evento</button>
+                    <button type="submit" class="btn fw-bold text-dark px-4 btn-gradient-cyan">Crear Evento</button>
                 </div>
             </form>
         </div>
 
-        <div class="p-4 rounded-3 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25);">
+        <div class="p-4 rounded-3 shadow-lg card-admin-form">
+            <div class="table-responsive">
             <table class="table table-dark table-hover align-middle mb-0">
-                <thead style="font-family: 'Orbitron', sans-serif; color: #00f2fe;">
+                <thead class="heading-orbitron text-info">
                     <tr>
                         <th class="border-secondary py-3">ID</th>
                         <th class="border-secondary py-3">Titulo</th>
@@ -109,6 +110,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </section>

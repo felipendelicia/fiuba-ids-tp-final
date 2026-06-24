@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container my-5">
     <div class="text-center mb-5">
-        <h1 class="display-5 fw-bold" style="font-family: 'Orbitron', 'Arial Black', sans-serif; color: #00d2ff; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0, 210, 255, 0.3);">
+        <h1 class="display-5 fw-bold page-title-cyan">
             MENSAJES DE CONTACTO
         </h1>
         <p class="text-white-50">Consultas recibidas desde el formulario de contacto</p>
@@ -15,24 +15,23 @@
         <div class="col-lg-9">
             {% if mensajes %}
                 {% for msg in mensajes %}
-                <div class="card mb-4 border-0 rounded-3 shadow-lg"
-                     style="background-color: rgba(20, 22, 25, 0.95);">
+                <div class="card card-dark mb-4 border-0 rounded-3 shadow-lg">
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <div>
-                                <h5 class="text-white fw-bold mb-1" style="letter-spacing: 0.5px;">{{ msg.user_name }}</h5>
+                                <h5 class="text-white fw-bold mb-1 ls-05">{{ msg.user_name }}</h5>
                                 <span class="badge bg-dark border border-info text-info small">{{ msg.email }}</span>
                             </div>
                             <small class="text-white-50">{{ msg.created_at }}</small>
                         </div>
-                        <div class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-2" style="font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap;">
+                        <div class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-2 fs-095 lh-16 ws-pre-wrap">
                             {{ msg.message }}
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
-            <div class="p-5 text-center text-muted rounded-3" style="background-color: rgba(20, 22, 25, 0.95); border: 1px dashed rgba(255,255,255,0.1);">
+            <div class="card-empty p-5 text-center text-muted rounded-3">
                 <p class="mb-0">No hay mensajes de contacto todavia.</p>
             </div>
             {% endif %}

@@ -8,6 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="{{url_for('static', filename='styles/style.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="{{ url_for('static', filename='img/icono.png') }}">
     {% block style_extra %}{% endblock %}
@@ -17,13 +20,13 @@
 
     <nav class="navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-            <div style="display: inline-flex; align-items: center; gap: 15px;">
-                <a href="{{ url_for('index') }}" style="padding: 0; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; text-decoration: none;">
-                    <span style="font-family: 'Orbitron', 'Arial Black', sans-serif; font-size: 26px; font-weight: bold; letter-spacing: 2px; background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            <div class="navbar-flex-group">
+                <a href="{{ url_for('index') }}" class="navbar-link-reset">
+                    <span class="navbar-brand-kinetix">
                         KINETIX
                     </span>
                 </a>                
-                <img src="{{ url_for('static', filename='img/logo.png') }}" style="height: 40px; width: auto; object-fit: contain;">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" class="navbar-logo">
             </div>
 
             <div class="d-flex align-items-center gap-2 ms-auto me-2">
@@ -105,7 +108,7 @@
         </div>
     </footer>
 
-    <div id="modal-confirm" class="modal-favoritos" style="display:none;">
+    <div id="modal-confirm" class="modal-favoritos input-hidden">
         <div class="modal-confirm-contenido">
             <div class="confirm-icono">⚠</div>
             <h3>Confirmar</h3>

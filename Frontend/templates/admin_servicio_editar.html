@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Kinetix - Editar Servicio{% endblock %}
 {% block content %}
-<section style="background-color: #0b0d0f; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px; min-height: calc(100vh - 56px); padding: 80px 0;">
+<section class="section-dark" style="min-height: calc(100vh - 56px); padding: 80px 0;">
     <div class="container">
         <a href="{{ url_for('admin_servicios') }}" class="btn btn-outline-info mb-4">&laquo; Volver</a>
-        <div class="p-4 rounded-3 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25); max-width:700px;margin:0 auto;">
-            <h2 style="font-family:'Orbitron',sans-serif;color:#00f2fe;letter-spacing:1px;margin-bottom:1.5rem;">Editar Servicio</h2>
+        <div class="card-admin-form p-4 rounded-3 shadow-lg mx-auto mw-700">
+            <h2 class="label-orbitron mb-4 text-cyan">Editar Servicio</h2>
             <form method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3">
                 <input type="text" name="name" class="form-control bg-dark text-white border-secondary" value="{{ s.name }}" required>
                 <input type="text" name="summary_title" class="form-control bg-dark text-white border-secondary" value="{{ s.summary_title or '' }}" placeholder="Titulo resumen">
@@ -14,10 +14,10 @@
                 <input type="text" name="bullet_2" class="form-control bg-dark text-white border-secondary" value="{{ s.bullet_2 or '' }}" placeholder="Bullet 2">
                 <label class="text-white-50 small">Imagen del servicio</label>
                 <div class="d-flex align-items-center gap-3">
-                    <img id="edit-preview-tab-image" src="{{ url_for('static', filename=s.tab_image) if s.tab_image else url_for('static', filename='img/placeholder.png') }}" alt="Vista previa" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:#1a1e24;">
+                    <img id="edit-preview-tab-image" src="{{ url_for('static', filename=s.tab_image) if s.tab_image else url_for('static', filename='img/placeholder.png') }}" alt="Vista previa" class="img-preview">
                     <div>
                         <button type="button" class="btn btn-sm btn-outline-info" onclick="document.getElementById('edit_tab_image_input').click()">Cambiar imagen</button>
-                        <input type="file" name="tab_image" id="edit_tab_image_input" accept="image/png,image/jpeg,image/gif,image/webp" style="display:none;" onchange="document.getElementById('edit-preview-tab-image').src = URL.createObjectURL(this.files[0])">
+                        <input type="file" name="tab_image" id="edit_tab_image_input" accept="image/png,image/jpeg,image/gif,image/webp" class="input-hidden" onchange="document.getElementById('edit-preview-tab-image').src = URL.createObjectURL(this.files[0])">
                     </div>
                 </div>
                 <hr class="border-secondary">
@@ -32,7 +32,7 @@
                 <input type="text" name="breadcrumb_label" class="form-control bg-dark text-white border-secondary" value="{{ s.breadcrumb_label or '' }}" placeholder="Etiqueta breadcrumb">
                 <div class="d-flex gap-2 justify-content-end">
                     <a href="{{ url_for('admin_servicios') }}" class="btn btn-secondary">Cancelar</a>
-                    <button type="submit" class="btn fw-bold" style="background:linear-gradient(135deg,#00f2fe 0%,#4facfe 100%);border:none;color:#000;">Guardar</button>
+                    <button type="submit" class="btn btn-gradient-cyan fw-bold">Guardar</button>
                 </div>
             </form>
         </div>

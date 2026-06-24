@@ -3,14 +3,14 @@
 {% block title %}Kinetix - Admin Equipamiento{% endblock %}
 
 {% block content %}
-<section style="background-color: #0b0d0f; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px; min-height: calc(100vh - 56px); padding: 80px 0;">
+<section class="section-dark" style="min-height: calc(100vh - 56px); padding: 80px 0;">
     <div class="container">
-        <h1 class="text-center mb-5" style="font-family: 'Orbitron', 'Arial Black', sans-serif; font-size: 32px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        <h1 class="text-center mb-5 heading-gradient">
             Panel de Administracion: Equipamiento e Inventario
         </h1>
 
-        <div class="p-4 rounded-3 mb-5 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25);">
-            <h5 class="text-white fw-bold mb-3" style="font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">Registrar Nuevo Equipamiento</h5>
+        <div class="card-admin-form p-4 rounded-3 mb-5 shadow-lg">
+            <h5 class="text-white fw-bold mb-3 label-orbitron">Registrar Nuevo Equipamiento</h5>
             <form action="{{ url_for('admin_equipamiento') }}" method="POST" class="row g-3">
                 <div class="col-md-3">
                     <input type="text" class="form-control bg-dark text-white border-secondary" name="name" placeholder="Nombre del kit" required>
@@ -39,14 +39,15 @@
                     <input type="url" class="form-control bg-dark text-white border-secondary" name="purchase_link" placeholder="Link de compra (opcional)">
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn fw-bold text-dark px-4" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); border: none;">Registrar</button>
+                    <button type="submit" class="btn btn-gradient-cyan fw-bold px-4">Registrar</button>
                 </div>
             </form>
         </div>
 
-        <div class="p-4 rounded-3 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25);">
+        <div class="card-admin-form p-4 rounded-3 shadow-lg">
+            <div class="table-responsive">
             <table class="table table-dark table-hover align-middle mb-0">
-                <thead style="font-family: 'Orbitron', sans-serif; color: #00f2fe;">
+                <thead class="heading-orbitron text-cyan">
                     <tr>
                         <th class="border-secondary py-3">ID</th>
                         <th class="border-secondary py-3">Nombre</th>
@@ -80,6 +81,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            </div>
         </div>
 
         {% if total_pages > 1 %}
@@ -92,7 +94,7 @@
     </div>
 </section>
 
-<div id="modalEliminar" class="modal-overlay" style="display:none;">
+<div id="modalEliminar" class="modal-overlay d-none">
     <div class="modal-confirm-contenido">
         <div class="confirm-icono">&#9888;&#65039;</div>
         <h3>Eliminar Equipamiento</h3>

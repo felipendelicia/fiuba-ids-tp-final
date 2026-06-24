@@ -145,7 +145,7 @@ def register(app):
         elif resp.status_code == 204:
             flash("Estado del usuario actualizado.", "success")
         else:
-            flash("Error al cambiar el estado.", "warnig")
+            flash("Error al cambiar el estado.", "warning")
         return redirect(url_for('admin_usuarios'))
 
     @app.route('/admin_usuario/editar/<int:id_usuario_edit>', methods=['GET', 'POST'])
@@ -306,12 +306,14 @@ def register(app):
         equipamiento = []
         total = 0
         resp = _api_get("/equipmentkit/", params={"_offset": offset, "_limit": EQUIP_PER_PAGE})
-        if resp and resp.status_code == 200:
+        if resp is None:
+            flash("No se pudo conectar con el servidor.", "warning")
+        elif resp.status_code == 200:
             data = resp.json()
             equipamiento = data.get('equipmentkits', [])
             total = data.get('total', 0)
         else:
-            flash("No se pudo conectar con el servidor.", "warning")
+            flash("Error del servidor al obtener equipamiento.", "warning")
         total_pages = max(1, (total + EQUIP_PER_PAGE - 1) // EQUIP_PER_PAGE)
         categorias = _api_get_equipment_categories()
         return render_template('admin_equipamiento.html', equipamiento=equipamiento,
@@ -323,8 +325,10 @@ def register(app):
         resp = _api_delete(f"/equipmentkit/{kit_id}")
         if resp is None:
             flash("No se pudo conectar con el servidor.", "warning")
-        else:
+        elif resp.status_code == 200:
             flash("Equipamiento eliminado.", "success")
+        else:
+            flash("Error al eliminar equipamiento.", "warning")
         return redirect(url_for('admin_equipamiento'))
 
     @app.route('/admin_equipamiento/info/<int:kit_id>', methods=['GET'])

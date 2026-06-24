@@ -70,7 +70,7 @@
                         <td class="py-3 border-secondary"><span class="badge bg-success fs-6">${{ item.price * item.quantity }}</span></td>
                         <td class="py-3 border-secondary">
                             <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-danger" onclick="abrirModalEliminar({{ item.id }}, '{{ item.name }}')">Eliminar</button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="abrirModalEliminar({{ item.id }}, {{ item.name | tojson }})">Eliminar</button>
                                 <a href="{{ url_for('admin_equipamiento_info', kit_id=item.id) }}" class="btn btn-sm btn-outline-light">Info</a>
                             </div>
                         </td>
@@ -85,9 +85,9 @@
 
         {% if total_pages > 1 %}
         <nav class="d-flex justify-content-center align-items-center gap-3 mt-4">
-            <a class="btn btn-outline-info {% if page <= 1 %}disabled{% endif %}" href="{{ url_for('admin_equipamiento', page=page-1) }}">&laquo; Anterior</a>
+            <a class="btn btn-outline-info {% if page <= 1 %}disabled{% endif %}" href="{{ url_for('admin_equipamiento', page=page-1) }}" {% if page <= 1 %}tabindex="-1" aria-disabled="true"{% endif %}>&laquo; Anterior</a>
             <span class="text-white-50">Pagina {{ page }} de {{ total_pages }}</span>
-            <a class="btn btn-outline-info {% if page >= total_pages %}disabled{% endif %}" href="{{ url_for('admin_equipamiento', page=page+1) }}">Siguiente &raquo;</a>
+            <a class="btn btn-outline-info {% if page >= total_pages %}disabled{% endif %}" href="{{ url_for('admin_equipamiento', page=page+1) }}" {% if page >= total_pages %}tabindex="-1" aria-disabled="true"{% endif %}>Siguiente &raquo;</a>
         </nav>
         {% endif %}
     </div>

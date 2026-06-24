@@ -18,7 +18,7 @@
             <div class="row align-items-center">
 
                 <div class="col-md-6 tutorial-media mb-4 mb-md-0">
-                    <img src="{{ url_for('static', filename=pasamontañas.png) if item.image_url else '' }}" alt="{{ item.name }}">
+                    <img src="{{ url_for('static', filename=item.image_url) if item.image_url else '' }}" alt="{{ item.name }}">
                 </div>
 
                 <div class="col-md-6">

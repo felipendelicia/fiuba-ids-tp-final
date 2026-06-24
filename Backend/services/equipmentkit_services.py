@@ -7,20 +7,26 @@ COLUMNS = "id, name, category, brand, description, image_url, price, quantity, p
 
 def listar_kit_equipamientos(offset, limit, category='_all'):
     where = ""
+    params = []
     if category == '_all':
         pass
     elif category is None:
         where = "WHERE category IS NULL"
     else:
-        where = f"WHERE category = '{category}'"
-    total_result = execute(f"SELECT COUNT(*) as total FROM EquipmentKit {where}")
+        where = "WHERE category = %s"
+        params.append(category)
+    total_result = execute(f"SELECT COUNT(*) as total FROM EquipmentKit {where}", params)
     total = total_result[0]['total']
-    kits = execute(f"SELECT {COLUMNS} FROM EquipmentKit {where} ORDER BY sort_order ASC, id ASC LIMIT {limit} OFFSET {offset}")
+    query_params = params + [limit, offset]
+    kits = execute(
+        f"SELECT {COLUMNS} FROM EquipmentKit {where} ORDER BY sort_order ASC, id ASC LIMIT %s OFFSET %s",
+        query_params
+    )
     return kits, total
 
 
 def obtener_kit_equipamiento(id):
-    kits = execute(f"SELECT {COLUMNS} FROM EquipmentKit WHERE id = {id}")
+    kits = execute(f"SELECT {COLUMNS} FROM EquipmentKit WHERE id = %s", (id,))
     if not kits:
         abort(404, 'Kit de equipamiento no encontrado')
     return kits[0]
@@ -28,23 +34,18 @@ def obtener_kit_equipamiento(id):
 
 def crear_kit_equipamiento(name, brand, price, quantity=1, purchase_link=None,
                            category=None, description=None, image_url=None, details=None):
-    brand_sql = f"'{brand}'" if brand is not None else "NULL"
-    link_sql = f"'{purchase_link}'" if purchase_link else "NULL"
-    cat_sql = f"'{category}'" if category else "NULL"
-    desc_sql = f"'{description}'" if description else "NULL"
-    img_sql = f"'{image_url}'" if image_url else "NULL"
-    det_sql = f"'{details}'" if details else "NULL"
     execute(
-        f"INSERT INTO EquipmentKit (name, category, brand, description, image_url, price, quantity, purchase_link, details) "
-        f"VALUES ('{name}', {cat_sql}, {brand_sql}, {desc_sql}, {img_sql}, {price}, {quantity}, {link_sql}, {det_sql})"
+        "INSERT INTO EquipmentKit (name, category, brand, description, image_url, price, quantity, purchase_link, details) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        (name, category, brand, description, image_url, price, quantity, purchase_link, details)
     )
 
 
 def eliminar_kit_equipamiento(id):
-    kit = execute(f"SELECT id FROM EquipmentKit WHERE id = {id}")
+    kit = execute("SELECT id FROM EquipmentKit WHERE id = %s", (id,))
     if not kit:
         abort(404, 'Kit de equipamiento no encontrado')
-    execute(f"DELETE FROM EquipmentKit WHERE id = {id}")
+    execute("DELETE FROM EquipmentKit WHERE id = %s", (id,))
     remaining = execute("SELECT COUNT(*) as total FROM EquipmentKit")
     if remaining[0]['total'] == 0:
         execute("ALTER TABLE EquipmentKit AUTO_INCREMENT = 1")

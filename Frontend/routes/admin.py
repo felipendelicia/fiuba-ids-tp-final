@@ -2,15 +2,23 @@ from datetime import date
 from flask import flash, render_template, request, redirect, url_for, session
 from helpers import (
     REVIEWS_PER_PAGE, EQUIP_PER_PAGE, USUARIOS_PER_PAGE,
-    _api_get_maps, _api_get_gamemodes,
-    _api_get_competitivo_events,
-    _api_create_competitivo_event, _api_update_competitivo_event, _api_delete_competitivo_event,
     _api_get, _api_post, _api_put, _api_patch, _api_delete,
-    _api_get_contact_messages, _api_get_services, _api_create_service, _api_update_service, _api_delete_service,
-    get_reservas_dia, contar_reservas_dia, contar_capacidad_dia,
-    get_ingresos_periodo, get_frecuencia_horaria, get_calendario_mes
 )
+from services.public_services import _api_get_maps, _api_get_gamemodes
 from services.equipamiento_services import _api_get_equipment_kit, _api_get_equipment_categories
+from services.competitivo_services import (
+    _api_get_competitivo_events, _api_create_competitivo_event,
+    _api_update_competitivo_event, _api_delete_competitivo_event,
+)
+from services.public_services import _api_get_contact_messages
+from services.servicios_services import (
+    _api_get_services, _api_get_service,
+    _api_create_service, _api_update_service, _api_delete_service,
+)
+from services.dashboard_services import (
+    get_reservas_dia, contar_reservas_dia, contar_capacidad_dia,
+    get_ingresos_periodo, get_frecuencia_horaria, get_calendario_mes,
+)
 
 
 def register(app):
@@ -223,7 +231,6 @@ def register(app):
 
     @app.route('/admin_servicios/editar/<int:service_id>', methods=['GET', 'POST'])
     def admin_servicios_editar(service_id):
-        from helpers import _api_get_service
         if request.method == 'POST':
             import os
             tab_image = request.form.get("tab_image_keep") or None

@@ -1,5 +1,6 @@
 from flask import flash, render_template, request, redirect, url_for, session
-from helpers import _api_post, _api_get_usuario
+from helpers import _api_post
+from services.public_services import _api_get_usuario
 
 
 def register(app):

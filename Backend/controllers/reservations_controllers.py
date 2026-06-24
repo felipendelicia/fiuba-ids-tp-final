@@ -36,6 +36,7 @@ def join_sala(sala_id):
         'sala_id': sala_id,
         'map_id': sala.get('map_id'),
         'reservation_date': str(sala.get('reservation_date', '')),
+        'is_public': sala.get('is_public'),
         'start_time': str(sala.get('start_time', '')),
         'end_time': str(sala.get('end_time', '')),
     }

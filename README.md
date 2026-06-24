@@ -21,14 +21,15 @@ la reserva de turnos y gestión de predios para el deporte airsoft.
 - Perfil del jugador
 - Realizar reseñas de canchas
 
+## Configurar variables de entorno:
+```cp .env.example .env```
+```obs: en .env.example, se pueden descomentar los valores del email para poder utilizar el de kinetix o usar otro email empresarial```
 
 ## Levantar con Docker:
 
 ```bash
 docker compose up --build
 ```
-
-```obs: en .env.example, se pueden descomentar los valores del email para poder utilizar el de kinetix o usar otro email empresarial```
 
 ## Servicios
 

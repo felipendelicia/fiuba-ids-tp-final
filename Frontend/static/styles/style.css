@@ -1,4 +1,9 @@
 
+/* --- Utilidad para ocultar elementos inicialmente --- */
+.input-hidden {
+    display: none !important;
+}
+
 /* ==========================================================================
    FONDO GLOBAL ESTILO KINETIX (grid táctico oscuro)
    ========================================================================== */

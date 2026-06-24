@@ -238,7 +238,6 @@ CREATE TABLE IF NOT EXISTS Reservations (
 	price INT NOT NULL,
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	canceled BOOLEAN DEFAULT FALSE,
-	cancelation_reason VARCHAR(500),
 	FOREIGN KEY (sala_id) REFERENCES Salas(id),
 	FOREIGN KEY (account_id) REFERENCES Accounts(id),
 	FOREIGN KEY (equipment_kit_id) REFERENCES EquipmentKit(id),

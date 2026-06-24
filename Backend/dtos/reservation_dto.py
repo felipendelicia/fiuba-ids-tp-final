@@ -34,7 +34,7 @@ def validate_update_reservation(request):
     data = request.get_json()
     if not data:
         abort(400, 'Body requerido')
-    allowed = {'equipment_kit_id', 'canceled', 'cancelation_reason', 'account_id'}
+    allowed = {'equipment_kit_id', 'canceled', 'account_id'}
     given = set(data.keys())
     invalid = given - allowed
     if invalid:
@@ -63,5 +63,4 @@ def build_reservation_response(r):
         'price': r.get('price', 0),
         'created_at': str(r.get('created_at', '')),
         'canceled': r.get('canceled', False),
-        'cancelation_reason': r.get('cancelation_reason', ''),
     }

@@ -59,7 +59,7 @@ def crear_reserva(sala_id, params):
 
 def actualizar_reserva(id, data):
     updates = []
-    campos = ['equipment_kit_id', 'canceled', 'cancelation_reason']
+    campos = ['equipment_kit_id', 'canceled']
 
     for key, value in data.items():
         if key in campos:

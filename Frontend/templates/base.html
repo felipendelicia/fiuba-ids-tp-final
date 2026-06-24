@@ -28,10 +28,10 @@
             <div class="d-flex align-items-center gap-2 ms-auto me-2">
                 {% if usuario %}
                     <a href="{{ url_for('perfil') }}" class="btn btn-info btn-sm text-dark fw-bold">{{ usuario.name }}</a>
-                    <a href="{{ url_for('mensaje_logout') }}" class="btn btn-outline-info btn-sm">Cerrar Sesión</a>
+                    <a href="{{ url_for('mensaje_logout') }}" class="btn btn-outline-info btn-sm">Cerrar Sesion</a>
                 {% else %}
-                    <a href="{{ url_for('login_sesion') }}" class="btn btn-outline-info btn-sm">Inicia Sesión</a>
-                    <a href="{{ url_for('login_registro') }}" class="btn btn-info btn-sm text-dark fw-bold">Regístrate</a>
+                    <a href="{{ url_for('login_sesion') }}" class="btn btn-outline-info btn-sm">Inicia Sesion</a>
+                    <a href="{{ url_for('login_registro') }}" class="btn btn-info btn-sm text-dark fw-bold">Registrate</a>
                 {% endif %}
             </div>
 
@@ -43,7 +43,7 @@
             <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
                 aria-labelledby="offcanvasDarkNavbarLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menú</h5>
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
                 </div>
@@ -62,7 +62,7 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('nosotros') }}">Sobre Nosotros</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a></li>
                         {% if usuario and usuario.is_admin %}
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_panel') }}">Panel de Administración</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_panel') }}">Panel de Administracion</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -93,7 +93,7 @@
             <div class="row text-center text-md-start">
                 <div class="col-md-4 mb-3 mb-md-0"><strong>KINETIX</strong></div>
                 <div class="col-md-4 mb-3 mb-md-0">
-                    <h6>NAVEGACIÓN</h6>
+                    <h6>NAVEGACION</h6>
                     <small>Inicio • Servicios • Campos</small>
                 </div>
                 <div class="col-md-4">

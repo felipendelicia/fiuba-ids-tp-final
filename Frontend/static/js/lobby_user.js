@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var kitPrice = 2000;
             var totalPrice = base + kitPrice;
             var confirmar = await abrirModalConfirm(
-                '¿Unirte a la sala #' + salaId + '?\nKit: Kit Básico\nTotal: $' + totalPrice
+                '¿Unirte a la sala #' + salaId + '?\nKit: Kit Basico\nTotal: $' + totalPrice
             );
             if (!confirmar) return;
             var form = document.createElement('form');

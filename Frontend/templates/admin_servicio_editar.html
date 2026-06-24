@@ -6,21 +6,27 @@
         <a href="{{ url_for('admin_servicios') }}" class="btn btn-outline-info mb-4">&laquo; Volver</a>
         <div class="p-4 rounded-3 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25); max-width:700px;margin:0 auto;">
             <h2 style="font-family:'Orbitron',sans-serif;color:#00f2fe;letter-spacing:1px;margin-bottom:1.5rem;">Editar Servicio</h2>
-            <form method="POST" class="d-flex flex-column gap-3">
+            <form method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3">
                 <input type="text" name="name" class="form-control bg-dark text-white border-secondary" value="{{ s.name }}" required>
-                <input type="text" name="tab_icon" class="form-control bg-dark text-white border-secondary" value="{{ s.tab_icon or '' }}" placeholder="Ícono (ej: bi bi-cup-hot)">
-                <input type="text" name="summary_title" class="form-control bg-dark text-white border-secondary" value="{{ s.summary_title or '' }}" placeholder="Título resumen">
+                <input type="text" name="summary_title" class="form-control bg-dark text-white border-secondary" value="{{ s.summary_title or '' }}" placeholder="Titulo resumen">
                 <textarea name="summary_text" class="form-control bg-dark text-white border-secondary" placeholder="Texto resumen" rows="2">{{ s.summary_text or '' }}</textarea>
                 <input type="text" name="bullet_1" class="form-control bg-dark text-white border-secondary" value="{{ s.bullet_1 or '' }}" placeholder="Bullet 1">
                 <input type="text" name="bullet_2" class="form-control bg-dark text-white border-secondary" value="{{ s.bullet_2 or '' }}" placeholder="Bullet 2">
-                <input type="text" name="tab_image" class="form-control bg-dark text-white border-secondary" value="{{ s.tab_image or '' }}" placeholder="Imagen tab (ej: img/bufet.png)">
+                <label class="text-white-50 small">Imagen del servicio</label>
+                <div class="d-flex align-items-center gap-3">
+                    <img id="edit-preview-tab-image" src="{{ url_for('static', filename=s.tab_image) if s.tab_image else url_for('static', filename='img/placeholder.png') }}" alt="Vista previa" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:#1a1e24;">
+                    <div>
+                        <button type="button" class="btn btn-sm btn-outline-info" onclick="document.getElementById('edit_tab_image_input').click()">Cambiar imagen</button>
+                        <input type="file" name="tab_image" id="edit_tab_image_input" accept="image/png,image/jpeg,image/gif,image/webp" style="display:none;" onchange="document.getElementById('edit-preview-tab-image').src = URL.createObjectURL(this.files[0])">
+                    </div>
+                </div>
                 <hr class="border-secondary">
-                <input type="text" name="detail_title" class="form-control bg-dark text-white border-secondary" value="{{ s.detail_title or '' }}" placeholder="Título detalle">
-                <textarea name="detail_subtitle" class="form-control bg-dark text-white border-secondary" placeholder="Subtítulo detalle" rows="2">{{ s.detail_subtitle or '' }}</textarea>
-                <input type="text" name="section_1_title" class="form-control bg-dark text-white border-secondary" value="{{ s.section_1_title or '' }}" placeholder="Título sección 1">
-                <textarea name="section_1_text" class="form-control bg-dark text-white border-secondary" placeholder="Texto sección 1" rows="2">{{ s.section_1_text or '' }}</textarea>
-                <input type="text" name="section_2_title" class="form-control bg-dark text-white border-secondary" value="{{ s.section_2_title or '' }}" placeholder="Título sección 2">
-                <textarea name="section_2_text" class="form-control bg-dark text-white border-secondary" placeholder="Texto sección 2" rows="2">{{ s.section_2_text or '' }}</textarea>
+                <input type="text" name="detail_title" class="form-control bg-dark text-white border-secondary" value="{{ s.detail_title or '' }}" placeholder="Titulo detalle">
+                <textarea name="detail_subtitle" class="form-control bg-dark text-white border-secondary" placeholder="Subtitulo detalle" rows="2">{{ s.detail_subtitle or '' }}</textarea>
+                <input type="text" name="section_1_title" class="form-control bg-dark text-white border-secondary" value="{{ s.section_1_title or '' }}" placeholder="Titulo seccion 1">
+                <textarea name="section_1_text" class="form-control bg-dark text-white border-secondary" placeholder="Texto seccion 1" rows="2">{{ s.section_1_text or '' }}</textarea>
+                <input type="text" name="section_2_title" class="form-control bg-dark text-white border-secondary" value="{{ s.section_2_title or '' }}" placeholder="Titulo seccion 2">
+                <textarea name="section_2_text" class="form-control bg-dark text-white border-secondary" placeholder="Texto seccion 2" rows="2">{{ s.section_2_text or '' }}</textarea>
                 <input type="text" name="detail_image_1" class="form-control bg-dark text-white border-secondary" value="{{ s.detail_image_1 or '' }}" placeholder="Imagen detalle 1">
                 <input type="text" name="detail_image_2" class="form-control bg-dark text-white border-secondary" value="{{ s.detail_image_2 or '' }}" placeholder="Imagen detalle 2">
                 <input type="text" name="breadcrumb_label" class="form-control bg-dark text-white border-secondary" value="{{ s.breadcrumb_label or '' }}" placeholder="Etiqueta breadcrumb">

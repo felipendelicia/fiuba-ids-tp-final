@@ -14,7 +14,7 @@
 
     <div class="kpi-grid">
         <div class="kpi-card">
-            <div class="kpi-label">Total del día</div>
+            <div class="kpi-label">Total del dia</div>
             <div class="kpi-value">${{ cantidad.dia }}</div>
         </div>
         <div class="kpi-card">
@@ -32,7 +32,7 @@
     </div>
 
     <div class="chart-row">
-        <div class="chart-row-title">Análisis de Reservas por Día</div>
+        <div class="chart-row-title">Analisis de Reservas por Dia</div>
 
         <div class="chart-bars">
             <div class="chart-bar" style="height: {{ frec_reservas.cs * 2 + 2 }}rem;">
@@ -103,9 +103,9 @@
             <div>{{ reserva.dni_usuario }}</div>
             <div>{{ reserva.user_name }}</div>
             <div>${{ reserva.price }}</div>
-            <div>{{ reserva.start_time[:16] }} - {{ reserva.end_time[:16] }}</div>
+            <div>{{ (reserva.start_time or "-")[:16] }} - {{ (reserva.end_time or "-")[:16] }}</div>
             <div>{{ reserva.map_name }}</div>
-            <div>{{ "Pública" if reserva.is_public else "Privada" }}</div>
+            <div>{{ "Publica" if reserva.is_public else "Privada" }}</div>
         </div>
         {% endfor %}
         {% if not data_ocu %}

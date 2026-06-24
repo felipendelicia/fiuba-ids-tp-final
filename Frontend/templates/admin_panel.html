@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Kenetix - Página del perfil del Admin{% endblock %}
+{% block title %}Kenetix - Pagina del perfil del Admin{% endblock %}
 
 
 
@@ -31,13 +31,13 @@
             </div>
             <div class="admin-info-item">
                 <div class="admin-info-content">
-                    <span class="info-label">GÉNERO</span>
+                    <span class="info-label">GENERO</span>
                     <span class="info-value">{{usuario.gender}}</span>
                 </div>
             </div>
             <div class="admin-info-item">
                 <div class="admin-info-content">
-                    <span class="info-label">TELÉFONO</span>
+                    <span class="info-label">TELEFONO</span>
                     <span class="info-value">+54 {{usuario.phone}}</span>
                 </div>
             </div>
@@ -52,7 +52,7 @@
             <a href="{{ url_for('admin_dashboard') }}" class="admin-card">
                 <i class="fa fa-bar-chart admin-card-icon"></i>
                 <span class="admin-card-title">DASHBOARD</span>
-                <span class="admin-card-desc">Visualiza estadísticas y métricas</span>
+                <span class="admin-card-desc">Visualiza estadisticas y metricas</span>
             </a>
             <a href="{{ url_for('admin_equipamiento') }}" class="admin-card">
                 <i class="fa fa-binoculars admin-card-icon"></i>

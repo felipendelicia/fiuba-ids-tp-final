@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Kenetix - Gestión de Edición Usuarios{% endblock %}
+{% block title %}Kenetix - Gestion de Edicion Usuarios{% endblock %}
 
 
 {% block content %}
 <section id="sectionGestionUsuarios">
-    <span id="mensajePrincipal">GESTIÓN DE EDICIÓN DE USUARIOS</span>
+    <span id="mensajePrincipal">GESTION DE EDICION DE USUARIOS</span>
     <div class="container-gestionUsuarios">
         <div class="admin-usuarios-grid">
                 <div class="admin-usuario-card">
@@ -13,7 +13,7 @@
                     <div class="admin-usuario">
                         <form class="admin-usuario-name" action="{{url_for('admin_usuarios_editar', id_usuario_edit=datos.id)}}" method="POST">
                             <div class="usuarios-no-editar-div">
-                                <label for="id">NÚMERO DE IDENTIFICACIÓN:</label>
+                                <label for="id">NUMERO DE IDENTIFICACION:</label>
                                 <input id="id" value="{{datos.id}}" readonly ><br>
                             </div> 
 
@@ -38,7 +38,7 @@
                             </div>
                                 
                             <div class="usuarios-editar-div">
-                                <label for="phone">TELÉFONO:</label>
+                                <label for="phone">TELEFONO:</label>
                                 <input id="phone" name="phone" type="text" value="{{datos.phone}}" required> <br>
                             </div>
 
@@ -48,7 +48,7 @@
                             </div>
 
                             <div class="usuarios-no-editar-div">
-                                <label for="created_at"> FECHA DE CREACIÓN DE LA CUENTA:</label>
+                                <label for="created_at"> FECHA DE CREACION DE LA CUENTA:</label>
                                 <input id="created_at" value="{{datos.created_at}}" readonly> <br>
                             </div>
 
@@ -63,17 +63,17 @@
                             </div>
 
                             <div class="usuarios-no-editar-div">
-                                <label for="gender">GÉNERO:</label>
+                                <label for="gender">GENERO:</label>
                                 <input id="gender" value="{{datos.gender}}" readonly>
                             </div>
 
                             <div class="usuarios-no-editar-div">
-                                <label for="updated_at">ÚLTIMA ACTUALIZACIÓN:</label>
+                                <label for="updated_at">ULTIMA ACTUALIZACION:</label>
                                 <input id="updated_at" value="{{datos.updated_at}}" readonly><br>
                             </div>
                             <div class="usuarios-editar-div">
                                 <label for="password">NUEVA CONTRASEÑA:</label>
-                                <input id="password" name="password" placeholder="Ingresá la nueva contraseña" required ><br>
+                                <input id="password" name="password" placeholder="Ingresa la nueva contraseña" required ><br>
                             </div>
                             <div class="usuarios-editar-div">
                                 <label for="is_active">ESTADO DE CUENTA:</label>

@@ -38,7 +38,7 @@ def validate_update_reservation(request):
     given = set(data.keys())
     invalid = given - allowed
     if invalid:
-        abort(400, f'Campos inválidos: {", ".join(invalid)}')
+        abort(400, f'Campos invalidos: {", ".join(invalid)}')
     if not given:
         abort(400, 'Debe enviar al menos un campo a actualizar')
     return data

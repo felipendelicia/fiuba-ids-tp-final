@@ -12,7 +12,7 @@
                 <input type="text" name="image_url" class="form-control bg-dark text-white border-secondary" value="{{ event.image_url or '' }}" placeholder="Imagen">
                 <input type="text" name="event_date" class="form-control bg-dark text-white border-secondary" value="{{ event.event_date or '' }}" placeholder="Fecha">
                 <input type="text" name="event_time" class="form-control bg-dark text-white border-secondary" value="{{ event.event_time or '' }}" placeholder="Hora">
-                <textarea name="description" class="form-control bg-dark text-white border-secondary" placeholder="Descripción" rows="4">{{ event.description or '' }}</textarea>
+                <textarea name="description" class="form-control bg-dark text-white border-secondary" placeholder="Descripcion" rows="4">{{ event.description or '' }}</textarea>
                 <div class="d-flex gap-2 justify-content-end">
                     <a href="{{ url_for('modalidades') }}" class="btn btn-secondary">Cancelar</a>
                     <button type="submit" class="btn fw-bold" style="background:linear-gradient(135deg,#00f2fe 0%,#4facfe 100%);border:none;color:#000;">Guardar</button>

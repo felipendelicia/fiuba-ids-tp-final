@@ -6,7 +6,7 @@
 <section style="background-color: #0b0d0f; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px; min-height: calc(100vh - 56px); padding: 80px 0;">
     <div class="container">
         <h1 class="text-center mb-5" style="font-family: 'Orbitron', 'Arial Black', sans-serif; font-size: 32px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-            Panel de Administración: Equipamiento e Inventario
+            Panel de Administracion: Equipamiento e Inventario
         </h1>
 
         <div class="p-4 rounded-3 mb-5 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25);">
@@ -15,7 +15,7 @@
                 <div class="col-md-3">
                     <input type="text" class="form-control bg-dark text-white border-secondary" name="name" placeholder="Nombre del kit" required>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <input type="text" class="form-control bg-dark text-white border-secondary" name="brand" placeholder="Marca">
                 </div>
                 <div class="col-md-2">
@@ -26,17 +26,14 @@
                 </div>
                 <div class="col-md-2">
                     <select class="form-control bg-dark text-white border-secondary" name="category">
-                        <option value="">Sin categoría</option>
+                        <option value="">Sin categoria</option>
                         {% for cat in categorias %}
                         <option value="{{ cat.slug }}">{{ cat.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control bg-dark text-white border-secondary" name="image_url" placeholder="Img path">
-                </div>
                 <div class="col-md-9">
-                    <textarea class="form-control bg-dark text-white border-secondary" name="description" placeholder="Descripción" rows="2"></textarea>
+                    <textarea class="form-control bg-dark text-white border-secondary" name="description" placeholder="Descripcion" rows="2"></textarea>
                 </div>
                 <div class="col-md-3">
                     <input type="url" class="form-control bg-dark text-white border-secondary" name="purchase_link" placeholder="Link de compra (opcional)">
@@ -53,7 +50,7 @@
                     <tr>
                         <th class="border-secondary py-3">ID</th>
                         <th class="border-secondary py-3">Nombre</th>
-                        <th class="border-secondary py-3">Categoría</th>
+                        <th class="border-secondary py-3">Categoria</th>
                         <th class="border-secondary py-3">Marca</th>
                         <th class="border-secondary py-3">Precio</th>
                         <th class="border-secondary py-3">Cantidad</th>
@@ -73,7 +70,6 @@
                         <td class="py-3 border-secondary"><span class="badge bg-success fs-6">${{ item.price * item.quantity }}</span></td>
                         <td class="py-3 border-secondary">
                             <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-info" onclick='abrirModalModificar({{ item.id }}, {{ item.name | tojson }}, {{ item.brand | tojson if item.brand else "" }}, {{ item.price }}, {{ item.quantity }}, {{ item.purchase_link | tojson if item.purchase_link else "" }}, {{ item.category | tojson if item.category else "" }}, {{ item.description | tojson if item.description else "" }}, {{ item.image_url | tojson if item.image_url else "" }}, {{ item.details | tojson if item.details else "" }})'>Modificar</button>
                                 <button class="btn btn-sm btn-outline-danger" onclick="abrirModalEliminar({{ item.id }}, '{{ item.name }}')">Eliminar</button>
                                 <a href="{{ url_for('admin_equipamiento_info', kit_id=item.id) }}" class="btn btn-sm btn-outline-light">Info</a>
                             </div>
@@ -89,50 +85,18 @@
         {% if total_pages > 1 %}
         <nav class="d-flex justify-content-center align-items-center gap-3 mt-4">
             <a class="btn btn-outline-info {% if page <= 1 %}disabled{% endif %}" href="{{ url_for('admin_equipamiento', page=page-1) }}">&laquo; Anterior</a>
-            <span class="text-white-50">Página {{ page }} de {{ total_pages }}</span>
+            <span class="text-white-50">Pagina {{ page }} de {{ total_pages }}</span>
             <a class="btn btn-outline-info {% if page >= total_pages %}disabled{% endif %}" href="{{ url_for('admin_equipamiento', page=page+1) }}">Siguiente &raquo;</a>
         </nav>
         {% endif %}
     </div>
 </section>
 
-<div id="modalModificar" class="modal-overlay" style="display:none;">
-    <div class="modal-contenido" style="background:#0b0d0f; border:1px solid rgba(79,172,254,0.3); border-radius:16px; padding:2.5rem; max-width:520px; width:90%; box-shadow:0 0 40px rgba(79,172,254,0.15);">
-        <h3 style="font-family:'Orbitron',sans-serif;color:#00f2fe;margin:0 0 1.5rem 0;letter-spacing:1px;font-size:1.1rem;">Modificar Equipamiento</h3>
-        <form id="formModificar" method="POST" class="d-flex flex-column gap-3">
-            <input type="text" name="name" id="mod-name" class="form-control bg-dark text-white border-secondary" placeholder="Nombre" required>
-            <input type="text" name="brand" id="mod-brand" class="form-control bg-dark text-white border-secondary" placeholder="Marca">
-            <select name="category" id="mod-category" class="form-control bg-dark text-white border-secondary">
-                <option value="">Sin categoría</option>
-                {% for cat in categorias %}
-                <option value="{{ cat.slug }}">{{ cat.name }}</option>
-                {% endfor %}
-            </select>
-            <div class="row g-2">
-                <div class="col-6">
-                    <input type="number" step="0.01" name="price" id="mod-price" class="form-control bg-dark text-white border-secondary" placeholder="Precio" min="0" required>
-                </div>
-                <div class="col-6">
-                    <input type="number" name="quantity" id="mod-quantity" class="form-control bg-dark text-white border-secondary" placeholder="Cantidad" min="1" required>
-                </div>
-            </div>
-            <input type="text" name="image_url" id="mod-image_url" class="form-control bg-dark text-white border-secondary" placeholder="Ruta de imagen (ej: img/arma.png)">
-            <textarea name="description" id="mod-description" class="form-control bg-dark text-white border-secondary" placeholder="Descripción" rows="3"></textarea>
-            <textarea name="details" id="mod-details" class="form-control bg-dark text-white border-secondary" placeholder="Detalles JSON (opcional)" rows="3"></textarea>
-            <input type="url" name="purchase_link" id="mod-purchase_link" class="form-control bg-dark text-white border-secondary" placeholder="Link de compra (opcional)">
-            <div class="d-flex gap-2 justify-content-end mt-2">
-                <button type="button" class="btn btn-secondary" onclick="cerrarModalModificar()">Cancelar</button>
-                <button type="submit" class="btn" style="background:linear-gradient(135deg,#00f2fe 0%,#4facfe 100%);border:none;color:#000;font-weight:bold;">Guardar</button>
-            </div>
-        </form>
-    </div>
-</div>
-
 <div id="modalEliminar" class="modal-overlay" style="display:none;">
     <div class="modal-confirm-contenido">
         <div class="confirm-icono">&#9888;&#65039;</div>
         <h3>Eliminar Equipamiento</h3>
-        <p id="eliminar-texto">¿Estás seguro de que querés eliminar este equipamiento?</p>
+        <p id="eliminar-texto">¿Estas seguro de que queres eliminar este equipamiento?</p>
         <div class="confirm-botones">
             <button class="btn-confirm-cancelar" onclick="cerrarModalEliminar()">Cancelar</button>
             <form id="formEliminar" method="POST">
@@ -173,31 +137,14 @@
 </style>
 
 <script>
-function abrirModalModificar(id, name, brand, price, quantity, purchaseLink, category, description, imageUrl, details) {
-    document.getElementById('mod-name').value = name;
-    document.getElementById('mod-brand').value = brand;
-    document.getElementById('mod-price').value = price;
-    document.getElementById('mod-quantity').value = quantity;
-    document.getElementById('mod-purchase_link').value = purchaseLink;
-    document.getElementById('mod-category').value = category;
-    document.getElementById('mod-description').value = description;
-    document.getElementById('mod-image_url').value = imageUrl;
-    document.getElementById('mod-details').value = details;
-    document.getElementById('formModificar').action = "{{ url_for('admin_equipamiento') }}/modificar/" + id;
-    document.getElementById('modalModificar').style.display = 'flex';
-}
-function cerrarModalModificar() {
-    document.getElementById('modalModificar').style.display = 'none';
-}
 function abrirModalEliminar(id, name) {
-    document.getElementById('eliminar-texto').textContent = '¿Estás seguro de que querés eliminar "' + name + '"?';
+    document.getElementById('eliminar-texto').textContent = '¿Estas seguro de que queres eliminar "' + name + '"?';
     document.getElementById('formEliminar').action = "{{ url_for('admin_equipamiento') }}/eliminar/" + id;
     document.getElementById('modalEliminar').style.display = 'flex';
 }
 function cerrarModalEliminar() {
     document.getElementById('modalEliminar').style.display = 'none';
 }
-document.getElementById('modalModificar').addEventListener('click', function(e) { if(e.target === this) cerrarModalModificar(); });
 document.getElementById('modalEliminar').addEventListener('click', function(e) { if(e.target === this) cerrarModalEliminar(); });
 </script>
 {% endblock %}

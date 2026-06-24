@@ -29,15 +29,15 @@ def crear_reserva(sala_id, params):
     sala = sala[0]
 
     if sala['canceled']:
-        abort(400, 'La sala está cancelada')
+        abort(400, 'La sala esta cancelada')
 
     current = execute(f"SELECT COUNT(*) as cnt FROM Reservations WHERE sala_id = {sala_id} AND canceled = FALSE")
     if current[0]['cnt'] >= sala['max_players']:
-        abort(409, 'La sala está completa')
+        abort(409, 'La sala esta completa')
 
     duplicado = execute(f"SELECT id FROM Reservations WHERE sala_id = {sala_id} AND account_id = {account_id} AND canceled = FALSE")
     if duplicado:
-        abort(409, 'Ya estás registrado en esta sala')
+        abort(409, 'Ya estas registrado en esta sala')
 
     kit = execute(f"SELECT price FROM EquipmentKit WHERE id = {equipment_kit_id}")
     kit_price = kit[0]['price'] if kit else 0
@@ -72,7 +72,7 @@ def actualizar_reserva(id, data):
                     updates.append(f"{key} = '{value}'")
 
     if not updates:
-        abort(400, 'No hay campos válidos para actualizar')
+        abort(400, 'No hay campos validos para actualizar')
 
     check = execute(f"SELECT * FROM Reservations WHERE id = {id}")
     if not check:

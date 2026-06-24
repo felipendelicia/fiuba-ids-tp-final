@@ -46,7 +46,7 @@
             </div>
             <div class="col-md-4">
                 <img src="{{ url_for('static', filename='img/' ~ mapa.plano_despliegue_image_url) }}" alt="Despliegue tactico en {{ mapa.name }}" class="gallery-img">
-                <p class="text-white-50 small text-center mt-2">Plano de despliegue táctico</p>
+                <p class="text-white-50 small text-center mt-2">Plano de despliegue tactico</p>
             </div>
             <div class="col-md-4">
                 <img src="{{ url_for('static', filename='img/' ~ mapa.operaciones_terreno_image_url) }}" alt="Operaciones en {{ mapa.name }}" class="gallery-img">
@@ -56,14 +56,14 @@
         <div class="row g-4 mb-5">
             <div class="col-lg-8">
                 <div class="info-section h-100">
-                    <h4 class="mb-3" style="font-family: 'Orbitron', sans-serif; color: #4facfe;"><i class="bi bi-info-circle me-2"></i>Información del Campo</h4>
+                    <h4 class="mb-3" style="font-family: 'Orbitron', sans-serif; color: #4facfe;"><i class="bi bi-info-circle me-2"></i>Informacion del Campo</h4>
                     <p>{{ mapa.extra_information }}</p>
-                    <p class="mt-3"><strong class="text-info">Ubicación:</strong> <span class="text-white-50">{{ mapa.location }}</span></p>
+                    <p class="mt-3"><strong class="text-info">Ubicacion:</strong> <span class="text-white-50">{{ mapa.location }}</span></p>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="info-section h-100">
-                    <h4 class="mb-3" style="font-family: 'Orbitron', sans-serif; color: #4facfe;"><i class="bi bi-gear me-2"></i>Estadísticas</h4>
+                    <h4 class="mb-3" style="font-family: 'Orbitron', sans-serif; color: #4facfe;"><i class="bi bi-gear me-2"></i>Estadisticas</h4>
                     <div class="d-flex flex-column gap-2">
                         <div class="stat-item"><div class="stat-label">Estilo de Juego</div><div class="stat-value">{{ mapa.style }}</div></div>
                         <div class="stat-item"><div class="stat-label">Terreno</div><div class="stat-value">{{ mapa.terrain }}</div></div>
@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="text-center mt-4">
-            <a href="{{ url_for('info_mapa_plano', nombre_mapa=mapa.name.lower()) }}" class="btn btn-info fw-bold px-4" style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; letter-spacing: 1px; background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); border: none; color: #0b0d0f;"><i class="bi bi-map me-2"></i>VER PLANO TÁCTICO</a>
+            <a href="{{ url_for('info_mapa_plano', nombre_mapa=mapa.name.lower()) }}" class="btn btn-info fw-bold px-4" style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; letter-spacing: 1px; background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); border: none; color: #0b0d0f;"><i class="bi bi-map me-2"></i>VER PLANO TACTICO</a>
             <a href="{{ url_for('campos') }}" class="btn btn-outline-info fw-bold px-4" style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; letter-spacing: 1px;"><i class="bi bi-arrow-left me-2"></i>VOLVER A CAMPOS DE JUEGO</a>
         </div>
     </div>

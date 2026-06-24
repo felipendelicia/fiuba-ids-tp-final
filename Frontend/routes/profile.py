@@ -46,10 +46,10 @@ def _fetch_user_history(user_id, token):
             if r["sala_id"] == s["id"]:
                 user_res = r
                 break
-        kit_name = "Kit Básico" if user_res else "-"
+        kit_name = "Kit Basico" if user_res else "-"
         history.append({
             "id": s["id"],
-            "tipo": "Privada" if not s.get("is_public", True) else "Pública",
+            "tipo": "Privada" if not s.get("is_public", True) else "Publica",
             "modalidad": modalidad_map.get(s["game_mode_id"], f"ID {s['game_mode_id']}"),
             "mapa": mapa_map.get(s["map_id"], f"Mapa {s['map_id']}"),
             "fecha": s["reservation_date"],
@@ -88,10 +88,10 @@ def register(app):
             return redirect(url_for('login_sesion'))
         favoritos = session.get('favoritos', [])
         if len(favoritos) >= 4:
-            flash("Máximo 4 mapas favoritos", "warning")
+            flash("Maximo 4 mapas favoritos", "warning")
             return redirect(url_for('perfil'))
         if any(fav['id'] == map_id for fav in favoritos):
-            flash("El mapa ya está en favoritos", "warning")
+            flash("El mapa ya esta en favoritos", "warning")
             return redirect(url_for('perfil'))
         mapas = _api_get_maps()
         mapa = next((m for m in mapas if m['id'] == map_id), None)
@@ -157,14 +157,14 @@ def register(app):
         if not usuario:
             return redirect(url_for('login_sesion'))
         if 'foto' not in request.files:
-            flash("No se seleccionó ningún archivo.", "warning")
+            flash("No se selecciono ningun archivo.", "warning")
             return redirect(url_for('perfil'))
         file = request.files['foto']
         if file.filename == '':
-            flash("No se seleccionó ningún archivo.", "warning")
+            flash("No se selecciono ningun archivo.", "warning")
             return redirect(url_for('perfil'))
         if not _allowed_file(file.filename):
-            flash("Formato de imagen no permitido (usá PNG, JPG, GIF o WebP).", "warning")
+            flash("Formato de imagen no permitido (usa PNG, JPG, GIF o WebP).", "warning")
             return redirect(url_for('perfil'))
         upload_dir = os.path.join(app.root_path, 'static', 'uploads', 'profile')
         os.makedirs(upload_dir, exist_ok=True)
@@ -205,7 +205,7 @@ def register(app):
                 else:
                     flash("Error al enviar el mensaje.", "warning")
             else:
-                flash("Completá todos los campos.", "warning")
+                flash("Completa todos los campos.", "warning")
             return redirect(url_for('contacto'))
         return render_template('contacto.html', usuario=session.get('usuario'))
 
@@ -221,7 +221,7 @@ def register(app):
     def ver_resenias():
         usuario = session.get("usuario")
         if not usuario:
-            flash("Debes iniciar sesión para ver las reseñas.", "warning")
+            flash("Debes iniciar sesion para ver las reseñas.", "warning")
             return redirect(url_for('login_sesion'))
 
         page = max(1, request.args.get('page', 1, type=int))
@@ -255,7 +255,7 @@ def register(app):
     def guardar_resenia():
         usuario = session.get('usuario')
         if not usuario:
-            flash("Debes iniciar sesión para enviar una reseña.", "warning")
+            flash("Debes iniciar sesion para enviar una reseña.", "warning")
             return redirect(url_for('login_sesion'))
 
         comentario = request.form.get("comentario")

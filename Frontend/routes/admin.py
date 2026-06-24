@@ -2,14 +2,15 @@ from datetime import date
 from flask import flash, render_template, request, redirect, url_for, session
 from helpers import (
     REVIEWS_PER_PAGE, EQUIP_PER_PAGE, USUARIOS_PER_PAGE,
-    _api_get_maps, _api_get_gamemodes, _api_get_equipment_kit,
-    _api_get_equipment_categories, _api_get_competitivo_events,
+    _api_get_maps, _api_get_gamemodes,
+    _api_get_competitivo_events,
     _api_create_competitivo_event, _api_update_competitivo_event, _api_delete_competitivo_event,
     _api_get, _api_post, _api_put, _api_patch, _api_delete,
     _api_get_contact_messages, _api_get_services, _api_create_service, _api_update_service, _api_delete_service,
     get_reservas_dia, contar_reservas_dia, contar_capacidad_dia,
     get_ingresos_periodo, get_frecuencia_horaria, get_calendario_mes
 )
+from services.equipamiento_services import _api_get_equipment_kit, _api_get_equipment_categories
 
 
 def register(app):
@@ -70,7 +71,7 @@ def register(app):
             try:
                 fecha = date.fromisoformat(fecha_param)
             except ValueError:
-                return {"error": "Formato de fecha inválido"}, 400
+                return {"error": "Formato de fecha invalido"}, 400
         else:
             fecha = date.today()
         try:
@@ -102,7 +103,7 @@ def register(app):
         if not usuario:
             return redirect(url_for('login_sesion'))
         if not usuario.get("is_admin"):
-            flash("No tenés permisos de administrador", "warning")
+            flash("No tenes permisos de administrador", "warning")
             return redirect(url_for('index'))
 
         page = max(1, request.args.get('page', 1, type=int))
@@ -125,7 +126,7 @@ def register(app):
     def toggle_usuario_estado():
         usuario = session.get('usuario')
         if not usuario or not usuario.get("is_admin"):
-            flash("No tenés permisos de administrador", "warning")
+            flash("No tenes permisos de administrador", "warning")
             return redirect(url_for('index'))
 
         user_id = request.form.get("id_usuario")
@@ -145,7 +146,7 @@ def register(app):
         if not usuario:
             return redirect(url_for('login_sesion'))
         if not usuario.get("is_admin"):
-            flash("No tenés permisos de administrador", "warning")
+            flash("No tenes permisos de administrador", "warning")
             return redirect(url_for('index'))
 
         datos_usuario = None
@@ -186,14 +187,24 @@ def register(app):
 
     @app.route('/admin_servicios/crear', methods=['POST'])
     def admin_servicios_crear():
+        import os
+        tab_image = None
+        if 'tab_image' in request.files:
+            file = request.files['tab_image']
+            if file and file.filename:
+                upload_dir = os.path.join(app.root_path, 'static', 'uploads', 'services')
+                os.makedirs(upload_dir, exist_ok=True)
+                from werkzeug.utils import secure_filename
+                filename = secure_filename(f"service_{file.filename}")
+                file.save(os.path.join(upload_dir, filename))
+                tab_image = f"uploads/services/{filename}"
         data = {
             "name": request.form.get("name"),
-            "tab_icon": request.form.get("tab_icon") or "bi bi-gear",
             "summary_title": request.form.get("summary_title"),
             "summary_text": request.form.get("summary_text"),
             "bullet_1": request.form.get("bullet_1"),
             "bullet_2": request.form.get("bullet_2"),
-            "tab_image": request.form.get("tab_image"),
+            "tab_image": tab_image,
             "detail_title": request.form.get("detail_title"),
             "detail_subtitle": request.form.get("detail_subtitle"),
             "section_1_title": request.form.get("section_1_title"),
@@ -214,14 +225,24 @@ def register(app):
     def admin_servicios_editar(service_id):
         from helpers import _api_get_service
         if request.method == 'POST':
+            import os
+            tab_image = request.form.get("tab_image_keep") or None
+            if 'tab_image' in request.files:
+                file = request.files['tab_image']
+                if file and file.filename:
+                    upload_dir = os.path.join(app.root_path, 'static', 'uploads', 'services')
+                    os.makedirs(upload_dir, exist_ok=True)
+                    from werkzeug.utils import secure_filename
+                    filename = secure_filename(f"service_{file.filename}")
+                    file.save(os.path.join(upload_dir, filename))
+                    tab_image = f"uploads/services/{filename}"
             data = {
                 "name": request.form.get("name"),
-                "tab_icon": request.form.get("tab_icon") or "bi bi-gear",
                 "summary_title": request.form.get("summary_title"),
                 "summary_text": request.form.get("summary_text"),
                 "bullet_1": request.form.get("bullet_1"),
                 "bullet_2": request.form.get("bullet_2"),
-                "tab_image": request.form.get("tab_image"),
+                "tab_image": tab_image,
                 "detail_title": request.form.get("detail_title"),
                 "detail_subtitle": request.form.get("detail_subtitle"),
                 "section_1_title": request.form.get("section_1_title"),
@@ -262,7 +283,6 @@ def register(app):
                 "purchase_link": request.form.get("purchase_link"),
                 "category": request.form.get("category") or None,
                 "description": request.form.get("description") or None,
-                "image_url": request.form.get("image_url") or None,
                 "details": request.form.get("details") or None,
             }
             resp = _api_post("/equipmentkit/", data=payload)
@@ -291,28 +311,6 @@ def register(app):
                                usuario=session.get('usuario'), page=page, total_pages=total_pages,
                                categorias=categorias)
 
-    @app.route('/admin_equipamiento/modificar/<int:kit_id>', methods=['POST'])
-    def modificar_equipamiento(kit_id):
-        payload = {
-            "name": request.form.get("name"),
-            "brand": request.form.get("brand"),
-            "price": request.form.get("price"),
-            "quantity": request.form.get("quantity", 1),
-            "purchase_link": request.form.get("purchase_link"),
-            "category": request.form.get("category") or None,
-            "description": request.form.get("description") or None,
-            "image_url": request.form.get("image_url") or None,
-            "details": request.form.get("details") or None,
-        }
-        resp = _api_put(f"/equipmentkit/{kit_id}", data=payload)
-        if resp is None:
-            flash("No se pudo conectar con el servidor.", "warning")
-        elif resp.status_code == 200:
-            flash("Equipamiento actualizado.", "success")
-        else:
-            flash("No se pudo actualizar el equipamiento.", "warning")
-        return redirect(url_for('admin_equipamiento'))
-
     @app.route('/admin_equipamiento/eliminar/<int:kit_id>', methods=['POST'])
     def eliminar_equipamiento(kit_id):
         resp = _api_delete(f"/equipmentkit/{kit_id}")
@@ -322,27 +320,8 @@ def register(app):
             flash("Equipamiento eliminado.", "success")
         return redirect(url_for('admin_equipamiento'))
 
-    @app.route('/admin_equipamiento/info/<int:kit_id>', methods=['GET', 'POST'])
+    @app.route('/admin_equipamiento/info/<int:kit_id>', methods=['GET'])
     def admin_equipamiento_info(kit_id):
-        if request.method == "POST":
-            link = request.form.get("purchase_link")
-            kit = _api_get_equipment_kit(kit_id)
-            if not kit:
-                flash("Equipamiento no encontrado.", "warning")
-                return redirect(url_for('admin_equipamiento'))
-            payload = {
-                "name": kit["name"], "brand": kit["brand"], "price": kit["price"],
-                "quantity": kit["quantity"], "purchase_link": link,
-            }
-            resp = _api_put(f"/equipmentkit/{kit_id}", data=payload)
-            if resp is None:
-                flash("No se pudo conectar con el servidor.", "warning")
-            elif resp.status_code == 200:
-                flash("Link de compra actualizado.", "success")
-            else:
-                flash("No se pudo actualizar el link.", "warning")
-            return redirect(url_for('admin_equipamiento_info', kit_id=kit_id))
-
         kit = _api_get_equipment_kit(kit_id)
         if not kit:
             flash("Equipamiento no encontrado.", "warning")
@@ -414,7 +393,7 @@ def register(app):
                 'name': name, 'duration': duration, 'players': int(players), 'description': description
             })
             if resp is None:
-                flash("Error de conexión con el servidor.", "warning")
+                flash("Error de conexion con el servidor.", "warning")
             elif resp.status_code == 201:
                 flash("Modalidad creada exitosamente.", "warning")
             else:
@@ -441,7 +420,7 @@ def register(app):
                 'name': name, 'duration': duration, 'players': int(players), 'description': description
             })
             if resp is None:
-                flash("Error de conexión con el servidor.", "warning")
+                flash("Error de conexion con el servidor.", "warning")
             elif resp.status_code == 200:
                 map_ids = request.form.getlist('map_ids')
                 _api_put(f"/gamemodes/{id}/maps", data={'map_ids': map_ids})
@@ -459,7 +438,7 @@ def register(app):
             return redirect(url_for('modalidades'))
         resp = _api_delete(f"/gamemodes/{id}")
         if resp is None:
-            flash("Error de conexión con el servidor.", "warning")
+            flash("Error de conexion con el servidor.", "warning")
         elif resp.status_code == 200:
             flash("Modalidad eliminada exitosamente.", "success")
         else:

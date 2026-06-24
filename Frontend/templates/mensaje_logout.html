@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Kinetix - Cerrando Sesión{% endblock %}
+{% block title %}Kinetix - Cerrando Sesion{% endblock %}
 
 
 {% block content %}
@@ -15,18 +15,18 @@
             </div>
 
             <h2 class="fw-bold text-center mb-2 h2msj">
-                CERRANDO SESIÓN
+                CERRANDO SESION
             </h2>
             
             <p class="text-white-50 mb-0 pmsj">
-                Tu sesión se ha cerrado. Redirigiéndote al login de forma segura...
+                Tu sesion se ha cerrado. Redirigiendote al login de forma segura...
             </p>
         </div>
     </div>
 </section>
 
 <script>
-  // Redirige al index después de 3 segundos
+  // Redirige al index despues de 3 segundos
   setTimeout(function() {
     window.location.href = "{{ url_for('index') }}";
   }, 3000);

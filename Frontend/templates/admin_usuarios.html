@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Kenetix - Gestión de Usuarios{% endblock %}
+{% block title %}Kenetix - Gestion de Usuarios{% endblock %}
 
 
 {% block content %}
 <section id="sectionGestionUsuarios">
-    <span id="mensajePrincipal">GESTIÓN DE USUARIOS</span>
+    <span id="mensajePrincipal">GESTION DE USUARIOS</span>
     <div class="container-gestionUsuarios">
         <div class="admin-usuarios-grid">
             {% for usuariolist in usuarios %}
@@ -13,12 +13,12 @@
                     <i class="fa fa-user admin-usuario-hombre-icon"></i>
                     <div class="hombre-usuario">
                         <ul class="hombre-usuario-name">
-                            <li>NUMERO DE INDENTIFICACIÓN: <span class="admin-usuario-info">{{usuariolist.id}}</span></li>
+                            <li>NUMERO DE INDENTIFICACION: <span class="admin-usuario-info">{{usuariolist.id}}</span></li>
                             <li>NOMBRE: <span class="admin-usuario-info">{{usuariolist.name}}</span></li>
                             <li>NOMBRE DE USUARIO:  <span class="admin-usuario-info">{{usuariolist.username}}</span></li>
                             <li>DNI: <span class="admin-usuario-info">{{usuariolist.dni}}</span></li>
                             <li>CORREO: <span class="admin-usuario-info">{{usuariolist.email}}</span></li>
-                            <li>TELÉFONO: <span class="admin-usuario-info">{{usuariolist.phone}}</span></li>
+                            <li>TELEFONO: <span class="admin-usuario-info">{{usuariolist.phone}}</span></li>
                             <li>ACERCA DEL USUARIO: <span class="admin-usuario-info">{{usuariolist.about_me}} </span></li>
                             <li>FECHA DE CREACION DE CUENTA: <span class="admin-usuario-info">{{usuariolist.creadted_at}} </span></li>
                             <li>ELO: <span class="admin-usuario-info">{{usuariolist.elo}}</span></li>
@@ -32,7 +32,7 @@
                                 </span>
                             </li>
                             <li>GENERO:<span class="admin-usuario-info">{{usuariolist.gender}}</span></li>
-                            <li>ULTIMA ACTUALIZACIÓN: <span class="admin-usuario-info">{{usuariolist.updated_at}}</span></li>
+                            <li>ULTIMA ACTUALIZACION: <span class="admin-usuario-info">{{usuariolist.updated_at}}</span></li>
                             <li>ESTADO DE CUENTA:
                                 {% if usuariolist.is_active == 1 %}
                                 <span class="admin-usuario-info">Activo</span>

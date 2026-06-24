@@ -6,7 +6,7 @@
 {% block content %}
 <section class="contacto-section">
     <h1 class="contacto-title">Centro de Comunicaciones</h1>
-    <p class="contacto-subtitle">¿Dudas sobre reservas o torneos? Envíanos un reporte.</p>
+    <p class="contacto-subtitle">¿Dudas sobre reservas o torneos? Envianos un reporte.</p>
 
     <div class="contacto-card">
         <form action="{{ url_for('contacto') }}" method="POST">
@@ -17,13 +17,13 @@
             </div>
 
             <div class="form-group">
-                <label for="email">Correo Electrónico</label>
+                <label for="email">Correo Electronico</label>
                 <input type="email" id="email" name="email" class="form-control-custom" value="{{ usuario.email }}" placeholder="example@ejemplo.com" required>
             </div>
 
             <div class="form-group">
-                <label for="mensaje">Transmisión (Mensaje)</label>
-                <textarea id="mensaje" name="mensaje" class="form-control-custom" placeholder="Escribe los detalles de tu consulta aquí..." required></textarea>
+                <label for="mensaje">Transmision (Mensaje)</label>
+                <textarea id="mensaje" name="mensaje" class="form-control-custom" placeholder="Escribe los detalles de tu consulta aqui..." required></textarea>
             </div>
 
             <button type="submit" class="btn-submit">Enviar Reporte</button>

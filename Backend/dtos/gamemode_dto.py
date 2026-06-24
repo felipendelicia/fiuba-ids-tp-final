@@ -12,7 +12,7 @@ def validate_create_gamemode(request):
     if not name or not duration or players is None or not description:
         abort(400, 'Campos requeridos: name, duration, players, description')
     if str(duration).strip() not in {'30', '60', '90', '120'}:
-        abort(400, 'Duración inválida. Valores permitidos: 30, 60, 90, 120')
+        abort(400, 'Duracion invalida. Valores permitidos: 30, 60, 90, 120')
     return {
         'name': name.strip(),
         'duration': str(duration).strip(),

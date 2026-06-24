@@ -1,4 +1,4 @@
-/*Modal genérico*/
+/*Modal generico*/
 function abrirModalConfirm(mensaje) {
     var modal = document.getElementById('modal-confirm');
     document.getElementById('modal-confirm-msg').innerHTML = mensaje.replace(/\n/g, '<br>');

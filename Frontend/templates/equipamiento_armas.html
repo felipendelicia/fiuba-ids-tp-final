@@ -8,7 +8,7 @@
     <div class="container">
 
         <div class="text-center mb-4">
-            <h1 class="equipamiento-title">{{ cat_info.title or 'GUÍA DE USO Y TUTORIALES' }}</h1>
+            <h1 class="equipamiento-title">{{ cat_info.title or 'GUIA DE USO Y TUTORIALES' }}</h1>
             {% if cat_info.subtitle %}<p class="equipamiento-description mx-auto">{{ cat_info.subtitle }}</p>{% endif %}
         </div>
 
@@ -18,7 +18,7 @@
             <div class="row align-items-center">
 
                 <div class="col-md-6 tutorial-media mb-4 mb-md-0">
-                    <img src="{{ url_for('static', filename=item.image_url) if item.image_url else '' }}" alt="{{ item.name }}">
+                    <img src="{{ url_for('static', filename=pasamontañas.png) if item.image_url else '' }}" alt="{{ item.name }}">
                 </div>
 
                 <div class="col-md-6">

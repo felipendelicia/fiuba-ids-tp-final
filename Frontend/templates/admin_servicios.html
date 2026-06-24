@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}Kinetix - Gestión de Servicios (Admin){% endblock %}
+{% block title %}Kinetix - Gestion de Servicios (Admin){% endblock %}
 {% block content %}
 <section style="background-color: #0b0d0f; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px; padding: 100px 0 80px; min-height: calc(100vh - 80px);">
     <div class="container">
         <div class="text-center mb-5">
             <h1 class="display-5 fw-bold" style="font-family: 'Orbitron', 'Arial Black', sans-serif; color: #00d2ff; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0, 210, 255, 0.3);">
-                PANEL DE GESTIÓN: SERVICIOS
+                PANEL DE GESTION: SERVICIOS
             </h1>
-            <p class="text-white-50">Administrá los servicios ofrecidos en las instalaciones.</p>
+            <p class="text-white-50">Administra los servicios ofrecidos en las instalaciones.</p>
         </div>
 
         <div class="row justify-content-center">
@@ -18,27 +18,32 @@
                         <h5 class="fw-bold mb-3" style="color: #00d2ff; font-family: 'Orbitron', sans-serif; font-size: 1rem; letter-spacing: 1px;">
                             <i class="bi bi-plus-circle me-2"></i>AGREGAR NUEVO SERVICIO
                         </h5>
-                        <form action="{{ url_for('admin_servicios_crear') }}" method="POST" class="row g-3">
+                        <form action="{{ url_for('admin_servicios_crear') }}" method="POST" enctype="multipart/form-data" class="row g-3">
                             <div class="col-md-6">
                                 <input type="text" class="form-control bg-dark text-white border-secondary" name="name" placeholder="Nombre del servicio" required>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control bg-dark text-white border-secondary" name="summary_title" placeholder="Título resumen">
+                                <input type="text" class="form-control bg-dark text-white border-secondary" name="summary_title" placeholder="Titulo resumen">
                             </div>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control bg-dark text-white border-secondary" name="tab_icon" placeholder="Ícono (ej: bi bi-cup-hot)">
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <input type="text" class="form-control bg-dark text-white border-secondary" name="summary_text" placeholder="Texto resumen">
                             </div>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control bg-dark text-white border-secondary" name="tab_image" placeholder="Imagen tab (ej: img/bufet.png)">
-                            </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <input type="text" class="form-control bg-dark text-white border-secondary" name="bullet_1" placeholder="Bullet 1">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <input type="text" class="form-control bg-dark text-white border-secondary" name="bullet_2" placeholder="Bullet 2">
+                            </div>
+                            <div class="col-12">
+                                <label class="text-white-50 small mb-1">Imagen del servicio</label>
+                                <div class="d-flex align-items-center gap-3">
+                                    <img id="preview-tab-image" src="{{ url_for('static', filename='img/placeholder.png') }}" alt="Vista previa" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:#1a1e24;">
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-info" onclick="document.getElementById('tab_image_input').click()">Seleccionar imagen</button>
+                                        <input type="file" name="tab_image" id="tab_image_input" accept="image/png,image/jpeg,image/gif,image/webp" style="display:none;" onchange="document.getElementById('preview-tab-image').src = URL.createObjectURL(this.files[0])">
+                                        <small class="d-block text-white-50 mt-1">PNG, JPG, GIF o WebP</small>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-12 d-flex justify-content-end">
                                 <button type="submit" class="btn fw-bold px-4" style="background:linear-gradient(135deg,#00f2fe 0%,#4facfe 100%);border:none;color:#000;">Agregar Servicio</button>
@@ -55,7 +60,7 @@
                                     <tr style="border-bottom: 1px solid rgba(0, 210, 255, 0.2);">
                                         <th class="ps-4 py-3" style="color: #00d2ff; font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 1px;">ID</th>
                                         <th class="py-3" style="color: #00d2ff; font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 1px;">SERVICIO</th>
-                                        <th class="py-3" style="color: #00d2ff; font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 1px;">DESCRIPCIÓN</th>
+                                        <th class="py-3" style="color: #00d2ff; font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 1px;">DESCRIPCION</th>
                                         <th class="pe-4 py-3 text-end" style="color: #00d2ff; font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 1px;">ACCIONES</th>
                                     </tr>
                                 </thead>

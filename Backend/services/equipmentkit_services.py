@@ -40,25 +40,6 @@ def crear_kit_equipamiento(name, brand, price, quantity=1, purchase_link=None,
     )
 
 
-def reemplazar_kit_equipamiento(id, name, brand, price, quantity=1, purchase_link=None,
-                                category=None, description=None, image_url=None, details=None):
-    kit = execute(f"SELECT id FROM EquipmentKit WHERE id = {id}")
-    if not kit:
-        abort(404, 'Kit de equipamiento no encontrado')
-    brand_sql = f"'{brand}'" if brand is not None else "NULL"
-    link_sql = f"'{purchase_link}'" if purchase_link else "NULL"
-    cat_sql = f"'{category}'" if category else "NULL"
-    desc_sql = f"'{description}'" if description else "NULL"
-    img_sql = f"'{image_url}'" if image_url else "NULL"
-    det_sql = f"'{details}'" if details else "NULL"
-    execute(
-        f"UPDATE EquipmentKit SET name = '{name}', category = {cat_sql}, brand = {brand_sql}, "
-        f"description = {desc_sql}, image_url = {img_sql}, "
-        f"price = {price}, quantity = {quantity}, purchase_link = {link_sql}, details = {det_sql} "
-        f"WHERE id = {id}"
-    )
-
-
 def eliminar_kit_equipamiento(id):
     kit = execute(f"SELECT id FROM EquipmentKit WHERE id = {id}")
     if not kit:

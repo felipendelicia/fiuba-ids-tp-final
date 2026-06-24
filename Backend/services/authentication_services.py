@@ -5,7 +5,7 @@ from dtos.errors import abort
 def login_usuario(email, password):
     result = execute(f"SELECT * FROM Accounts WHERE email = '{email}' AND password = '{password}' AND is_active = TRUE")
     if not result:
-        abort(401, 'Credenciales inválidas')
+        abort(401, 'Credenciales invalidas')
     return result[0]
 
 

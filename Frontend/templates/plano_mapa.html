@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Kinetix - Plano Táctico {{ mapa.name }}{% endblock %}
+{% block title %}Kinetix - Plano Tactico {{ mapa.name }}{% endblock %}
 
 {% block content %}
 <div class="container my-5 animate__animated animate__fadeIn">
@@ -11,7 +11,7 @@
         <h1 class="display-5 fw-bold" style="font-family: 'Orbitron', 'Arial Black', sans-serif; color: #00d2ff; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0, 210, 255, 0.4);">
             PLANO DE DESPLIEGUE: {{ mapa.name.upper() }}
         </h1>
-        <p class="text-white-50">Estudiá las líneas de tiro, puntos de captura y coberturas clave antes de ingresar al terreno.</p>
+        <p class="text-white-50">Estudia las lineas de tiro, puntos de captura y coberturas clave antes de ingresar al terreno.</p>
     </div>
 
     <div class="row justify-content-center">
@@ -32,7 +32,7 @@
                     <div class="map-wrapper position-relative d-inline-block rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow" 
                          style="max-width: 100%; background-color: #0b0c10;">
                         
-                        <img src="{{ url_for('static', filename='img/' ~ mapa.plano_image_url) }}" alt="Plano Táctico {{ mapa.name }}"
+                        <img src="{{ url_for('static', filename='img/' ~ mapa.plano_image_url) }}" alt="Plano Tactico {{ mapa.name }}"
                              class="img-fluid d-block mx-auto" 
                              style="max-height: 70vh; width: auto; object-fit: contain; filter: drop-shadow(0 0 10px rgba(0,210,255,0.15));">
 

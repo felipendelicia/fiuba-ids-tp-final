@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('reservaForm').addEventListener('submit', function(e) {
         if (!document.getElementById('inputFecha').value || !document.getElementById('inputTurno').value) {
             e.preventDefault();
-            alert('Seleccioná una fecha y un turno antes de confirmar.');
+            alert('Selecciona una fecha y un turno antes de confirmar.');
         }
     });
 

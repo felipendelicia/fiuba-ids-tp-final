@@ -1,5 +1,6 @@
 from flask import render_template, request, redirect, url_for, session
-from helpers import _api_get_maps, _api_get_gamemodes, _api_get_equipmentkits, _api_get_equipment_categories, _api_get_competitivo_events, _api_get_nosotros, _api_get_services, _api_get_service
+from helpers import _api_get_maps, _api_get_gamemodes, _api_get_competitivo_events, _api_get_nosotros, _api_get_services, _api_get_service
+from services.equipamiento_services import _api_get_equipmentkits, _api_get_equipment_categories
 
 
 def register(app):

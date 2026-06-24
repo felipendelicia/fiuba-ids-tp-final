@@ -17,7 +17,7 @@
                         <td class="text-white fw-bold">#{{ kit.id }}</td>
                     </tr>
                     <tr>
-                        <td class="text-white-50">Categoría</td>
+                        <td class="text-white-50">Categoria</td>
                         <td class="text-white">{{ kit.category or 'Kit de reserva' }}</td>
                     </tr>
                     <tr>
@@ -38,7 +38,7 @@
                     </tr>
                     {% if kit.description %}
                     <tr>
-                        <td class="text-white-50">Descripción</td>
+                        <td class="text-white-50">Descripcion</td>
                         <td class="text-white"><small>{{ kit.description[:200] }}{% if kit.description|length > 200 %}...{% endif %}</small></td>
                     </tr>
                     {% endif %}
@@ -72,10 +72,7 @@
             {% endif %}
 
             {% if usuario and usuario.get('is_admin') %}
-            <form method="POST" class="d-flex gap-2">
-                <input type="url" class="form-control bg-dark text-white border-secondary" name="purchase_link" value="{{ kit.purchase_link or '' }}" placeholder="https://ejemplo.com/producto">
-                <button type="submit" class="btn fw-bold" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); border: none; color: #000; white-space: nowrap;">Guardar link</button>
-            </form>
+            <p class="text-white-50 mb-0"><small>Link: {{ kit.purchase_link or 'No hay link registrado.' }}</small></p>
             {% endif %}
         </div>
     </div>

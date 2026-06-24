@@ -29,10 +29,10 @@ def validate_register(request):
         abort(400, 'name, username, email, password y dni son requeridos')
     dni_str = str(dni).strip()
     if not re.match(r'^\d{7,8}$', dni_str):
-        abort(400, 'DNI debe ser un número de 7 u 8 dígitos, sin puntos ni guiones')
+        abort(400, 'DNI debe ser un numero de 7 u 8 digitos, sin puntos ni guiones')
     phone_str = phone.strip() if phone else None
     if phone_str is not None and not re.match(r'^\+?\d{7,15}$', phone_str.replace(' ', '').replace('-', '')):
-        abort(400, 'Teléfono inválido: debe contener entre 7 y 15 dígitos')
+        abort(400, 'Telefono invalido: debe contener entre 7 y 15 digitos')
     return {
         'name': name.strip(),
         'username': username.strip(),

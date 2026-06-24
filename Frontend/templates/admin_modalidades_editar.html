@@ -5,14 +5,14 @@
 <section class="modalidades-section form-section">
     <div class="modalidades-header form-header">
         <h1 class="modalidades-title">Editar Modalidad</h1>
-        <p class="modalidades-subtitle">Modificá los datos de la modalidad de juego</p>
+        <p class="modalidades-subtitle">Modifica los datos de la modalidad de juego</p>
     </div>
     <div class="form-container">
         <form method="POST">
             <label for="name">Nombre</label>
             <input type="text" id="name" name="name" value="{{ modo.name }}" required>
 
-            <label for="duration">Duración (minutos)</label>
+            <label for="duration">Duracion (minutos)</label>
             <select id="duration" name="duration" required>
                 <option value="30" {% if modo.duration == '30' %}selected{% endif %}>30</option>
                 <option value="60" {% if modo.duration == '60' %}selected{% endif %}>60</option>
@@ -23,7 +23,7 @@
             <label for="players">Jugadores</label>
             <input type="number" id="players" name="players" min="1" value="{{ modo.players }}" required>
 
-            <label for="description">Descripción</label>
+            <label for="description">Descripcion</label>
             <textarea id="description" name="description" rows="4" required>{{ modo.description }}</textarea>
 
             <label>Mapas disponibles</label>

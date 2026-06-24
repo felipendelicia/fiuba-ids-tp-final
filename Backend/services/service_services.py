@@ -17,7 +17,7 @@ def crear_servicio(data):
         "detail_image_1, detail_image_2, breadcrumb_label, sort_order) "
         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
         (
-            data.get("name"), data.get("tab_icon"), data.get("summary_title"),
+            data.get("name"), data.get("tab_icon") or "bi bi-gear", data.get("summary_title"),
             data.get("summary_text"), data.get("bullet_1"), data.get("bullet_2"),
             data.get("tab_image"), data.get("detail_title"), data.get("detail_subtitle"),
             data.get("section_1_title"), data.get("section_1_text"),
@@ -36,7 +36,7 @@ def actualizar_servicio(service_id, data):
         "section_1_title=%s, section_1_text=%s, section_2_title=%s, section_2_text=%s, "
         "detail_image_1=%s, detail_image_2=%s, breadcrumb_label=%s, sort_order=%s WHERE id=%s",
         (
-            data.get("name"), data.get("tab_icon"), data.get("summary_title"),
+            data.get("name"), data.get("tab_icon") or "bi bi-gear", data.get("summary_title"),
             data.get("summary_text"), data.get("bullet_1"), data.get("bullet_2"),
             data.get("tab_image"), data.get("detail_title"), data.get("detail_subtitle"),
             data.get("section_1_title"), data.get("section_1_text"),

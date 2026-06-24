@@ -47,6 +47,7 @@ function cargarFecha(fecha, clickedEl) {
         html += '<div>$' + r.price + '</div>';
         html += '<div>' + st + " - " + et + '</div>';
         html += '<div>' + (r.map_name || "-") + '</div>';
+        html += '<div>' + (r.is_public ? "Publica" : "Privada") + '</div>';
         html += '</div>';
       });
       if (data.reservas.length === 0) {

@@ -35,9 +35,11 @@
                             <li class="mb-2"><i class="bi bi-check2-circle me-2 text-info"></i> {{ s.bullet_1 }}</li>
                             <li class="mb-2"><i class="bi bi-check2-circle me-2 text-info"></i> {{ s.bullet_2 }}</li>
                         </ul>
-                        <a href="{% if s.id == 1 %}{{ url_for('servicio_buffet') }}{% elif s.id == 2 %}{{ url_for('servicio_estacionamiento') }}{% elif s.id == 3 %}{{ url_for('servicio_almacenamiento') }}{% endif %}" class="btn btn-outline-info font-orbitron" style="font-family: 'Orbitron', sans-serif;">
-                            <i class="bi bi-plus-circle me-2"></i>Más Información
+                        {% if s.id <= 3 %}
+                        <a href="{% if s.id == 1 %}{{ url_for('servicio_buffet') }}{% elif s.id == 2 %}{{ url_for('servicio_estacionamiento') }}{% endif %}" class="btn btn-outline-info font-orbitron" style="font-family: 'Orbitron', sans-serif;">
+                            <i class="bi bi-plus-circle me-2"></i>Mas Informacion
                         </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

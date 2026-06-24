@@ -27,7 +27,7 @@ def register(app):
                     return redirect(url_for('perfil'))
                 flash("No se pudo obtener el perfil del usuario.", "warning")
             else:
-                flash("Usuario o contraseña inválidos.", "warning")
+                flash("Usuario o contraseña invalidos.", "warning")
 
         return render_template('login_sesion.html')
 
@@ -48,7 +48,7 @@ def register(app):
                 return render_template('login_registro.html')
 
             if resp.status_code == 201:
-                flash("Registro exitoso. Iniciá sesión.", "success")
+                flash("Registro exitoso. Inicia sesion.", "success")
                 return redirect(url_for('login_sesion'))
 
             msg = "No se pudo completar el registro."
@@ -61,18 +61,9 @@ def register(app):
 
     @app.route('/login/contrasenia', methods=['GET', 'POST'])
     def login_contrasenia():
-        email_user = "Bruno@gmail.com"
         if request.method == "POST":
-            email = request.form.get("email")
-            if email == email_user:
-                flash(
-                    "Hemos enviado un correo con instrucciones de recuperación. Revisa tu bandeja de entrada y la carpeta de spam",
-                    "success",
-                )
-                return redirect(url_for('index'))
-            else:
-                flash("El correo ingresado no coincide con ningún usuario registrado. Verifica tu email e intenta nuevamente.", "warning")
-                return render_template('login_contrasenia.html')
+            flash("Hemos enviado un correo con instrucciones de recuperacion. Revisa tu bandeja de entrada y la carpeta de spam", "success")
+            return redirect(url_for('index'))
         return render_template('login_contrasenia.html')
 
     @app.route("/mensaje_logout")

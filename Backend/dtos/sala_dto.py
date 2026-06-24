@@ -46,7 +46,7 @@ def validate_update_sala(request):
     given = set(data.keys())
     invalid = given - allowed
     if invalid:
-        abort(400, f'Campos inválidos: {", ".join(invalid)}')
+        abort(400, f'Campos invalidos: {", ".join(invalid)}')
     if not given:
         abort(400, 'Debe enviar al menos un campo a actualizar')
     if 'start_time' in data or 'end_time' in data:
@@ -88,11 +88,11 @@ def validate_sala_time(start_time, end_time):
     SLOT_STARTS = ['05:00:00','07:00:00','09:00:00','11:00:00',
                    '13:00:00','15:00:00','17:00:00','19:00:00']
     if start_time not in SLOT_STARTS:
-        abort(400, f'Horario inválido. Debe ser uno de: {", ".join(SLOT_STARTS)}')
+        abort(400, f'Horario invalido. Debe ser uno de: {", ".join(SLOT_STARTS)}')
     try:
         hora = int(start_time.split(':')[0])
         expected_end = f'{hora + 2:02d}:00:00'
     except (ValueError, IndexError):
-        abort(400, 'Formato de hora de inicio inválido')
+        abort(400, 'Formato de hora de inicio invalido')
     if end_time != expected_end:
         abort(400, 'La reserva debe ser de exactamente 2 horas')

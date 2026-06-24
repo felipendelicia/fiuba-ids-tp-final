@@ -30,6 +30,6 @@ def admin_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         if not get_jwt().get('is_admin'):
-            abort(403, 'Solo administradores pueden realizar esta acción')
+            abort(403, 'Solo administradores pueden realizar esta accion')
         return func(*args, **kwargs)
     return wrapper

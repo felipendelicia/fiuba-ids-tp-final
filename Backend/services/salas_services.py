@@ -62,7 +62,7 @@ def crear_sala(params):
           AND end_time > '{start_time}'
         LIMIT 1""")
     if conflict:
-        abort(409, 'Ese mapa ya está reservado en ese turno. Seleccioná otro mapa u horario.')
+        abort(409, 'Ese mapa ya esta reservado en ese turno. Selecciona otro mapa u horario.')
 
     kit_val = f"'{equipment_kit_id}'" if equipment_kit_id else "NULL"
     is_public_val = 1 if params.get('is_public', True) else 0
@@ -81,11 +81,11 @@ def crear_sala(params):
 
             current = execute(f"SELECT COUNT(*) as cnt FROM Reservations WHERE sala_id = {sala_id} AND canceled = FALSE")
             if current[0]['cnt'] >= max_players:
-                abort(409, 'La sala está completa')
+                abort(409, 'La sala esta completa')
 
             duplicado = execute(f"SELECT id FROM Reservations WHERE sala_id = {sala_id} AND account_id = {account_id} AND canceled = FALSE")
             if duplicado:
-                abort(409, 'Ya estás registrado en esta sala')
+                abort(409, 'Ya estas registrado en esta sala')
 
             kit = execute(f"SELECT price FROM EquipmentKit WHERE id = {join_kit_id}")
             kit_price = kit[0]['price'] if kit else 0
@@ -128,7 +128,7 @@ def actualizar_sala(id, data):
                 updates.append(f"{key} = '{value}'")
 
     if not updates:
-        abort(400, 'No hay campos válidos para actualizar')
+        abort(400, 'No hay campos validos para actualizar')
 
     check = execute(f"SELECT * FROM Salas WHERE id = {id}")
     if not check:
@@ -137,7 +137,7 @@ def actualizar_sala(id, data):
 
     if data.get('canceled') and data.get('admin_account_id') is not None:
         if sala['admin_account_id'] != data['admin_account_id']:
-            abort(403, 'Solo el admin que creó la sala puede cancelarla')
+            abort(403, 'Solo el admin que creo la sala puede cancelarla')
 
     set_clause = ", ".join(updates)
     execute(f"UPDATE Salas SET {set_clause} WHERE id = {id}")

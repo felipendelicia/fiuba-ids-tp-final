@@ -18,7 +18,6 @@ def build_links(total, offset, limit):
     """Construye los links HATEOAS para navegar entre páginas"""
     base_url = request.base_url
 
-    # Mantener filtros actuales (equipo, fecha, fase, etc.) en los links
     extra = ""
     for key, value in request.args.items():
         if key not in ('_offset', '_limit'):

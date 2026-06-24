@@ -37,7 +37,7 @@
 
     <div class="perfil-tabs">
         <button class="tab-btn active" data-target="#mapas">Mis Mapas Favoritos</button>
-        <button class="tab-btn" data-target="#config">Configuración de Cuenta</button>
+        <button class="tab-btn" data-target="#config">Configuracion de Cuenta</button>
         <button class="tab-btn" data-target="#historial">Historial de Partidas</button>
     </div>
 
@@ -61,7 +61,7 @@
         </div>
 
         <div id="config" class="tab-seccion">
-            <h3>Configuración de la Cuenta</h3>
+            <h3>Configuracion de la Cuenta</h3>
             <form method="POST" action="{{ url_for('perfil_actualizar') }}" class="d-flex flex-column gap-2" style="max-width: 360px;">
                 <div class="d-flex justify-content-between align-items-center">
                     <strong>Email</strong>
@@ -72,7 +72,7 @@
                     <span class="form-control" style="width:220px;background:#eee" readonly>{{ usuario.dni }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
-                    <strong>Teléfono</strong>
+                    <strong>Telefono</strong>
                     <input type="text" name="phone" value="{{ usuario.phone or '' }}" class="form-control" style="width:220px">
                 </div>
                 <button type="submit" class="btn btn-info fw-bold mt-2">Guardar cambios</button>
@@ -115,7 +115,7 @@
                 </tbody>
             </table>
             {% else %}
-            <p class="text-muted">No tenés partidas registradas todavía.</p>
+            <p class="text-muted">No tenes partidas registradas todavia.</p>
             {% endif %}
         </div>
 
@@ -125,7 +125,7 @@
 <div id="modal-mapas" class="modal-favoritos" style="display:none;">
     <div class="modal-favoritos-contenido">
         <div class="modal-header">
-            <h2>Seleccioná un mapa</h2>
+            <h2>Selecciona un mapa</h2>
             <button class="modal-cerrar" onclick="cerrarModalMapas()">✕</button>
         </div>
         <div class="modal-grid">
@@ -143,7 +143,7 @@
     <div class="modal-confirm-contenido">
         <div class="confirm-icono">⚠</div>
         <h3>Eliminar mapa favorito</h3>
-        <p>¿Estás seguro de que querés eliminar este mapa de tus favoritos?</p>
+        <p>¿Estas seguro de que queres eliminar este mapa de tus favoritos?</p>
         <div class="confirm-botones">
             <button class="btn-confirm-cancelar" onclick="cerrarConfirmEliminar()">Cancelar</button>
             <button class="btn-confirm-eliminar" onclick="confirmarEliminar()">Eliminar</button>

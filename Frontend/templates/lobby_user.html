@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Kinetix - Lobby de Salas Públicas{% endblock %}
+{% block title %}Kinetix - Lobby de Salas Publicas{% endblock %}
 
 
 {% block content %}
@@ -14,7 +14,7 @@
         <div class="d-flex align-items-center gap-3 mb-3">
             <i class="bi bi-plus-circle-fill admin-create-icon"></i>
             <h5 class="m-0 admin-create-title">
-                CREAR NUEVA SALA PÚBLICA
+                CREAR NUEVA SALA PUBLICA
             </h5>
         </div>
         <form method="POST" action="{{ url_for('admin_crearsala') }}">
@@ -81,8 +81,8 @@
                         <th scope="col" class="border-secondary py-3">PRECIO</th>
                         <th scope="col" class="border-secondary py-3">EQUIPAMIENTO</th>
                         <th scope="col" class="border-secondary py-3 text-center">CUPOS</th>
-                        <th scope="col" class="border-secondary py-3 text-center">ACCIÓN</th>
-                        <th scope="col" class="border-secondary py-3 text-center">ACCIÓN ADMIN</th>
+                        <th scope="col" class="border-secondary py-3 text-center">ACCION</th>
+                        <th scope="col" class="border-secondary py-3 text-center">ACCION ADMIN</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,9 +100,9 @@
                         </td>
                         <td class="py-3 border-secondary">
                             {% if sala.unido %}
-                                <span class="text-white-50">Kit Básico</span>
+                                <span class="text-white-50">Kit Basico</span>
                             {% elif sala.actuales < sala.maximos %}
-                                <span class="text-white-50">Kit Básico</span>
+                                <span class="text-white-50">Kit Basico</span>
                                 <input type="hidden" class="kit-hidden" data-sala-id="{{ sala.id }}" value="1">
                             {% else %}
                                 <span class="text-white-50">-</span>
@@ -144,7 +144,7 @@
                         </td>
                         <td class="py-3 border-secondary text-center">
                             {% if sala.es_propia %}
-                            <form action="{{ url_for('cancelar_sala', sala_id=sala.id) }}" method="POST" data-confirm="¿Cancelar toda la sala? Se cancelarán todas las reservas activas.">
+                            <form action="{{ url_for('cancelar_sala', sala_id=sala.id) }}" method="POST" data-confirm="¿Cancelar toda la sala? Se cancelaran todas las reservas activas.">
                                 <button type="submit" class="btn btn-sm btn-outline-danger fw-bold px-3 btn-sala">
                                     CANCELAR SALA
                                 </button>
@@ -156,7 +156,7 @@
                     <tr>
                         <td colspan="11" class="text-center py-5 text-muted border-0">
                             <i class="bi bi-exclamation-triangle d-block mb-2 lobby-empty-icon"></i>
-                            No hay salas públicas lanzadas en este momento. Completá el formulario de administración.
+                            No hay salas publicas lanzadas en este momento. Completa el formulario de administracion.
                         </td>
                     </tr>
                     {% endfor %}

@@ -15,14 +15,14 @@ def register(app):
     def admin_crearsala():
         usuario = session.get('usuario')
         if not usuario:
-            flash("Debes iniciar sesión para realizar una reserva.", "warning")
+            flash("Debes iniciar sesion para realizar una reserva.", "warning")
             return redirect(url_for('login_sesion'))
 
         game_mode_id = request.form.get("modalidad")
         turno = request.form.get("turno")
         start_time, end_time = slot_map_dict.get(turno, (None, None))
         if not start_time:
-            flash("Seleccioná un turno válido.", "warning")
+            flash("Selecciona un turno valido.", "warning")
             return redirect(url_for('lobby_user'))
 
         modalidades = _api_get_gamemodes()
@@ -42,14 +42,15 @@ def register(app):
             "end_time": end_time,
             "max_players": modalidad_max_players,
             "admin_account_id": int(usuario["id"]),
+            "is_public": True,
         }
         resp = _api_post("/salas/", data=payload, token=usuario.get('token'))
         if isinstance(resp, Exception):
-            flash(f"Error de conexión: {resp}", "warning")
+            flash(f"Error de conexion: {resp}", "warning")
         elif resp.status_code == 201:
             flash("Sala creada exitosamente.", "success")
         elif resp.status_code == 401:
-            flash("Tu sesión expiró. Volvé a iniciar sesión.", "warning")
+            flash("Tu sesion expiro. Volve a iniciar sesion.", "warning")
             return redirect(url_for('login_sesion'))
         else:
             try:
@@ -70,7 +71,7 @@ def register(app):
     def unirse_sala_publica():
         usuario = session.get('usuario')
         if not usuario:
-            flash("Debes iniciar sesión.", "warning")
+            flash("Debes iniciar sesion.", "warning")
             return redirect(url_for('login_sesion'))
 
         sala_id = request.form.get("sala_id")
@@ -88,7 +89,7 @@ def register(app):
         }
         resp = _api_post(f"/reservations/register/{sala_id}", data=payload, token=usuario.get('token'))
         if isinstance(resp, Exception):
-            flash(f"Error de conexión: {resp}", "warning")
+            flash(f"Error de conexion: {resp}", "warning")
         elif resp.status_code == 200:
             flash("Te uniste a la sala exitosamente.", "success")
         else:
@@ -110,12 +111,12 @@ def register(app):
     def cancelar_reserva(reservation_id):
         usuario = session.get('usuario')
         if not usuario:
-            flash("Debes iniciar sesión.", "warning")
+            flash("Debes iniciar sesion.", "warning")
             return redirect(url_for('login_sesion'))
 
         resp = _api_patch(f"/reservations/{reservation_id}", data={"canceled": True, "account_id": usuario["id"]}, token=usuario.get('token'))
         if isinstance(resp, Exception):
-            flash(f"Error de conexión: {resp}", "warning")
+            flash(f"Error de conexion: {resp}", "warning")
         elif resp.status_code == 200:
             flash("Reserva cancelada exitosamente.", "success")
         else:
@@ -137,12 +138,12 @@ def register(app):
     def cancelar_sala(sala_id):
         usuario = session.get('usuario')
         if not usuario:
-            flash("Debes iniciar sesión.", "warning")
+            flash("Debes iniciar sesion.", "warning")
             return redirect(url_for('login_sesion'))
 
         resp = _api_patch(f"/salas/{sala_id}", data={"canceled": True, "admin_account_id": usuario["id"]}, token=usuario.get('token'))
         if isinstance(resp, Exception):
-            flash(f"Error de conexión: {resp}", "warning")
+            flash(f"Error de conexion: {resp}", "warning")
         elif resp.status_code == 200:
             flash("Sala cancelada exitosamente. Todas las reservas asociadas fueron canceladas.", "success")
         else:
@@ -164,12 +165,12 @@ def register(app):
     def lobby_user():
         usuario = session.get('usuario')
         if not usuario:
-            flash("Debes iniciar sesión para acceder a las salas públicas.", "warning")
+            flash("Debes iniciar sesion para acceder a las salas publicas.", "warning")
             return redirect(url_for('login_sesion'))
 
         resp = _api_get("/salas/", params={"is_public": "1", "_limit": 100}, token=usuario.get('token'))
         if resp is None:
-            flash("Error de conexión al cargar salas.", "warning")
+            flash("Error de conexion al cargar salas.", "warning")
             return render_template('lobby_user.html', salas=[], usuario=usuario)
         salas_data = resp.json().get("salas", []) if resp.status_code == 200 else []
 
@@ -228,7 +229,7 @@ def register(app):
                 "start_time": s["start_time"],
                 "end_time": s["end_time"],
                 "unido": unido,
-                "equipamiento": "Kit Básico",
+                "equipamiento": "Kit Basico",
                 "admin_account_id": s.get("admin_account_id"),
                 "es_admin_sala": es_admin_sala,
                 "es_propia": es_admin_sala and s.get("admin_account_id") == usuario["id"],
@@ -252,7 +253,7 @@ def register(app):
             try:
                 fecha = date.fromisoformat(fecha_param)
             except ValueError:
-                return {"error": "Formato de fecha inválido"}, 400
+                return {"error": "Formato de fecha invalido"}, 400
         else:
             fecha = date.today()
         frec = get_frecuencia_horaria(fecha)
@@ -274,7 +275,7 @@ def register(app):
     def lobby_privada():
         usuario = session.get('usuario')
         if not usuario:
-            flash("Debes iniciar sesión para realizar una reserva.", "warning")
+            flash("Debes iniciar sesion para realizar una reserva.", "warning")
             return redirect(url_for('login_sesion'))
 
         if request.method == 'POST':
@@ -286,18 +287,18 @@ def register(app):
             precio = request.form.get("precio")
 
             if not all([game_mode_id, map_id, equipment_kit_id, reservation_date, turno, precio]):
-                flash("Completá todos los campos.", "warning")
+                flash("Completa todos los campos.", "warning")
                 return redirect(url_for('lobby_privada'))
 
             start_time, end_time = slot_map_dict.get(turno, (None, None))
             if not start_time:
-                flash("Seleccioná un turno válido.", "warning")
+                flash("Selecciona un turno valido.", "warning")
                 return redirect(url_for('lobby_privada'))
 
             try:
                 kit_id = int(equipment_kit_id)
             except ValueError:
-                flash("Seleccioná un pack de equipamiento válido", "warning")
+                flash("Selecciona un pack de equipamiento valido", "warning")
                 return redirect(url_for('lobby_privada'))
 
             modalidades = _api_get_gamemodes()

@@ -4,7 +4,7 @@
 <section class="modalidades-section">
     <div class="modalidades-header">
         <h1 class="modalidades-title">Modalidades</h1>
-        <p class="modalidades-subtitle">Elegí el modo de juego que más se adapte a tu estilo</p>
+        <p class="modalidades-subtitle">Elegi el modo de juego que mas se adapte a tu estilo</p>
     </div>
     <div class="modalidades-grid">
         {% for modo in modalidades %}
@@ -44,7 +44,7 @@
 <section class="modalidades-section" style="padding-top:0;">
     <div class="modalidades-header">
         <h1 class="modalidades-title">Eventos Competitivos</h1>
-        <p class="modalidades-subtitle">Administrá los eventos de la sección competitivo</p>
+        <p class="modalidades-subtitle">Administra los eventos de la seccion competitivo</p>
     </div>
 
     <div style="max-width:1000px;margin:0 auto;padding:0 15px;">
@@ -52,10 +52,10 @@
             <h5 class="text-white fw-bold mb-3" style="font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">Crear Evento</h5>
             <form action="{{ url_for('admin_competitivo') }}" method="POST" class="row g-3">
                 <div class="col-md-4">
-                    <input type="text" class="form-control bg-dark text-white border-secondary" name="title" placeholder="Título" required>
+                    <input type="text" class="form-control bg-dark text-white border-secondary" name="title" placeholder="Titulo" required>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" class="form-control bg-dark text-white border-secondary" name="badge" placeholder="Badge (ej: Próximo)">
+                    <input type="text" class="form-control bg-dark text-white border-secondary" name="badge" placeholder="Badge (ej: Proximo)">
                 </div>
                 <div class="col-md-3">
                     <input type="text" class="form-control bg-dark text-white border-secondary" name="image_url" placeholder="Imagen (ej: img/ejercitos.jpg)">
@@ -67,7 +67,7 @@
                     <input type="text" class="form-control bg-dark text-white border-secondary" name="event_time" placeholder="Hora (ej: 10:00 hs)">
                 </div>
                 <div class="col-md-10">
-                    <textarea class="form-control bg-dark text-white border-secondary" name="description" placeholder="Descripción" rows="2"></textarea>
+                    <textarea class="form-control bg-dark text-white border-secondary" name="description" placeholder="Descripcion" rows="2"></textarea>
                 </div>
                 <div class="col-md-12">
                     <button type="submit" class="btn fw-bold text-dark px-4" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); border: none;">Crear Evento</button>
@@ -80,7 +80,7 @@
                 <thead style="font-family: 'Orbitron', sans-serif; color: #00f2fe;">
                     <tr>
                         <th class="border-secondary py-3">ID</th>
-                        <th class="border-secondary py-3">Título</th>
+                        <th class="border-secondary py-3">Titulo</th>
                         <th class="border-secondary py-3">Badge</th>
                         <th class="border-secondary py-3">Fecha</th>
                         <th class="border-secondary py-3">Hora</th>

@@ -8826,438 +8826,259 @@ textarea.form-input {
     background-clip: text;
 }
 
-@media (max-width: 768px) {
-  .competitivo-title,
-  .nosotros__title,
-  .servicios-title,
-  .contacto-title,
-  .equipamiento-title,
-  .review-title,
-  .reserva-title,
-  .dashboard-title,
-  .opciones-title,
-  .maps__title h2 {
-    font-size: 32px;
-  }
-  .modalidades-title {
-    font-size: 28px;
-  }
+/* ================================================================
+   info_mapa.html styles - extracted from <style> block
+   ================================================================ */
+.map-header { border-bottom: 2px solid rgba(0, 242, 254, 0.2); padding-bottom: 1.5rem; margin-bottom: 2rem; }
+.map-badge { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; font-size: 0.75rem; }
+.stat-item { background: rgba(0, 242, 254, 0.05); border: 1px solid rgba(0, 242, 254, 0.15); border-radius: 8px; padding: 0.75rem 1rem; transition: border-color 0.3s ease; }
+.stat-item:hover { border-color: rgba(0, 242, 254, 0.4); }
+.stat-label { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; letter-spacing: 1px; color: #4facfe; text-transform: uppercase; }
+.stat-value { color: #ffffff; font-size: 0.95rem; font-weight: 600; }
+.gallery-img { border: 1px solid rgba(79, 172, 254, 0.2); border-radius: 10px; transition: transform 0.4s ease, box-shadow 0.4s ease; cursor: pointer; width: 100%; height: 280px; object-fit: cover; }
+.gallery-img:hover { transform: scale(1.03); box-shadow: 0 8px 30px rgba(0, 242, 254, 0.25); }
+.info-section { background: rgba(18, 22, 26, 0.6); border: 1px solid rgba(79, 172, 254, 0.15); border-radius: 12px; padding: 2rem; }
+.info-section p { color: #c0c8d4; line-height: 1.8; font-size: 1rem; }
+
+/* ================================================================
+   admin_equipamiento.html styles - extracted from <style> block
+   ================================================================ */
+@keyframes fadeInModal { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+
+/* ================================================================
+   CLASES MIGRADAS - Reemplazo de estilos inline en templates
+   ================================================================ */
+
+/* Section fondo tactico oscuro */
+.section-tactical {
+    background-color: #0b0d0f;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
 }
 
-@media (max-width: 480px) {
-  .competitivo-title,
-  .nosotros__title,
-  .servicios-title,
-  .contacto-title,
-  .equipamiento-title,
-  .review-title,
-  .reserva-title,
-  .dashboard-title,
-  .opciones-title,
-  .maps__title h2 {
-    font-size: 24px;
-  }
-  .modalidades-title {
-    font-size: 22px;
-  }
-}
-
-@media (max-width: 480px) {
-  #title404 {
-    font-size: 4rem;
-  }
-}
-
-/* Maps card: stack vertically on small screens */
-@media (max-width: 576px) {
-  .maps__card {
-    flex-direction: column;
-  }
-  .maps__card img,
-  .maps__info {
-    width: 100%;
-  }
-  .maps__info {
-    padding: 1.25rem;
-  }
-}
-
-/* Chart bars: allow horizontal scroll on small screens */
-@media (max-width: 600px) {
-  .chart-bars {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
+/* Card semi-transparente oscura con borde cyan */
 .card-dark {
-  background-color: rgba(20, 22, 25, 0.95);
+    background-color: rgba(18, 22, 26, 0.8);
+    border: 1px solid rgba(79, 172, 254, 0.25);
 }
 
-.card-dark-accent {
-  background-color: rgba(20, 22, 25, 0.95);
-  border: 1px solid rgba(0, 210, 255, 0.1);
+/* Card fondo mas oscuro solido */
+.bg-dark-card {
+    background-color: rgba(20, 22, 25, 0.95);
 }
 
-.section-dark {
-  background-color: #0b0d0f;
-  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 20px 20px;
+/* Texto degradado cyan */
+.text-gradient-cyan {
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.page-title-cyan {
-  font-family: 'Orbitron', 'Arial Black', sans-serif;
-  color: #00d2ff;
-  letter-spacing: 2px;
-  text-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
-}
-
-.page-title-glow {
-  font-family: 'Orbitron', 'Arial Black', sans-serif;
-  color: #00d2ff;
-  letter-spacing: 2px;
-  text-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
-}
-
+/* Boton con gradiente cyan */
 .btn-gradient-cyan {
-  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-  border: none;
-  color: #000;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    border: none;
+    color: #0b0d0f;
 }
 .btn-gradient-cyan:hover {
-  opacity: 0.9;
-  color: #000;
+    color: #0b0d0f;
+    box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+    transform: translateY(-2px);
 }
 
-.label-orbitron {
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 1px;
+/* Heading cyan con brillo */
+.heading-cyan-glow {
+    font-family: 'Orbitron', 'Arial Black', sans-serif;
+    color: #00d2ff;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
 }
 
-.badge-orbitron {
-  letter-spacing: 2px;
-  font-family: 'Orbitron', sans-serif;
+/* Heading cyan simple */
+.heading-cyan {
+    font-family: 'Orbitron', 'Arial Black', sans-serif;
+    color: #00d2ff;
+    letter-spacing: 2px;
 }
 
-.th-admin {
-  color: #00d2ff;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
+/* Subtitulo cyan */
+.subtitle-cyan {
+    font-family: 'Orbitron', sans-serif;
+    color: #4facfe;
 }
 
-.tr-admin {
-  border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+/* Texto cyan base */
+.text-cyan-custom {
+    color: #00d2ff;
 }
 
-.tr-subtle {
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+/* Fondo info_mapa container */
+.container-dark-glass {
+    background-color: rgba(12, 16, 20, 0.92);
+    border: 1px solid rgba(0, 242, 254, 0.15);
 }
 
-.img-preview {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: #1a1e24;
+/* Navbar brand link */
+.navbar-brand-link {
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-decoration: none;
 }
 
-.input-hidden {
-  display: none;
+/* Navbar brand text */
+.navbar-brand-text {
+    font-family: 'Orbitron', 'Arial Black', sans-serif;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.h6-cyan {
-  color: #00d2ff;
-  font-family: 'Orbitron', sans-serif;
-}
-.h6-yellow {
-  color: #ffb300;
-  font-family: 'Orbitron', sans-serif;
-}
-.h6-red {
-  color: #ff5252;
-  font-family: 'Orbitron', sans-serif;
+/* Navbar brand logo */
+.navbar-brand-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
 }
 
-.card-glow {
-  box-shadow: 0 0 20px rgba(0, 210, 255, 0.05);
+/* Plano - zone label */
+.zone-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    text-align: center;
+    white-space: pre-line;
 }
 
-.plano-map-wrapper {
-  max-width: 100%;
-  background-color: #0b0c10;
+/* Plano - status badge */
+.plano-badge {
+    letter-spacing: 2px;
+    font-family: 'Orbitron', sans-serif;
 }
 
-.plano-img {
-  max-height: 70vh;
-  width: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 0 10px rgba(0,210,255,0.15));
+/* Plano - card inner */
+.plano-card {
+    background-color: rgba(20, 22, 25, 0.95);
+    border: 1px solid rgba(0, 210, 255, 0.1) !important;
 }
 
-.plano-overlay {
-  mix-blend-mode: screen;
-  opacity: 0.4;
-  background-image: radial-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 0);
-  background-size: 24px 24px;
+/* Plano - header text */
+.plano-header-text {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
 }
 
-.card-radial {
-  background: radial-gradient(circle, rgba(10,34,40,0.5) 0%, rgba(10,12,15,1) 100%);
+/* Plano - zone section title */
+.zone-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
 }
 
-.heading-orbitron {
-  font-family: 'Orbitron', sans-serif;
+/* Review card */
+.review-card {
+    background-color: rgba(20, 22, 25, 0.95);
 }
 
-.card-empty {
-  background-color: rgba(20, 22, 25, 0.95);
-  border: 1px dashed rgba(255,255,255,0.1);
+/* Review stars */
+.review-stars {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
 }
 
-.comment-box {
-  background-color: rgba(0, 210, 255, 0.03);
-  border: 1px solid rgba(0, 210, 255, 0.08);
+/* Review star empty */
+.review-star-empty {
+    opacity: 0.15;
+    color: #fff;
 }
 
-.review-title-inline {
-  color: #00d2ff;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.2rem;
+/* Review comment text */
+.review-comment {
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
 
-.review-title-negative {
-  color: #ff5252;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.2rem;
+/* Review comment bubble */
+.comment-bubble {
+    background-color: rgba(0, 210, 255, 0.03);
+    border: 1px solid rgba(0, 210, 255, 0.08);
 }
 
-.badge-support {
-  letter-spacing: 1px;
-  font-size: 0.75rem;
+/* Review section title */
+.review-section-title {
+    letter-spacing: 1px;
+    font-size: 0.75rem;
 }
 
-.quote-border {
-  border-left: 4px solid #00f2fe;
-  background: rgba(0, 242, 254, 0.05);
+/* Review no-replies */
+.review-no-replies {
+    font-size: 0.85rem;
+    font-style: italic;
 }
 
-.ls-05 {
-  letter-spacing: 0.5px;
-}
-.ls-2 {
-  letter-spacing: 2px;
-}
-
-.op-15 {
-  opacity: 0.15;
-}
-
-.lh-16 {
-  line-height: 1.6;
+/* Admin page title gradient */
+.admin-title-gradient {
+    font-family: 'Orbitron', 'Arial Black', sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.fs-095 {
-  font-size: 0.95rem;
-}
-.fs-12 {
-  font-size: 12px;
-}
-.fs-075 {
-  font-size: 0.75rem;
+/* Admin table header */
+.admin-table-header {
+    font-family: 'Orbitron', sans-serif;
+    color: #00f2fe;
 }
 
-.fst-italic {
-  font-style: italic;
+/* Admin form section */
+.admin-form-section {
+    background-color: rgba(18, 22, 26, 0.8);
+    border: 1px solid rgba(79, 172, 254, 0.25);
 }
 
-.flex-1 {
-  flex: 1;
+/* Empty state card */
+.empty-state-card {
+    background-color: rgba(20, 22, 25, 0.95);
+    border: 1px dashed rgba(255,255,255,0.1);
 }
 
-.word-break-all {
-  word-break: break-all;
+/* Perfil edit input */
+.input-perfil-edit {
+    width: 220px;
 }
 
-.pre-details {
-  color: #a0aec0;
-  font-size: 12px;
-  margin: 0;
+/* Perfil edit input with bg */
+.input-perfil-edit-bg {
+    width: 220px;
+    background: #eee;
 }
 
-.text-cyan {
-  color: #00f2fe;
-}
-.text-cyan-soft {
-  color: #4facfe;
+/* Plano image shadow */
+.plano-image {
+    filter: drop-shadow(0 0 10px rgba(0,210,255,0.15));
 }
 
-.my-2r {
-  margin: 2rem 0;
+/* Plano grid overlay */
+.plano-grid-overlay {
+    mix-blend-mode: screen;
+    opacity: 0.4;
+    background-image: radial-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 0);
+    background-size: 24px 24px;
 }
 
-.mw-600 {
-  max-width: 600px;
+/* Font utility */
+.font-orbitron {
+    font-family: 'Orbitron', sans-serif;
 }
-.mw-700 {
-  max-width: 700px;
-}
-.mw-360 {
-  max-width: 360px;
-}
-.mw-320 {
-  max-width: 320px;
-}
-.mw-1000 {
-  max-width: 1000px;
-}
-.mw-100 {
-  max-width: 100%;
-}
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.card-container-dark {
-  background-color: rgba(20, 24, 30, 0.75);
-  border: 1px solid rgba(0, 242, 254, 0.15);
-}
-.card-container-darker {
-  background-color: rgba(20, 24, 30, 0.85);
-  border: 1px solid rgba(0, 242, 254, 0.2);
-}
-
-.hr-cyan {
-  background-color: rgba(0, 242, 254, 0.3);
-}
-
-.text-shadow-soft {
-  text-shadow: 0 0 10px #4facfe;
-}
-
-.ws-pre-wrap {
-  white-space: pre-wrap;
-}
-
-.navbar-brand-kinetix {
-  font-family: 'Orbitron', 'Arial Black', sans-serif;
-  font-size: 26px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.navbar-logo {
-  height: 40px;
-  width: auto;
-  object-fit: contain;
-}
-
-.navbar-link-reset {
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  text-decoration: none;
-}
-
-.navbar-flex-group {
-  display: inline-flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.bg-eee {
-  background: #eee;
-}
-
-.text-justify {
-  text-align: justify;
-}
-
-.quote-pad {
-  padding-left: 20px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  border-radius: 4px;
-}
-
-.w-40 {
-  width: 40%;
-}
-
-.gap-10 {
-  gap: 10px;
-}
-
-.heading-gradient {
-  font-size: 32px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.input-readonly-dark {
-  background: rgba(255,255,255,0.05);
-  color: #ccc;
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 10px;
-  border-radius: 6px;
-}
-
-.card-map-info {
-  background-color: rgba(12, 16, 20, 0.92);
-  border: 1px solid rgba(0, 242, 254, 0.15);
-}
-
-.form-inline {
-  display: inline;
-}
-
-.text-small-085 {
-  font-size: 0.85rem;
-}
-
-.card-admin-form {
-  background-color: rgba(18, 22, 26, 0.8);
-  border: 1px solid rgba(79, 172, 254, 0.25);
-}
-
-.table-transparent {
-  background-color: transparent;
-}
-
-.stat-box-inline {
-  background-color: rgba(18, 22, 26, 0.8);
-  border: 1px solid rgba(79, 172, 254, 0.25);
-}
-
-@media (max-width: 576px) {
-  .rostro-container {
-    padding: 20px 10px;
-  }
-  .rostro-pic-box {
-    min-width: 0;
-  }
-  .vestimenta-container {
-    padding: 10px;
-  }
-  .equipamiento-card {
-    padding: 20px;
-  }
-  .tutorial-container {
-    padding: 20px;
-  }
+.font-orbitron-bold {
+    font-family: 'Orbitron', 'Arial Black', sans-serif;
 }

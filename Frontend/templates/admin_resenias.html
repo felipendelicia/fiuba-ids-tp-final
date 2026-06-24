@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container my-5">
     <div class="text-center mb-5">
-        <h1 class="display-5 fw-bold page-title-cyan">
+        <h1 class="display-5 fw-bold heading-cyan-glow">
             PANEL DE GESTION: RESEÑAS
         </h1>
         <p class="text-white-50">Monitorea las criticas globales, mapas especificos y responde con asistencia del sistema.</p>
@@ -16,8 +16,8 @@
             
             {% for reseña in resenias %}
             
-            <div class="card card-dark mb-5 border-0 rounded-3 shadow-lg" 
-                 style="border-left: 4px solid {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %};">
+<div class="card mb-5 border-0 rounded-3 shadow-lg bg-dark-card" 
+                 style="border-left: 4px solid {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %} !important;">
                 
                 <div class="card-body p-4">
                     
@@ -43,7 +43,7 @@
                         </div>
                     </div>
 
-                    <h4 class="fw-bold mb-2 heading-orbitron" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %}; font-size: 1.2rem;">
+                    <h4 class="fw-bold mb-2 font-orbitron" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %}; font-size: 1.2rem;">
                         {{ reseña.titulo }}
                     </h4>
 
@@ -80,7 +80,7 @@
             </div>
             
             {% else %}
-            <div class="card-empty p-5 text-center text-muted rounded-3">
+            <div class="p-5 text-center text-muted rounded-3 empty-state-card">
                 <p class="mb-0">No hay nuevas reseñas cargadas por los usuarios.</p>
             </div>
             {% endfor %}

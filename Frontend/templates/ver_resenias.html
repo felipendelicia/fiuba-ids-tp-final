@@ -3,10 +3,10 @@
 {% block title %}Kinetix - Reseñas de la Comunidad{% endblock %}
 
 {% block content %}
-<section class="section-dark" style="padding: 100px 0 80px; min-height: calc(100vh - 80px);">
+<section class="section-tactical" style="padding:100px 0 80px;min-height:calc(100vh - 80px);">
     <div class="container">
         <div class="text-center mb-5">
-            <h1 class="display-5 fw-bold page-title-cyan">
+            <h1 class="display-5 fw-bold heading-cyan-glow">
                 RESEÑAS DE LA COMUNIDAD
             </h1>
             <p class="text-white-50">Descubri las opiniones de otros jugadores sobre nuestros mapas y experiencias tacticas.</p>
@@ -17,8 +17,8 @@
                 
                 {% for reseña in resenias %}
                 
-                <div class="card mb-5 border-0 rounded-3 shadow-lg card-dark" 
-                     style="border-left: 4px solid {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %};">
+<div class="card mb-5 border-0 rounded-3 shadow-lg bg-dark-card" 
+                     style="border-left: 4px solid {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %} !important;">
                     
                     <div class="card-body p-4">
                         
@@ -30,11 +30,11 @@
                                 </span>
                             </div>
                             <div class="text-end">
-                                <div class="mb-1" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#ffb300{% endif %}; font-size: 1.1rem; letter-spacing: 2px;">
+                                <div class="mb-1 review-stars" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#ffb300{% endif %};">
                                     {% for i in range(0, reseña.puntuacion) %}
                                         ★
                                     {% endfor %}
-                                    <span class="op-15 text-white">
+                                    <span class="review-star-empty">
                                     {% for i in range(reseña.puntuacion, 5) %}
                                         ★
                                     {% endfor %}
@@ -44,22 +44,22 @@
                             </div>
                         </div>
 
-                        <h4 class="fw-bold mb-2 {% if reseña.puntuacion < 4 %}review-title-negative{% else %}review-title-inline{% endif %}">
+                        <h4 class="fw-bold mb-2 font-orbitron" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %}; font-size: 1.2rem;">
                             {{ reseña.titulo }}
                         </h4>
 
-                        <p class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4 fs-095 lh-16">
+                        <p class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4 review-comment">
                             "{{ reseña.comentario }}"
                         </p>
 
                         <div class="comments-section mt-4 pt-3 border-top border-secondary border-opacity-10">
-                            <h6 class="text-white-50 small fw-bold mb-3 text-start badge-support">
+                            <h6 class="text-white-50 small fw-bold mb-3 text-start review-section-title">
                                 <i class="bi bi-reply-all me-2"></i>RESPUESTA DE SOPORTE KINETIX
                             </h6>
                             
                             {% if reseña.respuestas %}
                                 {% for r in reseña.respuestas %}
-                                <div class="p-3 rounded-3 mb-2 text-start comment-box">
+                                <div class="p-3 rounded-3 mb-2 text-start comment-bubble">
                                     <div class="mb-1">
                                         <span class="fw-bold small text-info">{{ r.autor }}</span>
                                     </div>
@@ -67,7 +67,7 @@
                                 </div>
                                 {% endfor %}
                             {% else %}
-                                <p class="text-muted small mb-0 text-start text-small-085 fst-italic">Sin respuestas oficiales hasta el momento.</p>
+                                <p class="text-muted small mb-0 text-start review-no-replies">Sin respuestas oficiales hasta el momento.</p>
                             {% endif %}
                         </div>
 
@@ -75,7 +75,7 @@
                 </div>
                 
                 {% else %}
-                <div class="p-5 text-center text-muted rounded-3 card-empty">
+                <div class="p-5 text-center text-muted rounded-3 empty-state-card">
                     <p class="mb-0">Aun no se registraron opiniones. ¡Se el primero en dejar la tuya!</p>
                 </div>
                 {% endfor %}

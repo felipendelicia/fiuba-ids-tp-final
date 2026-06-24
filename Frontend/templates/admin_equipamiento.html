@@ -3,14 +3,14 @@
 {% block title %}Kinetix - Admin Equipamiento{% endblock %}
 
 {% block content %}
-<section class="section-dark" style="min-height: calc(100vh - 56px); padding: 80px 0;">
+<section class="section-tactical" style="min-height: calc(100vh - 56px); padding: 80px 0;">
     <div class="container">
-        <h1 class="text-center mb-5 heading-gradient">
+        <h1 class="text-center mb-5 admin-title-gradient">
             Panel de Administracion: Equipamiento e Inventario
         </h1>
 
-        <div class="card-admin-form p-4 rounded-3 mb-5 shadow-lg">
-            <h5 class="text-white fw-bold mb-3 label-orbitron">Registrar Nuevo Equipamiento</h5>
+        <div class="p-4 rounded-3 mb-5 shadow-lg card-dark">
+            <h5 class="text-white fw-bold mb-3 font-orbitron" style="letter-spacing: 1px;">Registrar Nuevo Equipamiento</h5>
             <form action="{{ url_for('admin_equipamiento') }}" method="POST" class="row g-3">
                 <div class="col-md-3">
                     <input type="text" class="form-control bg-dark text-white border-secondary" name="name" placeholder="Nombre del kit" required>
@@ -39,15 +39,14 @@
                     <input type="url" class="form-control bg-dark text-white border-secondary" name="purchase_link" placeholder="Link de compra (opcional)">
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-gradient-cyan fw-bold px-4">Registrar</button>
+                    <button type="submit" class="btn fw-bold text-dark px-4 btn-gradient-cyan">Registrar</button>
                 </div>
             </form>
         </div>
 
-        <div class="card-admin-form p-4 rounded-3 shadow-lg">
-            <div class="table-responsive">
+        <div class="p-4 rounded-3 shadow-lg card-dark">
             <table class="table table-dark table-hover align-middle mb-0">
-                <thead class="heading-orbitron text-cyan">
+                <thead class="admin-table-header">
                     <tr>
                         <th class="border-secondary py-3">ID</th>
                         <th class="border-secondary py-3">Nombre</th>
@@ -108,35 +107,7 @@
     </div>
 </div>
 
-<style>
-.modal-overlay {
-    position: fixed; top:0; left:0; width:100%; height:100%;
-    background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center;
-    z-index:9999; backdrop-filter:blur(4px);
-}
-.modal-contenido {
-    animation: fadeInModal 0.2s ease;
-}
-.modal-confirm-contenido {
-    background:#0b0d0f; border:1px solid rgba(255,71,87,0.3);
-    border-radius:16px; padding:2.5rem; max-width:420px; width:90%;
-    text-align:center; box-shadow:0 0 40px rgba(255,71,87,0.15);
-    animation: fadeInModal 0.2s ease;
-}
-.modal-confirm-contenido .confirm-icono { font-size:3rem; margin-bottom:1rem; }
-.modal-confirm-contenido h3 { font-family:'Orbitron',sans-serif; color:#ff4757; font-size:1.2rem; margin:0 0 0.8rem 0; letter-spacing:1px; }
-.modal-confirm-contenido p { color:#a0aec0; font-size:0.95rem; margin-bottom:2rem; line-height:1.5; }
-.confirm-botones { display:flex; gap:1rem; justify-content:center; }
-.btn-confirm-cancelar, .btn-confirm-eliminar {
-    font-family:'Orbitron',sans-serif; font-size:0.85rem; padding:0.7rem 1.8rem;
-    border-radius:8px; cursor:pointer; transition:all 0.2s; letter-spacing:1px; font-weight:600;
-}
-.btn-confirm-cancelar { background:transparent; border:1px solid rgba(79,172,254,0.3); color:#a0aec0; }
-.btn-confirm-cancelar:hover { border-color:#00f2fe; color:#fff; background:rgba(0,242,254,0.05); }
-.btn-confirm-eliminar { background:rgba(255,71,87,0.15); border:1px solid #ff4757; color:#ff4757; }
-.btn-confirm-eliminar:hover { background:#ff4757; color:#fff; box-shadow:0 0 20px rgba(255,71,87,0.3); }
-@keyframes fadeInModal { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
-</style>
+
 
 <script>
 function abrirModalEliminar(id, name) {

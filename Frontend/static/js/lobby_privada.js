@@ -44,6 +44,10 @@ function buildCalendar(month, year) {
     document.querySelectorAll('#calendarDays div[data-date]').forEach(function(el) {
         el.addEventListener('click', function(e) {
             var date = this.getAttribute('data-date');
+            if (date < todayStr) {
+                alert('No podés reservar en una fecha anterior al día de hoy.');
+                return;
+            }
             selectedDate = date;
             document.getElementById('inputFecha').value = date;
             document.querySelectorAll('#calendarDays .day-selected, #calendarDays .day-today').forEach(function(x) {

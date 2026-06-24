@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: API de Airsoft
-  description: API para gestionar usuarios, reservas con soporte para paginación.
+  description: API para gestionar usuarios, reservas, mapas, modos de juego, equipamiento, eventos competitivos, mensajes de contacto y más.
   version: 1.0.0
 paths:
 
@@ -24,7 +24,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /account/{id}:
     parameters:
-      - $ref: '#/components/parameters/IdAccount'
+      - $ref: '#/components/parameters/IdPath'
     get:
       summary: "Obtener cuenta de un usuario por ID"
       tags:
@@ -51,32 +51,7 @@ paths:
         content:
           application/json:
             schema:
-              type: "object"
-              properties:
-                is_active:
-                  type: "bool"
-                  description: "Estado del usuario"
-                  example: true
-                user_name:
-                  type: "string"
-                  description: "Nombre personalizado del usuario"
-                  example: "Nuevo nombre del usuario"
-                password:
-                  type: "string"
-                  description: "contraseña del usuario"
-                  example: Nueva constraseña
-                gender:
-                  type: "string"
-                  description: "Genero con el que se identifica el usuario"
-                  example: "Nuevo genero"
-                phone:
-                  type: "string"
-                  description: "Número de celular del usuario"
-                  example: "11457544"
-                about_me:
-                  type: "string"
-                  description: "Descripcion del usuario"
-                  example: "descripcion breve"
+              $ref: '#/components/schemas/UpdateAccount'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -88,7 +63,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /account/{id}/reservations:
     get:
-      summary: "Listar reservaciones ID del usuario (paginación)"
+      summary: "Listar reservaciones por ID del usuario (paginación)"
       tags:
         - Account
       parameters:
@@ -116,7 +91,7 @@ paths:
               type: "object"
               properties:
                 is_active:
-                  type: "bool"
+                  type: "boolean"
                   description: "Estado del usuario"
                   example: false
       responses:
@@ -142,9 +117,8 @@ paths:
               properties:
                 gender:
                   type: "string"
-                  description: "Genero con el que se indentifica el usuario"
-                  example: "Nuevo genero"
-      
+                  description: "Genero con el que se identifica el usuario"
+                  example: "Masculino"
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -156,7 +130,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /account/{id}/password:
     patch:
-      summary: "Actualizar la contraseña en el cuenta del usuario"
+      summary: "Actualizar la contraseña de la cuenta del usuario"
       tags:
         - Account
       requestBody:
@@ -170,7 +144,6 @@ paths:
                   type: "string"
                   description: "Contraseña del usuario"
                   example: "Nueva contraseña"
-      
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -179,8 +152,8 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
-          $ref: '#/components/responses/InternalServerError'          
-          
+          $ref: '#/components/responses/InternalServerError'
+
   /authentication/login:
     post:
       summary: "Autentica a un usuario"
@@ -203,7 +176,18 @@ paths:
                   example: "password123"
       responses:
         '200':
-          description: "Acceso válido"
+          description: "Acceso válido. Retorna token JWT y user_id"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  token:
+                    type: "string"
+                    example: "eyJhbGci..."
+                  user_id:
+                    type: "integer"
+                    example: 1
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -213,7 +197,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Errores'
         '500':
-          $ref: '#/components/responses/InternalServerError'  
+          $ref: '#/components/responses/InternalServerError'
   /authentication/register:
     post:
       summary: "Registrar nuevo usuario"
@@ -248,12 +232,8 @@ paths:
                   example: "11457812"
                 phone:
                   type: "string"
-                  description: "Número de celular del usuario "
+                  description: "Número de celular del usuario"
                   example: "11784623"
-                about_me:
-                  type: "string"
-                  description: "Descripción del usuario"
-                  example: "juego por hobbi"
       responses:
         '201':
           $ref: '#/components/responses/Created'
@@ -269,19 +249,20 @@ paths:
       summary: "Listar modos de juego"
       tags:
         - Gamemodes
-      parameters:
-        - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Offset'
       responses:
         '200':
-          $ref: '#/components/responses/GetGameModesList200'
-        '204':
-          $ref: '#/components/responses/NoContent'
-        '400':
-          $ref: '#/components/responses/BadRequest'
+          description: "Lista de modos de juego"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  gamemodes:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/GameMode'
         '500':
-          $ref: '#/components/responses/InternalServerError' 
-  /gamemodes/{id}:
+          $ref: '#/components/responses/InternalServerError'
     post:
       summary: "Crear un modo de juego"
       tags:
@@ -291,29 +272,24 @@ paths:
         content:
           application/json:
             schema:
-                type: "object"
-                description: "Información básica de un usuario, para el listado"
-                properties:
-                  name:
-                    type: "string"
-                    description: "Nombre del modo"
-                    example: "todos vs todos"
-                  duration:
-                    type: "string"
-                    description: "Tiempo de duracion del modo"
-                    example: "45"
-                  number_players:
-                    type: "int"
-                    description: "Cantidad de usuarios en el modo"
-                    example: "16"
-                  description:
-                    type: "string"
-                    description: "Descripcion breve del modo de juego"
-                    example: "Supervivencia"
-                  price:
-                    type: "float"
-                    description: "Precio por usuario"
-                    example: "45000.50"
+              type: "object"
+              properties:
+                name:
+                  type: "string"
+                  description: "Nombre del modo"
+                  example: "todos vs todos"
+                duration:
+                  type: "string"
+                  description: "Duracion del modo (30, 60, 90, 120)"
+                  example: "60"
+                players:
+                  type: "integer"
+                  description: "Cantidad de jugadores en el modo"
+                  example: 16
+                description:
+                  type: "string"
+                  description: "Descripcion breve del modo de juego"
+                  example: "Supervivencia"
       responses:
         '201':
           $ref: '#/components/responses/Created'
@@ -323,6 +299,9 @@ paths:
           $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /gamemodes/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdPath'
     put:
       summary: "Reemplazar un modo de juego"
       tags:
@@ -333,39 +312,34 @@ paths:
           application/json:
             schema:
               type: "object"
-              description: "Información básica de un usuario, para el listado"
               properties:
+                name:
+                  type: "string"
+                  description: "Nombre del modo"
+                  example: "todos vs todos"
                 duration:
                   type: "string"
-                  description: "Tiempo de duracion del modo"
-                  example: "45"
-                number_players:
-                  type: "int"
-                  description: "Cantidad de usuarios en el modo"
-                  example: "16"
+                  description: "Duracion del modo (30, 60, 90, 120)"
+                  example: "60"
+                players:
+                  type: "integer"
+                  description: "Cantidad de jugadores en el modo"
+                  example: 16
                 description:
                   type: "string"
                   description: "Descripcion breve del modo de juego"
                   example: "Supervivencia"
-                price:
-                  type: "float"
-                  description: "Precio por usuario"
-                  example: 45000.50
-              
       responses:
-        '204':
-          $ref: '#/components/responses/NoContent'
+        '200':
+          $ref: '#/components/responses/Updated'
         '400':
           $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
     delete:
       summary: "Elimina un modo de juego"
-      parameters:
-      - $ref: '#/components/parameters/IdGameMode'
       tags:
         - Gamemodes
-      
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -375,15 +349,49 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /gamemodes/{id}/maps:
+    put:
+      summary: "Reemplazar los mapas asociados a un modo de juego"
+      tags:
+        - Gamemodes
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                map_ids:
+                  type: "array"
+                  description: "Lista de IDs de mapas"
+                  items:
+                    type: "integer"
+                  example: [1, 2, 3]
+      responses:
+        '200':
+          $ref: '#/components/responses/Updated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
-  /review:
+  /reviews:
     get:
-      summary: "Listar reseñas(paginación)"
+      summary: "Listar reseñas (paginación)"
+      tags:
+        - Reviews
       parameters:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
-      tags:
-        - Reviews
+        - name: approved
+          in: query
+          schema:
+            type: "boolean"
+          description: "Filtrar por estado de aprobación"
+          required: false
+          example: true
       responses:
         '200':
           $ref: '#/components/responses/GetReviewsList200'
@@ -402,7 +410,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Review'
+              $ref: '#/components/schemas/CreateReview'
       responses:
         '201':
           $ref: '#/components/responses/Created'
@@ -412,11 +420,13 @@ paths:
           $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /review/auth/{id}:
+  /reviews/auth/{id}:
     patch:
       summary: "Actualizar estado de reseña"
       tags:
         - Reviews
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
       requestBody:
         required: true
         content:
@@ -425,13 +435,16 @@ paths:
               type: "object"
               properties:
                 approved:
-                  type: "bool"
+                  type: "boolean"
                   description: "Cambia si la reseña esta aprobada o no"
                   example: true
-              
+                admin_response:
+                  type: "string"
+                  description: "Respuesta del administrador"
+                  example: "Gracias por tu reseña"
       responses:
-        '204':
-          $ref: '#/components/responses/NoContent'
+        '200':
+          $ref: '#/components/responses/Updated'
         '400':
           $ref: '#/components/responses/BadRequest'
         '404':
@@ -441,12 +454,19 @@ paths:
 
   /reservations:
     get:
-      summary: "Listar reservaciones con filtro de fechas, inicial/final/publica, "
+      summary: "Listar reservaciones con filtros"
       tags:
         - Reservations
       parameters:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
+        - name: sala_id
+          in: query
+          schema:
+            type: "integer"
+          description: "Filtrar por ID de sala"
+          required: false
+          example: 1
       responses:
         '200':
           $ref: '#/components/responses/GetReservationsList200'
@@ -457,81 +477,73 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
   /reservations/{id}:
-    get:
-      summary: "Listar reservaciones por ID del usuario"
-      tags:
-        - Reservations
-      parameters:
-        - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Offset'
-      responses:
-        '200':
-          $ref: '#/components/responses/GetAccountList200'
-        '204':
-          $ref: '#/components/responses/NoContent'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-    post:
-      summary: "Crear reserva"
-      tags:
-        - Reservations
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ReservaBase'
-      responses:
-        '201':
-          $ref: '#/components/responses/Created'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '409':
-          $ref: '#/components/responses/Conflict'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
     patch:
       summary: "Actualizar parcialmente la reserva"
       tags:
         - Reservations
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ActuallizarReserva'
+              $ref: '#/components/schemas/UpdateReservation'
       responses:
-        '204':
-          $ref: '#/components/responses/NoContent'
+        '200':
+          $ref: '#/components/responses/Updated'
         '400':
           $ref: '#/components/responses/BadRequest'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /reservations/register/{id}:
+  /reservations/register/{sala_id}:
     post:
-      summary: "Crear reserva en en modo público"
+      summary: "Unirse a una sala pública"
       tags:
         - Reservations
+      parameters:
+        - name: sala_id
+          in: path
+          required: true
+          schema:
+            type: "integer"
+          description: "ID de la sala"
+          example: 1
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReservaPublica'
+              type: "object"
+              properties:
+                account_id:
+                  type: "integer"
+                  description: "ID de la cuenta del usuario"
+                  example: 1
+                equipment_kit_id:
+                  type: "integer"
+                  description: "ID del kit de equipamiento"
+                  example: 1
       responses:
-        '201':
-          $ref: '#/components/responses/Created'
+        '200':
+          description: "Unido a la sala exitosamente"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+                    example: "Te uniste a la sala exitosamente"
         '400':
           $ref: '#/components/responses/BadRequest'
         '409':
           $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  
+
   /dashboard/disponibility:
     get:
       summary: "Listar las reservas en un periodo de tiempo"
@@ -540,6 +552,14 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
+        - name: date
+          in: query
+          schema:
+            type: "string"
+            format: date
+          description: "Fecha para filtrar (YYYY-MM-DD)"
+          required: false
+          example: "2025-05-12"
       responses:
         '200':
           $ref: '#/components/responses/GetDashboardList200'
@@ -547,6 +567,50 @@ paths:
           $ref: '#/components/responses/NoContent'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /dashboard/data:
+    get:
+      summary: "Obtener datos del dashboard (reservas, frecuencia, ingresos)"
+      tags:
+        - Dashboard
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+        - name: date
+          in: query
+          schema:
+            type: "string"
+            format: date
+          description: "Fecha para filtrar (YYYY-MM-DD)"
+          required: false
+          example: "2025-05-12"
+      responses:
+        '200':
+          description: "Datos del dashboard"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  reservas:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/DashboardReserva'
+                  frecuencia:
+                    type: "object"
+                    additionalProperties:
+                      type: "integer"
+                    example: {"10:00": 3, "12:00": 5}
+                  ingresos:
+                    type: "number"
+                    example: 150000.50
+                  total:
+                    type: "integer"
+                    example: 25
+                  total_capacidad:
+                    type: "integer"
+                    example: 50
         '500':
           $ref: '#/components/responses/InternalServerError'
 
@@ -576,79 +640,572 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
+        - name: category
+          in: query
+          schema:
+            type: "string"
+          description: "Filtrar por categoría"
+          required: false
+          example: "armas"
       responses:
         '200':
-          $ref: '#/components/responses/GetEquipmentkiList200'
+          $ref: '#/components/responses/GetEquipmentkitList200'
         '204':
           $ref: '#/components/responses/NoContent'
         '400':
           $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  
+    post:
+      summary: "Crear un kit de equipamiento"
+      tags:
+        - EquipmentKit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEquipmentKit'
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /equipmentkit/categories:
+    get:
+      summary: "Listar categorías de equipamiento"
+      tags:
+        - EquipmentKit
+      responses:
+        '200':
+          description: "Lista de categorías"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  categories:
+                    type: "array"
+                    items:
+                      type: "string"
+                    example: ["armas", "proteccion", "accesorios"]
+  /equipmentkit/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdPath'
+    get:
+      summary: "Obtener un kit de equipamiento por ID"
+      tags:
+        - EquipmentKit
+      responses:
+        '200':
+          description: "Detalle del kit de equipamiento"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  equipmentkit:
+                    $ref: '#/components/schemas/EquipmentKit'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: "Eliminar un kit de equipamiento"
+      tags:
+        - EquipmentKit
+      responses:
+        '200':
+          description: "Kit de equipamiento eliminado"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+                    example: "Kit de equipamiento eliminado exitosamente"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /competitivo:
+    get:
+      summary: "Listar eventos competitivos"
+      tags:
+        - Competitivo
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: "Lista de eventos competitivos"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  events:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/CompetitivoEvent'
+                  total:
+                    type: "integer"
+                    example: 10
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      summary: "Crear un evento competitivo"
+      tags:
+        - Competitivo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompetitivoEvent'
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /competitivo/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdPath'
+    get:
+      summary: "Obtener un evento competitivo por ID"
+      tags:
+        - Competitivo
+      responses:
+        '200':
+          description: "Detalle del evento"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  event:
+                    $ref: '#/components/schemas/CompetitivoEvent'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      summary: "Reemplazar un evento competitivo"
+      tags:
+        - Competitivo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompetitivoEvent'
+      responses:
+        '200':
+          $ref: '#/components/responses/Updated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: "Eliminar un evento competitivo"
+      tags:
+        - Competitivo
+      responses:
+        '200':
+          description: "Evento eliminado"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+                    example: "Evento eliminado exitosamente"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /nosotros:
+    get:
+      summary: "Obtener información de la empresa"
+      tags:
+        - Nosotros
+      responses:
+        '200':
+          description: "Información de la empresa y tarjetas"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  info:
+                    type: "object"
+                    description: "Información de la empresa"
+                    properties:
+                      title:
+                        type: "string"
+                        example: "Sobre Nosotros"
+                      paragraphs:
+                        type: "array"
+                        items:
+                          type: "string"
+                        example: ["Somos una empresa..."]
+                      image_url:
+                        type: "string"
+                        example: "/img/about.jpg"
+                  cards:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/NosotrosCard'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /contacto:
+    post:
+      summary: "Enviar un mensaje de contacto"
+      tags:
+        - Contacto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                user_name:
+                  type: "string"
+                  description: "Nombre del remitente"
+                  example: "Juan Perez"
+                email:
+                  type: "string"
+                  description: "Email del remitente"
+                  example: "juan@example.com"
+                message:
+                  type: "string"
+                  description: "Mensaje"
+                  example: "Quiero mas informacion"
+      responses:
+        '201':
+          description: "Mensaje enviado"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+                    example: "Mensaje enviado"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      summary: "Ver todos los mensajes de contacto"
+      tags:
+        - Contacto
+      responses:
+        '200':
+          description: "Lista de mensajes"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/ContactoMensaje'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /contacto/{msg_id}/leer:
+    post:
+      summary: "Marcar un mensaje como leído"
+      tags:
+        - Contacto
+      parameters:
+        - name: msg_id
+          in: path
+          required: true
+          schema:
+            type: "integer"
+          description: "ID del mensaje"
+          example: 1
+      responses:
+        '200':
+          description: "Mensaje marcado como leído"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+                    example: "ok"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /services:
+    get:
+      summary: "Listar servicios"
+      tags:
+        - Services
+      responses:
+        '200':
+          description: "Lista de servicios"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  services:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/Service'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      summary: "Crear un servicio"
+      tags:
+        - Services
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  type: "string"
+                  example: "Alquiler de marcadoras"
+                description:
+                  type: "string"
+                  example: "Alquiler de equipamiento basico"
+                price:
+                  type: "number"
+                  example: 5000.00
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /services/{service_id}:
+    parameters:
+      - name: service_id
+        in: path
+        required: true
+        schema:
+          type: "integer"
+        description: "ID del servicio"
+        example: 1
+    get:
+      summary: "Obtener un servicio por ID"
+      tags:
+        - Services
+      responses:
+        '200':
+          description: "Detalle del servicio"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  service:
+                    $ref: '#/components/schemas/Service'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      summary: "Actualizar un servicio"
+      tags:
+        - Services
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  type: "string"
+                  example: "Alquiler de marcadoras"
+                description:
+                  type: "string"
+                  example: "Alquiler de equipamiento basico"
+                price:
+                  type: "number"
+                  example: 5000.00
+      responses:
+        '200':
+          description: "Servicio actualizado"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+                    example: "Servicio actualizado"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: "Eliminar un servicio"
+      tags:
+        - Services
+      responses:
+        '200':
+          description: "Servicio eliminado"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+                    example: "Servicio eliminado"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /salas:
+    get:
+      summary: "Listar salas"
+      tags:
+        - Salas
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: "Lista de salas"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  salas:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/Sala'
+                  total:
+                    type: "integer"
+                    example: 5
+                  _links:
+                    $ref: '#/components/schemas/Links'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      summary: "Crear una sala"
+      tags:
+        - Salas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSala'
+      responses:
+        '201':
+          description: "Sala creada"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+                    example: "Sala creada exitosamente"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /salas/{id}:
+    patch:
+      summary: "Actualizar una sala"
+      tags:
+        - Salas
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSala'
+      responses:
+        '200':
+          description: "Sala actualizada"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+                    example: "Sala 1 actualizada correctamente"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
 components:
   schemas:
-    
+
     ReservaResumen:
-      description: "Información esencial de una reserva"
       type: "object"
+      description: "Información esencial de una reserva"
       properties:
         id:
           type: "integer"
           description: "ID de reserva único"
           example: 1
+        sala_id:
+          type: "integer"
+          description: "ID de la sala"
+          example: 1
         account_id:
           type: "integer"
-          description: "ID de cuenta del usuario único"
+          description: "ID de cuenta del usuario"
           example: 1
-        game_mode_id:
-          type: "integer"
-          description: "ID de modo de juego único"
-          example: 1
-        map_id:
-          type: "integer"
-          description: "ID de mapa único"
-          example: 1
-        created_at:
-          type: "integer"
-          description: "Fecha de creacion de la reserva"
-          example: "2025-05-12T16:30:00"
         equipment_kit_id:
           type: "integer"
-          description: "ID del kit de equipamiento único"
+          description: "ID del kit de equipamiento"
           example: 1
         price:
-          type: "integer"
+          type: "number"
           description: "Precio de la reserva"
           example: 30000
-        reservation_date:
-          type: "integer"
-          description: "Fecha de la reserva"
-          example: "2025-05-12T16:30:00"
-        start_time:
-          type: "integer"
-          description: "Fecha de inicio del juego"
-          example: "2025-05-12T16:30:00"
-        end_time:
-          type: "integer"
-          description: "Fecha de finalización del juego"
-          example: "2025-05-12T16:30:00"
-        is_public:
-          type: "bool"
-          description: "Tipo de juego (Público/Privado)"
-          example: false
+        created_at:
+          type: "string"
+          description: "Fecha de creacion de la reserva"
+          example: "2025-05-12 16:30:00"
         canceled:
-          type: "bool"
-          description: "Estado de candelación del la reserva"
-          example: true
+          type: "boolean"
+          description: "Estado de cancelación de la reserva"
+          example: false
         cancelation_reason:
           type: "string"
-          description: "Descripción del motivo de cancelación de la reserva"
-          example: "Viaje inesperado"  
+          description: "Motivo de cancelación"
+          example: ""
+
     AccountUser:
       type: "object"
-      description: "Información básica de un usuario, para el listado"
+      description: "Información de un usuario"
       properties:
+        id:
+          type: "integer"
+          example: 1
         name:
           type: "string"
           description: "Nombre completo del usuario"
@@ -663,35 +1220,86 @@ components:
           example: "example@gmail.com"
         dni:
           type: "string"
-          description: "DNI o numero de documento de la usuario"
+          description: "DNI del usuario"
           example: "11457812"
         phone:
           type: "string"
           description: "Número de celular del usuario"
           example: "11784623"
+        gender:
+          type: "string"
+          description: "Genero del usuario"
+          example: "Masculino"
         about_me:
           type: "string"
           description: "Descripción del usuario"
-          example: "soy veterano, busco de amig@s"
-        gender:
-          type: "string"
-          description: "Genero con lo que se identifica el usuario"
-          example: "Masculino"
+          example: "soy veterano, busco amig@s"
         is_active:
-          type: "bool"
+          type: "boolean"
           description: "Estado actual del usuario"
+          example: true
+        is_admin:
+          type: "boolean"
+          description: "Si es administrador"
           example: false
         elo:
-          type: int
+          type: "integer"
           description: "Nivel estimado del jugador"
           example: 2500
+        played_games:
+          type: "integer"
+          description: "Partidas jugadas"
+          example: 42
+        hours_played:
+          type: "integer"
+          description: "Horas jugadas"
+          example: 168
+        created_at:
+          type: "string"
+          example: "2025-01-15 10:00:00"
+        updated_at:
+          type: "string"
+          example: "2025-05-12 16:30:00"
+
+    UpdateAccount:
+      type: "object"
+      description: "Campos para actualizar una cuenta"
+      properties:
+        username:
+          type: "string"
+          description: "Nombre personalizado"
+          example: "NuevoNombre"
+        email:
+          type: "string"
+          description: "Email"
+          example: "nuevo@example.com"
+        password:
+          type: "string"
+          description: "Contraseña"
+          example: "nuevapass123"
+        phone:
+          type: "string"
+          description: "Teléfono"
+          example: "11457544"
+        elo:
+          type: "integer"
+          description: "Puntaje ELO"
+          example: 2600
+        is_active:
+          type: "boolean"
+          description: "Estado activo"
+          example: true
+        name:
+          type: "string"
+          description: "Nombre"
+          example: "Pepe Ramirez"
+
     GameMode:
       type: "object"
-      description: "Información básica de un usuario, para el listado"
+      description: "Información de un modo de juego"
       properties:
         id:
-          type: "int"
-          description: "Número de identificación de la cuenta del usuario"
+          type: "integer"
           example: 1
         name:
           type: "string"
@@ -699,255 +1307,561 @@ components:
           example: "todos vs todos"
         duration:
           type: "string"
-          description: "Tiempo de duracion del modo"
-          example: "45"
-        number_players:
-          type: "int"
-          description: "Cantidad de usuarios en el modo"
-          example: "16"
+          description: "Duracion del modo"
+          example: "60"
+        players:
+          type: "integer"
+          description: "Cantidad de jugadores"
+          example: 16
         description:
           type: "string"
-          description: "Descripcion breve del modo de juego"
+          description: "Descripcion del modo"
           example: "Supervivencia"
-        price:
-          type: "float"
-          description: "Precio por usuario"
-          example: "45000.50"
-    Review:
+        maps:
+          type: "array"
+          description: "Mapas asociados"
+          items:
+            type: "integer"
+          example: [1, 2, 3]
+
+    CreateReview:
       type: "object"
-      description: "Información básica de un usuario, para el listado"
+      description: "Datos para crear una reseña"
       properties:
-        id:
-          type: "int"
-          description: "Número de identificación de la reseña"
-          example: 1
         stars:
-          type: "int"
-          description: "Cantidad de estrellas de valoración"
+          type: "integer"
+          description: "Cantidad de estrellas (1-5)"
           example: 4
+        map_id:
+          type: "integer"
+          description: "ID del mapa"
+          example: 2
+        title:
+          type: "string"
+          description: "Título de la reseña"
+          example: "Buen campo"
         body_review:
           type: "string"
-          description: "reseña ingresada por el usuario"
-          example: "Me distribucion del campo de juego"
-        account_id:
-          type: "int"
-          description: "ID identificador del usuario"
-          example: "4"
-        map_id:
-          type: "id"
-          description: "ID indentificador del mapa"
-          example: "2"
-    ReservaBase:
+          description: "Cuerpo de la reseña"
+          example: "Me gustó la distribución del campo"
+
+    Review:
       type: "object"
-      description: "Información básica de la reserva, para el listado"
+      description: "Información de una reseña"
       properties:
-        game_mode_id:
+        id:
           type: "integer"
-          description: "ID de modo de juego de reserva único"
           example: 1
+        stars:
+          type: "integer"
+          example: 4
+        title:
+          type: "string"
+          example: "Buen campo"
+        body_review:
+          type: "string"
+          example: "Me gustó la distribución"
         map_id:
           type: "integer"
-          description: "ID de mapa único"
-          example: 1
+          example: 2
+        created_at:
+          type: "string"
+          example: "2025-05-12 16:30:00"
+        approved:
+          type: "boolean"
+          example: false
+        admin_response:
+          type: "string"
+          example: ""
+
+    UpdateReservation:
+      type: "object"
+      description: "Campos para actualizar una reserva"
+      properties:
         equipment_kit_id:
           type: "integer"
-          description: "ID del kit de equipamientos único"
-          example: 1
-        price:
-          type: "integer"
-          description: "Precio de la reserva"
-          example: 30000
-        reservation_date:
-          type: "integer"
-          description: "Fecha de la reserva"
-          example: "2025-05-12T16:30:00"
-        start_time:
-          type: "integer"
-          description: "Fecha de inicio del juego"
-          example: "2025-05-12T16:30:00"
-        end_time:
-          type: "integer"
-          description: "Fecha de finalización del juego"
-          example: "2025-05-12T16:30:00"
-        is_public:
-          type: "bool"
-          description: "Tipo de juego reservado (Público/Privado)"
-          example: false
-    ActuallizarReserva:
-      type: "object"
-      description: "Información básica de un usuario, para el listado"
-      properties:
-        game_mode_id:
-          type: "integer"
-          description: "ID del modo de juego de la reserva"
-          example: 1
-        map_id:
-          type: "integer"
-          description: "ID del mapa único"
-          example: 1
-        price:
-          type: "integer"
-          description: "Precio de la reserva"
-          example: 30000
-        start_time:
-          type: "integer"
-          description: "Fecha de inicio del juego"
-          example: "2025-05-12T16:30:00"
-        end_time:
-          type: "integer"
-          description: "Fecha de finalización del juego"
-          example: "2025-05-12T16:30:00"
-    ReservaPublica:
-      type: "object"
-      description: "Información básica de un usuario, para el listado"
-      properties:
-        game_mode_id:
-          type: "integer"
-          description: "ID de modo de juego de reserva único"
-          example: 1
-        map_id:
-          type: "integer"
-          description: "ID del mapa único"
-          example: 1
-        price:
-          type: "integer"
-          description: "Precio de la reserva"
-          example: 30000
-        start_time:
-          type: "integer"
-          description: "Fecha de inicio del juego"
-          example: "2025-05-12T16:30:00"
-        end_time:
-          type: "integer"
-          description: "Fecha de finalización del juego"
-          example: "2025-05-12T16:30:00"
-        is_public:
-          type: "bool"
-          description: "Tipo de juego (Pública/Privada)"
+          example: 2
+        canceled:
+          type: "boolean"
           example: true
-    Dashboard:
-      type: "object"
-      description: "Información básica del dashboard, para el listado"
-      properties:
-        id_reserva: 
+        cancelation_reason:
+          type: "string"
+          example: "Viaje inesperado"
+        account_id:
           type: "integer"
-          description: "ID de reserva único"
+          example: 1
+
+    DashboardItem:
+      type: "object"
+      description: "Item del dashboard de disponibilidad"
+      properties:
+        id_reserva:
+          type: "integer"
           example: 1
         user_name:
           type: "string"
-          description: "Nombre del usuario de la reserva"
           example: "Pepe Ramirez"
         dni_usuario:
           type: "string"
-          description: "Número de documento de usuario"
           example: "11534484"
         price:
-          type: "integer"
-          description: "Precio de la reserva"
+          type: "number"
           example: 30000
         start_time:
-          type: "integer"
-          description: "Fecha de inicio del juego"
-          example: "2025-05-12T16:30:00"
+          type: "string"
+          example: "2025-05-12 16:30:00"
         end_time:
-          type: "integer"
-          description: "Fecha de finalización el juego"
-          example: "2025-05-12T16:30:00"
+          type: "string"
+          example: "2025-05-12 18:30:00"
+
+    DashboardReserva:
+      type: "object"
+      description: "Item del dashboard de datos"
+      allOf:
+        - $ref: '#/components/schemas/DashboardItem'
+        - type: "object"
+          properties:
+            map_name:
+              type: "string"
+              example: "Alcatraz"
+            is_public:
+              type: "boolean"
+              example: true
+
     Map:
       type: "object"
-      description: "Información básica del mapa, para el listado"
+      description: "Información de un mapa"
       properties:
-        id: 
+        id:
           type: "integer"
-          description: "ID del mapa único"
           example: 1
         name:
           type: "string"
-          description: "Nombre del mapa"
           example: "Alcatraz"
-        image_url:
+        vista_general_image_url:
           type: "string"
-          description: "imagen del mapa"
-          example: "/mapa_alcatraz.png"
+          example: "/img/alcatraz_vista.jpg"
+        plano_despliegue_image_url:
+          type: "string"
+          example: "/img/alcatraz_plano.jpg"
+        operaciones_terreno_image_url:
+          type: "string"
+          example: "/img/alcatraz_terreno.jpg"
         description:
           type: "string"
-          description: "Presentación del mapa"
-          example: "Altamente táctico con espcialmente para emboscadas"
+          example: "Altamente táctico con espacios para emboscadas"
+        capacity:
+          type: "string"
+          example: "20"
+        extra_information:
+          type: "string"
+          example: "Zona de arranque norte y sur"
+        location:
+          type: "string"
+          example: "Zona Boscosa"
+        style:
+          type: "string"
+          example: "Táctico"
+        terrain:
+          type: "string"
+          example: "Mixto"
+        difficulty:
+          type: "string"
+          example: "Media"
+        compatible_gamemodes:
+          type: "string"
+          example: "1,2,3"
+        origin:
+          type: "string"
+          example: "Local"
+        plano_image_url:
+          type: "string"
+          example: "/img/alcatraz_plano.jpg"
+        zone_1_name:
+          type: "string"
+          example: "Zona A"
+        zone_1_description:
+          type: "string"
+          example: "Zona de combate cercano"
+        zone_2_name:
+          type: "string"
+          example: "Zona B"
+        zone_2_description:
+          type: "string"
+          example: "Zona de francotiradores"
+        zone_3_name:
+          type: "string"
+          example: "Zona C"
+        zone_3_description:
+          type: "string"
+          example: "Base neutral"
+
     EquipmentKit:
       type: "object"
-      description: "Información básica del dashboard, para el listado"
+      description: "Información de un kit de equipamiento"
       properties:
-        id: 
+        id:
           type: "integer"
-          description: "ID del kit de equipamiento único"
           example: 1
         name:
           type: "string"
-          description: "Nombre del kit de equipamiento"
-          example: "Alcatraz"
+          example: "Kit Básico"
+        category:
+          type: "string"
+          example: "armas"
         brand:
           type: "string"
-          description: "imagen del mapa"
-          example: "/mapa_alcatraz.png"
+          example: "MarcaX"
+        description:
+          type: "string"
+          example: "Kit de iniciación"
+        image_url:
+          type: "string"
+          example: "/img/kit_basico.png"
         price:
-          type: "float"
-          description: "Precio del Kit de equipamiento"
-          example: 130000,50
+          type: "number"
+          example: 130000.50
+        quantity:
+          type: "integer"
+          example: 10
+        purchase_link:
+          type: "string"
+          example: "https://tienda.com/kit"
+        details:
+          type: "object"
+          example: {"color": "negro", "peso": "2kg"}
+        sort_order:
+          type: "integer"
+          example: 1
 
-
-    ReservationsListResponse:
+    CreateEquipmentKit:
       type: "object"
-      description: "Respuesta a una solicitud para obtener una lista de reservaciones"
       properties:
-        Reservations:
-          type: "array"
-          items:
-            $ref: '#/components/schemas/ReservaResumen'
-        _links:
-          $ref: '#/components/schemas/Links'
+        name:
+          type: "string"
+          example: "Kit Básico"
+        brand:
+          type: "string"
+          example: "MarcaX"
+        price:
+          type: "number"
+          example: 130000.50
+        quantity:
+          type: "integer"
+          example: 10
+        purchase_link:
+          type: "string"
+          example: "https://tienda.com/kit"
+        category:
+          type: "string"
+          example: "armas"
+        description:
+          type: "string"
+          example: "Kit de iniciación"
+        image_url:
+          type: "string"
+          example: "/img/kit_basico.png"
+        details:
+          type: "string"
+          example: '{"color": "negro"}'
+
+    CompetitivoEvent:
+      type: "object"
+      description: "Información de un evento competitivo"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        title:
+          type: "string"
+          example: "Torneo Anual"
+        description:
+          type: "string"
+          example: "Torneo de airsoft 5vs5"
+        image_url:
+          type: "string"
+          example: "/img/torneo.jpg"
+        badge:
+          type: "string"
+          example: "Oro"
+        event_date:
+          type: "string"
+          format: date
+          example: "2025-06-15"
+        event_time:
+          type: "string"
+          example: "10:00"
+        created_at:
+          type: "string"
+          example: "2025-01-10 12:00:00"
+        updated_at:
+          type: "string"
+          example: "2025-05-01 08:00:00"
+
+    CreateCompetitivoEvent:
+      type: "object"
+      properties:
+        title:
+          type: "string"
+          example: "Torneo Anual"
+        description:
+          type: "string"
+          example: "Torneo de airsoft 5vs5"
+        image_url:
+          type: "string"
+          example: "/img/torneo.jpg"
+        badge:
+          type: "string"
+          example: "Oro"
+        event_date:
+          type: "string"
+          format: date
+          example: "2025-06-15"
+        event_time:
+          type: "string"
+          example: "10:00"
+
+    NosotrosCard:
+      type: "object"
+      description: "Tarjeta informativa de la empresa"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        title:
+          type: "string"
+          example: "Misión"
+        description:
+          type: "string"
+          example: "Brindar la mejor experiencia"
+        icon:
+          type: "string"
+          example: "target"
+
+    ContactoMensaje:
+      type: "object"
+      description: "Mensaje de contacto"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        user_name:
+          type: "string"
+          example: "Juan Perez"
+        email:
+          type: "string"
+          example: "juan@example.com"
+        message:
+          type: "string"
+          example: "Quiero mas informacion"
+        created_at:
+          type: "string"
+          example: "2025-05-12 16:30:00"
+        leido:
+          type: "boolean"
+          example: false
+
+    Service:
+      type: "object"
+      description: "Información de un servicio"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        name:
+          type: "string"
+          example: "Alquiler de marcadoras"
+        description:
+          type: "string"
+          example: "Alquiler de equipamiento básico"
+        price:
+          type: "number"
+          example: 5000.00
+        created_at:
+          type: "string"
+          example: "2025-01-15 10:00:00"
+        updated_at:
+          type: "string"
+          example: "2025-05-01 08:00:00"
+
+    Sala:
+      type: "object"
+      description: "Información de una sala"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        game_mode_id:
+          type: "integer"
+          example: 1
+        map_id:
+          type: "integer"
+          example: 1
+        price:
+          type: "number"
+          example: 30000
+        reservation_date:
+          type: "string"
+          example: "2025-05-12"
+        start_time:
+          type: "string"
+          example: "16:30:00"
+        end_time:
+          type: "string"
+          example: "18:30:00"
+        max_players:
+          type: "integer"
+          example: 20
+        admin_account_id:
+          type: "integer"
+          example: 1
+        is_public:
+          type: "boolean"
+          example: true
+        equipment_kit_id:
+          type: "integer"
+          example: 1
+        account_id:
+          type: "integer"
+          example: 1
+        join_equipment_kit_id:
+          type: "integer"
+          example: 1
+        current_players:
+          type: "integer"
+          example: 5
+        notes:
+          type: "string"
+          example: "Llevar proteccion"
+
+    CreateSala:
+      type: "object"
+      properties:
+        game_mode_id:
+          type: "integer"
+          example: 1
+        map_id:
+          type: "integer"
+          example: 1
+        price:
+          type: "number"
+          example: 30000
+        reservation_date:
+          type: "string"
+          example: "2025-05-12"
+        start_time:
+          type: "string"
+          example: "16:30"
+        end_time:
+          type: "string"
+          example: "18:30"
+        max_players:
+          type: "integer"
+          example: 20
+        admin_account_id:
+          type: "integer"
+          example: 1
+        equipment_kit_id:
+          type: "integer"
+          example: 1
+        account_id:
+          type: "integer"
+          example: 1
+        join_equipment_kit_id:
+          type: "integer"
+          example: 1
+        is_public:
+          type: "boolean"
+          example: true
+        notes:
+          type: "string"
+          example: "Llevar proteccion"
+
+    UpdateSala:
+      type: "object"
+      properties:
+        game_mode_id:
+          type: "integer"
+          example: 2
+        map_id:
+          type: "integer"
+          example: 2
+        price:
+          type: "number"
+          example: 35000
+        reservation_date:
+          type: "string"
+          example: "2025-05-13"
+        start_time:
+          type: "string"
+          example: "14:00"
+        end_time:
+          type: "string"
+          example: "16:00"
+        max_players:
+          type: "integer"
+          example: 25
+        is_public:
+          type: "boolean"
+          example: false
+        equipment_kit_id:
+          type: "integer"
+          example: 2
+        notes:
+          type: "string"
+          example: "Actualizado"
+
     AccountListResponse:
       type: "object"
-      description: "Respuesta a una solicitud para obtener una lista de usuarios"
       properties:
-        usuarios:
+        Listado de Usuarios:
           type: "array"
           items:
             $ref: '#/components/schemas/AccountUser'
+        total:
+          type: "integer"
+          example: 50
         _links:
           $ref: '#/components/schemas/Links'
-    GameModesListResponse:
+
+    ReservationsListResponse:
       type: "object"
-      description: "Respuesta a una solicitud para obtener una lista de Modos"
       properties:
-        Gamemodes:
+        reservas:
           type: "array"
           items:
-            $ref: '#/components/schemas/GameMode'
+            $ref: '#/components/schemas/ReservaResumen'
+        total:
+          type: "integer"
+          example: 25
         _links:
           $ref: '#/components/schemas/Links'
+
     ReviewsListResponse:
       type: "object"
-      description: "Respuesta a una solicitud para obtener una lista de Reseñas"
       properties:
-        Reviews:
+        reviews:
           type: "array"
           items:
             $ref: '#/components/schemas/Review'
+        total:
+          type: "integer"
+          example: 10
         _links:
           $ref: '#/components/schemas/Links'
+
     DashboardListResponse:
       type: "object"
-      description: "Respuesta a una solicitud para obtener una lista de reservas"
       properties:
         Dashboard:
           type: "array"
           items:
-            $ref: '#/components/schemas/Dashboard'
+            $ref: '#/components/schemas/DashboardItem'
         _links:
           $ref: '#/components/schemas/Links'
+
     MapsListResponse:
       type: "object"
-      description: "Respuesta a una solicitud para obtener una lista de Mapas"
       properties:
         Maps:
           type: "array"
@@ -955,40 +1869,41 @@ components:
             $ref: '#/components/schemas/Map'
         _links:
           $ref: '#/components/schemas/Links'
+
     EquipmentKitListResponse:
       type: "object"
-      description: "Respuesta a una solicitud para obtener una lista de Mapas"
       properties:
-        EquipmentKit:
+        equipmentkits:
           type: "array"
           items:
             $ref: '#/components/schemas/EquipmentKit'
+        total:
+          type: "integer"
+          example: 20
         _links:
           $ref: '#/components/schemas/Links'
-          
+
     Errores:
       type: "object"
       properties:
         errors:
           type: "array"
-          description: "Listado de errores"
           items:
             $ref: "#/components/schemas/Error"
     Error:
       type: "object"
-      description: "Estructura de datos que contiene los detalles del error"
       properties:
         code:
           type: "string"
-          description: "Código de error alfanumérico único legible por humanos"
-          example: "XXX"
+          description: "Código de error"
+          example: "400"
         message:
           type: "string"
-          description: "Breve resumen del problema reportado"
-          example: "Mensaje"
+          description: "Mensaje del error"
+          example: "Bad Request"
         level:
           type: "string"
-          description: "Nivel del problema reportado"
+          description: "Nivel del error"
           example: "error"
           enum:
             - info
@@ -996,69 +1911,46 @@ components:
             - error
         description:
           type: string
-          description: "Descripción detallada del problema reportado"
-          example: "Descripción"
+          description: "Descripción detallada"
+          example: "Campo requerido faltante"
+
     Links:
       type: "object"
-      description: "Estructura de datos que contiene los enlaces para navegar entre páginas"
+      description: "Enlaces HATEOAS para paginación"
       properties:
         _first:
           type: "object"
-          description: "Estructura de datos que contiene información de enlace"
           properties:
             href:
               type: "string"
-              description: "Enlace de referencia que se puede usar para navegar a la URI especificada.\n\nEste enlace lleva a la primera página de la lista.\n\nEl valor exacto depende de los datos a los que se accede.\n\nEl contenido exacto de la página depende de los parámetros de entrada proporcionados en la solicitud, como el offset."
-              example: "https://www.hostname.com/prode_api?_offset=0&_limit=10"
+              example: "/api/recurso?_offset=0&_limit=10"
         _prev:
           type: "object"
-          description: "Estructura de datos que contiene información de enlace"
           properties:
             href:
               type: "string"
-              description: "Enlace de referencia que se puede usar para navegar a la URI especificada.\n\nEste enlace lleva a la página anterior de la lista.\n\nEl valor exacto depende de los datos a los que se accede.\n\nEl contenido exacto de la página depende de los parámetros de entrada proporcionados en la solicitud, como el offset."
-              example: "https://www.hostname.com/prode_api?_offset=0&_limit=10"
+              example: "/api/recurso?_offset=5&_limit=10"
         _next:
           type: "object"
-          description: "Estructura de datos que contiene información de enlace"
           properties:
             href:
               type: "string"
-              description: "Enlace de referencia que se puede usar para navegar a la URI especificada.\n\nEste enlace lleva a la siguiente página de la lista.\n\nEl valor exacto depende de los datos a los que se accede.\n\nEl contenido exacto de la página depende de los parámetros de entrada proporcionados en la solicitud, como el offset."
-              example: "https://www.hostname.com/prode_api?_offset=0&_limit=10"
+              example: "/api/recurso?_offset=15&_limit=10"
         _last:
           type: "object"
-          description: "Estructura de datos que contiene información de enlace"
           properties:
             href:
               type: "string"
-              description: "Enlace de referencia que se puede usar para navegar a la URI especificada.\n\nEste enlace lleva a la última página de la lista.\n\nEl valor exacto depende de los datos a los que se accede.\n\nEl contenido exacto de la página depende de los parámetros de entrada proporcionados en la solicitud, como el offset."
-              example: "https://www.hostname.com/prode_api?_offset=0&_limit=10"
-  
+              example: "/api/recurso?_offset=90&_limit=10"
+
   parameters:
-    IdAccount:
+    IdPath:
       name: id
       in: path
+      required: true
       schema:
         type: "integer"
-      description: "ID de la cuenta que se utilizará en la consulta"
-      required: true
-      example: 1
-    IdGameMode:
-      name: id
-      in: path
-      schema:
-        type: "integer"
-      description: "ID del modo de juego que se utilizará en la consulta"
-      required: true
-      example: 1
-    IdReview:
-      name: id
-      in: path
-      schema:
-        type: "integer"
-      description: "ID de la reseña que se utilizará en la consulta"
-      required: true
+      description: "ID del recurso"
       example: 1
 
     Limit:
@@ -1066,14 +1958,8 @@ components:
       in: query
       schema:
         type: "integer"
-        format: int32
         minimum: 1
-      description: |-
-        Cantidad máxima de registros que se incluirán en cada página de la respuesta.
-
-        Pueden devolverse menos registros si la consulta no produce esa cantidad.
-
-        El valor por defecto es 10.
+      description: "Cantidad máxima de registros por página (default: 10)"
       required: false
       example: 10
     Offset:
@@ -1081,17 +1967,13 @@ components:
       in: query
       schema:
         type: "integer"
-        pattern: "^[0-9]+$"
         minimum: 0
-      description: |-
-        Identificador de paginación que es devuelto a la aplicación por la API cuando se utilizan los enlaces HATEOAS '_prev' o '_next'.
-
-        Si no se especifica un offset, la aplicación puede navegar desde la última página devuelta hacia la siguiente, la anterior o la primera.
+      description: "Desplazamiento para paginación (default: 0)"
       required: false
-      example: 1
-  
+      example: 0
+
   responses:
-   
+
     GetAccountList200:
       description: "OK"
       content:
@@ -1104,12 +1986,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ReservationsListResponse"
-    GetGameModesList200:
-      description: "OK"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/GameModesListResponse"
     GetReviewsList200:
       description: "OK"
       content:
@@ -1128,7 +2004,7 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/MapsListResponse"
-    GetEquipmentkiList200:
+    GetEquipmentkitList200:
       description: "OK"
       content:
         application/json:
@@ -1137,6 +2013,8 @@ components:
 
     Created:
       description: "Created"
+    Updated:
+      description: "Updated"
     NoContent:
       description: "No Content"
     BadRequest:

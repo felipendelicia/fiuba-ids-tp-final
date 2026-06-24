@@ -95,17 +95,19 @@ def send_cancelation_mail(email_reciver, body):
         email_sender= os.getenv("EMAIL")
         password= os.getenv("EMAIL_PASSWORD")
 
-        subject = f"Cancelaciónde de reserva airsoft: {body.get('reservation_date')}"
+        subject = f"Cancelación de reserva airsoft: {body.get('reservation_date')}"
 
         email_body = f"""¡Tu reserva de airsoft ha sido cancelada!
         **Horario: {body.get('start_time')} a {body.get('end_time')} **
-        **Motivo: {body.get('cancelation_reason')}"""
+        **Motivo: {body.get('cancelation_reason', 'Cancelación solicitada')}"""
 
         em= EmailMessage()
         em["From"]= email_sender
         em["To"]= email_reciver
         em["Subject"]= subject
         em.set_content(email_body)
+
+        context= ssl.create_default_context()
 
         with smtplib.SMTP_SSL("smtp.gmail.com",465,context = context) as smtp:
             smtp.login(email_sender, password)

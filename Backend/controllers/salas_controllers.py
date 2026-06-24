@@ -1,5 +1,5 @@
 from flask import request, g, jsonify
-from helpers import build_links, send_reservation_mail
+from helpers import build_links, send_reservation_mail, send_cancelation_mail
 from dtos.errors import validate_dto
 from dtos.sala_dto import (
     validate_create_sala,
@@ -44,4 +44,25 @@ def crear_sala():
 @validate_dto(validate_update_sala)
 def actualizar_sala(id):
     actualizar_service(id, g.dto)
+
+    if g.dto.get('canceled'):
+        sala = execute(f"SELECT * FROM Salas WHERE id = {id}")
+        if sala:
+            s = sala[0]
+            reservations = execute(f"""SELECT r.*, a.email
+                                       FROM Reservations r
+                                       JOIN Accounts a ON r.account_id = a.id
+                                       WHERE r.sala_id = {id} AND r.canceled = TRUE""")
+            for res in reservations:
+                mail_body = {
+                    'account_id': res['account_id'],
+                    'map_id': s['map_id'],
+                    'reservation_date': str(s.get('reservation_date', '')),
+                    'start_time': str(s.get('start_time', '')),
+                    'end_time': str(s.get('end_time', '')),
+                    'cancelation_reason': s.get('cancelation_reason') or 'Sala cancelada por el administrador',
+                }
+                if not send_cancelation_mail(res['email'], mail_body):
+                    print(f"Advertencia: mail de cancelación no pudo enviarse a {res['email']}")
+
     return jsonify({"message": f"Sala {id} actualizada correctamente"}), 200

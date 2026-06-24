@@ -1,0 +1,23 @@
+meta {
+  name: Replace Game Mode
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{base_url}}/gamemodes/1
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "nuevo nombre",
+    "duration": "60",
+    "players": 20
+  }
+}

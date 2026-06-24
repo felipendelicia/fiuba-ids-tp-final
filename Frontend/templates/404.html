@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Kenetix - Pagina no encontrada{% endblock %}
+
+
+
+{% block content %}
+<Section id="section404">
+    <div class="container-404">
+        <div class="box-404">
+            <div id="title404">
+                404
+            </div>
+            <span id="mensajePrincipal">Opsss... Pagina no encontrada</span>
+            <span id="mensaje">Regrese a la pagina principal hasta que solucionemos el problema</span>
+
+            <div class="box-center">
+                <button class="btn-error"><a class="btna" href="{{ url_for('index')}}">HOME</a></button>
+            </div>
+        </div>
+        <div class="box-404">
+            <div class="box-center">
+            </div>
+        </div>
+    </div>
+
+</Section>
+{% endblock %}
+

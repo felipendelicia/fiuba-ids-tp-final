@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Admin Equipamiento{% endblock %}
+
+{% block content %}
+<section class="section-tactical" style="min-height: calc(100vh - 56px); padding: 80px 0;">
+    <div class="container">
+        <h1 class="text-center mb-5 admin-title-gradient">
+            Panel de Administracion: Equipamiento e Inventario
+        </h1>
+
+        <div class="p-4 rounded-3 mb-5 shadow-lg card-dark">
+            <h5 class="text-white fw-bold mb-3 font-orbitron" style="letter-spacing: 1px;">Registrar Nuevo Equipamiento</h5>
+            <form action="{{ url_for('admin_equipamiento') }}" method="POST" class="row g-3">
+                <div class="col-md-3">
+                    <input type="text" class="form-control bg-dark text-white border-secondary" name="name" placeholder="Nombre del kit" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control bg-dark text-white border-secondary" name="brand" placeholder="Marca">
+                </div>
+                <div class="col-md-2">
+                    <input type="number" step="0.01" class="form-control bg-dark text-white border-secondary" name="price" placeholder="Precio" min="0" required>
+                </div>
+                <div class="col-md-2">
+                    <input type="number" class="form-control bg-dark text-white border-secondary" name="quantity" placeholder="Cantidad" min="1" value="1" required>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control bg-dark text-white border-secondary" name="category">
+                        <option value="">Sin categoria</option>
+                        {% for cat in categorias %}
+                        <option value="{{ cat.slug }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-9">
+                    <textarea class="form-control bg-dark text-white border-secondary" name="description" placeholder="Descripcion" rows="2"></textarea>
+                </div>
+                <div class="col-md-3">
+                    <input type="url" class="form-control bg-dark text-white border-secondary" name="purchase_link" placeholder="Link de compra (opcional)">
+                </div>
+                <div class="col-md-12">
+                    <button type="submit" class="btn fw-bold text-dark px-4 btn-gradient-cyan">Registrar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="p-4 rounded-3 shadow-lg card-dark">
+            <table class="table table-dark table-hover align-middle mb-0">
+                <thead class="admin-table-header">
+                    <tr>
+                        <th class="border-secondary py-3">ID</th>
+                        <th class="border-secondary py-3">Nombre</th>
+                        <th class="border-secondary py-3">Categoria</th>
+                        <th class="border-secondary py-3">Marca</th>
+                        <th class="border-secondary py-3">Precio</th>
+                        <th class="border-secondary py-3">Cantidad</th>
+                        <th class="border-secondary py-3">Total</th>
+                        <th class="border-secondary py-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in equipamiento %}
+                    <tr>
+                        <td class="py-3 border-secondary text-white">{{ item.id }}</td>
+                        <td class="py-3 border-secondary text-white-50">{{ item.name }}</td>
+                        <td class="py-3 border-secondary"><span class="badge bg-secondary text-white fs-6">{{ item.category or 'Kit' }}</span></td>
+                        <td class="py-3 border-secondary text-white-50">{{ item.brand or '—' }}</td>
+                        <td class="py-3 border-secondary"><span class="badge bg-info text-dark fs-6">${{ item.price }}</span></td>
+                        <td class="py-3 border-secondary text-white">{{ item.quantity }}</td>
+                        <td class="py-3 border-secondary"><span class="badge bg-success fs-6">${{ item.price * item.quantity }}</span></td>
+                        <td class="py-3 border-secondary">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-danger" onclick="abrirModalEliminar({{ item.id }}, {{ item.name | tojson }})">Eliminar</button>
+                                <a href="{{ url_for('admin_equipamiento_info', kit_id=item.id) }}" class="btn btn-sm btn-outline-light">Info</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="8" class="text-center text-white-50 py-4">No hay equipamiento cargado.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        {% if total_pages > 1 %}
+        <nav class="d-flex justify-content-center align-items-center gap-3 mt-4">
+            <a class="btn btn-outline-info {% if page <= 1 %}disabled{% endif %}" href="{{ url_for('admin_equipamiento', page=page-1) }}" {% if page <= 1 %}tabindex="-1" aria-disabled="true"{% endif %}>&laquo; Anterior</a>
+            <span class="text-white-50">Pagina {{ page }} de {{ total_pages }}</span>
+            <a class="btn btn-outline-info {% if page >= total_pages %}disabled{% endif %}" href="{{ url_for('admin_equipamiento', page=page+1) }}" {% if page >= total_pages %}tabindex="-1" aria-disabled="true"{% endif %}>Siguiente &raquo;</a>
+        </nav>
+        {% endif %}
+    </div>
+</section>
+
+<div id="modalEliminar" class="modal-overlay d-none">
+    <div class="modal-confirm-contenido">
+        <div class="confirm-icono">&#9888;&#65039;</div>
+        <h3>Eliminar Equipamiento</h3>
+        <p id="eliminar-texto">¿Estas seguro de que queres eliminar este equipamiento?</p>
+        <div class="confirm-botones">
+            <button class="btn-confirm-cancelar" onclick="cerrarModalEliminar()">Cancelar</button>
+            <form id="formEliminar" method="POST">
+                <button type="submit" class="btn-confirm-eliminar">Eliminar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+function abrirModalEliminar(id, name) {
+    document.getElementById('eliminar-texto').textContent = '¿Estas seguro de que queres eliminar "' + name + '"?';
+    document.getElementById('formEliminar').action = "{{ url_for('admin_equipamiento') }}/eliminar/" + id;
+    document.getElementById('modalEliminar').style.display = 'flex';
+}
+function cerrarModalEliminar() {
+    document.getElementById('modalEliminar').style.display = 'none';
+}
+document.getElementById('modalEliminar').addEventListener('click', function(e) { if(e.target === this) cerrarModalEliminar(); });
+</script>
+{% endblock %}

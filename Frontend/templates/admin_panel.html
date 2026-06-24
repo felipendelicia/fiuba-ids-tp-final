@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Kenetix - Pagina del perfil del Admin{% endblock %}
+
+
+
+{% block content %}
+<section id="sectionPerfilAdmin">
+    <div class="container-perfilAdmin">
+
+        <span id="mensajePrincipal">BIENVENIDO AL PANEL ADMINISTRADOR</span>
+
+        <div class="admin-user-info">
+            <div class="admin-info-item">
+                <div class="admin-info-content">
+                    <span class="info-label">NOMBRE</span>
+                    <span class="info-value">{{usuario.name}}</span>
+                </div>
+            </div>
+            <div class="admin-info-item">
+                <div class="admin-info-content">
+                    <span class="info-label">DNI</span>
+                    <span class="info-value">{{usuario.dni}}</span>
+                </div>
+            </div>
+            <div class="admin-info-item">
+                <div class="admin-info-content">
+                    <span class="info-label">GMAIL</span>
+                    <span class="info-value">{{usuario.email}}</span>
+                </div>
+            </div>
+            <div class="admin-info-item">
+                <div class="admin-info-content">
+                    <span class="info-label">GENERO</span>
+                    <span class="info-value">{{usuario.gender}}</span>
+                </div>
+            </div>
+            <div class="admin-info-item">
+                <div class="admin-info-content">
+                    <span class="info-label">TELEFONO</span>
+                    <span class="info-value">+54 {{usuario.phone}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-cards-grid">
+            <a href="{{ url_for('admin_resenias') }}" class="admin-card">
+                <i class="fa fa-list admin-card-icon"></i>
+                <span class="admin-card-title">RESEÑAS</span>
+                <span class="admin-card-desc">Gestiona las reseñas de los usuarios</span>
+            </a>
+            <a href="{{ url_for('admin_dashboard') }}" class="admin-card">
+                <i class="fa fa-bar-chart admin-card-icon"></i>
+                <span class="admin-card-title">DASHBOARD</span>
+                <span class="admin-card-desc">Visualiza estadisticas y metricas</span>
+            </a>
+            <a href="{{ url_for('admin_equipamiento') }}" class="admin-card">
+                <i class="fa fa-binoculars admin-card-icon"></i>
+                <span class="admin-card-title">EQUIPAMIENTO</span>
+                <span class="admin-card-desc">Controla el inventario disponible</span>
+            </a>
+            <a href="{{ url_for('admin_usuarios') }}" class="admin-card">
+                <i class="fa fa-users admin-card-icon"></i>
+                <span class="admin-card-title">USUARIOS</span>
+                <span class="admin-card-desc">Gestiona los usuarios del sistema</span>
+            </a>
+            <a href="{{ url_for('admin_servicios') }}" class="admin-card">
+                <i class="fa fa-concierge-bell admin-card-icon"></i>
+                <span class="admin-card-title">SERVICIOS</span>
+                <span class="admin-card-desc">Administra los servicios del club</span>
+            </a>
+            <a href="{{ url_for('admin_contactos') }}" class="admin-card">
+                <i class="fa fa-envelope admin-card-icon"></i>
+                <span class="admin-card-title">CONTACTOS</span>
+                <span class="admin-card-desc">Consulta los mensajes recibidos</span>
+            </a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+

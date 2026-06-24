@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Plano Tactico Nuketown{% endblock %}
+
+{% block content %}
+<div class="container my-5 animate__animated animate__fadeIn">
+    <div class="text-center mb-5">
+        <span class="badge bg-dark border border-info text-info px-3 py-2 mb-2">
+            VISTA DE INTELIGENCIA PRE-PARTIDO
+        </span>
+        <h1 class="display-5 fw-bold heading-cyan-glow">
+            PLANO DE DESPLIEGUE: NUKETOWN
+        </h1>
+        <p class="text-white-50">Estudia las lineas de tiro, puntos de captura y coberturas clave antes de ingresar al terreno.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-xl-10">
+            <div class="card border-0 rounded-3 shadow-lg position-relative overflow-hidden mb-5 plano-card">
+                
+                <div class="card-header bg-dark border-bottom border-secondary border-opacity-25 d-flex justify-content-between align-items-center p-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="spinner-grow spinner-grow-sm text-info" role="status"></span>
+                        <small class="text-white-50 fw-bold plano-header-text">SISTEMA DE MAPEO VIRTUAL ACTIVO</small>
+                    </div>
+                    <span class="text-info small fw-bold font-orbitron">ESCENARIO: ALPHA-01</span>
+                </div>
+
+                <div class="card-body p-4 text-center position-relative">
+                    
+                    <div class="map-wrapper position-relative d-inline-block rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow plano-map-wrapper">
+                        
+                        <img src="{{ url_for('static', filename='img/plano2.png') }}" alt="Plano Tactico Nuketown" 
+                             class="img-fluid d-block mx-auto plano-image" 
+                             style="max-height: 70vh;">
+
+                        <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none plano-grid-overlay"></div>
+                    </div>
+
+                    <div class="row g-3 mt-4 text-start">
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 h-100">
+                                <h6 style="color: #00d2ff;" class="small fw-bold mb-2 font-orbitron">🟢 Zona de Contencion y Logistica Terrestre</h6>
+                                <p class="text-white-50 small mb-0">Esta gran seccion abarca toda la franja norte y noroeste del predio, donde se ubican el almacen de equipamiento de 15 m X 10 m y las pilas de municiones pesadas. Esta diseñada estructuralmente como una barrera perimetral masiva que delimita el fondo del escenario. </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 h-100">
+                                <h6 style="color: #ffb300;" class="small fw-bold mb-2 font-orbitron">🟡El Nucleo de Fuego y Conflicto Directo</h6>
+                                <p class="text-white-50 small mb-0">Es el corazon del mapa, dominado por el simbolo central de grafiti y la gran plataforma de cajas de carga apiladas. Al ser una explanada completamente despejada con pavimento rigido, se convierte de inmediato en el epicentro de maxima exposicion y peligro.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 h-100">
+                                <h6 style="color: #ff5252;" class="small fw-bold mb-2 font-orbitron">🔴Zona de Descompresion</h6>
+                                <p class="text-white-50 small mb-0">Situada en el lateral este del plano, esta franja destaca por su cambio de suelo hacia la arena, fuentes de agua y vegetacion de palmeras altas. Visualmente actua como un respiro estetico (oasis), pero operativamente funciona como el callejon de flanqueo mas peligroso del entorno.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card-footer bg-dark border-top border-secondary border-opacity-25 p-3 text-center">
+                    <a href="{{ url_for('campos') }}" class="btn btn-outline-info fw-bold px-4 font-orbitron">
+                        <i class="bi bi-arrow-left me-2"></i>VOLVER A CAMPOS DE JUEGO
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

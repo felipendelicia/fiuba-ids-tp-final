@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Sala Creada{% endblock %}
+
+
+{% block content %}
+<section class="seccion-mensajes">
+  <div class="container d-flex flex-column align-items-center justify-content-center container-sala-creada">
+    <div class="animation-wrapper mb-4">
+      <div class="envelope">
+        <div class="top-flap"></div>
+        <div class="letter">
+          <div class="letter-text">✔</div>
+        </div>
+        <div class="envelope-body"></div>
+      </div>
+      <div class="mailbox">
+        <div class="mailbox-slot"></div>
+      </div>
+    </div>
+
+    <h2 class="fw-bold text-center mb-2 h2msj">
+      ¡SALA CREADA EXITOSAMENTE!
+    </h2>
+    <p class="text-white-50 text-center mb-4 pmsj">
+      Recibiras un mensaje de confirmacion por correo electronico.
+    </p>
+
+    <div class="loader"></div>
+  </div>
+</section>
+<script>
+  // Redirige al index despues de 4 segundos
+  setTimeout(function() {
+    window.location.href = "{{ url_for('index') }}";
+  }, 4000);
+</script>
+{% endblock %}

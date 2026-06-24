@@ -1,0 +1,26 @@
+{% extends "base.html"%}
+
+{% block title%}Airsoft - Password{% endblock %}
+
+
+{% block content %}
+    <section id="sectionPassword">
+        <video autoplay muted loop class="video-backg">
+            <source src="{{url_for('static', filename='video/video-login.mp4')}}" type="video/mp4">
+        </video>
+        <div class="box-form">
+            <div id="boxIcono">
+                <i class="fa fa-unlock"></i>
+            </div>
+            <h2>CONTRASEÑA</h2>
+            <p>Escribi tu email registrado y recibi<br>las instrucciones para recuperar tu contraseña</p>
+            <form class="style-form" action="{{ url_for('login_contrasenia')}}" method="POST">
+                <i class="fa fa-envelope"></i>
+                <input type="email" name="email" placeholder="Ingresa tu email" required><br>
+                <div class="box-center">
+                    <button class="btn-form" type="submit">Recuperar Contraseña</button>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

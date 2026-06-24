@@ -1,0 +1,26 @@
+meta {
+  name: Register
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/authentication/register
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "PEPITO",
+    "username": "PEPITO HACK",
+    "email": "example@gmail.com",
+    "password": "NSAxased123",
+    "dni": "11457812",
+    "phone": "11784623"
+  }
+}

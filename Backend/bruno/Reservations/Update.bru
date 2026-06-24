@@ -1,0 +1,25 @@
+meta {
+  name: Update Reservation
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{base_url}}/reservations/1
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "game_mode_id": 1,
+    "map_id": 2,
+    "price": 35000,
+    "start_time": "11:00:00",
+    "end_time": "13:00:00"
+  }
+}

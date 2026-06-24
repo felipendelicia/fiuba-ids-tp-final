@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Reseña Enviada{% endblock %}
+
+
+{% block content %}
+<section class="seccion-mensajes">
+
+    <div class="container d-flex flex-column align-items-center justify-content-center container-resenia">
+        
+        <div class="animation-wrapper mb-4">
+            <div class="envelope">
+                <div class="top-flap"></div>
+                <div class="letter">
+                    <div class="letter-text">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="envelope-body"></div>
+            </div>
+            <div class="mailbox">
+                <div class="mailbox-slot"></div>
+            </div>
+        </div>
+
+        <h2 class="fw-bold text-center mb-2 h2msj">
+            ¡RESEÑA ENVIADA CON EXITO!
+        </h2>
+        <p class="text-white-50 text-center mb-4 pmsj" >
+            Tu opinion fue registrada en el sistema. Redirigiendote al panel principal...
+        </p>
+
+        <div class="progress bg-dark border border-secondary border-opacity-25 promsj" >
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+</section>
+<script>
+    // Espera 4 segundos (4000ms) y devuelve al usuario a la pagina de reseñas
+    setTimeout(function() {
+        window.location.href = "{{ url_for('ver_resenias') }}";
+    }, 4000);
+</script>
+{% endblock %}

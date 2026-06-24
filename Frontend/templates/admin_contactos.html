@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Mensajes de Contacto{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold heading-cyan-glow">
+            MENSAJES DE CONTACTO
+        </h1>
+        <p class="text-white-50">Consultas recibidas desde el formulario de contacto</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            {% if mensajes %}
+                {% for msg in mensajes %}
+                <div class="card mb-4 border-0 rounded-3 shadow-lg bg-dark-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h5 class="text-white fw-bold mb-1 ls-05">{{ msg.user_name }}</h5>
+                                <span class="badge bg-dark border border-info text-info small">{{ msg.email }}</span>
+                            </div>
+                            <small class="text-white-50">{{ msg.created_at }}</small>
+                        </div>
+                        <div class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-2 fs-095 lh-16 ws-pre-wrap">
+                            {{ msg.message }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="p-5 text-center text-muted rounded-3 empty-state-card">
+                <p class="mb-0">No hay mensajes de contacto todavia.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

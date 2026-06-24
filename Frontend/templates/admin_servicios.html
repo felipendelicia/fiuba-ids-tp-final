@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %}Kinetix - Gestion de Servicios (Admin){% endblock %}
+{% block content %}
+<section class="section-tactical" style="padding: 100px 0 80px; min-height: calc(100vh - 80px);">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold heading-cyan-glow">
+                PANEL DE GESTION: SERVICIOS
+            </h1>
+            <p class="text-white-50">Administra los servicios ofrecidos en las instalaciones.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+
+                <div class="card border-0 rounded-3 shadow-lg mb-5 bg-dark-card">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3 font-orbitron" style="color: #00d2ff; font-size: 1rem; letter-spacing: 1px;">
+                            <i class="bi bi-plus-circle me-2"></i>AGREGAR NUEVO SERVICIO
+                        </h5>
+                        <form action="{{ url_for('admin_servicios_crear') }}" method="POST" enctype="multipart/form-data" class="row g-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control bg-dark text-white border-secondary" name="name" placeholder="Nombre del servicio" required>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control bg-dark text-white border-secondary" name="summary_title" placeholder="Titulo resumen">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control bg-dark text-white border-secondary" name="summary_text" placeholder="Texto resumen">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control bg-dark text-white border-secondary" name="bullet_1" placeholder="Bullet 1">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control bg-dark text-white border-secondary" name="bullet_2" placeholder="Bullet 2">
+                            </div>
+                            <div class="col-12">
+                                <label class="text-white-50 small mb-1">Imagen del servicio</label>
+                                <div class="d-flex align-items-center gap-3">
+                                    <img id="preview-tab-image" src="{{ url_for('static', filename='img/placeholder.png') }}" alt="Vista previa" class="img-preview">
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-info" onclick="document.getElementById('tab_image_input').click()">Seleccionar imagen</button>
+                                        <input type="file" name="tab_image" id="tab_image_input" accept="image/png,image/jpeg,image/gif,image/webp" class="input-hidden" onchange="document.getElementById('preview-tab-image').src = URL.createObjectURL(this.files[0])">
+                                        <small class="d-block text-white-50 mt-1">PNG, JPG, GIF o WebP</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 d-flex justify-content-end">
+                                <button type="submit" class="btn fw-bold px-4 btn-gradient-cyan">Agregar Servicio</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card border-0 rounded-3 shadow-lg bg-dark-card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-transparent mb-0 align-middle">
+                                <thead>
+                                    <tr style="border-bottom: 1px solid rgba(0, 210, 255, 0.2);">
+                                        <th class="ps-4 py-3 font-orbitron" style="color: #00d2ff; font-size: 0.75rem; letter-spacing: 1px;">ID</th>
+                                        <th class="py-3 font-orbitron" style="color: #00d2ff; font-size: 0.75rem; letter-spacing: 1px;">SERVICIO</th>
+                                        <th class="py-3 font-orbitron" style="color: #00d2ff; font-size: 0.75rem; letter-spacing: 1px;">DESCRIPCION</th>
+                                        <th class="pe-4 py-3 text-end font-orbitron" style="color: #00d2ff; font-size: 0.75rem; letter-spacing: 1px;">ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for s in servicios %}
+                                    <tr class="tr-subtle">
+                                        <td class="ps-4"><span class="text-white-50">{{ s.id }}</span></td>
+                                        <td><strong class="text-white">{{ s.name }}</strong></td>
+                                        <td><span class="text-white-50">{{ s.summary_text or '' }}</span></td>
+                                        <td class="text-end pe-4">
+                                            <a href="{{ url_for('admin_servicios_editar', service_id=s.id) }}" class="btn btn-sm fw-bold px-3 btn-gradient-cyan">Editar</a>
+                                            <form method="POST" action="{{ url_for('admin_servicios_eliminar', service_id=s.id) }}" style="display:inline;">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger fw-bold px-3 ms-1">Eliminar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted py-4">No hay servicios registrados.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Reservar Partida Privada{% endblock %}
+
+
+{% block content %}
+<section class="reserva-section">
+    
+    <h1 class="reserva-title">Partida Privada</h1>
+
+    <form method="POST" action="{{ url_for('lobby_privada') }}" id="reservaForm">
+
+        <div class="booking-card">
+
+            <div class="form-group">
+                <label class="group-title">Modalidad</label>
+                <div class="select-wrapper">
+                    <select id="modalidad" name="modalidad" required>
+                        <option value="" disabled selected hidden>Selecciona una modalidad</option>
+                        {% for g in modalidades %}
+                            {% set ids = g.maps | map(attribute='id') | join(',') %}
+                            <option value="{{ g.id }}" data-map-ids="{{ ids }}">{{ g.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Campo de juego</label>
+                <div class="select-wrapper">
+                    <select id="campo" name="campo" required>
+                        <option value="" disabled selected hidden>Selecciona un escenario</option>
+                        {% for m in mapas %}
+                            <option value="{{ m.id }}">{{ m.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Equipamiento</label>
+                <div class="select-wrapper">
+                    <input type="text" class="form-control input-readonly-dark" value="Kit Basico" readonly>
+                    <input type="hidden" name="pack" value="1">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Fechas disponibles</label>
+                <div class="mini-calendar">
+                    <div class="calendar-header">
+                        <button class="nav-btn" id="prevMonth">&lsaquo;</button>
+                        <span id="calendarTitle">{{ mes_nombre }} {{ anio }}</span>
+                        <button class="nav-btn" id="nextMonth">&rsaquo;</button>
+                    </div>
+                    <div class="calendar-weekdays">
+                        <div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div>
+                    </div>
+                    <div class="calendar-days" id="calendarDays">
+                        {% for dia in mes_actual %}
+                            {% if dia.fecha == hoy_str %}
+                            <div class="day-today" data-date="{{ dia.fecha }}">{{ dia.num }}</div>
+                            {% elif not dia.actual %}
+                            <div class="day-other" data-date="{{ dia.fecha }}">{{ dia.num }}</div>
+                            {% else %}
+                            <div data-date="{{ dia.fecha }}">{{ dia.num }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="calendar-loading" id="calendarLoading">Cargando turnos...</div>
+                </div>
+                <div class="turnos-container d-none" id="turnosContainer">
+                    <div class="turnos-title">Selecciona un turno</div>
+                    <div class="turnos-grid" id="turnosGrid"></div>
+                    <input type="hidden" name="turno" id="inputTurno" value="">
+                </div>
+            </div>
+
+            <input type="hidden" name="fecha" id="inputFecha" value="">
+            <input type="hidden" name="precio" id="inputPrecio" value="">
+
+            <div class="total-section">
+                <span>Total:</span>
+                <span class="price" id="precioTotal">$0</span>
+            </div>
+
+        </div>
+
+        <div class="reservar">
+            <button type="submit" class="btn-link">Confirmar Reserva</button>
+        </div>
+
+    </form>
+
+</section>
+{% endblock %}
+
+{% block js_extra %}
+<script src="{{ url_for('static', filename='js/lobby_privada.js') }}"></script>
+{% endblock %}

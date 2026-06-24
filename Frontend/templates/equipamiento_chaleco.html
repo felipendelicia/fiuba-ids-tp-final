@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Armadura y Vestimenta Tactica{% endblock %}
+
+
+{% block content %}
+<section class="equipamiento-section">
+    <div class="vestimenta-container">
+
+        <div class="text-center mb-5">
+            <h1 class="equipamiento-title">{{ cat_info.title or 'INDUMENTARIA DE COMBATE' }}</h1>
+            <p class="equipamiento-description mx-auto">{{ cat_info.subtitle or 'Sistemas de blindaje corporal y vestimenta ergonomica optimizada para operaciones de alta intensidad. Selecciona tu configuracion de proteccion.' }}</p>
+        </div>
+
+        {% for item in items %}
+        {% set details = item.details or {} %}
+        <div class="equipamiento-card">
+
+            <div class="vestimenta-media-box">
+                <img src="{{ url_for('static', filename=item.image_url) if item.image_url else '' }}" alt="{{ item.name }}">
+            </div>
+
+            <div class="vestimenta-info">
+                {% if details.get('tag') %}
+                <span class="vestimenta-tag">{{ details['tag'] }}</span>
+                {% endif %}
+                <h2 class="vestimenta-name">{{ item.name }}</h2>
+
+                {% if item.description %}
+                <p class="vestimenta-text">{{ item.description }}</p>
+                {% endif %}
+
+                {% if details.get('specs') %}
+                <div class="specs-grid">
+                    {% for spec in details['specs'] %}
+                    <div class="spec-item">
+                        <span class="spec-label">{{ spec.label }}</span>
+                        <span class="spec-value">{{ spec.value }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+{% endblock %}

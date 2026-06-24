@@ -1,0 +1,45 @@
+{% extends "base.html"%}
+
+{% block title%}Airsoft - Register{% endblock %}
+
+
+{% block content %}
+    <section id="sectionRegister">
+        <video autoplay muted loop class="video-backg">
+            <source src="{{url_for('static', filename='video/video-login.mp4')}}" type="video/mp4">
+        </video>
+        <div class="box-form">
+            <div id="boxIcono">
+                <i class="fa fa-pencil"></i>
+            </div>
+            <h2>REGISTRATE</h2>
+            <form class="style-form" action="{{ url_for('login_registro') }}" method="POST">
+                
+                <i class="fa fa-user"></i>
+                <input type="text" required placeholder="Nombre Completo" name="name" id=""><br>
+
+                <i class="fa fa-id-card"></i>
+                <input type="text" required placeholder="Numero DNI (7 u 8 digitos)" name="dni" id="dni" pattern="\d{7,8}" title="El DNI debe tener 7 u 8 digitos, sin puntos ni guiones" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,8)"><br>
+
+                <i class="fa fa-pencil"></i>
+                <input type="text" required placeholder="Nombre de usuario" name="user_name" id=""><br>
+
+                <i class="fa fa-envelope"></i>
+                <input type="email" required placeholder="Email" name="email" id=""><br>
+
+                <i class="fa fa-question-circle"></i>
+                <input type="text" placeholder="Genero" name="gender" id=""><br>
+
+                <i class="fa fa-phone"></i>
+                <input type="tel" required placeholder="Numero de celular (ej: 1123456789)" name="phone" id="phone" pattern="\+?\d{7,15}" title="El telefono debe contener entre 7 y 15 digitos, puede empezar con +" oninput="this.value = this.value.replace(/[^0-9+]/g, '').slice(0,15)"><br>
+
+                <i class="fa fa-lock"></i>
+                <input type="password" required placeholder="Contraseña" name="password" id=""><br>
+
+                <div class="box-center">
+                    <button class="btn-form" type="submit" >REGISTRARSE</button>
+                </div>
+            </form>     
+        </div>
+    </section>
+{% endblock %}

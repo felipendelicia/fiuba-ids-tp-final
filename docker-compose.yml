@@ -1,0 +1,63 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: airsoftdb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: airsoftdb
+      MYSQL_USER: airsoft
+      MYSQL_PASSWORD: airsoft123
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./Backend/schema.sql:/docker-entrypoint-initdb.d/schema.sql:Z
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: airsoft_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ./Backend/.env
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: airsoftdb
+      MYSQL_USER: airsoft
+      MYSQL_PASSWORD: airsoft123
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-dev-secret-change-me}
+      
+      FLASK_PORT: 8000
+
+      ENV: prod
+      TZ: America/Argentina/Buenos_Aires
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: airsoft_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      BACKEND_URL: http://backend:8000
+      TZ: America/Argentina/Buenos_Aires
+    ports:
+      - "5000:5000"
+
+volumes:
+  db_data:

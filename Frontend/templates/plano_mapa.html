@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Plano Tactico {{ mapa.name }}{% endblock %}
+
+{% block content %}
+<div class="container my-5 animate__animated animate__fadeIn">
+    <div class="text-center mb-5">
+        <span class="badge bg-dark border border-info text-info px-3 py-2 mb-2">
+            VISTA DE INTELIGENCIA PRE-PARTIDO
+        </span>
+        <h1 class="display-5 fw-bold heading-cyan-glow">
+            PLANO DE DESPLIEGUE: {{ mapa.name.upper() }}
+        </h1>
+        <p class="text-white-50">Estudia las lineas de tiro, puntos de captura y coberturas clave antes de ingresar al terreno.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-xl-10">
+            <div class="card border-0 rounded-3 shadow-lg position-relative overflow-hidden mb-5 plano-card">
+                
+                <div class="card-header bg-dark border-bottom border-secondary border-opacity-25 d-flex justify-content-between align-items-center p-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="spinner-grow spinner-grow-sm text-info" role="status"></span>
+                        <small class="text-white-50 fw-bold plano-header-text">SISTEMA DE MAPEO VIRTUAL ACTIVO</small>
+                    </div>
+                    <span class="text-info small fw-bold font-orbitron">ESCENARIO: ALPHA-01</span>
+                </div>
+
+                <div class="card-body p-4 text-center position-relative">
+                    
+                    <div class="map-wrapper position-relative d-inline-block rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow plano-map-wrapper">
+                        
+                        <img src="{{ url_for('static', filename='img/' ~ mapa.plano_image_url) }}" alt="Plano Tactico {{ mapa.name }}"
+                             class="img-fluid d-block mx-auto plano-image" 
+                             style="max-height: 70vh;">
+
+                        <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none plano-grid-overlay"></div>
+                    </div>
+
+                    <div class="row g-3 mt-4 text-start">
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 h-100">
+                                <h6 style="color: #00d2ff;" class="small fw-bold mb-2 font-orbitron">🟢 {{ mapa.zone_1_name }}</h6>
+                                <p class="text-white-50 small mb-0">{{ mapa.zone_1_description }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 h-100">
+                                <h6 style="color: #ffb300;" class="small fw-bold mb-2 font-orbitron">🟡 {{ mapa.zone_2_name }}</h6>
+                                <p class="text-white-50 small mb-0">{{ mapa.zone_2_description }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 h-100">
+                                <h6 style="color: #ff5252;" class="small fw-bold mb-2 font-orbitron">🔴{{ mapa.zone_3_name }}</h6>
+                                <p class="text-white-50 small mb-0">{{ mapa.zone_3_description }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card-footer bg-dark border-top border-secondary border-opacity-25 p-3 text-center">
+                    <a href="{{ url_for('campos') }}" class="btn btn-outline-info fw-bold px-4 font-orbitron">
+                        <i class="bi bi-arrow-left me-2"></i>VOLVER A CAMPOS DE JUEGO
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

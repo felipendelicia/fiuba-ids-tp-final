@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Kinetix - Cerrando Sesion{% endblock %}
+
+
+{% block content %}
+<section class="seccion-mensajes">
+
+    <div class="container d-flex flex-column align-items-center justify-content-center container-logout" >
+        <div class="p-5 rounded-3 shadow-lg text-center box-logout" >
+            <div class="mb-4">
+                <div class="spinner-border " role="status" >
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+
+            <h2 class="fw-bold text-center mb-2 h2msj">
+                CERRANDO SESION
+            </h2>
+            
+            <p class="text-white-50 mb-0 pmsj">
+                Tu sesion se ha cerrado. Redirigiendote al login de forma segura...
+            </p>
+        </div>
+    </div>
+</section>
+
+<script>
+  // Redirige al index despues de 3 segundos
+  setTimeout(function() {
+    window.location.href = "{{ url_for('index') }}";
+  }, 3000);
+</script>
+{% endblock %}

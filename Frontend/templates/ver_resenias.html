@@ -3,10 +3,10 @@
 {% block title %}Kinetix - Reseñas de la Comunidad{% endblock %}
 
 {% block content %}
-<section style="background-color: #0b0d0f; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px; padding: 100px 0 80px; min-height: calc(100vh - 80px);">
+<section class="section-tactical" style="padding:100px 0 80px;min-height:calc(100vh - 80px);">
     <div class="container">
         <div class="text-center mb-5">
-            <h1 class="display-5 fw-bold" style="font-family: 'Orbitron', 'Arial Black', sans-serif; color: #00d2ff; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0, 210, 255, 0.3);">
+            <h1 class="display-5 fw-bold heading-cyan-glow">
                 RESEÑAS DE LA COMUNIDAD
             </h1>
             <p class="text-white-50">Descubri las opiniones de otros jugadores sobre nuestros mapas y experiencias tacticas.</p>
@@ -17,9 +17,8 @@
                 
                 {% for reseña in resenias %}
                 
-                <div class="card mb-5 border-0 rounded-3 shadow-lg" 
-                     style="background-color: rgba(20, 22, 25, 0.95); 
-                            border-left: 4px solid {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %} !important;">
+<div class="card mb-5 border-0 rounded-3 shadow-lg bg-dark-card" 
+                     style="border-left: 4px solid {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %} !important;">
                     
                     <div class="card-body p-4">
                         
@@ -31,11 +30,11 @@
                                 </span>
                             </div>
                             <div class="text-end">
-                                <div class="mb-1" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#ffb300{% endif %}; font-size: 1.1rem; letter-spacing: 2px;">
+                                <div class="mb-1 review-stars" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#ffb300{% endif %};">
                                     {% for i in range(0, reseña.puntuacion) %}
                                         ★
                                     {% endfor %}
-                                    <span style="opacity: 0.15; color: #fff;">
+                                    <span class="review-star-empty">
                                     {% for i in range(reseña.puntuacion, 5) %}
                                         ★
                                     {% endfor %}
@@ -45,22 +44,22 @@
                             </div>
                         </div>
 
-                        <h4 class="fw-bold mb-2" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %}; font-family: 'Orbitron', sans-serif; font-size: 1.2rem;">
+                        <h4 class="fw-bold mb-2 font-orbitron" style="color: {% if reseña.puntuacion < 4 %}#ff5252{% else %}#00d2ff{% endif %}; font-size: 1.2rem;">
                             {{ reseña.titulo }}
                         </h4>
 
-                        <p class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4" style="font-size: 0.95rem; line-height: 1.6;">
+                        <p class="text-white-50 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4 review-comment">
                             "{{ reseña.comentario }}"
                         </p>
 
                         <div class="comments-section mt-4 pt-3 border-top border-secondary border-opacity-10">
-                            <h6 class="text-white-50 small fw-bold mb-3 text-start" style="letter-spacing: 1px; font-size: 0.75rem;">
+                            <h6 class="text-white-50 small fw-bold mb-3 text-start review-section-title">
                                 <i class="bi bi-reply-all me-2"></i>RESPUESTA DE SOPORTE KINETIX
                             </h6>
                             
                             {% if reseña.respuestas %}
                                 {% for r in reseña.respuestas %}
-                                <div class="p-3 rounded-3 mb-2 text-start" style="background-color: rgba(0, 210, 255, 0.03); border: 1px solid rgba(0, 210, 255, 0.08);">
+                                <div class="p-3 rounded-3 mb-2 text-start comment-bubble">
                                     <div class="mb-1">
                                         <span class="fw-bold small" style="color: #00d2ff;">{{ r.autor }}</span>
                                     </div>
@@ -68,7 +67,7 @@
                                 </div>
                                 {% endfor %}
                             {% else %}
-                                <p class="text-muted small mb-0 text-start" style="font-size: 0.85rem; font-style: italic;">Sin respuestas oficiales hasta el momento.</p>
+                                <p class="text-muted small mb-0 text-start review-no-replies">Sin respuestas oficiales hasta el momento.</p>
                             {% endif %}
                         </div>
 
@@ -76,7 +75,7 @@
                 </div>
                 
                 {% else %}
-                <div class="p-5 text-center text-muted rounded-3" style="background-color: rgba(20, 22, 25, 0.95); border: 1px dashed rgba(255,255,255,0.1);">
+                <div class="p-5 text-center text-muted rounded-3 empty-state-card">
                     <p class="mb-0">Aun no se registraron opiniones. ¡Se el primero en dejar la tuya!</p>
                 </div>
                 {% endfor %}

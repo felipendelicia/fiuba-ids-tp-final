@@ -48,8 +48,8 @@
     </div>
 
     <div style="max-width:1000px;margin:0 auto;padding:0 15px;">
-        <div class="p-4 rounded-3 mb-5 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25);">
-            <h5 class="text-white fw-bold mb-3" style="font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">Crear Evento</h5>
+        <div class="p-4 rounded-3 mb-5 shadow-lg card-dark">
+            <h5 class="text-white fw-bold mb-3 font-orbitron" style="letter-spacing: 1px;">Crear Evento</h5>
             <form action="{{ url_for('admin_competitivo') }}" method="POST" class="row g-3">
                 <div class="col-md-4">
                     <input type="text" class="form-control bg-dark text-white border-secondary" name="title" placeholder="Titulo" required>
@@ -70,14 +70,14 @@
                     <textarea class="form-control bg-dark text-white border-secondary" name="description" placeholder="Descripcion" rows="2"></textarea>
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn fw-bold text-dark px-4" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); border: none;">Crear Evento</button>
+                    <button type="submit" class="btn fw-bold text-dark px-4 btn-gradient-cyan">Crear Evento</button>
                 </div>
             </form>
         </div>
 
-        <div class="p-4 rounded-3 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25);">
+        <div class="p-4 rounded-3 shadow-lg card-dark">
             <table class="table table-dark table-hover align-middle mb-0">
-                <thead style="font-family: 'Orbitron', sans-serif; color: #00f2fe;">
+                <thead class="font-orbitron" style="color: #00f2fe;">
                     <tr>
                         <th class="border-secondary py-3">ID</th>
                         <th class="border-secondary py-3">Titulo</th>

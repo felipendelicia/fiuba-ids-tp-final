@@ -3,12 +3,12 @@
 {% block title %}Kinetix - {{ kit.name }}{% endblock %}
 
 {% block content %}
-<section style="background-color: #0b0d0f; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px; min-height: calc(100vh - 56px); padding: 80px 0;">
+<section class="section-tactical" style="min-height: calc(100vh - 56px); padding: 80px 0;">
     <div class="container">
         <a href="{{ url_for('admin_equipamiento') }}" class="btn btn-outline-info mb-4">&laquo; Volver al panel</a>
 
-        <div class="p-4 rounded-3 shadow-lg" style="background-color: rgba(18, 22, 26, 0.8); border: 1px solid rgba(79, 172, 254, 0.25); max-width: 600px; margin: 0 auto;">
-            <h2 class="text-center mb-4" style="font-family: 'Orbitron', sans-serif; color: #00f2fe; letter-spacing: 1px;">{{ kit.name }}</h2>
+        <div class="p-4 rounded-3 shadow-lg card-dark" style="max-width: 600px; margin: 0 auto;">
+            <h2 class="text-center mb-4 admin-table-header" style="letter-spacing: 1px;">{{ kit.name }}</h2>
 
             <table class="table table-dark table-borderless">
                 <tbody>
@@ -59,7 +59,7 @@
 
             <hr class="border-secondary my-4">
 
-            <h5 style="font-family: 'Orbitron', sans-serif; color: #4facfe; letter-spacing: 1px; margin-bottom: 1rem;">Link de compra</h5>
+            <h5 class="font-orbitron" style="color: #4facfe; letter-spacing: 1px; margin-bottom: 1rem;">Link de compra</h5>
 
             {% if kit.purchase_link %}
             <div class="mb-3">

@@ -5,10 +5,10 @@
 {% block content %}
 <div class="container my-5 animate__animated animate__fadeIn">
     <div class="text-center mb-5">
-        <span class="badge bg-dark border border-info text-info px-3 py-2 mb-2" style="letter-spacing: 2px; font-family: 'Orbitron', sans-serif;">
+        <span class="badge bg-dark border border-info text-info px-3 py-2 mb-2">
             VISTA DE INTELIGENCIA PRE-PARTIDO
         </span>
-        <h1 class="display-5 fw-bold" style="font-family: 'Orbitron', 'Arial Black', sans-serif; color: #00d2ff; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0, 210, 255, 0.4);">
+        <h1 class="display-5 fw-bold heading-cyan-glow">
             PLANO DE DESPLIEGUE: NUKETOWN
         </h1>
         <p class="text-white-50">Estudia las lineas de tiro, puntos de captura y coberturas clave antes de ingresar al terreno.</p>
@@ -16,45 +16,44 @@
 
     <div class="row justify-content-center">
         <div class="col-xl-10">
-            <div class="card border-0 rounded-3 shadow-lg position-relative overflow-hidden mb-5" 
-                 style="background-color: rgba(20, 22, 25, 0.95); border: 1px solid rgba(0, 210, 255, 0.1) !important;">
+            <div class="card border-0 rounded-3 shadow-lg position-relative overflow-hidden mb-5 plano-card">
                 
                 <div class="card-header bg-dark border-bottom border-secondary border-opacity-25 d-flex justify-content-between align-items-center p-3">
                     <div class="d-flex align-items-center gap-2">
                         <span class="spinner-grow spinner-grow-sm text-info" role="status"></span>
-                        <small class="text-white-50 fw-bold" style="font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">SISTEMA DE MAPEO VIRTUAL ACTIVO</small>
+                        <small class="text-white-50 fw-bold plano-header-text">SISTEMA DE MAPEO VIRTUAL ACTIVO</small>
                     </div>
-                    <span class="text-info small fw-bold" style="font-family: 'Orbitron', sans-serif;">ESCENARIO: ALPHA-01</span>
+                    <span class="text-info small fw-bold font-orbitron">ESCENARIO: ALPHA-01</span>
                 </div>
 
-                <div class="card-body p-4 text-center position-relative" style="background: radial-gradient(circle, rgba(10,34,40,0.5) 0%, rgba(10,12,15,1) 100%);">
+                <div class="card-body p-4 text-center position-relative">
                     
                     <div class="map-wrapper position-relative d-inline-block rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow" 
                          style="max-width: 100%; background-color: #0b0c10;">
                         
                         <img src="{{ url_for('static', filename='img/plano.png') }}" alt="Plano Tactico Nuketown" 
-                             class="img-fluid d-block mx-auto" 
-                             style="max-height: 70vh; width: auto; object-fit: contain; filter: drop-shadow(0 0 10px rgba(0,210,255,0.15));">
+                             class="img-fluid d-block mx-auto plano-image" 
+                             style="max-height: 70vh;">
 
-                        <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="mix-blend-mode: screen; opacity: 0.4; background-image: radial-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 0); background-size: 24px 24px;"></div>
+                        <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none plano-grid-overlay"></div>
                     </div>
 
                     <div class="row g-3 mt-4 text-start">
                         <div class="col-md-4">
                             <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 h-100">
-                                <h6 style="color: #00d2ff; font-family: 'Orbitron', sans-serif;" class="small fw-bold mb-2">🟢 ACCESO PRINCIPAL Y ZONA DE BIENVENIDA
+                                <h6 style="color: #00d2ff;" class="small fw-bold mb-2 font-orbitron">🟢 ACCESO PRINCIPAL Y ZONA DE BIENVENIDA
                                 <p class="text-white-50 small mb-0">Entrada principal al complejo, diseñada para recibir a los visitantes y brindar una vista general del proyecto. Incluye el area de estacionamiento, senderos peatonales, señaletica tematica de Nuketown y espacios de circulacion que conectan con el resto de las instalaciones.</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 h-100">
-                                <h6 style="color: #ffb300; font-family: 'Orbitron', sans-serif;" class="small fw-bold mb-2">🟡 PLAZA CENTRAL Y AREA RECREATIVA</h6>
+                                <h6 style="color: #ffb300;" class="small fw-bold mb-2 font-orbitron">🟡 PLAZA CENTRAL Y AREA RECREATIVA</h6>
                                 <p class="text-white-50 small mb-0">Nucleo central del mapa compuesto por espacios verdes, arboles ornamentales, banderas decorativas y zonas de descanso. La via circular que la rodea facilita el recorrido de vehiculos y peatones, convirtiendola en el principal punto de encuentro y distribucion del complejo.</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 h-100">
-                                <h6 style="color: #ff5252; font-family: 'Orbitron', sans-serif;" class="small fw-bold mb-2">🔴ZONAS ESPECIALES Y ESTRUCTURAS FUTURISTAS</h6>
+                                <h6 style="color: #ff5252;" class="small fw-bold mb-2 font-orbitron">🔴ZONAS ESPECIALES Y ESTRUCTURAS FUTURISTAS</h6>
                                 <p class="text-white-50 small mb-0">Sector destinado a las construcciones mas representativas del proyecto, incluyendo el Domo de la Biosfera y otras estructuras de diseño futurista. Estas instalaciones aportan identidad visual al mapa y funcionan como puntos de interes arquitectonico y recreativo para los visitantes.</p>
                             </div>
                         </div>
@@ -63,7 +62,7 @@
                 </div>
 
                 <div class="card-footer bg-dark border-top border-secondary border-opacity-25 p-3 text-center">
-                    <a href="{{ url_for('campos') }}" class="btn btn-outline-info fw-bold px-4" style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; letter-spacing: 1px;">
+                    <a href="{{ url_for('campos') }}" class="btn btn-outline-info fw-bold px-4 font-orbitron">
                         <i class="bi bi-arrow-left me-2"></i>VOLVER A CAMPOS DE JUEGO
                     </a>
                 </div>

@@ -1,9 +1,4 @@
 
-/* --- Utilidad para ocultar elementos inicialmente --- */
-.input-hidden {
-    display: none !important;
-}
-
 /* --- Modal overlay para eliminar equipamiento --- */
 .modal-overlay {
     position: fixed;
@@ -9100,4 +9095,8 @@ textarea.form-input {
 }
 .font-orbitron-bold {
     font-family: 'Orbitron', 'Arial Black', sans-serif;
+}
+
+.input-hidden {
+    display: none;
 }

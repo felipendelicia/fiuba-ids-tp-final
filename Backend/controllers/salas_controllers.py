@@ -27,7 +27,17 @@ def listar_salas():
 
 @validate_dto(validate_create_sala)
 def crear_sala():
-    crear_service(g.dto)
+    dto = g.dto
+    user_email = crear_service(dto)
+
+    if user_email:
+        mail_body = {
+            **dto,
+            'is_public': dto.get('is_public', True),
+        }
+        if not send_reservation_mail(user_email, mail_body):
+            print("Advertencia: mail no pudo enviarse al crear la sala")
+
     return jsonify({"message": "Sala creada exitosamente"}), 201
 
 

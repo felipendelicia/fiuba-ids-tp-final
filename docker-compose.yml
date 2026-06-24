@@ -39,8 +39,6 @@ services:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-dev-secret-change-me}
       FLASK_PORT: 8000
       ENV: prod
-      EMAIL: ${EMAIL:-}
-      EMAIL_PASSWORD: ${EMAIL_PASSWORD:-}
     ports:
       - "8000:8000"
 
